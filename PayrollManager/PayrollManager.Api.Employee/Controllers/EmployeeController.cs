@@ -35,12 +35,29 @@ namespace PayrollManager.Api.Employee.Controllers
 
         [HttpPost]
         [Route("CreateEmployee")]
-        public async Task<IActionResult> CreateVacancy([FromBody] EmployeeDto employee)
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employee)
         {
             try
             {
                 await _employeeService.CreateEmployee(employee);
-                return Ok("Employee created");
+                return Ok($"Employee: {employee.Name} {employee.Surname} created");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPut]
+        [Route("UpdateEmployee")]
+        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeDto employee)
+        {
+            try
+            {
+                await _employeeService.UpdateEmployee(employee);
+                return Ok($"Employee: {employee.Name} {employee.Surname} updated");
             }
             catch (Exception ex)
             {

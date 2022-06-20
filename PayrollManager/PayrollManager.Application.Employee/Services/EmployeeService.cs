@@ -50,7 +50,7 @@ namespace PayrollManager.Application.Employee.Services
                         Id = employeeId,
                         AnnualBaseSalary = remuneration.AnnualBaseSalary,
                         BonusFrequency = remuneration.BonusFrequency,
-                        BonusPercentage = remuneration.BonusFrequency,
+                        BonusPercentage = remuneration.BonusPercentage,
                         RetirementContribution = remuneration.RetirementContribution,
                         Company = employee.Company,
                         Hours = employee.Hours,
@@ -101,6 +101,56 @@ namespace PayrollManager.Application.Employee.Services
                 Console.Error.WriteLine(ex.Message);
             }
 
+        }
+
+        public async Task UpdateEmployee(EmployeeDto employee)
+        {
+            try
+            {
+                var employeeEntity = new EmployeeEntity
+                {
+                    Company = employee.Company,
+                    Hours = employee.Hours,
+                    Name = employee.Name,
+                    Surname = employee.Surname,
+                    Id = employee.Id,
+                    RemunerationId = employee.Id,
+                    CreatedDate = DateTime.Now,
+                };
+
+                var remunerationEntity = new RemunerationEntity
+                {
+                    AnnualBaseSalary = employee.AnnualBaseSalary,
+                    BonusFrequency = employee.BonusFrequency,
+                    BonusPercentage = employee.BonusPercentage,
+                    EmployeeId = employee.Id,
+                    Id = employee.Id,
+                    RetirementContribution = employee.RetirementContribution,
+                    CreatedDate = DateTime.Now
+                };
+
+                await _employeeRepository.Update(employeeEntity);
+                await _remunerationRepository.Update(remunerationEntity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task DeleteEmployee(Guid id)
+        {
+            try
+            {
+                await _remunerationRepository.Delete(id);
+                await _employeeRepository.Delete(id);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+
+            }
         }
     }
 }
