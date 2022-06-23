@@ -7,9 +7,11 @@ const sleep = (delay: number) => {
 	});
 };
 
-axios.defaults.baseURL = 'https://localhost:44328/api';
+const employeeApi = axios.create({
+	baseURL: 'https://localhost:44328/api',
+});
 
-axios.interceptors.response.use(async (response) => {
+employeeApi.interceptors.response.use(async (response) => {
 	await sleep(1000);
 	return response;
 });
@@ -17,11 +19,12 @@ axios.interceptors.response.use(async (response) => {
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
-	get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+	get: <T>(url: string) => employeeApi.get<T>(url).then(responseBody),
 	post: <T>(url: string, body: {}) =>
-		axios.post<T>(url, body).then(responseBody),
-	put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
-	del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+		employeeApi.post<T>(url, body).then(responseBody),
+	put: <T>(url: string, body: {}) =>
+		employeeApi.put<T>(url, body).then(responseBody),
+	del: <T>(url: string) => employeeApi.delete<T>(url).then(responseBody),
 };
 
 const Employees = {

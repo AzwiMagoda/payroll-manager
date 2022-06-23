@@ -5,6 +5,7 @@ import { Employee } from '../models/employee';
 export default class EmployeeStore {
 	selectedEmployee: Employee | undefined = undefined;
 	employeeRegistry = new Map<string, Employee>();
+	currentEmployee: Employee | undefined = undefined;
 	loading = false;
 	loadingInitial = false;
 
@@ -36,7 +37,28 @@ export default class EmployeeStore {
 		}
 	};
 
+	setCurrentEmployee = async (id: string) => {
+		this.loadingInitial = true;
+		try {
+			const employee = await agent.Employees.getEmployeeById(id);
+			runInAction(() => {
+				this.loadingInitial = false;
+				this.currentEmployee = employee;
+			});
+			console.log(employee);
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loadingInitial = false;
+			});
+		}
+	};
+
 	private setEmployee = (employee: Employee) => {
 		this.employeeRegistry.set(employee.id!, employee);
+	};
+
+	employeeLogOut = () => {
+		this.currentEmployee = undefined;
 	};
 }

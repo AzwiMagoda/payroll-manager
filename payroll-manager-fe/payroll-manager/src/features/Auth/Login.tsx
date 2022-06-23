@@ -1,40 +1,32 @@
-import React from 'react';
-import { Button, ButtonToolbar, Form, Input, InputGroup } from 'rsuite';
+import React, { useEffect, useState } from 'react';
+import { Button, Form, Input, InputGroup } from 'rsuite';
 import EyeCloseIcon from '@rsuite/icons/EyeClose';
+import { formGroupStyle, formStyle, h3Style, styles } from './styles';
+import { useStore } from '../../app/stores/store';
+import { Login as LoginDto } from '../../app/models/login';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-	const styles = {
-		width: 300,
-		marginBottom: 10,
-	};
-	// box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-	// box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-	const formStyle = {
-		backgroundColor: '#f7f7fa',
-		margin: '15% auto',
-		padding: '0.5em',
-		width: '40%',
-		boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
-	};
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-	const h3Style = {
-		textAlign: 'center' as 'center',
-		marginBottom: '8px',
-	};
+	const {
+		authStore: { login, user },
+		employeeStore: { currentEmployee },
+	} = useStore();
 
-	const formGroupStyle = {
-		margin: '0 25%',
-		width: '50%',
+	const handleSubmit = async () => {
+		await login(new LoginDto(email, password));
 	};
 
 	return (
-		<Form layout='horizontal' style={formStyle}>
+		<Form layout='horizontal' style={formStyle} onSubmit={() => handleSubmit()}>
 			<h3 style={h3Style}>Login</h3>
 			<Form.Group controlId='email' style={formGroupStyle}>
 				<Form.ControlLabel>Email</Form.ControlLabel>
 				<InputGroup style={styles}>
 					<InputGroup.Addon> @</InputGroup.Addon>
-					<Input />
+					<Input onChange={(e) => setEmail(e)} />
 				</InputGroup>
 			</Form.Group>
 			<Form.Group controlId='password' style={formGroupStyle}>
@@ -43,7 +35,7 @@ export default function Login() {
 					<InputGroup.Addon>
 						<EyeCloseIcon />
 					</InputGroup.Addon>
-					<Input type='password' />
+					<Input type='password' onChange={(e) => setPassword(e)} />
 				</InputGroup>
 			</Form.Group>
 
@@ -56,6 +48,7 @@ export default function Login() {
 						width: '50%',
 						backgroundColor: '#d9d9d9',
 					}}
+					type='submit'
 				>
 					Login
 				</Button>

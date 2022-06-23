@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { observer } from 'mobx-react-lite';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
@@ -9,6 +9,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './HomePage';
 import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
+import { useStore } from '../stores/store';
 
 function App() {
 	return (

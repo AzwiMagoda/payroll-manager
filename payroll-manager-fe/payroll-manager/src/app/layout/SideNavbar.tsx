@@ -6,6 +6,7 @@ import CreativeIcon from '@rsuite/icons/Creative';
 import ExitIcon from '@rsuite/icons/Exit';
 import { Nav, Sidenav, Avatar } from 'rsuite';
 import { NavLink } from 'react-router-dom';
+import { useStore } from '../stores/store';
 
 export default function SideNavbar() {
 	const navStyles = {
@@ -16,6 +17,10 @@ export default function SideNavbar() {
 		padding: 20,
 		fontSize: 16,
 	};
+
+	const {
+		authStore: { logout },
+	} = useStore();
 
 	return (
 		<div style={{ width: 240, height: '100vh' }}>
@@ -62,6 +67,7 @@ export default function SideNavbar() {
 							eventKey='5'
 							icon={<ExitIcon />}
 							style={{ position: 'fixed', bottom: '1%', width: 'inherit' }}
+							onClick={logout}
 						>
 							Logout
 						</Nav.Item>
