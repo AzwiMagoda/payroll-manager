@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Infrastructure.Models
 {
-    public class UserEntity : IdentityUser<Guid>
+    public class RoleEntity : IdentityRole<Guid>
     {
     }
 }

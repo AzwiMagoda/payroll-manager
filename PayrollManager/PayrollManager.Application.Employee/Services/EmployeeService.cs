@@ -53,7 +53,6 @@ namespace PayrollManager.Application.Employee.Services
                         BonusPercentage = remuneration.BonusPercentage,
                         RetirementContribution = remuneration.RetirementContribution,
                         Company = employee.Company,
-                        Hours = employee.Hours,
                         Name = employee.Name,
                         Surname = employee.Surname,
                         CreatedDate = employee.CreatedDate
@@ -74,11 +73,9 @@ namespace PayrollManager.Application.Employee.Services
                 var employeeEntity = new EmployeeEntity
                 {
                     Company = employee.Company,
-                    Hours = employee.Hours,
                     Name = employee.Name,
                     Surname = employee.Surname,
                     Id = id,
-                    RemunerationId = id,
                     CreatedDate = DateTime.Now,
                 };
 
@@ -110,11 +107,9 @@ namespace PayrollManager.Application.Employee.Services
                 var employeeEntity = new EmployeeEntity
                 {
                     Company = employee.Company,
-                    Hours = employee.Hours,
                     Name = employee.Name,
                     Surname = employee.Surname,
                     Id = employee.Id,
-                    RemunerationId = employee.Id,
                     CreatedDate = DateTime.Now,
                 };
 

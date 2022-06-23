@@ -12,16 +12,14 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
         {
             if (!context.Employees.Any() && !context.Remunerations.Any())
             {
-                var id = Guid.NewGuid();
+                var id = Guid.Parse("FDC2520B-A3D2-437C-88C3-8D814B151DBB");
                 var employees = new List<EmployeeEntity>
                 {
                     new EmployeeEntity
                     {
                         Id = id,
-                        Hours = 8,
                         Name = "Hulisani",
                         Surname = "Nefolovhodwe",
-                        RemunerationId = id,
                         Company = "42Company",
                         CreatedDate = DateTime.Now
                     }

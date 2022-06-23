@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PayrollManager.Infrastructure.Models;
+using System;
 
 namespace PayrollManager.Infrastructure.PayrollDbContext
 {
-    public class PayrollDbContext : IdentityDbContext<UserEntity>
+    public class PayrollDbContext : IdentityDbContext<UserEntity, RoleEntity, Guid>
     {
         public PayrollDbContext(DbContextOptions options) : base(options)
         {

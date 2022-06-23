@@ -10,7 +10,7 @@ namespace PayrollManager.Infrastructure.Models
         public int BonusFrequency { get; set; }
         public decimal RetirementContribution { get; set; }
         public decimal RetirementBalance { get; set; }
-        public int OvertimeHrs
+        public int OvertimeHrs { get; set; }
         public Guid EmployeeId { get; set; }
         public DateTime CreatedDate { get; set; }
     }
