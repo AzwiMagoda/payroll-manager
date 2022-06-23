@@ -15,24 +15,15 @@ import {
 } from './styles';
 import { Link } from 'react-router-dom';
 
-export default observer(function EmployeeDashboard() {
-	const { employeeStore } = useStore();
-	const { getAllEmployees, employeeArray } = employeeStore;
+interface Props {
+	employee: Employee;
+}
 
-	const [employees, setEmployees] = useState<Employee[]>([]);
-
-	useEffect(() => {
-		getAllEmployees();
-	});
-
-	useEffect(() => {
-		setEmployees(employeeArray);
-	}, [employeeArray]);
-
+export default observer(function EmployeeDashboard({ employee }: Props) {
 	return (
 		<Container style={containerStyle}>
 			<Header style={headerStyle}>
-				<h3>Welcome, Ridzani!</h3>
+				<h3>Welcome, {employee.name}!</h3>
 			</Header>
 			<Content>
 				<div className='show-grid'>

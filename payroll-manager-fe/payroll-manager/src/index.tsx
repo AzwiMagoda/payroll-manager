@@ -4,13 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import 'rsuite/dist/rsuite.min.css';
-import { createBrowserHistory } from 'history';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 
-export const history = createBrowserHistory();
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>

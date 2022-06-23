@@ -22,7 +22,7 @@ export default class AuthStore {
 				runInAction(() => {
 					this.user = user;
 				});
-				console.log(this.user);
+				console.log(user);
 			}
 		} catch (error) {
 			console.log(error);

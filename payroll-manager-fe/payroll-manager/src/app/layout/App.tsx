@@ -6,38 +6,47 @@ import SideNavbar from './SideNavbar';
 import { Container, Header, Content, Footer, Sidebar } from 'rsuite';
 import HeaderNavigation from './HeaderNavigation';
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './HomePage';
 import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
 
 function App() {
+	const {
+		authStore: { user },
+		employeeStore: { currentEmployee },
+	} = useStore();
 	return (
 		<>
 			<Container style={{ height: '100vh' }}>
-				<Sidebar>
-					<SideNavbar />
-				</Sidebar>
+				{!user && !currentEmployee && <Login />}
+				{user && currentEmployee && (
+					<>
+						<Sidebar>
+							<SideNavbar employee={currentEmployee} user={user} />
+						</Sidebar>
 
-				<Container>
-					<Header style={{ margin: 0 }}>
-						<HeaderNavigation />
-					</Header>
+						<Container>
+							<Header style={{ margin: 0 }}>
+								<HeaderNavigation />
+							</Header>
 
-					<Content>
-						<Routes>
-							<Route path='/login' element={<Login />} />
-							<Route path='/' element={<HomePage />} />
-							<Route path='/dashboard' element={<EmployeeDashboard />} />
-							<Route
-								path='/employees'
-								element={<EmployeeList employees={[]} />}
-							/>
-						</Routes>
-					</Content>
+							<Content>
+								<Routes>
+									<Route
+										path='/'
+										element={<EmployeeDashboard employee={currentEmployee} />}
+									/>
+									<Route
+										path='/employees'
+										element={<EmployeeList employees={[]} />}
+									/>
+								</Routes>
+							</Content>
 
-					<Footer>Footer Here</Footer>
-				</Container>
+							<Footer>Footer Here</Footer>
+						</Container>
+					</>
+				)}
 			</Container>
 		</>
 	);

@@ -1,5 +1,4 @@
 :root {
-	--background-color: #d6e3df;
 	--text-color: #575757;
 }
 
@@ -10,7 +9,6 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: var(--background-color);
 	color: var(--text-color);
 	letter-spacing: 0.1em !important;
 }
