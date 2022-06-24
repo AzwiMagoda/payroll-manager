@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Application.Employee.Services;
 using PayrollManager.Infrastructure.PayrollDbContext;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 
@@ -32,6 +33,10 @@ namespace PayrollManager.Api.Employee.Autofac
 
             builder.RegisterType<RemunerationRepository>()
                 .As<IRemunerationRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ContactDetailsRepository>()
+                .As<IContactDetailsRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion

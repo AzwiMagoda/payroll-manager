@@ -2,10 +2,12 @@
 using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PayrollManager.Application.Employee.Services
@@ -14,13 +16,13 @@ namespace PayrollManager.Application.Employee.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRemunerationRepository _remunerationRepository;
-        private readonly IMapper _mapper;
+        private readonly IContactDetailsRepository _contactDetailsRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IRemunerationRepository remunerationRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IRemunerationRepository remunerationRepository, IContactDetailsRepository contactDetailsRepository)
         {
             _employeeRepository = employeeRepository;
-            _mapper = mapper;
             _remunerationRepository = remunerationRepository;
+            _contactDetailsRepository = contactDetailsRepository;
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -28,7 +30,22 @@ namespace PayrollManager.Application.Employee.Services
             try
             {
                 var entities = _employeeRepository.GetAll();
-                return _mapper.Map<List<EmployeeDto>>(entities);
+                return entities.Select(x =>
+                {
+                    return new EmployeeDto
+                    {
+                        Id = x.Id,
+                        Company = x.Company,
+                        Name = x.Name,
+                        Surname = x.Surname,
+                        Department = x.Department,
+                        JobTitle = x.JobTitle,
+                        Manager = x.Manager,
+                        TeamName = x.TeamName,
+                        Title = x.Title,
+                        CreatedDate = x.CreatedDate
+                    };
+                });
             }
             catch (Exception ex)
             {
@@ -42,19 +59,25 @@ namespace PayrollManager.Application.Employee.Services
             try
             {
                 var employee = await _employeeRepository.GetByID(employeeId);
-                var remuneration = await _remunerationRepository.GetByID(employeeId);
+                var contactDetails = await _contactDetailsRepository.GetByID(employeeId);
 
-                return employee == null || remuneration == null ? null 
+                return employee == null || contactDetails == null ? null 
                     :  new EmployeeDto
                     {
                         Id = employeeId,
-                        AnnualBaseSalary = remuneration.AnnualBaseSalary,
-                        BonusFrequency = remuneration.BonusFrequency,
-                        BonusPercentage = remuneration.BonusPercentage,
-                        RetirementContribution = remuneration.RetirementContribution,
                         Company = employee.Company,
                         Name = employee.Name,
                         Surname = employee.Surname,
+                        Department = employee.Department,
+                        JobTitle = employee.JobTitle,
+                        Manager = employee.Manager,
+                        TeamName = employee.TeamName,
+                        Title = employee.Title,
+                        Cellphone = contactDetails.Cellphone,
+                        Email = contactDetails.Email,
+                        PhysicalAddress = contactDetails.PhysicalAddress,
+                        Telephone = contactDetails.Telephone,
+                        PostalAddress = contactDetails.PostalAddress,
                         CreatedDate = employee.CreatedDate
                     };
             }
@@ -79,19 +102,7 @@ namespace PayrollManager.Application.Employee.Services
                     CreatedDate = DateTime.Now,
                 };
 
-                var remunerationEntity = new RemunerationEntity
-                {
-                    AnnualBaseSalary = employee.AnnualBaseSalary,
-                    BonusFrequency = employee.BonusFrequency,
-                    BonusPercentage = employee.BonusPercentage,
-                    EmployeeId = id,
-                    Id = id,
-                    RetirementContribution = employee.RetirementContribution,
-                    CreatedDate = DateTime.Now
-                };
-
                 await _employeeRepository.Create(employeeEntity);
-                await _remunerationRepository.Create(remunerationEntity);
             }
             catch (Exception ex)
             {
@@ -113,19 +124,8 @@ namespace PayrollManager.Application.Employee.Services
                     CreatedDate = DateTime.Now,
                 };
 
-                var remunerationEntity = new RemunerationEntity
-                {
-                    AnnualBaseSalary = employee.AnnualBaseSalary,
-                    BonusFrequency = employee.BonusFrequency,
-                    BonusPercentage = employee.BonusPercentage,
-                    EmployeeId = employee.Id,
-                    Id = employee.Id,
-                    RetirementContribution = employee.RetirementContribution,
-                    CreatedDate = DateTime.Now
-                };
 
                 await _employeeRepository.Update(employeeEntity);
-                await _remunerationRepository.Update(remunerationEntity);
             }
             catch (Exception ex)
             {
@@ -145,6 +145,48 @@ namespace PayrollManager.Application.Employee.Services
             {
                 Console.Error.WriteLine(ex.Message);
 
+            }
+        }
+
+        public async Task UpdatePersonalInfo(PersonalInfoDto info, Guid id)
+        {
+            try
+            {
+                var employee = await _employeeRepository.GetByID(id);
+
+                employee.Name = info.Name;
+                employee.Surname = info.Surname;
+                employee.Title = info.Title;
+                employee.JobTitle = info.JobTitle;
+                employee.Department = info.Department;
+
+
+                await _employeeRepository.Update(employee);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+        }
+
+        public async Task UpdateContactDetails(ContactDetailsDto info, Guid id)
+        {
+            try
+            {
+                var contactDetails = await _contactDetailsRepository.GetByID(id);
+
+                contactDetails.Telephone = info.Telephone;
+                contactDetails.Cellphone = info.Cellphone;
+                contactDetails.PhysicalAddress = info.PhysicalAddress;
+                contactDetails.PostalAddress = info.PostalAddress;
+
+
+                await _contactDetailsRepository.Update(contactDetails);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
             }
         }
     }

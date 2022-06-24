@@ -11,6 +11,8 @@ namespace PayrollManager.Application.Employee.Interfaces
         Task<EmployeeDto> GetEmployee(Guid employeeId);
         Task CreateEmployee(EmployeeDto employee);
         Task UpdateEmployee(EmployeeDto employee);
+        Task UpdatePersonalInfo(PersonalInfoDto info, Guid id);
+        Task UpdateContactDetails(ContactDetailsDto info, Guid id);
         Task DeleteEmployee(Guid id);
     }
 }
