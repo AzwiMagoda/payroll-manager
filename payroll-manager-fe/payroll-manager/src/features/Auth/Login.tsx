@@ -12,7 +12,7 @@ export default observer(function Login() {
 	const [password, setPassword] = useState('');
 
 	const {
-		authStore: { login, user },
+		authStore: { login, user, loading },
 		employeeStore: { currentEmployee },
 	} = useStore();
 
@@ -56,6 +56,7 @@ export default observer(function Login() {
 							backgroundColor: '#d9d9d9',
 						}}
 						type='submit'
+						loading={loading}
 					>
 						Login
 					</Button>

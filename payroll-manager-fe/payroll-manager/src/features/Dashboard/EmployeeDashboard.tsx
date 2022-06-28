@@ -1,18 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import { Col, Container, Content, FlexboxGrid, Header } from 'rsuite';
 import { Employee } from '../../app/models/employee';
-import { useStore } from '../../app/stores/store';
-import {
-	containerStyle,
-	flexContent,
-	flexHeader,
-	gridItem,
-	headerStyle,
-	linkStyle,
-} from './styles';
+
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -21,72 +12,66 @@ interface Props {
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
 	return (
-		<Container style={containerStyle}>
-			<Header style={headerStyle}>
+		<Container>
+			<Header>
 				<h3>Welcome, {employee.name}!</h3>
 			</Header>
 			<Content>
 				<div className='show-grid'>
 					<FlexboxGrid justify='space-around' align='top'>
-						<FlexboxGrid.Item as={Col} colspan={7} style={gridItem}>
-							<Header style={flexHeader}>
+						<FlexboxGrid.Item as={Col} colspan={7}>
+							<Header>
 								<h5>My Details</h5>
 							</Header>
-							<Content style={flexContent}>
-								<div style={linkStyle}>
-									<Link to='/profile/edit'> Edit My Details</Link>
+							<Content>
+								<div>
+									<Link to='/profile'> Profile</Link>
 								</div>
-								<div style={linkStyle}>
-									<Link to='/edit'> Link Two</Link>
+								<div>
+									<Link to='/remuneration'> Remuneration</Link>
 								</div>
 							</Content>
 						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} style={gridItem}>
-							<Header style={flexHeader}>
+						<FlexboxGrid.Item as={Col} colspan={7}>
+							<Header>
 								<h5>
 									<PeoplesIcon />
 									My Team
 								</h5>
 							</Header>
-							<Content style={flexContent}>
-								<div style={linkStyle}>
+							<Content>
+								<div>
 									<Link to='/team'> View Team</Link>
 								</div>
-								<div style={linkStyle}>
+								<div>
 									<Link to='/team/manager'>View Manager</Link>
 								</div>
 							</Content>
 						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} style={gridItem}>
-							<Header style={flexHeader}>
+						<FlexboxGrid.Item as={Col} colspan={7}>
+							<Header>
 								<h5>Leave</h5>
 							</Header>
-							<Content style={flexContent}>
-								<div style={linkStyle}>
+							<Content>
+								<div>
 									<Link to='/leave/request'> Request Leave</Link>
 								</div>
-								<div style={linkStyle}>
+								<div>
 									<Link to='/leave/balance'> View Leave Balance</Link>
 								</div>
 							</Content>
 						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} style={gridItem} smHidden>
-							<Header style={flexHeader}>
+						<FlexboxGrid.Item as={Col} colspan={7} smHidden>
+							<Header>
 								<h5>Benefits</h5>
 							</Header>
-							<Content style={flexContent}>hey</Content>
+							<Content>hey</Content>
 						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} style={gridItem} smHidden>
-							<Header style={flexHeader}>
+						<FlexboxGrid.Item as={Col} colspan={7} smHidden>
+							<Header>
 								<h5>Payslips</h5>
 							</Header>
-							<Content style={flexContent}>hey</Content>
-						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} style={gridItem} smHidden>
-							<Header style={flexHeader}>
-								<h5>Careers</h5>
-							</Header>
-							<Content style={flexContent}>hey</Content>
+							<Content>hey</Content>
 						</FlexboxGrid.Item>
 					</FlexboxGrid>
 				</div>

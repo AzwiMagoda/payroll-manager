@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { observer } from 'mobx-react-lite';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
@@ -9,12 +9,14 @@ import { Route, Routes } from 'react-router-dom';
 import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
+import ProfileDashboard from '../../features/profile/ProfileDashboard';
 
 function App() {
 	const {
 		authStore: { user },
 		employeeStore: { currentEmployee },
 	} = useStore();
+
 	return (
 		<>
 			<Container style={{ height: '100vh' }}>
@@ -36,6 +38,7 @@ function App() {
 										path='/'
 										element={<EmployeeDashboard employee={currentEmployee} />}
 									/>
+									<Route path='/profile' element={<ProfileDashboard />}></Route>
 									<Route
 										path='/employees'
 										element={<EmployeeList employees={[]} />}

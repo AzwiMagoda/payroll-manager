@@ -14,6 +14,7 @@ export default class AuthStore {
 	}
 
 	login = async (login: Login) => {
+		this.loading = true;
 		try {
 			if (!this.user) {
 				const user = await authAgent.Auth.login(login);
@@ -21,11 +22,13 @@ export default class AuthStore {
 				await store.employeeStore.setCurrentEmployee(user.employeeId);
 				runInAction(() => {
 					this.user = user;
+					this.loading = false;
 				});
 				console.log(user);
 			}
 		} catch (error) {
 			console.log(error);
+			this.loading = false;
 		}
 	};
 

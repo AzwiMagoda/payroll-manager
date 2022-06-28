@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
+import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Employee } from '../models/employee';
+import { PersonalInfoForm } from '../models/personalInfoForm';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -37,6 +39,10 @@ const Employees = {
 		requests.put<void>(`/Employee/UpdateEmployee`, employee),
 	deleteEmployee: (id: string) =>
 		requests.del<void>(`/Employee/DeleteEmployee/${id}`),
+	updatePersonalInformation: (info: PersonalInfoForm, id: string) =>
+		requests.put<Employee>(`/Employee/UpdatePersonalInformation/${id}`, info),
+	updateContactDetails: (info: ContactDetailsForm, id: string) =>
+		requests.put<Employee>(`/Employee/UpdateContactDetails/${id}`, info),
 };
 
 const agent = {

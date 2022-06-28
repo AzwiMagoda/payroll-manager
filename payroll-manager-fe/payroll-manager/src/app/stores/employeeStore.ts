@@ -1,13 +1,14 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
+import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Employee } from '../models/employee';
+import { PersonalInfoForm } from '../models/personalInfoForm';
 
 export default class EmployeeStore {
 	selectedEmployee: Employee | undefined = undefined;
 	employeeRegistry = new Map<string, Employee>();
 	currentEmployee: Employee | undefined = undefined;
 	loading = false;
-	loadingInitial = false;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -18,7 +19,7 @@ export default class EmployeeStore {
 	}
 
 	getAllEmployees = async () => {
-		this.loadingInitial = true;
+		this.loading = true;
 		try {
 			const employees = await agent.Employees.getAllEmployees();
 
@@ -27,29 +28,67 @@ export default class EmployeeStore {
 			});
 
 			runInAction(() => {
-				this.loadingInitial = false;
+				this.loading = false;
 			});
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
-				this.loadingInitial = false;
+				this.loading = false;
 			});
 		}
 	};
 
 	setCurrentEmployee = async (id: string) => {
-		this.loadingInitial = true;
+		this.loading = true;
 		try {
 			const employee = await agent.Employees.getEmployeeById(id);
 			runInAction(() => {
-				this.loadingInitial = false;
+				this.loading = false;
 				this.currentEmployee = employee;
 			});
 			console.log(employee);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
-				this.loadingInitial = false;
+				this.loading = false;
+			});
+		}
+	};
+
+	updatePersonalInfo = async (info: PersonalInfoForm) => {
+		this.loading = true;
+		try {
+			const employee = await agent.Employees.updatePersonalInformation(
+				info,
+				this.currentEmployee!.id
+			);
+			runInAction(() => {
+				this.loading = false;
+				this.currentEmployee = employee;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	updateContactDetails = async (info: ContactDetailsForm) => {
+		this.loading = true;
+		try {
+			const employee = await agent.Employees.updateContactDetails(
+				info,
+				this.currentEmployee!.id
+			);
+			runInAction(() => {
+				this.loading = false;
+				this.currentEmployee = employee;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
 			});
 		}
 	};

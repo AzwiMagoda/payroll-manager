@@ -1,12 +1,17 @@
 export interface Employee {
 	id: string;
+	title: string;
 	name: string;
 	surname: string;
-	hours: number;
 	company: string;
-	annualBaseSalary: number;
-	bonusPercentage: number;
-	bonusFrequency: number;
-	retirementContribution: number;
+	manager: string;
+	department: string;
+	teamName: string;
+	jobTitle: string;
+	email: string;
+	telephone: string;
+	cellphone: string;
+	physicalAddress: string;
+	postalAddress: string;
 	createdDate: string;
 }
