@@ -72,22 +72,29 @@ export default observer(function SideNavbar({
 							</ListItemButton>
 						</ListItem>
 					</NavLink>
-					<ListItem disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								<TableViewIcon />
-							</ListItemIcon>
-							<ListItemText primary='Employees' />
-						</ListItemButton>
-					</ListItem>
-					<ListItem disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								<AccountBoxIcon />
-							</ListItemIcon>
-							<ListItemText primary='Profile' />
-						</ListItemButton>
-					</ListItem>
+					{user.role == 'HR' && (
+						<NavLink to='/employees'>
+							<ListItem disablePadding>
+								<ListItemButton>
+									<ListItemIcon>
+										<TableViewIcon />
+									</ListItemIcon>
+									<ListItemText primary='Employees' />
+								</ListItemButton>
+							</ListItem>
+						</NavLink>
+					)}
+
+					<NavLink to='/profile'>
+						<ListItem disablePadding>
+							<ListItemButton>
+								<ListItemIcon>
+									<AccountBoxIcon />
+								</ListItemIcon>
+								<ListItemText primary='Profile' />
+							</ListItemButton>
+						</ListItem>
+					</NavLink>
 				</List>
 				<Divider />
 				<List sx={{ position: 'fixed', bottom: '1%', width: drawerWidth }}>

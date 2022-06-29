@@ -15,6 +15,7 @@ import {
 	ListItem,
 	ListItemAvatar,
 	ListItemText,
+	Paper,
 	Typography,
 } from '@mui/material';
 import GridCard from './components/GridCard';
@@ -39,7 +40,7 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 					direction='row'
 					justifyContent='center'
 					alignItems='stretch'
-					sx={{ marginBottom: '2rem' }}
+					sx={{ marginBottom: '4rem' }}
 				>
 					<GridCard
 						size={3}
@@ -69,142 +70,143 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 					alignItems='stretch'
 				>
 					<Grid item xs>
-						<Card variant='outlined'>
-							<CardContent>
-								<Typography
-									sx={{ fontSize: 14 }}
-									color='text.secondary'
-									gutterBottom
-								>
-									My Profile
-								</Typography>
-								<List>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<WorkIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='My Details' />
-									</ListItem>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<WorkIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Remuneration' />
-									</ListItem>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<WorkIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Beneficiaries' />
-									</ListItem>
-								</List>
-							</CardContent>
-						</Card>
+						<Paper elevation={1}>
+							<Card variant='outlined'>
+								<CardContent>
+									<Typography
+										sx={{ fontSize: 14 }}
+										color='text.secondary'
+										gutterBottom
+									>
+										My Profile
+									</Typography>
+									<List>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>
+													<WorkIcon />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='My Details' />
+										</ListItem>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>
+													<WorkIcon />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='Remuneration' />
+										</ListItem>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>
+													<WorkIcon />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='Beneficiaries' />
+										</ListItem>
+									</List>
+								</CardContent>
+							</Card>
+						</Paper>
 					</Grid>
 					<Grid item xs>
-						<Card variant='outlined'>
-							<CardContent>
-								<Typography
-									sx={{ fontSize: 14 }}
-									color='text.secondary'
-									gutterBottom
-								>
-									My Payslips
-								</Typography>
-								<List>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<FileDownloadIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Payslip1.pdf' />
-									</ListItem>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<FileDownloadIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Payslip2.pdf' />
-									</ListItem>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<FileDownloadIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Payslip3.pdf' />
-									</ListItem>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>
-												<FileDownloadIcon />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Payslip4.pdf' />
-									</ListItem>
-								</List>
-							</CardContent>
-							<CardActions>
-								<Button size='small'>View All</Button>
-							</CardActions>
-						</Card>
+						<Paper elevation={1}>
+							<Card variant='outlined'>
+								<CardContent>
+									<Typography
+										sx={{ fontSize: 14 }}
+										color='text.secondary'
+										gutterBottom
+									>
+										My Payslips
+									</Typography>
+									<List>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>
+													<FileDownloadIcon />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='Payslip1.pdf' />
+										</ListItem>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>
+													<FileDownloadIcon />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='Payslip2.pdf' />
+										</ListItem>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>
+													<FileDownloadIcon />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='Payslip3.pdf' />
+										</ListItem>
+									</List>
+								</CardContent>
+								<CardActions>
+									<Button size='small'>View All</Button>
+								</CardActions>
+							</Card>
+						</Paper>
 					</Grid>
 					<Grid item xs>
-						<Card variant='outlined'>
-							<CardContent>
-								<Typography
-									sx={{ fontSize: 14 }}
-									color='text.secondary'
-									gutterBottom
-								>
-									My Team
-								</Typography>
-								<List>
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>J</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='John Smith' secondary='Engineer' />
-									</ListItem>
-									<Divider variant='inset' component='li' />
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>M</Avatar>
-										</ListItemAvatar>
-										<ListItemText
-											primary='Martha Stewart'
-											secondary='Team lead'
-										/>
-									</ListItem>
-									<Divider variant='inset' component='li' />
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>K</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Kola Nut' secondary='Scrum Master' />
-									</ListItem>
-									<Divider variant='inset' component='li' />
-									<ListItem>
-										<ListItemAvatar>
-											<Avatar>P</Avatar>
-										</ListItemAvatar>
-										<ListItemText primary='Pola Beara' secondary='Engineer' />
-									</ListItem>
-									<Divider variant='inset' component='li' />
-								</List>
-							</CardContent>
-							<CardActions>
-								<Button size='small'>View All</Button>
-							</CardActions>
-						</Card>
+						<Paper elevation={1}>
+							<Card variant='outlined'>
+								<CardContent>
+									<Typography
+										sx={{ fontSize: 14 }}
+										color='text.secondary'
+										gutterBottom
+									>
+										My Team
+									</Typography>
+									<List>
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>J</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='John Smith' secondary='Engineer' />
+										</ListItem>
+										<Divider variant='inset' component='li' />
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>M</Avatar>
+											</ListItemAvatar>
+											<ListItemText
+												primary='Martha Stewart'
+												secondary='Team lead'
+											/>
+										</ListItem>
+										<Divider variant='inset' component='li' />
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>K</Avatar>
+											</ListItemAvatar>
+											<ListItemText
+												primary='Kola Nut'
+												secondary='Scrum Master'
+											/>
+										</ListItem>
+										<Divider variant='inset' component='li' />
+										<ListItem>
+											<ListItemAvatar>
+												<Avatar>P</Avatar>
+											</ListItemAvatar>
+											<ListItemText primary='Pola Beara' secondary='Engineer' />
+										</ListItem>
+										<Divider variant='inset' component='li' />
+									</List>
+								</CardContent>
+								<CardActions>
+									<Button size='small'>View All</Button>
+								</CardActions>
+							</Card>
+						</Paper>
 					</Grid>
 				</Grid>
 			</Box>
