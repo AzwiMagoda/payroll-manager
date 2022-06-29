@@ -1,23 +1,35 @@
-import React from 'react';
-import { Dashboard } from '@rsuite/icons';
-import TableColumnIcon from '@rsuite/icons/TableColumn';
-import UserInfoIcon from '@rsuite/icons/UserInfo';
-import CreativeIcon from '@rsuite/icons/Creative';
-import ExitIcon from '@rsuite/icons/Exit';
-import { Nav, Sidenav, Avatar } from 'rsuite';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import TableViewIcon from '@mui/icons-material/TableView';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../stores/store';
 import { Employee } from '../models/employee';
-import { headerStyles, navStyles } from './styles';
 import { User } from '../models/user';
+import { Avatar, Typography } from '@mui/material';
 
 interface Props {
 	employee: Employee;
 	user: User;
+	drawerWidth: number;
 }
 
-export default observer(function SideNavbar({ employee, user }: Props) {
+export default observer(function SideNavbar({
+	employee,
+	user,
+	drawerWidth,
+}: Props) {
 	const {
 		authStore: { logout },
 	} = useStore();
@@ -30,52 +42,66 @@ export default observer(function SideNavbar({ employee, user }: Props) {
 	};
 
 	return (
-		<div style={{ width: 240, height: '100vh' }}>
-			<Sidenav defaultOpenKeys={['4']} appearance='default' style={navStyles}>
-				<Sidenav.Header style={headerStyles}>
-					<Avatar circle style={{ background: '#000' }} size='lg'>
-						{employee.name.charAt(0)}
-					</Avatar>
-					{employee.name}
-				</Sidenav.Header>
-				<Sidenav.Body>
-					<Nav activeKey='1'>
-						<Nav.Item as={NavLink} to='/' eventKey='1' icon={<Dashboard />}>
-							Dashboard
-						</Nav.Item>
-
-						{user.role === 'hr' && (
-							<Nav.Item
-								as={NavLink}
-								to='/employees'
-								eventKey='2'
-								icon={<TableColumnIcon />}
-							>
-								Employees
-							</Nav.Item>
-						)}
-
-						<Nav.Menu eventKey='3' title='My Profile' icon={<UserInfoIcon />}>
-							<Nav.Item eventKey='3-1'>My Team</Nav.Item>
-							<Nav.Item eventKey='3-2'>Vacation Days</Nav.Item>
-							<Nav.Item eventKey='3-3'>Benefits</Nav.Item>
-							<Nav.Menu eventKey='3-4' title='Payslips'>
-								<Nav.Item eventKey='3-4-1'>View Payslips</Nav.Item>
-								<Nav.Item eventKey='3-4-2'>Download Payslips</Nav.Item>
-							</Nav.Menu>
-						</Nav.Menu>
-
-						<Nav.Item
-							eventKey='4'
-							icon={<ExitIcon />}
-							style={{ position: 'fixed', bottom: '1%', width: 'inherit' }}
-							onClick={handleLogout}
-						>
-							Logout
-						</Nav.Item>
-					</Nav>
-				</Sidenav.Body>
-			</Sidenav>
-		</div>
+		<Drawer
+			variant='permanent'
+			sx={{
+				display: { xs: 'none', sm: 'block' },
+				'& .MuiDrawer-paper': {
+					boxSizing: 'border-box',
+					width: drawerWidth,
+				},
+			}}
+			open
+		>
+			<div>
+				<Toolbar>
+					<Avatar>{employee.name.charAt(0)}</Avatar>
+					<Typography align='right' variant='h6'>
+						{employee.name}
+					</Typography>
+				</Toolbar>
+				<Divider />
+				<List>
+					<NavLink to='/'>
+						<ListItem disablePadding>
+							<ListItemButton>
+								<ListItemIcon>
+									<DashboardIcon />
+								</ListItemIcon>
+								<ListItemText primary='Dashboard' />
+							</ListItemButton>
+						</ListItem>
+					</NavLink>
+					<ListItem disablePadding>
+						<ListItemButton>
+							<ListItemIcon>
+								<TableViewIcon />
+							</ListItemIcon>
+							<ListItemText primary='Employees' />
+						</ListItemButton>
+					</ListItem>
+					<ListItem disablePadding>
+						<ListItemButton>
+							<ListItemIcon>
+								<AccountBoxIcon />
+							</ListItemIcon>
+							<ListItemText primary='Profile' />
+						</ListItemButton>
+					</ListItem>
+				</List>
+				<Divider />
+				<List sx={{ position: 'fixed', bottom: '1%', width: drawerWidth }}>
+					<Divider />
+					<ListItem disablePadding>
+						<ListItemButton>
+							<ListItemIcon>
+								<LogoutIcon />
+							</ListItemIcon>
+							<ListItemText primary='Logout' />
+						</ListItemButton>
+					</ListItem>
+				</List>
+			</div>
+		</Drawer>
 	);
 });
