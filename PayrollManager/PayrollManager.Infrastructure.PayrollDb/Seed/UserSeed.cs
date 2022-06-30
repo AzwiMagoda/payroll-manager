@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PayrollManager.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,18 +17,14 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 {
                     new UserEntity
                     {
-                        Email = "jen@test.com",
-                        UserName = "Jen",
-                        PhoneNumber = "0812909837"
+                        Id = Guid.Parse("D3B8BC49-BC21-49CC-ACBD-2A8381D06243"),
+                        Email = "azwi@test.com",
+                        UserName = "Azwi",
+                        PhoneNumber = "0813147181"
                     },
                     new UserEntity
                     {
-                        Email = "mark@test.com",
-                        UserName = "Mark",
-                        PhoneNumber = "0879876789"
-                    },
-                    new UserEntity
-                    {
+                        Id = Guid.Parse("FDC2520B-A3D2-437C-88C3-8D814B151DBB"),
                         Email = "huli@test.com",
                         UserName = "Huli",
                         PhoneNumber = "0768987799"
@@ -37,7 +34,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
-                    //await userManager.AddToRoleAsync(user, "Employee");
+                    await userManager.AddToRoleAsync(user, "Employee");
                 }
             }
         }

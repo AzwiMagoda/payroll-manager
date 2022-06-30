@@ -1,0 +1,25 @@
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	letter-spacing: 0.1em !important;
+}
+
+/* link */
+
+a {
+	text-decoration: none !important;
+	color: inherit !important;
+	font-size: 1.1em !important;
+	font-weight: 500 !important;
+}
+
+a:hover {
+	text-decoration: none !important;
+	color: inherit !important;
+	font-size: 1.1em !important;
+	font-weight: 700 !important;
+}
