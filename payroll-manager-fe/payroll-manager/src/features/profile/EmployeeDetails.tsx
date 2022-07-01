@@ -1,7 +1,6 @@
 import {
 	Box,
 	Button,
-	Container,
 	FormControl,
 	FormGroup,
 	InputLabel,
@@ -26,18 +25,20 @@ export default observer(function PersonalInfo() {
 	} = useStore();
 
 	const initialValues: PersonalInfoForm = {
-		department: currentEmployee!.department ?? '',
-		email: currentEmployee!.email ?? '',
-		jobTitle: currentEmployee!.jobTitle ?? '',
-		name: currentEmployee!.name ?? '',
-		surname: currentEmployee!.surname ?? '',
-		title: currentEmployee!.title ?? '',
+		department: currentEmployee!.department,
+		email: currentEmployee!.email,
+		jobTitle: currentEmployee!.jobTitle,
+		name: currentEmployee!.name,
+		surname: currentEmployee!.surname,
+		title: currentEmployee!.title,
 	};
 
 	const [formValue, setFormValue] = useState<any>(initialValues);
 	const [editMode, setEditMode] = useState(false);
 	const [readOnly, setReadOnly] = useState(true);
 	const [title, setTitle] = useState(currentEmployee!.title);
+	const [name, setName] = useState(currentEmployee!.name);
+	const [surname, setSurname] = useState(currentEmployee!.surname);
 
 	const handleEdit = () => {
 		setEditMode(true);
@@ -45,13 +46,22 @@ export default observer(function PersonalInfo() {
 	};
 
 	const handleCancel = () => {
-		setFormValue(initialValues);
+		setName(currentEmployee!.name);
+		setTitle(currentEmployee!.title);
+		setSurname(currentEmployee!.surname);
 		setEditMode(false);
 		setReadOnly(true);
 	};
 
 	const handleSubmit = async () => {
-		await updatePersonalInfo(formValue);
+		await updatePersonalInfo({
+			department: currentEmployee!.department,
+			email: currentEmployee!.email,
+			jobTitle: currentEmployee!.jobTitle,
+			name: name,
+			surname: surname,
+			title: title,
+		});
 		setEditMode(false);
 		setReadOnly(true);
 	};
@@ -83,7 +93,7 @@ export default observer(function PersonalInfo() {
 							InputProps={{
 								readOnly: readOnly,
 							}}
-							defaultValue={currentEmployee!.title}
+							value={title}
 						/>
 					) : (
 						<>
@@ -117,7 +127,10 @@ export default observer(function PersonalInfo() {
 					InputProps={{
 						readOnly: readOnly,
 					}}
-					defaultValue={currentEmployee!.name}
+					value={name}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						setName(event.target.value)
+					}
 				/>
 				<TextField
 					margin='normal'
@@ -129,10 +142,18 @@ export default observer(function PersonalInfo() {
 					InputProps={{
 						readOnly: readOnly,
 					}}
-					defaultValue={currentEmployee!.surname}
+					value={surname}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						setSurname(event.target.value)
+					}
 				/>
 			</Stack>
-			<FormControl fullWidth>
+			<Stack
+				direction='row'
+				justifyContent='center'
+				alignItems='center'
+				spacing={4}
+			>
 				<TextField
 					margin='normal'
 					fullWidth
@@ -146,8 +167,6 @@ export default observer(function PersonalInfo() {
 					}}
 					defaultValue={currentEmployee!.jobTitle}
 				/>
-			</FormControl>
-			<FormControl fullWidth>
 				<TextField
 					margin='normal'
 					fullWidth
@@ -161,7 +180,8 @@ export default observer(function PersonalInfo() {
 					}}
 					defaultValue={currentEmployee!.department}
 				/>
-			</FormControl>
+			</Stack>
+
 			<FormControl fullWidth>
 				<TextField
 					margin='normal'
@@ -207,6 +227,7 @@ export default observer(function PersonalInfo() {
 							startIcon={<PublishIcon />}
 							onClick={() => handleSubmit()}
 							loading={loading}
+							loadingPosition='start'
 						>
 							Submit
 						</LoadingButton>
