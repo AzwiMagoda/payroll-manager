@@ -1,24 +1,57 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
-import { Panel, Form, ButtonToolbar, Button } from 'rsuite';
 import { ContactDetailsForm } from '../../app/models/contactDetailsForm';
 import { useStore } from '../../app/stores/store';
+import {
+	Box,
+	Button,
+	Checkbox,
+	FormControl,
+	FormControlLabel,
+	FormGroup,
+	InputLabel,
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	Stack,
+	TextField,
+} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import EditIcon from '@mui/icons-material/Edit';
+import PublishIcon from '@mui/icons-material/Publish';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export default observer(function ContactDetails() {
 	const {
 		employeeStore: { currentEmployee, loading, updateContactDetails },
 	} = useStore();
 
-	const initialValues: ContactDetailsForm = {
-		postalAddress: currentEmployee!.postalAddress ?? '',
-		cellphone: currentEmployee!.cellphone ?? '',
-		physicalAddress: currentEmployee!.physicalAddress ?? '',
-		telephone: currentEmployee!.telephone ?? '',
-	};
-
-	const [formValue, setFormValue] = useState<any>(initialValues);
 	const [editMode, setEditMode] = useState(false);
 	const [readOnly, setReadOnly] = useState(true);
+	const [checked, setChecked] = useState(
+		currentEmployee!.physicalAddress === currentEmployee!.postalAddress
+	);
+	const [telephone, setTelephone] = useState(currentEmployee!.telephone);
+	const [cellphone, setCellphone] = useState(currentEmployee!.cellphone);
+	const [physicalAddress, setPhysicalAddress] = useState(
+		currentEmployee!.physicalAddress
+	);
+	const [postalAddress, setPostalAddress] = useState(
+		currentEmployee!.postalAddress
+	);
+
+	const handleChecked = (isChecked: boolean) => {
+		isChecked ? setPostalAddress(physicalAddress) : setPostalAddress('');
+		setChecked(isChecked);
+	};
+
+	const handlePhysical = (address: string) => {
+		setPhysicalAddress(address);
+
+		if (checked) {
+			setPostalAddress(address);
+		}
+	};
 
 	const handleEdit = () => {
 		setEditMode(true);
@@ -26,76 +59,172 @@ export default observer(function ContactDetails() {
 	};
 
 	const handleCancel = () => {
-		setFormValue(initialValues);
 		setEditMode(false);
 		setReadOnly(true);
+		setPhysicalAddress(currentEmployee!.physicalAddress);
+		setPostalAddress(currentEmployee!.postalAddress);
+		setCellphone(currentEmployee!.cellphone);
+		setTelephone(currentEmployee!.telephone);
 	};
 
 	const handleSubmit = async () => {
-		await updateContactDetails(formValue);
+		await updateContactDetails({
+			postalAddress: postalAddress,
+			cellphone: cellphone,
+			physicalAddress: physicalAddress,
+			telephone: telephone,
+		});
 		setEditMode(false);
 		setReadOnly(true);
 	};
 	return (
-		<Panel>
-			<Form
-				layout='horizontal'
-				readOnly={readOnly}
-				formValue={formValue}
-				onChange={(formValues) => setFormValue(formValues)}
+		<>
+			<Box
+				component='form'
+				noValidate
+				autoComplete='off'
+				sx={{
+					marginTop: '2rem',
+				}}
 			>
-				<Form.Group controlId='telephone'>
-					<Form.ControlLabel>Telephone</Form.ControlLabel>
-					<Form.Control name='telephone' />
-				</Form.Group>
+				<Stack
+					direction='row'
+					justifyContent='center'
+					alignItems='center'
+					spacing={4}
+				>
+					<TextField
+						margin='normal'
+						fullWidth
+						id='telephone'
+						label='Telephone Number'
+						name='telephone'
+						type='text'
+						InputProps={{
+							readOnly: readOnly,
+						}}
+						value={telephone}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setTelephone(event.target.value)
+						}
+					/>
+					<TextField
+						margin='normal'
+						fullWidth
+						id='cellphone'
+						label='Cellphone Number'
+						name='cellphone'
+						type='text'
+						InputProps={{
+							readOnly: readOnly,
+						}}
+						value={cellphone}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							setCellphone(event.target.value)
+						}
+					/>
+				</Stack>
 
-				<Form.Group controlId='cellphone'>
-					<Form.ControlLabel>Cellphone</Form.ControlLabel>
-					<Form.Control name='cellphone' />
-				</Form.Group>
+				<FormControl fullWidth>
+					<TextField
+						margin='normal'
+						fullWidth
+						id='physicalAddress'
+						label='Physical Address'
+						name='physicalAddress'
+						type='text'
+						InputProps={{
+							readOnly: readOnly,
+						}}
+						value={physicalAddress}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+							handlePhysical(event.target.value)
+						}
+					/>
+				</FormControl>
 
-				<Form.Group controlId='physicalAddress'>
-					<Form.ControlLabel>Physical Address</Form.ControlLabel>
-					<Form.Control name='physicalAddress' />
-				</Form.Group>
+				<FormGroup>
+					<FormControl>
+						<TextField
+							margin='normal'
+							fullWidth
+							id='postalAddress'
+							label='Postal Address'
+							name='postalAddress'
+							type='text'
+							InputProps={{
+								readOnly: readOnly,
+								disabled: checked,
+							}}
+							value={postalAddress}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+								setPostalAddress(event.target.value)
+							}
+						/>
+					</FormControl>
 
-				<Form.Group controlId='postalAddress'>
-					<Form.ControlLabel>Postal Address</Form.ControlLabel>
-					<Form.Control name='postalAddress' />
-				</Form.Group>
+					<FormControlLabel
+						control={
+							<Checkbox
+								checked={checked}
+								disabled={readOnly}
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+									handleChecked(event.target.checked)
+								}
+							/>
+						}
+						label='Same as physical'
+					/>
+				</FormGroup>
 
-				<Form.Group>
-					<ButtonToolbar>
-						{!editMode ? (
+				<FormGroup>
+					{!editMode ? (
+						<Stack
+							direction='row'
+							justifyContent='center'
+							alignItems='center'
+							spacing={4}
+						>
 							<Button
-								appearance='primary'
-								size='lg'
+								size='large'
+								variant='contained'
+								startIcon={<EditIcon />}
 								onClick={() => handleEdit()}
 							>
 								Edit
 							</Button>
-						) : (
-							<>
-								<Button
-									appearance='primary'
-									size='lg'
-									onClick={() => handleSubmit()}
-									loading={loading}
-								>
-									Submit
-								</Button>
-								<Button
-									appearance='default'
-									size='lg'
-									onClick={() => handleCancel()}
-								>
-									Cancel
-								</Button>
-							</>
-						)}
-					</ButtonToolbar>
-				</Form.Group>
-			</Form>
-		</Panel>
+						</Stack>
+					) : (
+						<Stack
+							direction='row'
+							justifyContent='center'
+							alignItems='center'
+							spacing={4}
+						>
+							<LoadingButton
+								color='success'
+								variant='contained'
+								startIcon={<PublishIcon />}
+								onClick={() => handleSubmit()}
+								loading={loading}
+								loadingPosition='start'
+								size='large'
+							>
+								Submit
+							</LoadingButton>
+							<Button
+								color='error'
+								variant='contained'
+								startIcon={<CancelIcon />}
+								onClick={() => handleCancel()}
+								size='large'
+							>
+								Cancel
+							</Button>
+						</Stack>
+					)}
+				</FormGroup>
+			</Box>
+		</>
 	);
 });

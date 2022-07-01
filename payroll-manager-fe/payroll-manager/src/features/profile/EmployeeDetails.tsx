@@ -12,11 +12,10 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import PublishIcon from '@mui/icons-material/Publish';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { PersonalInfoForm } from '../../app/models/personalInfoForm';
 import { useStore } from '../../app/stores/store';
 
 export default observer(function PersonalInfo() {
@@ -24,16 +23,6 @@ export default observer(function PersonalInfo() {
 		employeeStore: { currentEmployee, updatePersonalInfo, loading },
 	} = useStore();
 
-	const initialValues: PersonalInfoForm = {
-		department: currentEmployee!.department,
-		email: currentEmployee!.email,
-		jobTitle: currentEmployee!.jobTitle,
-		name: currentEmployee!.name,
-		surname: currentEmployee!.surname,
-		title: currentEmployee!.title,
-	};
-
-	const [formValue, setFormValue] = useState<any>(initialValues);
 	const [editMode, setEditMode] = useState(false);
 	const [readOnly, setReadOnly] = useState(true);
 	const [title, setTitle] = useState(currentEmployee!.title);
@@ -81,42 +70,40 @@ export default observer(function PersonalInfo() {
 				alignItems='center'
 				spacing={4}
 			>
-				<FormControl fullWidth>
-					{readOnly ? (
-						<TextField
-							margin='normal'
-							fullWidth
-							id='title'
-							label='Title'
-							name='title'
-							type='text'
-							InputProps={{
-								readOnly: readOnly,
-							}}
-							value={title}
-						/>
-					) : (
-						<>
-							<InputLabel id='titleLabel'>Title</InputLabel>
+				{readOnly ? (
+					<TextField
+						margin='normal'
+						fullWidth
+						id='title'
+						label='Title'
+						name='title'
+						type='text'
+						InputProps={{
+							readOnly: readOnly,
+						}}
+						value={title}
+					/>
+				) : (
+					<>
+						<InputLabel id='titleLabel'>Title</InputLabel>
 
-							<Select
-								labelId='titleLabel'
-								id='title'
-								value={title}
-								label='Title'
-								onChange={(event: SelectChangeEvent) =>
-									setTitle(event.target.value as string)
-								}
-							>
-								<MenuItem value={'Mr'}>Mr</MenuItem>
-								<MenuItem value={'Mrs'}>Mrs</MenuItem>
-								<MenuItem value={'Miss'}>Miss</MenuItem>
-								<MenuItem value={'Dr'}>Dr</MenuItem>
-								<MenuItem value={'Prof'}>Prof</MenuItem>
-							</Select>
-						</>
-					)}
-				</FormControl>
+						<Select
+							labelId='titleLabel'
+							id='title'
+							value={title}
+							label='Title'
+							onChange={(event: SelectChangeEvent) =>
+								setTitle(event.target.value as string)
+							}
+						>
+							<MenuItem value={'Mr'}>Mr</MenuItem>
+							<MenuItem value={'Mrs'}>Mrs</MenuItem>
+							<MenuItem value={'Miss'}>Miss</MenuItem>
+							<MenuItem value={'Dr'}>Dr</MenuItem>
+							<MenuItem value={'Prof'}>Prof</MenuItem>
+						</Select>
+					</>
+				)}
 				<TextField
 					margin='normal'
 					fullWidth
@@ -210,6 +197,7 @@ export default observer(function PersonalInfo() {
 							variant='contained'
 							startIcon={<EditIcon />}
 							onClick={() => handleEdit()}
+							size='large'
 						>
 							Edit
 						</Button>
@@ -228,6 +216,7 @@ export default observer(function PersonalInfo() {
 							onClick={() => handleSubmit()}
 							loading={loading}
 							loadingPosition='start'
+							size='large'
 						>
 							Submit
 						</LoadingButton>
@@ -236,6 +225,7 @@ export default observer(function PersonalInfo() {
 							variant='contained'
 							startIcon={<CancelIcon />}
 							onClick={() => handleCancel()}
+							size='large'
 						>
 							Cancel
 						</Button>
