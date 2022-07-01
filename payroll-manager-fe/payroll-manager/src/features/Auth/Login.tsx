@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { formGroupStyle, formStyle, h3Style, styles } from './styles';
+import React, { useState } from 'react';
 import { useStore } from '../../app/stores/store';
 import { Login as LoginDto } from '../../app/models/login';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import {
 	Avatar,
@@ -19,16 +18,21 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export default observer(function Login() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-
 	const {
 		authStore: { login, user, loading },
 		employeeStore: { currentEmployee },
 	} = useStore();
 
-	const handleSubmit = async () => {
-		await login(new LoginDto(email, password));
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const data = new FormData(event.currentTarget);
+		console.log({
+			email: data.get('email'),
+			password: data.get('password'),
+		});
+		await login(
+			new LoginDto(data.get('email') as string, data.get('password') as string)
+		);
 	};
 
 	return (
@@ -51,7 +55,9 @@ export default observer(function Login() {
 					</Typography>
 					<Box
 						component='form'
-						onSubmit={() => handleSubmit()}
+						onSubmit={(event: React.FormEvent<HTMLFormElement>) =>
+							handleSubmit(event)
+						}
 						noValidate
 						sx={{ mt: 1 }}
 					>
@@ -62,9 +68,8 @@ export default observer(function Login() {
 							id='email'
 							label='Email Address'
 							name='email'
-							autoComplete='email'
+							type='email'
 							autoFocus
-							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<TextField
 							margin='normal'
@@ -74,12 +79,6 @@ export default observer(function Login() {
 							label='Password'
 							type='password'
 							id='password'
-							autoComplete='current-password'
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-						<FormControlLabel
-							control={<Checkbox value='remember' color='primary' />}
-							label='Remember me'
 						/>
 						<Button
 							type='submit'
