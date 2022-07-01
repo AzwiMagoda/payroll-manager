@@ -11,6 +11,7 @@ import {
 	Stack,
 	TextField,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,7 +22,7 @@ import { useStore } from '../../app/stores/store';
 
 export default observer(function PersonalInfo() {
 	const {
-		employeeStore: { currentEmployee, updatePersonalInfo },
+		employeeStore: { currentEmployee, updatePersonalInfo, loading },
 	} = useStore();
 
 	const initialValues: PersonalInfoForm = {
@@ -200,14 +201,15 @@ export default observer(function PersonalInfo() {
 						alignItems='center'
 						spacing={4}
 					>
-						<Button
+						<LoadingButton
 							color='success'
 							variant='contained'
 							startIcon={<PublishIcon />}
 							onClick={() => handleSubmit()}
+							loading={loading}
 						>
 							Submit
-						</Button>
+						</LoadingButton>
 						<Button
 							color='error'
 							variant='contained'

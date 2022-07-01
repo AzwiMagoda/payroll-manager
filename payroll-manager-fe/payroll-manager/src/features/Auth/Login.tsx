@@ -15,6 +15,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export default observer(function Login() {
@@ -80,14 +81,15 @@ export default observer(function Login() {
 							type='password'
 							id='password'
 						/>
-						<Button
+						<LoadingButton
 							type='submit'
 							fullWidth
 							variant='contained'
+							loading={loading}
 							sx={{ mt: 3, mb: 2 }}
 						>
 							Sign In
-						</Button>
+						</LoadingButton>
 						<Grid container>
 							<Grid item xs>
 								<Link href='#' variant='body2'>
