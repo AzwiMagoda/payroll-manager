@@ -8,9 +8,10 @@ import { PersonalInfoForm } from '../models/personalInfoForm';
 export default class EmployeeStore {
 	selectedEmployee: Employee | undefined = undefined;
 	employeeRegistry = new Map<string, Employee>();
-	dependants = new Array<Dependant>;
+	dependants = new Array<Dependant>();
 	currentEmployee: Employee | undefined = undefined;
 	loading = false;
+	hasNewDependant = false;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -20,13 +21,17 @@ export default class EmployeeStore {
 		return Array.from(this.employeeRegistry.values());
 	}
 
-	addNewDependantToArray = (dependant:Dependant) =>{
+	addNewDependantToArray = (dependant: Dependant) => {
 		this.dependants.push(dependant);
-	}
+	};
 
-	removeNewDependantFromArray = () =>{
+	removeNewDependantFromArray = () => {
 		this.dependants.pop();
-	}
+	};
+
+	setHasNewDependant = (status: boolean) => {
+		this.hasNewDependant = status;
+	};
 
 	getAllEmployees = async () => {
 		this.loading = true;
@@ -126,5 +131,4 @@ export default class EmployeeStore {
 	employeeLogOut = () => {
 		this.currentEmployee = undefined;
 	};
-
 }

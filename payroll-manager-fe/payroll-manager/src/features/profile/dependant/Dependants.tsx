@@ -1,21 +1,7 @@
-import {
-	Box,
-	Button,
-	ButtonGroup,
-	Card,
-	Grid,
-	Paper,
-	Stack,
-	TextField,
-	Typography,
-} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import PublishIcon from '@mui/icons-material/Publish';
-import CancelIcon from '@mui/icons-material/Cancel';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useStore } from '../../../app/stores/store';
 import DependantCard from './DependantCard';
@@ -23,9 +9,13 @@ import { Dependant } from '../../../app/models/dependant';
 
 export default observer(function Dependants() {
 	const {
-		employeeStore: { dependants, addNewDependantToArray },
+		employeeStore: {
+			dependants,
+			addNewDependantToArray,
+			hasNewDependant,
+			setHasNewDependant,
+		},
 	} = useStore();
-	const [hasNewDependant, setHasNewDependant] = useState(false);
 
 	const newDependant: Dependant = {
 		name: '',
@@ -42,8 +32,7 @@ export default observer(function Dependants() {
 		if (!hasNewDependant) {
 			setHasNewDependant(true);
 			addNewDependantToArray(newDependant);
-		} else {
-			console.log('edit or remove');
+			console.log(newDependant.id);
 		}
 	};
 

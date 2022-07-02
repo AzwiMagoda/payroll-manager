@@ -1,22 +1,9 @@
-import React, { useState } from 'react';
-import {
-	Avatar,
-	Box,
-	Button,
-	ButtonGroup,
-	Card,
-	Grid,
-	Input,
-	Paper,
-	Stack,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { useState } from 'react';
+import { Avatar, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PublishIcon from '@mui/icons-material/Publish';
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { observer } from 'mobx-react-lite';
 import { Dependant } from '../../../app/models/dependant';
 import EditDependantForm from './EditDependantForm';
@@ -30,7 +17,7 @@ interface Props {
 
 export default observer(function DependantCard({ dependant }: Props) {
 	const {
-		employeeStore: { removeNewDependantFromArray },
+		employeeStore: { removeNewDependantFromArray, setHasNewDependant },
 	} = useStore();
 
 	const [editMode, setEditMode] = useState(false);
@@ -38,6 +25,7 @@ export default observer(function DependantCard({ dependant }: Props) {
 	const handleDelete = () => {
 		if (dependant.name === '') {
 			removeNewDependantFromArray();
+			setHasNewDependant(false);
 		}
 	};
 	return (
