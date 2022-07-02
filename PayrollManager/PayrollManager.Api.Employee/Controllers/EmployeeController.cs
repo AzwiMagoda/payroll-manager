@@ -98,7 +98,13 @@ namespace PayrollManager.Api.Employee.Controllers
                 Console.Error.WriteLine(ex);
                 return BadRequest(ex.Message);
             }
+        }
 
+        [HttpGet]
+        [Route("GetDependants/{employeeId}")]
+        public ActionResult<IEnumerable<DependantDto>> GetDependants(Guid employeeId)
+        {
+            return Ok( _employeeService.GetEmployeeDependants(employeeId));
         }
     }
 }

@@ -1,12 +1,14 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
+import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 
 export default class EmployeeStore {
 	selectedEmployee: Employee | undefined = undefined;
 	employeeRegistry = new Map<string, Employee>();
+	dependants = new Array<Dependant>;
 	currentEmployee: Employee | undefined = undefined;
 	loading = false;
 
@@ -16,6 +18,14 @@ export default class EmployeeStore {
 
 	get employeeArray() {
 		return Array.from(this.employeeRegistry.values());
+	}
+
+	addNewDependantToArray = (dependant:Dependant) =>{
+		this.dependants.push(dependant);
+	}
+
+	removeNewDependantFromArray = () =>{
+		this.dependants.pop();
 	}
 
 	getAllEmployees = async () => {
@@ -46,7 +56,6 @@ export default class EmployeeStore {
 				this.loading = false;
 				this.currentEmployee = employee;
 			});
-			console.log(employee);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
@@ -93,6 +102,23 @@ export default class EmployeeStore {
 		}
 	};
 
+	getAllDependants = async (id: string) => {
+		this.loading = true;
+		try {
+			const dependants = await agent.Employees.getAllDependants(id);
+
+			runInAction(() => {
+				this.dependants = dependants;
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
 	private setEmployee = (employee: Employee) => {
 		this.employeeRegistry.set(employee.id!, employee);
 	};
@@ -100,4 +126,5 @@ export default class EmployeeStore {
 	employeeLogOut = () => {
 		this.currentEmployee = undefined;
 	};
+
 }

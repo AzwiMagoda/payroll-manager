@@ -3,6 +3,7 @@ using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 using System;
@@ -17,12 +18,17 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IRemunerationRepository _remunerationRepository;
         private readonly IContactDetailsRepository _contactDetailsRepository;
+        private readonly IDependantRepository _dependantRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper, IRemunerationRepository remunerationRepository, IContactDetailsRepository contactDetailsRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository,
+                               IRemunerationRepository remunerationRepository,
+                               IContactDetailsRepository contactDetailsRepository,
+                               IDependantRepository dependantRepository)
         {
-            _employeeRepository = employeeRepository;
-            _remunerationRepository = remunerationRepository;
-            _contactDetailsRepository = contactDetailsRepository;
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
+            _remunerationRepository = remunerationRepository ?? throw new ArgumentNullException(nameof(remunerationRepository));
+            _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
+            _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -187,6 +193,34 @@ namespace PayrollManager.Application.Employee.Services
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
+            }
+        }
+
+        public IEnumerable<DependantDto> GetEmployeeDependants(Guid employeeId)
+        {
+            try
+            {
+                var dependants = _dependantRepository.GetEmployeeDependants(employeeId);
+
+                return dependants.Any() ? dependants.Select(x =>
+                {
+                    return new DependantDto
+                    {
+                        Cellphone = x.Cellphone,
+                        CreatedDate = x.CreatedDate,
+                        DateOfBirth = x.DateOfBirth,
+                        Email = x.Email,
+                        IDNumber = x.IDNumber,
+                        Name = x.Name,
+                        Surname = x.Surname,
+                        Id = x.Id,
+                    };
+                }) : null;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                return null;
             }
         }
     }

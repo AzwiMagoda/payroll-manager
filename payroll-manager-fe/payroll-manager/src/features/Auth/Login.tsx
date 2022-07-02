@@ -27,10 +27,6 @@ export default observer(function Login() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get('email'),
-			password: data.get('password'),
-		});
 		await login(
 			new LoginDto(data.get('email') as string, data.get('password') as string)
 		);

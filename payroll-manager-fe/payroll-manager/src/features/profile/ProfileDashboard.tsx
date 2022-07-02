@@ -10,13 +10,21 @@ import {
 	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useStore } from '../../app/stores/store';
 import ContactDetails from './ContactDetails';
-import Dependants from './Dependants';
+import Dependants from './dependant/Dependants';
 import PersonalInfo from './EmployeeDetails';
 
 export default observer(function ProfileDashboard() {
 	const [activeMenu, setActiveMenu] = useState(0);
+	const {
+		employeeStore: { getAllDependants, currentEmployee },
+	} = useStore();
+
+	useEffect(() => {
+		getAllDependants(currentEmployee!.id);
+	});
 
 	return (
 		<Box>

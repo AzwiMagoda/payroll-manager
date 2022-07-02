@@ -72,7 +72,7 @@ export default observer(function SideNavbar({
 							</ListItemButton>
 						</ListItem>
 					</NavLink>
-					{user.role == 'HR' && (
+					{user.role === 'HR' && (
 						<NavLink to='/employees'>
 							<ListItem disablePadding>
 								<ListItemButton>

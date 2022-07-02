@@ -9,6 +9,7 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormGroup,
+	Grid,
 	InputLabel,
 	MenuItem,
 	Select,
@@ -78,153 +79,144 @@ export default observer(function ContactDetails() {
 		setReadOnly(true);
 	};
 	return (
-		<>
-			<Box
-				component='form'
-				noValidate
-				autoComplete='off'
-				sx={{
-					marginTop: '2rem',
-				}}
+		<Box component='form' noValidate autoComplete='off'>
+			<Stack
+				direction='row'
+				justifyContent='center'
+				alignItems='center'
+				spacing={4}
 			>
-				<Stack
-					direction='row'
-					justifyContent='center'
-					alignItems='center'
-					spacing={4}
-				>
-					<TextField
-						margin='normal'
-						fullWidth
-						id='telephone'
-						label='Telephone Number'
-						name='telephone'
-						type='text'
-						InputProps={{
-							readOnly: readOnly,
-						}}
-						value={telephone}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-							setTelephone(event.target.value)
-						}
-					/>
-					<TextField
-						margin='normal'
-						fullWidth
-						id='cellphone'
-						label='Cellphone Number'
-						name='cellphone'
-						type='text'
-						InputProps={{
-							readOnly: readOnly,
-						}}
-						value={cellphone}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-							setCellphone(event.target.value)
-						}
-					/>
-				</Stack>
+				<TextField
+					margin='normal'
+					fullWidth
+					id='telephone'
+					label='Telephone Number'
+					name='telephone'
+					type='text'
+					InputProps={{
+						readOnly: readOnly,
+					}}
+					value={telephone}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						setTelephone(event.target.value)
+					}
+				/>
+				<TextField
+					margin='normal'
+					fullWidth
+					id='cellphone'
+					label='Cellphone Number'
+					name='cellphone'
+					type='text'
+					InputProps={{
+						readOnly: readOnly,
+					}}
+					value={cellphone}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						setCellphone(event.target.value)
+					}
+				/>
+			</Stack>
 
-				<FormControl fullWidth>
+			<FormControl fullWidth>
+				<TextField
+					margin='normal'
+					fullWidth
+					id='physicalAddress'
+					label='Physical Address'
+					name='physicalAddress'
+					type='text'
+					InputProps={{
+						readOnly: readOnly,
+					}}
+					value={physicalAddress}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+						handlePhysical(event.target.value)
+					}
+				/>
+			</FormControl>
+
+			<FormGroup>
+				<FormControl>
 					<TextField
 						margin='normal'
 						fullWidth
-						id='physicalAddress'
-						label='Physical Address'
-						name='physicalAddress'
+						id='postalAddress'
+						label='Postal Address'
+						name='postalAddress'
 						type='text'
 						InputProps={{
 							readOnly: readOnly,
+							disabled: checked,
 						}}
-						value={physicalAddress}
+						value={postalAddress}
 						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-							handlePhysical(event.target.value)
+							setPostalAddress(event.target.value)
 						}
 					/>
 				</FormControl>
 
-				<FormGroup>
-					<FormControl>
-						<TextField
-							margin='normal'
-							fullWidth
-							id='postalAddress'
-							label='Postal Address'
-							name='postalAddress'
-							type='text'
-							InputProps={{
-								readOnly: readOnly,
-								disabled: checked,
-							}}
-							value={postalAddress}
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={checked}
+							disabled={readOnly}
 							onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-								setPostalAddress(event.target.value)
+								handleChecked(event.target.checked)
 							}
 						/>
-					</FormControl>
+					}
+					label='Same as physical'
+				/>
+			</FormGroup>
 
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={checked}
-								disabled={readOnly}
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-									handleChecked(event.target.checked)
-								}
-							/>
-						}
-						label='Same as physical'
-					/>
-				</FormGroup>
-
-				<FormGroup>
-					{!editMode ? (
-						<Stack
-							direction='row'
-							justifyContent='center'
-							alignItems='center'
-							spacing={4}
+			<FormGroup>
+				{!editMode ? (
+					<Stack
+						direction='row'
+						justifyContent='center'
+						alignItems='center'
+						spacing={4}
+					>
+						<Button
+							size='large'
+							variant='contained'
+							startIcon={<EditIcon />}
+							onClick={() => handleEdit()}
 						>
-							<Button
-								size='large'
-								variant='contained'
-								startIcon={<EditIcon />}
-								onClick={() => handleEdit()}
-							>
-								Edit
-							</Button>
-						</Stack>
-					) : (
-						<Stack
-							direction='row'
-							justifyContent='center'
-							alignItems='center'
-							spacing={4}
+							Edit
+						</Button>
+					</Stack>
+				) : (
+					<Stack
+						direction='row'
+						justifyContent='center'
+						alignItems='center'
+						spacing={4}
+					>
+						<LoadingButton
+							color='success'
+							variant='contained'
+							startIcon={<PublishIcon />}
+							onClick={() => handleSubmit()}
+							loading={loading}
+							loadingPosition='start'
+							size='large'
 						>
-							<LoadingButton
-								color='success'
-								variant='contained'
-								startIcon={<PublishIcon />}
-								onClick={() => handleSubmit()}
-								loading={loading}
-								loadingPosition='start'
-								size='large'
-							>
-								Submit
-							</LoadingButton>
-							<Button
-								color='error'
-								variant='contained'
-								startIcon={<CancelIcon />}
-								onClick={() => handleCancel()}
-								size='large'
-							>
-								Cancel
-							</Button>
-						</Stack>
-					)}
-				</FormGroup>
-			</Box>
-		</>
+							Submit
+						</LoadingButton>
+						<Button
+							color='error'
+							variant='contained'
+							startIcon={<CancelIcon />}
+							onClick={() => handleCancel()}
+							size='large'
+						>
+							Cancel
+						</Button>
+					</Stack>
+				)}
+			</FormGroup>
+		</Box>
 	);
 });

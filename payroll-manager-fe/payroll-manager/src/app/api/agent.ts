@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
+import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 
@@ -43,6 +44,8 @@ const Employees = {
 		requests.put<Employee>(`/Employee/UpdatePersonalInformation/${id}`, info),
 	updateContactDetails: (info: ContactDetailsForm, id: string) =>
 		requests.put<Employee>(`/Employee/UpdateContactDetails/${id}`, info),
+	getAllDependants: (id: string) =>
+		requests.get<Dependant[]>(`/Employee/GetDependants/${id}`),
 };
 
 const agent = {

@@ -56,14 +56,7 @@ export default observer(function PersonalInfo() {
 	};
 
 	return (
-		<Box
-			component='form'
-			noValidate
-			autoComplete='off'
-			sx={{
-				marginTop: '2rem',
-			}}
-		>
+		<Box component='form' noValidate autoComplete='off'>
 			<Stack
 				direction='row'
 				justifyContent='center'
@@ -86,7 +79,6 @@ export default observer(function PersonalInfo() {
 				) : (
 					<>
 						<InputLabel id='titleLabel'>Title</InputLabel>
-
 						<Select
 							labelId='titleLabel'
 							id='title'
