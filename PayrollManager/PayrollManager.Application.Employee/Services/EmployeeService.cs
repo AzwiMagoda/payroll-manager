@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PayrollManager.Application.Employee.Dto;
+﻿using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
@@ -67,8 +66,8 @@ namespace PayrollManager.Application.Employee.Services
                 var employee = await _employeeRepository.GetByID(employeeId);
                 var contactDetails = await _contactDetailsRepository.GetByID(employeeId);
 
-                return employee == null || contactDetails == null ? null 
-                    :  new EmployeeDto
+                return employee == null || contactDetails == null ? null
+                    : new EmployeeDto
                     {
                         Id = employeeId,
                         Company = employee.Company,
@@ -214,13 +213,78 @@ namespace PayrollManager.Application.Employee.Services
                         Name = x.Name,
                         Surname = x.Surname,
                         Id = x.Id,
+                        EmployeeId = employeeId
                     };
-                }) : null;
+                }) : Array.Empty<DependantDto>();
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
                 return null;
+            }
+        }
+
+        public async Task CreateDependant(DependantDto dependant)
+        {
+            try
+            {
+                var dependantEntity = new DependentEntity
+                {
+                    Id = dependant.Id,
+                    Cellphone = dependant.Cellphone,
+                    CreatedDate = DateTime.Today,
+                    DateOfBirth = dependant.DateOfBirth,
+                    Email = dependant.Email,
+                    EmployeeId = dependant.EmployeeId,
+                    IDNumber = dependant.IDNumber,
+                    Name = dependant.Name,
+                    Surname = dependant.Surname
+                };
+
+                await _dependantRepository.Create(dependantEntity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task UpdateDependant(DependantDto dependant)
+        {
+            try
+            {
+                var dependantEntity = new DependentEntity
+                {
+                    Id = dependant.Id,
+                    Cellphone = dependant.Cellphone,
+                    CreatedDate = DateTime.Today,
+                    DateOfBirth = dependant.DateOfBirth,
+                    Email = dependant.Email,
+                    EmployeeId = dependant.EmployeeId,
+                    IDNumber = dependant.IDNumber,
+                    Name = dependant.Name,
+                    Surname = dependant.Surname
+                };
+
+
+                await _dependantRepository.Update(dependantEntity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task DeleteDependant(Guid dependantId)
+        {
+            try
+            {
+                await _dependantRepository.Delete(dependantId);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+
             }
         }
     }

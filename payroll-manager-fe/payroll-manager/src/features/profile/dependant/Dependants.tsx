@@ -14,6 +14,7 @@ export default observer(function Dependants() {
 			addNewDependantToArray,
 			hasNewDependant,
 			setHasNewDependant,
+			currentEmployee,
 		},
 	} = useStore();
 
@@ -26,6 +27,7 @@ export default observer(function Dependants() {
 		email: '',
 		createdDate: '',
 		id: uuidv4(),
+		employeeId: currentEmployee!.id,
 	};
 
 	const handleAddDependant = () => {
@@ -61,9 +63,10 @@ export default observer(function Dependants() {
 				alignItems='flex-start'
 				spacing={2}
 			>
-				{dependants.map((dependant) => (
-					<DependantCard key={dependant.id} dependant={dependant} />
-				))}
+				{dependants &&
+					dependants.map((dependant) => (
+						<DependantCard key={dependant.id} dependant={dependant} />
+					))}
 			</Stack>
 		</Box>
 	);

@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { Dependant } from '../../../app/models/dependant';
-
+import format from 'date-fns/format';
 interface Props {
 	dependant: Dependant;
 }
@@ -23,7 +23,7 @@ export default observer(function DependantForm({ dependant }: Props) {
 				</Typography>
 			</Stack>
 			<Typography variant='body2' gutterBottom>
-				DOB: {dependant.dateOfBirth}
+				DOB: {format(new Date(dependant.dateOfBirth), 'dd MMMM yyyy')}
 			</Typography>
 			<Typography variant='body2' color='text.secondary'>
 				ID: {dependant.idNumber}

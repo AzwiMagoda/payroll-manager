@@ -46,6 +46,12 @@ const Employees = {
 		requests.put<Employee>(`/Employee/UpdateContactDetails/${id}`, info),
 	getAllDependants: (id: string) =>
 		requests.get<Dependant[]>(`/Employee/GetDependants/${id}`),
+	addNewDependant: (dependant: Dependant) =>
+		requests.post<Dependant[]>('/Employee/CreateDependant', dependant),
+	updateDependant: (dependant: Dependant) =>
+		requests.put<Dependant[]>(`/Employee/UpdateDependant`, dependant),
+	deleteDependant: (id: string) =>
+		requests.del<void>(`/Employee/DeleteDependant/${id}`),
 };
 
 const agent = {

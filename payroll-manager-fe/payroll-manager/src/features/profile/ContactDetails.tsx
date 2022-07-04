@@ -79,7 +79,10 @@ export default observer(function ContactDetails() {
 		setReadOnly(true);
 	};
 	return (
-		<Box component='form' noValidate autoComplete='off'>
+		<Box
+			onSubmit={() => handleSubmit()}
+			onError={(errors) => console.log(errors)}
+		>
 			<Stack
 				direction='row'
 				justifyContent='center'
@@ -88,6 +91,7 @@ export default observer(function ContactDetails() {
 			>
 				<TextField
 					margin='normal'
+					variant='standard'
 					fullWidth
 					id='telephone'
 					label='Telephone Number'
@@ -103,6 +107,7 @@ export default observer(function ContactDetails() {
 				/>
 				<TextField
 					margin='normal'
+					variant='standard'
 					fullWidth
 					id='cellphone'
 					label='Cellphone Number'
@@ -121,6 +126,7 @@ export default observer(function ContactDetails() {
 			<FormControl fullWidth>
 				<TextField
 					margin='normal'
+					variant='standard'
 					fullWidth
 					id='physicalAddress'
 					label='Physical Address'
@@ -140,6 +146,7 @@ export default observer(function ContactDetails() {
 				<FormControl>
 					<TextField
 						margin='normal'
+						variant='standard'
 						fullWidth
 						id='postalAddress'
 						label='Postal Address'
@@ -198,10 +205,11 @@ export default observer(function ContactDetails() {
 							color='success'
 							variant='contained'
 							startIcon={<PublishIcon />}
-							onClick={() => handleSubmit()}
+							//onClick={() => handleSubmit()}
 							loading={loading}
 							loadingPosition='start'
 							size='large'
+							type='submit'
 						>
 							Submit
 						</LoadingButton>
