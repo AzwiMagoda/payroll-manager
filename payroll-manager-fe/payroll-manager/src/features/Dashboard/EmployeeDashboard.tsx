@@ -49,21 +49,24 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 				>
 					<GridCard
 						size={3}
-						details={leaveDays!.annualLeaveBalance.toString()}
+						details={leaveDays!.annualLeaveBalance}
 						heading={'Annual Leave Days'}
 						linkText={'View Balances'}
+						path='/leaveDashboard'
 					/>
 					<GridCard
 						size={3}
 						details={'Jenny Smith'}
 						heading={'Your Manager'}
 						linkText={'View Details'}
+						path='teamDetails/manager'
 					/>
 					<GridCard
 						size={3}
 						details={'Download Latest'}
 						heading={'Payslips'}
 						linkText={'Download'}
+						path='payslips'
 					/>
 				</Grid>
 

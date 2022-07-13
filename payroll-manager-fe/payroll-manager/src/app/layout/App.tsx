@@ -9,6 +9,7 @@ import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
 import ProfileDashboard from '../../features/profile/ProfileDashboard';
 import './App.css';
+import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 
 function App() {
 	const {
@@ -54,11 +55,12 @@ function App() {
 								path='/'
 								element={<EmployeeDashboard employee={currentEmployee} />}
 							/>
-							<Route path='/profile' element={<ProfileDashboard />}></Route>
+							<Route path='/profile' element={<ProfileDashboard />} />
 							<Route
 								path='/employees'
 								element={<EmployeeList employees={[]} />}
 							/>
+							<Route path='leaveDashboard' element={<LeaveDaysDashboard />} />
 						</Routes>
 					</Box>
 				</>
