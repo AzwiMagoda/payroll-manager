@@ -12,5 +12,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Generic
         Task Delete(Guid id);
         Task Update(TEntity entity);
         Task<TEntity> Create(TEntity entity);
+        IEnumerable<TEntity> GetAllByEmployeeId(Guid employeeId);
+        Task<TEntity> GetByEmployeeId(Guid employeeId);
     }
 }

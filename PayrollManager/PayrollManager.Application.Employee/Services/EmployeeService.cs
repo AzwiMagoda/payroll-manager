@@ -4,6 +4,7 @@ using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 using System;
 using System.Collections.Generic;
@@ -18,16 +19,19 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IRemunerationRepository _remunerationRepository;
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
+        private readonly ILeaveDaysRepository _leaveDaysRepository;
 
         public EmployeeService(IEmployeeRepository employeeRepository,
                                IRemunerationRepository remunerationRepository,
                                IContactDetailsRepository contactDetailsRepository,
-                               IDependantRepository dependantRepository)
+                               IDependantRepository dependantRepository,
+                               ILeaveDaysRepository leaveDaysRepository)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _remunerationRepository = remunerationRepository ?? throw new ArgumentNullException(nameof(remunerationRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
+            _leaveDaysRepository = leaveDaysRepository ?? throw new ArgumentNullException(nameof(leaveDaysRepository));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -64,7 +68,7 @@ namespace PayrollManager.Application.Employee.Services
             try
             {
                 var employee = await _employeeRepository.GetByID(employeeId);
-                var contactDetails = await _contactDetailsRepository.GetByID(employeeId);
+                var contactDetails = await _contactDetailsRepository.GetByEmployeeId(employeeId);
 
                 return employee == null || contactDetails == null ? null
                     : new EmployeeDto
@@ -285,6 +289,26 @@ namespace PayrollManager.Application.Employee.Services
             {
                 Console.Error.WriteLine(ex.Message);
 
+            }
+        }
+
+        public async Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId)
+        {
+            try
+            {
+                var leaveDays = await _leaveDaysRepository.GetByEmployeeId(employeeId);
+
+                return new LeaveDaysDto
+                {
+                    AnnualLeaveBalance = leaveDays.AnnualLeaveBalance,
+                    EmployeeId = employeeId,
+                    SickLeaveBalance = leaveDays.SickLeaveBalance,
+                    StudyLeaveBalance = leaveDays.StudyLeaveBalance,                    
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
             }
         }
     }

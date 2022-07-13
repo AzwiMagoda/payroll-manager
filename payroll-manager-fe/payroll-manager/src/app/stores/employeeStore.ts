@@ -3,6 +3,7 @@ import agent from '../api/agent';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
+import { LeaveDays } from '../models/leaveDays';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 
 export default class EmployeeStore {
@@ -13,6 +14,7 @@ export default class EmployeeStore {
 	loading = false;
 	hasNewDependant = false;
 	newDependantId: string = '';
+	leaveDays: LeaveDays | undefined = undefined;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -41,7 +43,7 @@ export default class EmployeeStore {
 		try {
 			const employees = await agent.Employees.getAllEmployees();
 
-			employees.forEach((employee) => {
+			employees.forEach((employee: Employee) => {
 				this.setEmployee(employee);
 			});
 
@@ -60,9 +62,12 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			const employee = await agent.Employees.getEmployeeById(id);
+			const leaveDays = await agent.Employees.getLeaveDays(id);
+
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
+				this.leaveDays = leaveDays;
 			});
 		} catch (error) {
 			console.log(error);
@@ -189,5 +194,22 @@ export default class EmployeeStore {
 		this.currentEmployee = undefined;
 		this.hasNewDependant = false;
 		this.newDependantId = '';
+	};
+
+	getLeaveDaysBalances = async (employeeId: string) => {
+		this.loading = true;
+		try {
+			const leaveDays = await agent.Employees.getLeaveDays(employeeId);
+			runInAction(() => {
+				this.loading = false;
+				this.leaveDays = leaveDays;
+			});
+			console.log(leaveDays);
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
 	};
 }

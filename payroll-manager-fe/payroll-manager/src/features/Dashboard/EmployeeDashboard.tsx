@@ -21,12 +21,17 @@ import {
 import GridCard from './components/GridCard';
 import WorkIcon from '@mui/icons-material/Work';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { useStore } from '../../app/stores/store';
 
 interface Props {
 	employee: Employee;
 }
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
+	const {
+		employeeStore: { leaveDays },
+	} = useStore();
+
 	return (
 		<Box>
 			<Typography align='center' variant='h5'>
@@ -44,7 +49,7 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 				>
 					<GridCard
 						size={3}
-						details={'14'}
+						details={leaveDays!.annualLeaveBalance.toString()}
 						heading={'Annual Leave Days'}
 						linkText={'View Balances'}
 					/>

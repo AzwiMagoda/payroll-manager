@@ -7,6 +7,7 @@ namespace PayrollManager.Infrastructure.Models
     {
         [Key]
         Guid Id { get; set; }
+        Guid EmployeeId { get; set; }
         DateTime CreatedDate { get; set; }
     }
 }

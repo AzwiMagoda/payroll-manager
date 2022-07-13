@@ -1,7 +1,6 @@
 import { Box, Button, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useStore } from '../../../app/stores/store';
 import DependantCard from './DependantCard';
@@ -22,7 +21,7 @@ export default observer(function Dependants() {
 		name: '',
 		surname: '',
 		idNumber: '',
-		dateOfBirth: '',
+		dateOfBirth: new Date().toISOString(),
 		cellphone: '',
 		email: '',
 		createdDate: '',
@@ -60,7 +59,7 @@ export default observer(function Dependants() {
 			<Stack
 				direction='column'
 				justifyContent='flex-start'
-				alignItems='flex-start'
+				alignItems='stretch'
 				spacing={2}
 			>
 				{dependants &&

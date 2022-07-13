@@ -3,24 +3,21 @@ import React, { useState } from 'react';
 import { ContactDetailsForm } from '../../app/models/contactDetailsForm';
 import { useStore } from '../../app/stores/store';
 import {
-	Box,
 	Button,
 	Checkbox,
 	FormControl,
 	FormControlLabel,
 	FormGroup,
-	Grid,
-	InputLabel,
-	MenuItem,
-	Select,
-	SelectChangeEvent,
 	Stack,
-	TextField,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import EditIcon from '@mui/icons-material/Edit';
 import PublishIcon from '@mui/icons-material/Publish';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import MaskedText from '../../app/common/form/MaskedText';
+import TextFieldInput from '../../app/common/form/TextFieldInput';
 
 export default observer(function ContactDetails() {
 	const {
@@ -32,26 +29,46 @@ export default observer(function ContactDetails() {
 	const [checked, setChecked] = useState(
 		currentEmployee!.physicalAddress === currentEmployee!.postalAddress
 	);
-	const [telephone, setTelephone] = useState(currentEmployee!.telephone);
-	const [cellphone, setCellphone] = useState(currentEmployee!.cellphone);
-	const [physicalAddress, setPhysicalAddress] = useState(
-		currentEmployee!.physicalAddress
-	);
-	const [postalAddress, setPostalAddress] = useState(
-		currentEmployee!.postalAddress
-	);
 
-	const handleChecked = (isChecked: boolean) => {
-		isChecked ? setPostalAddress(physicalAddress) : setPostalAddress('');
-		setChecked(isChecked);
+	const initialValues: ContactDetailsForm = {
+		cellphone: currentEmployee!.cellphone,
+		physicalAddress: currentEmployee!.physicalAddress,
+		postalAddress: currentEmployee!.postalAddress,
+		telephone: currentEmployee!.telephone,
 	};
 
-	const handlePhysical = (address: string) => {
-		setPhysicalAddress(address);
+	const validationSchema = yup.object({
+		telephone: yup.string().min(10, 'Please enter a valid telephone number'),
+		cellphone: yup
+			.string()
+			.min(10, 'Please enter a valid cellphone number')
+			.required('Required'),
+		physicalAddress: yup.string().required('Required'),
+		postalAddress: yup.string(),
+	});
 
-		if (checked) {
-			setPostalAddress(address);
-		}
+	const handleSubmit = async (values: ContactDetailsForm) => {
+		await updateContactDetails(values);
+		setEditMode(false);
+		setReadOnly(true);
+	};
+
+	const formik: any = useFormik({
+		initialValues: initialValues,
+		validationSchema: validationSchema,
+		onSubmit: (values) => {
+			handleSubmit(values);
+		},
+	});
+
+	const handleChecked = async (isChecked: boolean) => {
+		isChecked
+			? await formik.setFieldValue(
+					'postalAddress',
+					formik.values.physicalAddress
+			  )
+			: await formik.setFieldValue('postalAddress', ' ');
+		setChecked(isChecked);
 	};
 
 	const handleEdit = () => {
@@ -59,106 +76,92 @@ export default observer(function ContactDetails() {
 		setReadOnly(false);
 	};
 
-	const handleCancel = () => {
+	const handleCancel = (e: any) => {
 		setEditMode(false);
 		setReadOnly(true);
-		setPhysicalAddress(currentEmployee!.physicalAddress);
-		setPostalAddress(currentEmployee!.postalAddress);
-		setCellphone(currentEmployee!.cellphone);
-		setTelephone(currentEmployee!.telephone);
+		formik.handleReset(e);
 	};
 
-	const handleSubmit = async () => {
-		await updateContactDetails({
-			postalAddress: postalAddress,
-			cellphone: cellphone,
-			physicalAddress: physicalAddress,
-			telephone: telephone,
-		});
-		setEditMode(false);
-		setReadOnly(true);
-	};
 	return (
-		<Box
-			onSubmit={() => handleSubmit()}
-			onError={(errors) => console.log(errors)}
-		>
+		<form onSubmit={formik.handleSubmit}>
 			<Stack
 				direction='row'
 				justifyContent='center'
 				alignItems='center'
 				spacing={4}
 			>
-				<TextField
-					margin='normal'
-					variant='standard'
-					fullWidth
-					id='telephone'
-					label='Telephone Number'
-					name='telephone'
-					type='text'
-					InputProps={{
-						readOnly: readOnly,
-					}}
-					value={telephone}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-						setTelephone(event.target.value)
-					}
-				/>
-				<TextField
-					margin='normal'
-					variant='standard'
-					fullWidth
+				<TextFieldInput
 					id='cellphone'
 					label='Cellphone Number'
-					name='cellphone'
-					type='text'
-					InputProps={{
+					inputProps={{
 						readOnly: readOnly,
+						inputComponent: MaskedText as any,
 					}}
-					value={cellphone}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-						setCellphone(event.target.value)
+					type='text'
+					error={formik.touched.cellphone && Boolean(formik.errors.cellphone)}
+					helperText={
+						(formik.touched.cellphone && formik.errors.cellphone) ?? ' '
 					}
+					value={formik.values.cellphone}
+					onChange={formik.handleChange}
+				/>
+				<TextFieldInput
+					id='telephone'
+					label='Telephone Number'
+					type='text'
+					inputProps={{
+						readOnly: readOnly,
+						inputComponent: MaskedText as any,
+					}}
+					error={formik.touched.telephone && Boolean(formik.errors.telephone)}
+					helperText={
+						(formik.touched.telephone && formik.errors.telephone) ?? ' '
+					}
+					value={formik.values.telephone}
+					onChange={formik.handleChange}
 				/>
 			</Stack>
 
 			<FormControl fullWidth>
-				<TextField
-					margin='normal'
-					variant='standard'
-					fullWidth
+				<TextFieldInput
 					id='physicalAddress'
 					label='Physical Address'
-					name='physicalAddress'
 					type='text'
-					InputProps={{
+					inputProps={{
 						readOnly: readOnly,
 					}}
-					value={physicalAddress}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-						handlePhysical(event.target.value)
+					value={formik.values.physicalAddress}
+					onChange={formik.handleChange}
+					error={
+						formik.touched.physicalAddress &&
+						Boolean(formik.errors.physicalAddress)
+					}
+					helperText={
+						(formik.touched.physicalAddress && formik.errors.physicalAddress) ??
+						' '
 					}
 				/>
 			</FormControl>
 
 			<FormGroup>
 				<FormControl>
-					<TextField
-						margin='normal'
-						variant='standard'
-						fullWidth
+					<TextFieldInput
 						id='postalAddress'
 						label='Postal Address'
-						name='postalAddress'
 						type='text'
-						InputProps={{
+						inputProps={{
 							readOnly: readOnly,
 							disabled: checked,
 						}}
-						value={postalAddress}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-							setPostalAddress(event.target.value)
+						value={formik.values.postalAddress}
+						onChange={formik.handleChange}
+						error={
+							formik.touched.postalAddress &&
+							Boolean(formik.errors.postalAddress)
+						}
+						helperText={
+							(formik.touched.postalAddress && formik.errors.postalAddress) ??
+							' '
 						}
 					/>
 				</FormControl>
@@ -205,7 +208,6 @@ export default observer(function ContactDetails() {
 							color='success'
 							variant='contained'
 							startIcon={<PublishIcon />}
-							//onClick={() => handleSubmit()}
 							loading={loading}
 							loadingPosition='start'
 							size='large'
@@ -217,7 +219,7 @@ export default observer(function ContactDetails() {
 							color='error'
 							variant='contained'
 							startIcon={<CancelIcon />}
-							onClick={() => handleCancel()}
+							onClick={(e: any) => handleCancel(e)}
 							size='large'
 						>
 							Cancel
@@ -225,6 +227,6 @@ export default observer(function ContactDetails() {
 					</Stack>
 				)}
 			</FormGroup>
-		</Box>
+		</form>
 	);
 });

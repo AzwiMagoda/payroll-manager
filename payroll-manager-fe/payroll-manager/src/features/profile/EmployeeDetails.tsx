@@ -1,22 +1,23 @@
 import {
-	Box,
 	Button,
 	FormControl,
 	FormGroup,
 	InputLabel,
 	MenuItem,
 	Select,
-	SelectChangeEvent,
 	Stack,
-	TextField,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import PublishIcon from '@mui/icons-material/Publish';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useStore } from '../../app/stores/store';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import TextFieldInput from '../../app/common/form/TextFieldInput';
+import { PersonalInfoForm } from '../../app/models/personalInfoForm';
 
 export default observer(function PersonalInfo() {
 	const {
@@ -25,38 +26,49 @@ export default observer(function PersonalInfo() {
 
 	const [editMode, setEditMode] = useState(false);
 	const [readOnly, setReadOnly] = useState(true);
-	const [title, setTitle] = useState(currentEmployee!.title);
-	const [name, setName] = useState(currentEmployee!.name);
-	const [surname, setSurname] = useState(currentEmployee!.surname);
+
+	const initialValues: PersonalInfoForm = {
+		department: currentEmployee!.department ?? '',
+		email: currentEmployee!.email ?? '',
+		jobTitle: currentEmployee!.jobTitle ?? '',
+		name: currentEmployee!.name ?? '',
+		surname: currentEmployee!.surname ?? '',
+		title: currentEmployee!.title ?? '',
+	};
+
+	const validationSchema = yup.object({
+		name: yup.string().required('Required'),
+		surname: yup.string().required('Required'),
+		title: yup.string().required('Required'),
+	});
 
 	const handleEdit = () => {
 		setEditMode(true);
 		setReadOnly(false);
 	};
 
-	const handleCancel = () => {
-		setName(currentEmployee!.name);
-		setTitle(currentEmployee!.title);
-		setSurname(currentEmployee!.surname);
+	const handleCancel = (e: any) => {
+		setEditMode(false);
+		setReadOnly(true);
+		formik.handleReset(e);
+	};
+
+	const handleSubmit = async (values: PersonalInfoForm) => {
+		await updatePersonalInfo(values);
 		setEditMode(false);
 		setReadOnly(true);
 	};
 
-	const handleSubmit = async () => {
-		await updatePersonalInfo({
-			department: currentEmployee!.department,
-			email: currentEmployee!.email,
-			jobTitle: currentEmployee!.jobTitle,
-			name: name,
-			surname: surname,
-			title: title,
-		});
-		setEditMode(false);
-		setReadOnly(true);
-	};
+	const formik = useFormik({
+		initialValues: initialValues,
+		validationSchema: validationSchema,
+		onSubmit: (values) => {
+			handleSubmit(values);
+		},
+	});
 
 	return (
-		<Box component='form' noValidate autoComplete='off'>
+		<form onSubmit={formik.handleSubmit}>
 			<Stack
 				direction='row'
 				justifyContent='center'
@@ -64,29 +76,28 @@ export default observer(function PersonalInfo() {
 				spacing={4}
 			>
 				{readOnly ? (
-					<TextField
-						margin='normal'
-						fullWidth
+					<TextFieldInput
 						id='title'
 						label='Title'
-						name='title'
-						type='text'
-						InputProps={{
+						inputProps={{
 							readOnly: readOnly,
 						}}
-						value={title}
+						type='text'
+						error={formik.touched.title && Boolean(formik.errors.title)}
+						helperText={(formik.touched.title && formik.errors.title) ?? ' '}
+						value={formik.values.title}
+						onChange={formik.handleChange}
 					/>
 				) : (
-					<>
+					<FormControl variant='standard' fullWidth>
 						<InputLabel id='titleLabel'>Title</InputLabel>
 						<Select
 							labelId='titleLabel'
 							id='title'
-							value={title}
+							name='title'
+							value={formik.values.title}
 							label='Title'
-							onChange={(event: SelectChangeEvent) =>
-								setTitle(event.target.value as string)
-							}
+							onChange={formik.handleChange}
 						>
 							<MenuItem value={'Mr'}>Mr</MenuItem>
 							<MenuItem value={'Mrs'}>Mrs</MenuItem>
@@ -94,37 +105,31 @@ export default observer(function PersonalInfo() {
 							<MenuItem value={'Dr'}>Dr</MenuItem>
 							<MenuItem value={'Prof'}>Prof</MenuItem>
 						</Select>
-					</>
+					</FormControl>
 				)}
-				<TextField
-					margin='normal'
-					fullWidth
+				<TextFieldInput
 					id='name'
 					label='Name'
-					name='name'
-					type='text'
-					InputProps={{
+					inputProps={{
 						readOnly: readOnly,
 					}}
-					value={name}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-						setName(event.target.value)
-					}
+					type='text'
+					error={formik.touched.name && Boolean(formik.errors.name)}
+					helperText={(formik.touched.name && formik.errors.name) ?? ' '}
+					value={formik.values.name}
+					onChange={formik.handleChange}
 				/>
-				<TextField
-					margin='normal'
-					fullWidth
+				<TextFieldInput
 					id='surname'
 					label='Surname'
-					name='surname'
-					type='text'
-					InputProps={{
+					inputProps={{
 						readOnly: readOnly,
 					}}
-					value={surname}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-						setSurname(event.target.value)
-					}
+					type='text'
+					error={formik.touched.surname && Boolean(formik.errors.surname)}
+					helperText={(formik.touched.surname && formik.errors.surname) ?? ' '}
+					value={formik.values.surname}
+					onChange={formik.handleChange}
 				/>
 			</Stack>
 			<Stack
@@ -133,47 +138,38 @@ export default observer(function PersonalInfo() {
 				alignItems='center'
 				spacing={4}
 			>
-				<TextField
-					margin='normal'
-					fullWidth
+				<TextFieldInput
 					id='jobTitle'
 					label='Job Title'
-					name='jobTitle'
-					type='text'
-					InputProps={{
+					inputProps={{
 						readOnly: readOnly,
 						disabled: editMode,
 					}}
-					defaultValue={currentEmployee!.jobTitle}
+					type='text'
+					value={formik.values.jobTitle}
 				/>
-				<TextField
-					margin='normal'
-					fullWidth
+				<TextFieldInput
 					id='department'
 					label='Department'
-					name='department'
-					type='text'
-					InputProps={{
+					inputProps={{
 						readOnly: readOnly,
 						disabled: editMode,
 					}}
-					defaultValue={currentEmployee!.department}
+					type='text'
+					value={formik.values.department}
 				/>
 			</Stack>
 
 			<FormControl fullWidth>
-				<TextField
-					margin='normal'
-					fullWidth
+				<TextFieldInput
 					id='email'
-					label='Work Email'
-					name='email'
-					type='text'
-					InputProps={{
+					label='Email'
+					inputProps={{
 						readOnly: readOnly,
 						disabled: editMode,
 					}}
-					defaultValue={currentEmployee!.email}
+					type='text'
+					value={formik.values.email}
 				/>
 			</FormControl>
 
@@ -205,10 +201,10 @@ export default observer(function PersonalInfo() {
 							color='success'
 							variant='contained'
 							startIcon={<PublishIcon />}
-							onClick={() => handleSubmit()}
 							loading={loading}
 							loadingPosition='start'
 							size='large'
+							type='submit'
 						>
 							Submit
 						</LoadingButton>
@@ -216,7 +212,7 @@ export default observer(function PersonalInfo() {
 							color='error'
 							variant='contained'
 							startIcon={<CancelIcon />}
-							onClick={() => handleCancel()}
+							onClick={(e: any) => handleCancel(e)}
 							size='large'
 						>
 							Cancel
@@ -224,6 +220,6 @@ export default observer(function PersonalInfo() {
 					</Stack>
 				)}
 			</FormGroup>
-		</Box>
+		</form>
 	);
 });

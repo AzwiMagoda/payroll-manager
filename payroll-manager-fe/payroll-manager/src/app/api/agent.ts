@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
+import { LeaveDays } from '../models/leaveDays';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 
 const sleep = (delay: number) => {
@@ -52,9 +53,11 @@ const Employees = {
 		requests.put<Dependant[]>(`/Employee/UpdateDependant`, dependant),
 	deleteDependant: (id: string) =>
 		requests.del<void>(`/Employee/DeleteDependant/${id}`),
+	getLeaveDays: (employeeId: string) =>
+		requests.get<LeaveDays>(`/Employee/GetEmployeeLeaveDays/${employeeId}`),
 };
 
-const agent = {
+const agent: any = {
 	Employees,
 };
 

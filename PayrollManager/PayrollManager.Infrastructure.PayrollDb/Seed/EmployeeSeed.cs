@@ -18,6 +18,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     new EmployeeEntity
                     {
                         Id = id,
+                        EmployeeId = id,
                         Name = "Hulisani",
                         Surname = "Nefolovhodwe",
                         Company = "42Company",
@@ -34,13 +35,13 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 {
                     new RemunerationEntity
                     {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = id,
                         AnnualBaseSalary = 240000,
                         BonusFrequency = 6,
                         BonusPercentage = 10,
                         CreatedDate = DateTime.Now,
-                        Id = id,
                         RetirementContribution = 5,
-                        EmployeeId = id,
                     }
                 };
 
@@ -48,7 +49,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 {
                     new ContactDetailsEntity
                     {
-                        Id = id,
+                        Id = Guid.NewGuid(),
                         EmployeeId=id,
                         Cellphone = "0768987799",
                         Telephone = "0987898888",
@@ -77,10 +78,24 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     }
                 };
 
+                var leaveDays = new List<LeaveDaysEntity>
+                {
+                    new LeaveDaysEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = id,
+                        AnnualLeaveBalance = 14,
+                        SickLeaveBalance = 30,
+                        StudyLeaveBalance = 5,
+                        CreatedDate = DateTime.Now
+                    }
+                };
+
                 await context.Employees.AddRangeAsync(employees);
                 await context.Remunerations.AddRangeAsync(remunerations);
                 await context.ContactDetails.AddRangeAsync(contactDetails);
                 await context.Dependents.AddRangeAsync(dependents);
+                await context.LeaveDays.AddRangeAsync(leaveDays);
                 await context.SaveChangesAsync();
             }
         }

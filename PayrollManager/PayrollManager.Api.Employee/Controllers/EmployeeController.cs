@@ -158,5 +158,13 @@ namespace PayrollManager.Api.Employee.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("GetEmployeeLeaveDays/{employeeId}")]
+        public async Task<ActionResult<LeaveDaysDto>> GetEmployeeLeaveDays(Guid employeeId)
+        {
+            var leaveDays = await _employeeService.GetLeaveDaysBalances(employeeId);
+            return Ok(leaveDays);
+        }
     }
 }

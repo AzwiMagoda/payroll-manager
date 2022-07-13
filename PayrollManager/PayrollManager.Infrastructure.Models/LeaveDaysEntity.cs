@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Infrastructure.Models
 {
-    public class LeaveDays : IEntityBase
+    public class LeaveDaysEntity : IEntityBase
     {
         public Guid Id { get; set; }
         public Guid EmployeeId { get; set; }
