@@ -10,6 +10,7 @@ import { useStore } from '../stores/store';
 import ProfileDashboard from '../../features/profile/ProfileDashboard';
 import './App.css';
 import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 	const {
@@ -20,6 +21,7 @@ function App() {
 
 	return (
 		<Box sx={{ display: 'flex' }} style={{ minHeight: '100vh' }}>
+			<ToastContainer />
 			<CssBaseline enableColorScheme />
 			{!user && !currentEmployee && <Login />}
 			{user && currentEmployee && (
@@ -50,18 +52,20 @@ function App() {
 						}}
 					>
 						<Toolbar>PayMe</Toolbar>
-						<Routes>
-							<Route
-								path='/'
-								element={<EmployeeDashboard employee={currentEmployee} />}
-							/>
-							<Route path='/profile' element={<ProfileDashboard />} />
-							<Route
-								path='/employees'
-								element={<EmployeeList employees={[]} />}
-							/>
-							<Route path='leaveDashboard' element={<LeaveDaysDashboard />} />
-						</Routes>
+						<Box sx={{ margin: '2rem' }}>
+							<Routes>
+								<Route
+									path='/'
+									element={<EmployeeDashboard employee={currentEmployee} />}
+								/>
+								<Route path='/profile' element={<ProfileDashboard />} />
+								<Route
+									path='/employees'
+									element={<EmployeeList employees={[]} />}
+								/>
+								<Route path='leaveDashboard' element={<LeaveDaysDashboard />} />
+							</Routes>
+						</Box>
 					</Box>
 				</>
 			)}
