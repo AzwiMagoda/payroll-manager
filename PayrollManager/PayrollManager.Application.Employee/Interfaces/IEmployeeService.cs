@@ -19,5 +19,6 @@ namespace PayrollManager.Application.Employee.Interfaces
         Task UpdateDependant(DependantDto dependant);
         Task DeleteDependant(Guid dependantId);
         Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId);
+        IEnumerable<BookedLeaveDaysDto> GetBookedLeaveDays(Guid employeeId);
     }
 }

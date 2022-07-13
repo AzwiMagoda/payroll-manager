@@ -20,9 +20,9 @@ export default observer(function LeaveDaysDashboard() {
 					</Paper>
 				</Grid>
 				<Grid item xs>
-					<Paper>
+					<Box>
 						<LeaveDaysCalendar />
-					</Paper>
+					</Box>
 				</Grid>
 			</Grid>
 		</Box>

@@ -166,5 +166,12 @@ namespace PayrollManager.Api.Employee.Controllers
             var leaveDays = await _employeeService.GetLeaveDaysBalances(employeeId);
             return Ok(leaveDays);
         }
+
+        [HttpGet]
+        [Route("GetEmployeeBookedLeaveDays/{employeeId}")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetEmployeeBookedLeaveDays(Guid employeeId)
+        {
+            return Ok(_employeeService.GetBookedLeaveDays(employeeId));
+        }
     }
 }

@@ -109,6 +109,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 await context.ContactDetails.AddRangeAsync(contactDetails);
                 await context.Dependents.AddRangeAsync(dependents);
                 await context.LeaveDays.AddRangeAsync(leaveDays);
+                await context.BookedLeaveDays.AddRangeAsync(bookedLeaveDays);
                 await context.SaveChangesAsync();
             }
         }

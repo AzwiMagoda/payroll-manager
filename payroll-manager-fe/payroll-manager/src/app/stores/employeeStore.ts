@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import agent from '../api/agent';
+import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
@@ -15,6 +16,7 @@ export default class EmployeeStore {
 	hasNewDependant = false;
 	newDependantId: string = '';
 	leaveDays: LeaveDays | undefined = undefined;
+	bookedLeaveDays = new Array<BookedLeaveDays>();
 
 	constructor() {
 		makeAutoObservable(this);
@@ -63,12 +65,15 @@ export default class EmployeeStore {
 		try {
 			const employee = await agent.Employees.getEmployeeById(id);
 			const leaveDays = await agent.Employees.getLeaveDays(id);
+			const bookedLeaveDays = await agent.Employees.getBookedLeaveDays(id);
 
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
 				this.leaveDays = leaveDays;
+				this.bookedLeaveDays = bookedLeaveDays;
 			});
+			console.log(bookedLeaveDays);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
@@ -205,6 +210,24 @@ export default class EmployeeStore {
 				this.leaveDays = leaveDays;
 			});
 			console.log(leaveDays);
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	getAllBookedLeaveDays = async (id: string) => {
+		this.loading = true;
+		try {
+			const bookedDays = await agent.Employees.getBookedLeaveDays(id);
+
+			runInAction(() => {
+				this.bookedLeaveDays = bookedDays;
+				this.loading = false;
+			});
+			console.log(bookedDays);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {

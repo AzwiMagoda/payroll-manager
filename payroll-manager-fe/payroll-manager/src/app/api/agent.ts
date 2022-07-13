@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
@@ -55,6 +56,10 @@ const Employees = {
 		requests.del<void>(`/Employee/DeleteDependant/${id}`),
 	getLeaveDays: (employeeId: string) =>
 		requests.get<LeaveDays>(`/Employee/GetEmployeeLeaveDays/${employeeId}`),
+	getBookedLeaveDays: (employeeId: string) =>
+		requests.get<BookedLeaveDays[]>(
+			`/Employee/GetEmployeeBookedLeaveDays/${employeeId}`
+		),
 };
 
 const agent: any = {
