@@ -3,7 +3,6 @@ using PayrollManager.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Generic
@@ -43,6 +42,16 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Generic
         {
             Task<TEntity> entity = dbSet.AsNoTracking().AsQueryable().FirstOrDefaultAsync((x) => x.Id == id);
             return entity;
+        }
+
+        public Task<TEntity> GetByEmployeeId(Guid employeeId)
+        {
+            Task<TEntity> entity = dbSet.AsNoTracking().AsQueryable().FirstOrDefaultAsync((x) => x.EmployeeId == employeeId);
+            return entity;
+        }
+        public IEnumerable<TEntity> GetAllByEmployeeId(Guid employeeId)
+        {
+            return dbSet.Where(x => x.EmployeeId == employeeId);
         }
 
         public async Task Update(TEntity entity)

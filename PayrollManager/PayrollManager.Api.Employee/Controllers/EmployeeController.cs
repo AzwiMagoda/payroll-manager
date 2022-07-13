@@ -2,6 +2,7 @@
 using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -98,7 +99,72 @@ namespace PayrollManager.Api.Employee.Controllers
                 Console.Error.WriteLine(ex);
                 return BadRequest(ex.Message);
             }
+        }
 
+        [HttpGet]
+        [Route("GetDependants/{employeeId}")]
+        public ActionResult<IEnumerable<DependantDto>> GetDependants(Guid employeeId)
+        {
+            return Ok( _employeeService.GetEmployeeDependants(employeeId));
+        }
+
+        [HttpPost]
+        [Route("CreateDependant")]
+        public ActionResult<IEnumerable<DependantDto>> CreateDependant([FromBody] DependantDto dependant)
+        {
+            try
+            {
+                _employeeService.CreateDependant(dependant).Wait();
+                return Ok(_employeeService.GetEmployeeDependants(dependant.EmployeeId));
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPut]
+        [Route("UpdateDependant")]
+        public ActionResult<IEnumerable<DependantDto>> UpdateDependant([FromBody] DependantDto dependant)
+        {
+            try
+            {
+                _employeeService.UpdateDependant(dependant).Wait();
+                return Ok(_employeeService.GetEmployeeDependants(dependant.EmployeeId));
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("DeleteDependant/{dependantId}")]
+        public async Task<IActionResult> DeleteDependant(Guid dependantId)
+        {
+            try
+            {
+                await _employeeService.DeleteDependant(dependantId);
+                return Ok("Dependant deleted");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetEmployeeLeaveDays/{employeeId}")]
+        public async Task<ActionResult<LeaveDaysDto>> GetEmployeeLeaveDays(Guid employeeId)
+        {
+            var leaveDays = await _employeeService.GetLeaveDaysBalances(employeeId);
+            return Ok(leaveDays);
         }
     }
 }

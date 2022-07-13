@@ -72,7 +72,7 @@ export default observer(function SideNavbar({
 							</ListItemButton>
 						</ListItem>
 					</NavLink>
-					{user.role == 'HR' && (
+					{user.role === 'HR' && (
 						<NavLink to='/employees'>
 							<ListItem disablePadding>
 								<ListItemButton>
@@ -97,7 +97,10 @@ export default observer(function SideNavbar({
 					</NavLink>
 				</List>
 				<Divider />
-				<List sx={{ position: 'fixed', bottom: '1%', width: drawerWidth }}>
+				<List
+					sx={{ position: 'fixed', bottom: '1%', width: drawerWidth }}
+					onClick={() => handleLogout()}
+				>
 					<Divider />
 					<ListItem disablePadding>
 						<ListItemButton>

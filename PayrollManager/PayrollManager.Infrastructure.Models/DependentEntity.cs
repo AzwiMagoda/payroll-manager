@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Infrastructure.Models
 {
-    public class LeaveDays : IEntityBase
+    public class DependentEntity : IEntityBase
     {
         public Guid Id { get; set; }
         public Guid EmployeeId { get; set; }
-        public int AnnualLeaveBalance { get; set; }
-        public int SickLeaveBalance { get; set; }
-        public int StudyLeaveBalance { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string IDNumber { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string Cellphone { get; set; }
+        public string Email { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

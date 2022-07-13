@@ -4,7 +4,9 @@ using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Application.Employee.Services;
 using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 
 namespace PayrollManager.Api.Employee.Autofac
@@ -39,13 +41,13 @@ namespace PayrollManager.Api.Employee.Autofac
                 .As<IContactDetailsRepository>()
                 .InstancePerLifetimeScope();
 
-            #endregion
+            builder.RegisterType<DependantRepository>()
+                .As<IDependantRepository>()
+                .InstancePerLifetimeScope();
 
-            #region Commands
-
-            #endregion
-
-            #region Events
+            builder.RegisterType<LeaveDaysRepository>()
+                .As<ILeaveDaysRepository>()
+                .InstancePerLifetimeScope();
 
             #endregion
         }

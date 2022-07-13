@@ -14,5 +14,10 @@ namespace PayrollManager.Application.Employee.Interfaces
         Task UpdatePersonalInfo(PersonalInfoDto info, Guid id);
         Task UpdateContactDetails(ContactDetailsDto info, Guid id);
         Task DeleteEmployee(Guid id);
+        IEnumerable<DependantDto> GetEmployeeDependants(Guid employeeId);
+        Task CreateDependant(DependantDto dependant);
+        Task UpdateDependant(DependantDto dependant);
+        Task DeleteDependant(Guid dependantId);
+        Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId);
     }
 }

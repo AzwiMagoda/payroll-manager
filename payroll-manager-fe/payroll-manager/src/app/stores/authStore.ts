@@ -24,7 +24,6 @@ export default class AuthStore {
 					this.user = user;
 					this.loading = false;
 				});
-				console.log(user);
 			}
 		} catch (error) {
 			console.log(error);
@@ -37,6 +36,5 @@ export default class AuthStore {
 		window.localStorage.removeItem('jwt');
 		this.user = null;
 		store.employeeStore.employeeLogOut();
-		console.log(this.user);
 	};
 }

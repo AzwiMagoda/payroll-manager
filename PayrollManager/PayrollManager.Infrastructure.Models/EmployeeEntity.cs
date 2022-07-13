@@ -14,5 +14,6 @@ namespace PayrollManager.Infrastructure.Models
         public string TeamName { get; set; }
         public string JobTitle { get; set; }
         public DateTime CreatedDate { get; set; }
+        public Guid EmployeeId { get; set; }
     }
 }

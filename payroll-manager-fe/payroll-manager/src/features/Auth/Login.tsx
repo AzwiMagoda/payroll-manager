@@ -15,6 +15,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export default observer(function Login() {
@@ -26,10 +27,6 @@ export default observer(function Login() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get('email'),
-			password: data.get('password'),
-		});
 		await login(
 			new LoginDto(data.get('email') as string, data.get('password') as string)
 		);
@@ -80,14 +77,15 @@ export default observer(function Login() {
 							type='password'
 							id='password'
 						/>
-						<Button
+						<LoadingButton
 							type='submit'
 							fullWidth
 							variant='contained'
+							loading={loading}
 							sx={{ mt: 3, mb: 2 }}
 						>
 							Sign In
-						</Button>
+						</LoadingButton>
 						<Grid container>
 							<Grid item xs>
 								<Link href='#' variant='body2'>
