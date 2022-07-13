@@ -91,6 +91,19 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     }
                 };
 
+                var bookedLeaveDays = new List<BookedLeaveDaysEntity>
+                {
+                    new BookedLeaveDaysEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = id,
+                        LeaveType = "AnnualLeave",
+                        StartDate = DateTime.Today,
+                        EndDate = DateTime.Today.AddDays(2),
+                        CreatedDate = DateTime.Now
+                    }
+                };
+
                 await context.Employees.AddRangeAsync(employees);
                 await context.Remunerations.AddRangeAsync(remunerations);
                 await context.ContactDetails.AddRangeAsync(contactDetails);
