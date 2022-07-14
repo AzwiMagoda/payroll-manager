@@ -24,9 +24,7 @@ export default class AuthStore {
 				runInAction(() => {
 					this.user = user;
 					this.loading = false;
-				});
-				toast.success('Success!', {
-					theme: 'colored',
+					toast.success('Success!');
 				});
 			}
 		} catch (error) {

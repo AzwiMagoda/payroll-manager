@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
-import FullCalendar, { EventClickArg } from '@fullcalendar/react';
+import React, { useEffect, useState } from 'react';
+import FullCalendar, { EventApi, EventClickArg } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/store';
+import { Box, Fade, Modal, Stack, Typography } from '@mui/material';
 import LeaveDayEdit from './LeaveDayEdit';
 
 export default observer(function LeaveDaysCalendar() {
 	const {
-		employeeStore: { bookedLeaveDays, loading },
+		employeeStore: { bookedLeaveDays },
+		modalStore: { openModal },
 	} = useStore();
 
-	const [open, setOpen] = React.useState(false);
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const [open, setOpen] = useState(false);
+	const [event, setEvent] = useState<EventApi>();
 
 	const events = bookedLeaveDays!.map((leaveDays) => {
 		return {
@@ -24,8 +25,9 @@ export default observer(function LeaveDaysCalendar() {
 	});
 
 	const onEventClick = (e: EventClickArg) => {
-		console.log(e.event.id);
-		handleOpen();
+		setOpen(true);
+		setEvent(e.event);
+		openModal();
 	};
 
 	return (
@@ -39,7 +41,8 @@ export default observer(function LeaveDaysCalendar() {
 				eventClick={(e: EventClickArg) => onEventClick(e)}
 				editable={true}
 			/>
-			{open && <LeaveDayEdit open={open} />}
+
+			{open && event && <LeaveDayEdit leaveEvent={event} />}
 		</>
 	);
 });

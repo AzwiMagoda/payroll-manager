@@ -11,7 +11,6 @@ import ProfileDashboard from '../../features/profile/ProfileDashboard';
 import './App.css';
 import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
-import ModalContainer from '../common/ModalContainer';
 
 function App() {
 	const {
@@ -33,7 +32,6 @@ function App() {
 				draggable
 				pauseOnHover
 			/>
-			<ModalContainer />
 			<Box sx={{ display: 'flex' }} style={{ minHeight: '100vh' }}>
 				<CssBaseline enableColorScheme />
 				{!user && !currentEmployee && <Login />}

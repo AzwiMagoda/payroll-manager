@@ -1,6 +1,26 @@
-import { Box, Fade, Modal, Typography } from '@mui/material';
+import { EventApi } from '@fullcalendar/react';
+import {
+	Box,
+	Fade,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Modal,
+	Select,
+	Stack,
+	TextField,
+	Typography,
+} from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useState } from 'react';
+import { useStore } from '../../app/stores/store';
+import formatISO from 'date-fns/formatISO';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
+import { LoadingButton } from '@mui/lab';
+import PublishIcon from '@mui/icons-material/Publish';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -9,32 +29,118 @@ const style = {
 	transform: 'translate(-50%, -50%)',
 	width: 400,
 	bgcolor: 'background.paper',
-	border: '2px solid #000',
 	boxShadow: 24,
 	p: 4,
 };
 
 interface Props {
-	open: boolean;
+	leaveEvent: EventApi;
 }
 
-export default observer(function LeaveDayEdit({ open }: Props) {
-	const handleClose = () => {
-		open = false;
+export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
+	const {
+		modalStore: { open, closeModal },
+		employeeStore: { loading },
+	} = useStore();
+
+	const [start, setStart] = useState(leaveEvent.start);
+	const [end, setEnd] = useState(leaveEvent.end);
+
+	const initialValues: BookedLeaveDays = {
+		endDate: end!.toISOString(),
+		id: leaveEvent.id,
+		leaveType: leaveEvent.title,
+		startDate: start!.toISOString(),
 	};
 
+	const handleSubmit = async (values: BookedLeaveDays) => {
+		console.log(start);
+		console.log(end);
+	};
+
+	const formik: any = useFormik({
+		initialValues: initialValues,
+		onSubmit: (values) => {
+			handleSubmit(values);
+		},
+	});
+
 	return (
-		<Modal open={open} onClose={handleClose}>
-			<Fade in={open}>
-				<Box sx={style}>
-					<Typography id='modal-modal-title' variant='h6' component='h2'>
-						Text in a modal
-					</Typography>
-					<Typography id='modal-modal-description' sx={{ mt: 2 }}>
-						Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-					</Typography>
-				</Box>
-			</Fade>
-		</Modal>
+		<form onSubmit={formik.handleSubmit}>
+			<Modal open={open} onClose={closeModal}>
+				<Fade in={open}>
+					<Box sx={style}>
+						<Stack
+							direction='column'
+							justifyContent='center'
+							alignItems='center'
+							spacing={3}
+						>
+							<Typography id='modal-modal-title' variant='h6' component='h2'>
+								Edit Leave
+							</Typography>
+
+							<FormControl variant='standard' fullWidth>
+								<InputLabel id='typeLabel'>Leave Type</InputLabel>
+								<Select
+									labelId='typeLabel'
+									id='type'
+									name='type'
+									value={formik.values.leaveType}
+									onChange={formik.handleChange}
+								>
+									<MenuItem value={'AnnualLeave'}>Annual Leave</MenuItem>
+									<MenuItem value={'SickLeave'}>Sick Leave</MenuItem>
+									<MenuItem value={'StudyLeave'}>Study Leave</MenuItem>
+								</Select>
+							</FormControl>
+							<DatePicker
+								label='Start Date'
+								value={start}
+								onChange={(newValue) => {
+									setStart(newValue);
+								}}
+								renderInput={(params) => (
+									<TextField
+										fullWidth
+										variant='standard'
+										margin='dense'
+										{...params}
+									/>
+								)}
+							/>
+							<DatePicker
+								label='End Date'
+								value={end}
+								onChange={(newValue) => {
+									setEnd(newValue);
+								}}
+								renderInput={(params) => (
+									<TextField
+										fullWidth
+										variant='standard'
+										margin='dense'
+										{...params}
+									/>
+								)}
+							/>
+
+							<LoadingButton
+								color='success'
+								variant='contained'
+								startIcon={<PublishIcon />}
+								loading={loading}
+								loadingPosition='start'
+								size='large'
+								type='submit'
+								onClick={formik.handleSubmit}
+							>
+								Submit
+							</LoadingButton>
+						</Stack>
+					</Box>
+				</Fade>
+			</Modal>
+		</form>
 	);
 });
