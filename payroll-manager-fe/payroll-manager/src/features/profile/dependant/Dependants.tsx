@@ -33,7 +33,6 @@ export default observer(function Dependants() {
 		if (!hasNewDependant) {
 			setHasNewDependant(true);
 			addNewDependantToArray(newDependant);
-			console.log(newDependant.id);
 		}
 	};
 

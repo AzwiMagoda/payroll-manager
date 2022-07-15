@@ -21,6 +21,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 import { LoadingButton } from '@mui/lab';
 import PublishIcon from '@mui/icons-material/Publish';
+import { addDays } from 'date-fns';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -43,8 +44,8 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 		employeeStore: { loading },
 	} = useStore();
 
-	const [start, setStart] = useState(leaveEvent.start);
-	const [end, setEnd] = useState(leaveEvent.end);
+	const [start, setStart] = useState<Date | null>(leaveEvent.start);
+	const [end, setEnd] = useState<Date | null>(addDays(leaveEvent.end!, -1));
 
 	const initialValues: BookedLeaveDays = {
 		endDate: end!.toISOString(),

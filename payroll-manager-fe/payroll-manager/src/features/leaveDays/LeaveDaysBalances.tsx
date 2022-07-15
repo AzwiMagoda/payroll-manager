@@ -10,47 +10,51 @@ export default observer(function LeaveDaysBalances() {
 
 	return (
 		<Box>
-			<Stack
-				direction='column'
-				justifyContent='center'
-				alignItems='flex-start'
-				spacing={3}
-			>
-				<Typography variant='h5'>Leave Balances</Typography>
+			{leaveDays && (
 				<Stack
 					direction='column'
 					justifyContent='center'
 					alignItems='flex-start'
-					spacing={0}
+					spacing={3}
 				>
-					<Typography variant='subtitle1'>Annual Leave</Typography>
-					<Typography variant='body2'>
-						{leaveDays!.annualLeaveBalance}
-					</Typography>
-				</Stack>
+					<Typography variant='h5'>Leave Balances</Typography>
+					<Stack
+						direction='column'
+						justifyContent='center'
+						alignItems='flex-start'
+						spacing={0}
+					>
+						<Typography variant='subtitle1'>Annual Leave</Typography>
+						<Typography variant='body2'>
+							{leaveDays!.annualLeaveBalance}
+						</Typography>
+					</Stack>
 
-				<Stack
-					direction='column'
-					justifyContent='center'
-					alignItems='flex-start'
-					spacing={0}
-				>
-					<Typography variant='subtitle1'>Sick Leave</Typography>
-					<Typography variant='body2'>{leaveDays!.sickLeaveBalance}</Typography>
-				</Stack>
+					<Stack
+						direction='column'
+						justifyContent='center'
+						alignItems='flex-start'
+						spacing={0}
+					>
+						<Typography variant='subtitle1'>Sick Leave</Typography>
+						<Typography variant='body2'>
+							{leaveDays!.sickLeaveBalance}
+						</Typography>
+					</Stack>
 
-				<Stack
-					direction='column'
-					justifyContent='center'
-					alignItems='flex-start'
-					spacing={0}
-				>
-					<Typography variant='subtitle1'>Study Leave</Typography>
-					<Typography variant='body2'>
-						{leaveDays!.studyLeaveBalance}
-					</Typography>
+					<Stack
+						direction='column'
+						justifyContent='center'
+						alignItems='flex-start'
+						spacing={0}
+					>
+						<Typography variant='subtitle1'>Study Leave</Typography>
+						<Typography variant='body2'>
+							{leaveDays!.studyLeaveBalance}
+						</Typography>
+					</Stack>
 				</Stack>
-			</Stack>
+			)}
 		</Box>
 	);
 });
