@@ -173,5 +173,21 @@ namespace PayrollManager.Api.Employee.Controllers
         {
             return Ok(_employeeService.GetBookedLeaveDays(employeeId));
         }
+
+        [HttpPost]
+        [Route("BookLeave/{employeeId}")]
+        public async Task<IActionResult> BookLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
+        {
+            try
+            {
+                await _employeeService.CreateBookedLeaveDay(leave, employeeId);
+                return Ok($"Leave days {leave.StartDate} - {leave.EndDate} booked!");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

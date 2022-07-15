@@ -1,4 +1,5 @@
 ﻿using PayrollManager.Application.Employee.Dto;
+using PayrollManager.Application.Employee.Helpers;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
@@ -307,7 +308,7 @@ namespace PayrollManager.Application.Employee.Services
                     AnnualLeaveBalance = leaveDays.AnnualLeaveBalance,
                     EmployeeId = employeeId,
                     SickLeaveBalance = leaveDays.SickLeaveBalance,
-                    StudyLeaveBalance = leaveDays.StudyLeaveBalance,                    
+                    StudyLeaveBalance = leaveDays.StudyLeaveBalance,
                 };
             }
             catch (Exception ex)
@@ -330,12 +331,64 @@ namespace PayrollManager.Application.Employee.Services
                         LeaveType = x.LeaveType,
                         StartDate = x.StartDate
                     };
-                }).OrderBy(x=>x.LeaveType);
+                }).OrderBy(x => x.LeaveType);
             }
             catch (Exception ex)
             {
                 throw new Exception();
             }
         }
+
+        public async Task CreateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        {
+            try
+            {
+                //validate
+                if (EmployeeHelper.ValidateDateRange(bookedLeave.StartDate, bookedLeave.EndDate))
+                {
+                    //calculateBalance
+                    var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
+                    var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
+
+                    switch (bookedLeave.LeaveType)
+                    {
+                        case "AnnualLeave":
+                            leaveBalance.AnnualLeaveBalance -= leaveQty;
+                            await _leaveDaysRepository.Update(leaveBalance);
+                            break;
+
+                        case "SickLeave":
+                            leaveBalance.SickLeaveBalance -= leaveQty;
+                            await _leaveDaysRepository.Update(leaveBalance);
+                            break;
+                        case "StudyLeave":
+                            leaveBalance.StudyLeaveBalance -= leaveQty;
+                            await _leaveDaysRepository.Update(leaveBalance);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    var range = EmployeeHelper.RemoveWeekendsFromBookedLeave(bookedLeave.StartDate, bookedLeave.EndDate);
+
+                    var bookedLeaveEntity = new BookedLeaveDaysEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        CreatedDate = DateTime.Now,
+                        LeaveType = bookedLeave.LeaveType,
+                        EmployeeId = employeeId,
+                        EndDate = bookedLeave.EndDate,
+                        StartDate = bookedLeave.StartDate
+                    };
+
+                    await _bookedLeaveDaysRepository.Create(bookedLeaveEntity);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
+
     }
 }

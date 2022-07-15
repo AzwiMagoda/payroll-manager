@@ -20,5 +20,7 @@ namespace PayrollManager.Application.Employee.Interfaces
         Task DeleteDependant(Guid dependantId);
         Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId);
         IEnumerable<BookedLeaveDaysDto> GetBookedLeaveDays(Guid employeeId);
+        Task CreateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId);
+
     }
 }
