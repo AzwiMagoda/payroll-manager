@@ -189,5 +189,39 @@ namespace PayrollManager.Api.Employee.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("UpdateBookedLeave/{employeeId}")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> UpdateBookedLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
+        {
+            try
+            {
+                _employeeService.UpdateBookedLeaveDay(leave, employeeId).Wait();
+                return Ok(_employeeService.GetLeaveDaysBalances(employeeId));
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("DeleteBookedLeave/{employeeId}")]
+        public async Task<IActionResult> DeleteBookedLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
+        {
+            try
+            {
+                await _employeeService.DeleteBookedLeaveDay(leave, employeeId);
+                return Ok("Leave day deleted");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

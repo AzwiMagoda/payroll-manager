@@ -348,26 +348,9 @@ namespace PayrollManager.Application.Employee.Services
                 {
                     //calculateBalance
                     var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
-                    var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
+                    var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count()*-1;
+                    await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave, employeeId));
 
-                    switch (bookedLeave.LeaveType)
-                    {
-                        case "AnnualLeave":
-                            leaveBalance.AnnualLeaveBalance -= leaveQty;
-                            await _leaveDaysRepository.Update(leaveBalance);
-                            break;
-
-                        case "SickLeave":
-                            leaveBalance.SickLeaveBalance -= leaveQty;
-                            await _leaveDaysRepository.Update(leaveBalance);
-                            break;
-                        case "StudyLeave":
-                            leaveBalance.StudyLeaveBalance -= leaveQty;
-                            await _leaveDaysRepository.Update(leaveBalance);
-                            break;
-                        default:
-                            break;
-                    }
 
                     var range = EmployeeHelper.RemoveWeekendsFromBookedLeave(bookedLeave.StartDate, bookedLeave.EndDate);
 
@@ -390,5 +373,72 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
+        public async Task UpdateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        {
+            try
+            {
+                //adjust leave days
+                //get original, add original count back
+                var old = await _bookedLeaveDaysRepository.GetByID(bookedLeave.Id);
+
+                var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
+                var oldLeaveQty = EmployeeHelper.GetDateRanges(old.StartDate, old.EndDate).Count();
+                var newLeaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
+
+                //remove new count
+                await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, oldLeaveQty-newLeaveQty, bookedLeave, employeeId));
+
+                //update leave
+                old.EndDate = bookedLeave.EndDate;
+                old.StartDate = bookedLeave.StartDate;
+                old.LeaveType = bookedLeave.LeaveType;
+
+
+                await _bookedLeaveDaysRepository.Update(old);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task DeleteBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        {
+            try
+            {
+                //adjust leave days
+                var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
+                var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
+                await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave, employeeId));
+
+                //delete leave
+                await _bookedLeaveDaysRepository.Delete(bookedLeave.Id);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+
+            }
+        }
+
+        public static LeaveDaysEntity AdjustLeave(LeaveDaysEntity leaveBalance, int leaveQty, BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        {
+            switch (bookedLeave.LeaveType)
+            {
+                case "AnnualLeave":
+                    leaveBalance.AnnualLeaveBalance += leaveQty;
+                    return leaveBalance;
+
+                case "SickLeave":
+                    leaveBalance.SickLeaveBalance += leaveQty;
+                    return leaveBalance;
+
+                case "StudyLeave":
+                    leaveBalance.StudyLeaveBalance += leaveQty;
+                    return leaveBalance;
+                default:
+                    return leaveBalance;
+            }
+        }
     }
 }
