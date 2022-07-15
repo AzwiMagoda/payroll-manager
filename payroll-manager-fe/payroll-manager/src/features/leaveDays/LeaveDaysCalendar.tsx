@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import FullCalendar, { EventApi, EventClickArg } from '@fullcalendar/react';
+import FullCalendar, {
+	DateSelectArg,
+	EventApi,
+	EventClickArg,
+} from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/store';
 import LeaveDayEdit from './LeaveDayEdit';
 import { addDays } from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
+import LeaveDayCreate from './LeaveDayCreate';
 
 export default observer(function LeaveDaysCalendar() {
 	const {
 		employeeStore: { bookedLeaveDays },
-		modalStore: { openModal },
+		modalStore: { openModal, open },
 	} = useStore();
 
-	const [open, setOpen] = useState(false);
-	const [event, setEvent] = useState<EventApi>();
+	const [openEdit, setOpenEdit] = useState(false);
+	const [openCreate, setOpenCreate] = useState(false);
+	const [editEvent, setEditEvent] = useState<EventApi>();
+	const [createEvent, setCreateEvent] = useState<DateSelectArg>();
 
 	const events = bookedLeaveDays!.map((leaveDays) => {
 		return {
@@ -26,12 +34,23 @@ export default observer(function LeaveDaysCalendar() {
 		};
 	});
 
-	useEffect(() => {}, [bookedLeaveDays]);
+	useEffect(() => {
+		if (!open) {
+			setOpenEdit(false);
+			setOpenCreate(false);
+		}
+	}, [open]);
 
 	const onEventClick = (e: EventClickArg) => {
-		setOpen(true);
-		console.log(e.event);
-		setEvent(e.event);
+		setEditEvent(e.event);
+		setOpenEdit(true);
+		openModal();
+	};
+
+	const onDateSelect = (e: DateSelectArg) => {
+		console.log(e);
+		setCreateEvent(e);
+		setOpenCreate(true);
 		openModal();
 	};
 
@@ -48,9 +67,15 @@ export default observer(function LeaveDaysCalendar() {
 				weekends={false}
 				selectable={true}
 				selectOverlap={false}
+				select={(e: DateSelectArg) => onDateSelect(e)}
 			/>
 
-			{open && event && <LeaveDayEdit leaveEvent={event} />}
+			{openEdit && editEvent && (
+				<LeaveDayEdit key={editEvent.id} leaveEvent={editEvent} />
+			)}
+			{openCreate && createEvent && (
+				<LeaveDayCreate key={uuidv4()} leaveEvent={createEvent} />
+			)}
 		</>
 	);
 });

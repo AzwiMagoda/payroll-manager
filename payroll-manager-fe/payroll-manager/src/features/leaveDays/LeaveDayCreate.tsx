@@ -1,4 +1,4 @@
-import { EventApi } from '@fullcalendar/react';
+import { DateSelectArg, EventApi } from '@fullcalendar/react';
 import {
 	Box,
 	Fade,
@@ -16,12 +16,12 @@ import React, { useEffect, useState } from 'react';
 import { useStore } from '../../app/stores/store';
 import formatISO from 'date-fns/formatISO';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 import { LoadingButton } from '@mui/lab';
 import PublishIcon from '@mui/icons-material/Publish';
 import { addDays } from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -35,10 +35,10 @@ const style = {
 };
 
 interface Props {
-	leaveEvent: EventApi;
+	leaveEvent: DateSelectArg;
 }
 
-export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
+export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 	const {
 		modalStore: { open, closeModal },
 		employeeStore: { loading },
@@ -49,14 +49,15 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 
 	const initialValues: BookedLeaveDays = {
 		endDate: end!.toISOString(),
-		id: leaveEvent.id,
-		leaveType: leaveEvent.title,
+		id: uuidv4(),
+		leaveType: 'AnnualLeave',
 		startDate: start!.toISOString(),
 	};
 
 	const handleSubmit = async (values: BookedLeaveDays) => {
 		console.log(start);
 		console.log(end);
+		console.log(values);
 	};
 
 	const formik: any = useFormik({
@@ -78,7 +79,7 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 							spacing={3}
 						>
 							<Typography id='modal-modal-title' variant='h6' component='h2'>
-								Edit Leave
+								Book Leave
 							</Typography>
 
 							<FormControl variant='standard' fullWidth>
