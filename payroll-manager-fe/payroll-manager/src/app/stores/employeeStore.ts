@@ -135,7 +135,6 @@ export default class EmployeeStore {
 	addNewDependant = async (dependant: Dependant) => {
 		this.loading = true;
 		try {
-			console.log(dependant);
 			const dependants = await agent.Employees.addNewDependant(dependant);
 
 			runInAction(() => {
@@ -143,7 +142,6 @@ export default class EmployeeStore {
 				this.loading = false;
 				this.hasNewDependant = false;
 			});
-			console.log('hey');
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
@@ -204,7 +202,6 @@ export default class EmployeeStore {
 				this.loading = false;
 				this.leaveDays = leaveDays;
 			});
-			console.log(leaveDays);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
@@ -222,7 +219,6 @@ export default class EmployeeStore {
 				this.bookedLeaveDays = bookedDays;
 				this.loading = false;
 			});
-			console.log(bookedDays);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
