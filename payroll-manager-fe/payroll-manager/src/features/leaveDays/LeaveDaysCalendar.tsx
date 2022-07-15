@@ -8,7 +8,7 @@ import LeaveDayEdit from './LeaveDayEdit';
 
 export default observer(function LeaveDaysCalendar() {
 	const {
-		employeeStore: { bookedLeaveDays },
+		employeeStore: { bookedLeaveDays, leaveDays },
 		modalStore: { openModal },
 	} = useStore();
 
@@ -40,6 +40,7 @@ export default observer(function LeaveDaysCalendar() {
 				events={events}
 				eventClick={(e: EventClickArg) => onEventClick(e)}
 				editable={true}
+				weekends={false}
 			/>
 
 			{open && event && <LeaveDayEdit leaveEvent={event} />}

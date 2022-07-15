@@ -64,16 +64,11 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			const employee = await agent.Employees.getEmployeeById(id);
-			const leaveDays = await agent.Employees.getLeaveDays(id);
-			const bookedLeaveDays = await agent.Employees.getBookedLeaveDays(id);
 
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
-				this.leaveDays = leaveDays;
-				this.bookedLeaveDays = bookedLeaveDays;
 			});
-			console.log(bookedLeaveDays);
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {
