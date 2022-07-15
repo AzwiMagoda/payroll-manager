@@ -60,6 +60,8 @@ const Employees = {
 		requests.get<BookedLeaveDays[]>(
 			`/Employee/GetEmployeeBookedLeaveDays/${employeeId}`
 		),
+	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
+		requests.post<string>(`/Employee/BookLeave/${employeeId}`, leaveDays),
 };
 
 const agent: any = {

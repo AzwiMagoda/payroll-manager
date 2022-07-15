@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
@@ -217,6 +218,32 @@ export default class EmployeeStore {
 
 			runInAction(() => {
 				this.bookedLeaveDays = bookedDays;
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	bookLeave = async (leaveDays: BookedLeaveDays) => {
+		this.loading = true;
+		try {
+			const bookedLeave = agent.Employees.bookLeave(
+				leaveDays,
+				this.currentEmployee!.id
+			);
+			toast.promise(bookedLeave, {
+				pending: 'Submitting...',
+				success: 'Leave day(s) successfully booked',
+				error: 'Failed to book leave day(s)',
+			});
+
+			await this.getLeaveDaysBalances(this.currentEmployee!.id);
+
+			runInAction(() => {
 				this.loading = false;
 			});
 		} catch (error) {

@@ -59,7 +59,7 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 		console.log(end);
 	};
 
-	const formik: any = useFormik({
+	const formik = useFormik({
 		initialValues: initialValues,
 		onSubmit: (values) => {
 			handleSubmit(values);
@@ -134,7 +134,7 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 								loadingPosition='start'
 								size='large'
 								type='submit'
-								onClick={formik.handleSubmit}
+								onClick={() => formik.handleSubmit()}
 							>
 								Submit
 							</LoadingButton>

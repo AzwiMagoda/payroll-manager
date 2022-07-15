@@ -1,4 +1,4 @@
-import { DateSelectArg, EventApi } from '@fullcalendar/react';
+import { DateSelectArg } from '@fullcalendar/react';
 import {
 	Box,
 	Fade,
@@ -12,9 +12,8 @@ import {
 	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useStore } from '../../app/stores/store';
-import formatISO from 'date-fns/formatISO';
 import { useFormik } from 'formik';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
@@ -41,7 +40,7 @@ interface Props {
 export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 	const {
 		modalStore: { open, closeModal },
-		employeeStore: { loading },
+		employeeStore: { loading, bookLeave },
 	} = useStore();
 
 	const [start, setStart] = useState<Date | null>(leaveEvent.start);
@@ -55,12 +54,13 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 	};
 
 	const handleSubmit = async (values: BookedLeaveDays) => {
-		console.log(start);
-		console.log(end);
-		console.log(values);
+		console.log('hey');
+		values.endDate = end!.toISOString();
+		values.startDate = start!.toISOString();
+		await bookLeave(values);
 	};
 
-	const formik: any = useFormik({
+	const formik = useFormik({
 		initialValues: initialValues,
 		onSubmit: (values) => {
 			handleSubmit(values);
@@ -135,7 +135,7 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 								loadingPosition='start'
 								size='large'
 								type='submit'
-								onClick={formik.handleSubmit}
+								onClick={() => formik.handleSubmit()}
 							>
 								Submit
 							</LoadingButton>

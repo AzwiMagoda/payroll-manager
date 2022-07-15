@@ -48,7 +48,6 @@ export default observer(function LeaveDaysCalendar() {
 	};
 
 	const onDateSelect = (e: DateSelectArg) => {
-		console.log(e);
 		setCreateEvent(e);
 		setOpenCreate(true);
 		openModal();
@@ -63,7 +62,7 @@ export default observer(function LeaveDaysCalendar() {
 				height='auto'
 				events={events}
 				eventClick={(e: EventClickArg) => onEventClick(e)}
-				editable={true}
+				editable={false}
 				weekends={false}
 				selectable={true}
 				selectOverlap={false}
