@@ -349,7 +349,7 @@ namespace PayrollManager.Application.Employee.Services
                     //calculateBalance
                     var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
                     var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count()*-1;
-                    await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave, employeeId));
+                    await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave.LeaveType, employeeId));
 
 
                     var range = EmployeeHelper.RemoveWeekendsFromBookedLeave(bookedLeave.StartDate, bookedLeave.EndDate);
@@ -386,11 +386,11 @@ namespace PayrollManager.Application.Employee.Services
                 var newLeaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
 
                 //remove new count
-                await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, oldLeaveQty-newLeaveQty, bookedLeave, employeeId));
+                await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, oldLeaveQty-newLeaveQty, bookedLeave.LeaveType, employeeId));
 
                 //update leave
-                old.EndDate = bookedLeave.EndDate;
-                old.StartDate = bookedLeave.StartDate;
+                old.EndDate = bookedLeave.EndDate.AddDays(1);
+                old.StartDate = bookedLeave.StartDate.AddDays(1);
                 old.LeaveType = bookedLeave.LeaveType;
 
 
@@ -402,14 +402,17 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public async Task DeleteBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        public async Task DeleteBookedLeaveDay(Guid leaveId, Guid employeeId)
         {
             try
             {
                 //adjust leave days
                 var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
+                var bookedLeave = await _bookedLeaveDaysRepository.GetByEmployeeId(employeeId);
+
+
                 var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
-                await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave, employeeId));
+                await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave.LeaveType, employeeId));
 
                 //delete leave
                 await _bookedLeaveDaysRepository.Delete(bookedLeave.Id);
@@ -421,9 +424,9 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public static LeaveDaysEntity AdjustLeave(LeaveDaysEntity leaveBalance, int leaveQty, BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        public static LeaveDaysEntity AdjustLeave(LeaveDaysEntity leaveBalance, int leaveQty, string leaveType, Guid employeeId)
         {
-            switch (bookedLeave.LeaveType)
+            switch (leaveType)
             {
                 case "AnnualLeave":
                     leaveBalance.AnnualLeaveBalance += leaveQty;

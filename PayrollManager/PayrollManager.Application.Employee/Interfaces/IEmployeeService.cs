@@ -22,6 +22,6 @@ namespace PayrollManager.Application.Employee.Interfaces
         IEnumerable<BookedLeaveDaysDto> GetBookedLeaveDays(Guid employeeId);
         Task CreateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId);
         Task UpdateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId);
-        Task DeleteBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId);
+        Task DeleteBookedLeaveDay(Guid leaveId, Guid employeeId);
     }
 }

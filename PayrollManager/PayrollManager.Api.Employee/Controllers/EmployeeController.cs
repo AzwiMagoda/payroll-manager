@@ -197,7 +197,7 @@ namespace PayrollManager.Api.Employee.Controllers
             try
             {
                 _employeeService.UpdateBookedLeaveDay(leave, employeeId).Wait();
-                return Ok(_employeeService.GetLeaveDaysBalances(employeeId));
+                return Ok(_employeeService.GetBookedLeaveDays(employeeId));
             }
             catch (Exception ex)
             {
@@ -208,13 +208,13 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteBookedLeave/{employeeId}")]
-        public async Task<IActionResult> DeleteBookedLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
+        [Route("DeleteBookedLeave/{employeeId}/{bookedLeaveId}")]
+        public async Task<IActionResult> DeleteBookedLeave(Guid employeeId, Guid bookedLeaveId)
         {
             try
             {
-                await _employeeService.DeleteBookedLeaveDay(leave, employeeId);
-                return Ok("Leave day deleted");
+                await _employeeService.DeleteBookedLeaveDay(bookedLeaveId, employeeId);
+                return Ok($"Leave day with id {bookedLeaveId} deleted");
             }
             catch (Exception ex)
             {

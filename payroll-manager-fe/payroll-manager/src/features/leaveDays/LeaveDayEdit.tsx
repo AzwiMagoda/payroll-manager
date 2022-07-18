@@ -1,6 +1,7 @@
 import { EventApi } from '@fullcalendar/react';
 import {
 	Box,
+	Button,
 	Fade,
 	FormControl,
 	InputLabel,
@@ -22,6 +23,8 @@ import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 import { LoadingButton } from '@mui/lab';
 import PublishIcon from '@mui/icons-material/Publish';
 import { addDays } from 'date-fns';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -41,7 +44,7 @@ interface Props {
 export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 	const {
 		modalStore: { open, closeModal },
-		employeeStore: { loading },
+		employeeStore: { loading, updateLeave, deleteLeave },
 	} = useStore();
 
 	const [start, setStart] = useState<Date | null>(leaveEvent.start);
@@ -55,16 +58,40 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 	};
 
 	const handleSubmit = async (values: BookedLeaveDays) => {
-		console.log(start);
 		console.log(end);
+		values.endDate = end!.toISOString();
+		values.startDate = start!.toISOString();
+		await updateLeave(values);
+	};
+
+	const validationSchema = yup.object({
+		leaveType: yup.string().required(),
+	});
+
+	const handleDelete = async () => {
+		await deleteLeave({
+			endDate: end!.toISOString(),
+			id: leaveEvent.id,
+			leaveType: leaveEvent.title,
+			startDate: start!.toISOString(),
+		});
 	};
 
 	const formik = useFormik({
 		initialValues: initialValues,
+		validationSchema: validationSchema,
 		onSubmit: (values) => {
 			handleSubmit(values);
 		},
 	});
+
+	useEffect(() => {
+		console.log(formik.values.leaveType);
+	}, [formik.values.leaveType, formik.handleChange]);
+
+	const handleCancel = (e: any) => {
+		closeModal();
+	};
 
 	return (
 		<form onSubmit={formik.handleSubmit}>
@@ -72,10 +99,26 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 				<Fade in={open}>
 					<Box sx={style}>
 						<Stack
+							direction='row'
+							justifyContent='flex-end'
+							alignItems='center'
+							spacing={2}
+						>
+							<LoadingButton
+								size='small'
+								variant='text'
+								startIcon={<DeleteIcon />}
+								color='error'
+								loading={loading}
+								onClick={(e: any) => handleDelete()}
+							/>
+						</Stack>
+						<Stack
 							direction='column'
 							justifyContent='center'
 							alignItems='center'
 							spacing={3}
+							sx={{ marginBottom: '2rem' }}
 						>
 							<Typography id='modal-modal-title' variant='h6' component='h2'>
 								Edit Leave
@@ -125,19 +168,34 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 									/>
 								)}
 							/>
-
+						</Stack>
+						<Stack
+							direction='row'
+							justifyContent='center'
+							alignItems='center'
+							spacing={4}
+						>
 							<LoadingButton
 								color='success'
 								variant='contained'
 								startIcon={<PublishIcon />}
 								loading={loading}
 								loadingPosition='start'
-								size='large'
+								size='small'
 								type='submit'
 								onClick={() => formik.handleSubmit()}
 							>
 								Submit
 							</LoadingButton>
+							<Button
+								size='small'
+								variant='contained'
+								startIcon={<CancelIcon />}
+								color='error'
+								onClick={(e: any) => handleCancel(e)}
+							>
+								Cancel
+							</Button>
 						</Stack>
 					</Box>
 				</Fade>

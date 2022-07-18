@@ -54,7 +54,6 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 	};
 
 	const handleSubmit = async (values: BookedLeaveDays) => {
-		console.log('hey');
 		values.endDate = end!.toISOString();
 		values.startDate = start!.toISOString();
 		await bookLeave(values);

@@ -30,6 +30,8 @@ const requests = {
 	put: <T>(url: string, body: {}) =>
 		employeeApi.put<T>(url, body).then(responseBody),
 	del: <T>(url: string) => employeeApi.delete<T>(url).then(responseBody),
+	delBody: <T>(url: string, body: {}) =>
+		employeeApi.delete<T>(url, body).then(responseBody),
 };
 
 const Employees = {
@@ -62,6 +64,16 @@ const Employees = {
 		),
 	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
 		requests.post<string>(`/Employee/BookLeave/${employeeId}`, leaveDays),
+	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
+		requests.put<LeaveDays>(
+			`/Employee/UpdateBookedLeave/${employeeId}`,
+			leaveDays
+		),
+	deleteLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
+		requests.delBody<string>(
+			`/Employee/DeleteBookedLeave/${employeeId}`,
+			leaveDays
+		),
 };
 
 const agent: any = {

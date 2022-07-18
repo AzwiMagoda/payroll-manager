@@ -253,4 +253,56 @@ export default class EmployeeStore {
 			});
 		}
 	};
+
+	updateLeave = async (leaveDays: BookedLeaveDays) => {
+		this.loading = true;
+		try {
+			const bookedLeave = agent.Employees.updateLeave(
+				leaveDays,
+				this.currentEmployee!.id
+			);
+			toast.promise(bookedLeave, {
+				pending: 'Updating...',
+				success: 'Leave day(s) successfully updated',
+				error: 'Failed to update leave day(s)',
+			});
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	deleteLeave = async (leaveDays: BookedLeaveDays) => {
+		this.loading = true;
+		try {
+			const deleteLeave = agent.Employees.deleteLeave(
+				leaveDays,
+				this.currentEmployee!.id
+			);
+
+			toast.promise(deleteLeave, {
+				pending: 'Deleteing...',
+				success: 'Leave day(s) successfully deleted',
+				error: 'Failed to delete leave day(s)',
+			});
+
+			runInAction(() => {
+				this.loading = false;
+				this.bookedLeaveDays = this.bookedLeaveDays.filter(
+					(leave) => leave.id === leaveDays.id
+				);
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
 }
