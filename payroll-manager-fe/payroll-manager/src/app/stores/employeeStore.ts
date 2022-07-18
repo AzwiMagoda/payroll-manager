@@ -278,11 +278,11 @@ export default class EmployeeStore {
 		}
 	};
 
-	deleteLeave = async (leaveDays: BookedLeaveDays) => {
+	deleteLeave = async (leaveId: string) => {
 		this.loading = true;
 		try {
 			const deleteLeave = agent.Employees.deleteLeave(
-				leaveDays,
+				leaveId,
 				this.currentEmployee!.id
 			);
 
@@ -295,7 +295,7 @@ export default class EmployeeStore {
 			runInAction(() => {
 				this.loading = false;
 				this.bookedLeaveDays = this.bookedLeaveDays.filter(
-					(leave) => leave.id === leaveDays.id
+					(leave) => leave.id === leaveId
 				);
 			});
 		} catch (error) {

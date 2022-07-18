@@ -69,12 +69,7 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 	});
 
 	const handleDelete = async () => {
-		await deleteLeave({
-			endDate: end!.toISOString(),
-			id: leaveEvent.id,
-			leaveType: leaveEvent.title,
-			startDate: start!.toISOString(),
-		});
+		await deleteLeave(leaveEvent.id);
 	};
 
 	const formik = useFormik({

@@ -30,8 +30,6 @@ const requests = {
 	put: <T>(url: string, body: {}) =>
 		employeeApi.put<T>(url, body).then(responseBody),
 	del: <T>(url: string) => employeeApi.delete<T>(url).then(responseBody),
-	delBody: <T>(url: string, body: {}) =>
-		employeeApi.delete<T>(url, body).then(responseBody),
 };
 
 const Employees = {
@@ -69,10 +67,9 @@ const Employees = {
 			`/Employee/UpdateBookedLeave/${employeeId}`,
 			leaveDays
 		),
-	deleteLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
-		requests.delBody<string>(
-			`/Employee/DeleteBookedLeave/${employeeId}`,
-			leaveDays
+	deleteLeave: (leaveId: string, employeeId: string) =>
+		requests.del<string>(
+			`/Employee/DeleteBookedLeave/${employeeId}/${leaveId}`
 		),
 };
 
