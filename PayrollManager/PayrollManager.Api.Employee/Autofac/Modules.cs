@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Application.Employee.Services;
 using PayrollManager.Infrastructure.PayrollDbContext;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
@@ -47,6 +48,10 @@ namespace PayrollManager.Api.Employee.Autofac
 
             builder.RegisterType<LeaveDaysRepository>()
                 .As<ILeaveDaysRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<BookedLeaveDaysRepository>()
+                .As<IBookedLeaveDaysRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion

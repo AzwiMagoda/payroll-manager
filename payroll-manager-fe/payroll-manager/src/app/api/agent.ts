@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
@@ -55,6 +56,21 @@ const Employees = {
 		requests.del<void>(`/Employee/DeleteDependant/${id}`),
 	getLeaveDays: (employeeId: string) =>
 		requests.get<LeaveDays>(`/Employee/GetEmployeeLeaveDays/${employeeId}`),
+	getBookedLeaveDays: (employeeId: string) =>
+		requests.get<BookedLeaveDays[]>(
+			`/Employee/GetEmployeeBookedLeaveDays/${employeeId}`
+		),
+	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
+		requests.post<string>(`/Employee/BookLeave/${employeeId}`, leaveDays),
+	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
+		requests.put<LeaveDays>(
+			`/Employee/UpdateBookedLeave/${employeeId}`,
+			leaveDays
+		),
+	deleteLeave: (leaveId: string, employeeId: string) =>
+		requests.del<string>(
+			`/Employee/DeleteBookedLeave/${employeeId}/${leaveId}`
+		),
 };
 
 const agent: any = {

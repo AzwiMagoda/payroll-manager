@@ -13,12 +13,14 @@ import {
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { Link } from 'react-router-dom';
 
 interface Props {
 	heading: string;
-	details: string;
+	details: string | number;
 	linkText: string;
 	size: number;
+	path: string;
 }
 
 export default observer(function GridCard({
@@ -26,6 +28,7 @@ export default observer(function GridCard({
 	details,
 	linkText,
 	size,
+	path,
 }: Props) {
 	return (
 		<Grid item xs={size}>
@@ -62,7 +65,9 @@ export default observer(function GridCard({
 						</CardContent>
 					</Stack>
 					<CardActions>
-						<Button size='small'>{linkText}</Button>
+						<Link to={path}>
+							<Button size='small'>{linkText}</Button>
+						</Link>
 					</CardActions>
 				</Card>
 			</Paper>
