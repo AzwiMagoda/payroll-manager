@@ -45,29 +45,19 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 
 	const [start, setStart] = useState<Date | null>(leaveEvent.start);
 	const [end, setEnd] = useState<Date | null>(addDays(leaveEvent.end!, -1));
+	const [leaveType, setLeaveType] = useState<string>('AnnualLeave');
 
-	const initialValues: BookedLeaveDays = {
-		endDate: end!.toISOString(),
-		id: uuidv4(),
-		leaveType: 'AnnualLeave',
-		startDate: start!.toISOString(),
+	const handleSubmit = async () => {
+		await bookLeave({
+			endDate: end!.toISOString(),
+			startDate: start!.toISOString(),
+			leaveType: leaveType,
+			id: uuidv4(),
+		});
 	};
-
-	const handleSubmit = async (values: BookedLeaveDays) => {
-		values.endDate = end!.toISOString();
-		values.startDate = start!.toISOString();
-		await bookLeave(values);
-	};
-
-	const formik = useFormik({
-		initialValues: initialValues,
-		onSubmit: (values) => {
-			handleSubmit(values);
-		},
-	});
 
 	return (
-		<form onSubmit={formik.handleSubmit}>
+		<form onSubmit={handleSubmit}>
 			<Modal open={open} onClose={closeModal}>
 				<Fade in={open}>
 					<Box sx={style}>
@@ -87,8 +77,8 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 									labelId='typeLabel'
 									id='type'
 									name='type'
-									value={formik.values.leaveType}
-									onChange={formik.handleChange}
+									value={leaveType}
+									onChange={(e: any) => setLeaveType(e.target.value)}
 								>
 									<MenuItem value={'AnnualLeave'}>Annual Leave</MenuItem>
 									<MenuItem value={'SickLeave'}>Sick Leave</MenuItem>
@@ -134,7 +124,7 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 								loadingPosition='start'
 								size='large'
 								type='submit'
-								onClick={() => formik.handleSubmit()}
+								onClick={() => handleSubmit()}
 							>
 								Submit
 							</LoadingButton>

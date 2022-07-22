@@ -113,7 +113,7 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 											</ListItemAvatar>
 											<ListItemText primary='My Details' />
 										</ListItem>
-										<ListItem>
+										<ListItem component={Link} to='/remuneration'>
 											<ListItemAvatar>
 												<Avatar>
 													<WorkIcon />

@@ -360,7 +360,7 @@ namespace PayrollManager.Application.Employee.Services
                         CreatedDate = DateTime.Now,
                         LeaveType = bookedLeave.LeaveType,
                         EmployeeId = employeeId,
-                        EndDate = bookedLeave.EndDate,
+                        EndDate = bookedLeave.EndDate.AddDays(1),
                         StartDate = bookedLeave.StartDate
                     };
 
