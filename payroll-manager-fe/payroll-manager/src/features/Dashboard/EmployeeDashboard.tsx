@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Employee } from '../../app/models/employee';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
 	Avatar,
 	Box,
@@ -105,14 +105,16 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 										My Profile
 									</Typography>
 									<List>
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>
-													<WorkIcon />
-												</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='My Details' />
-										</ListItem>
+										<NavLink to='/profile'>
+											<ListItem>
+												<ListItemAvatar>
+													<Avatar>
+														<WorkIcon />
+													</Avatar>
+												</ListItemAvatar>
+												<ListItemText primary='My Details' />
+											</ListItem>
+										</NavLink>
 										<ListItem>
 											<ListItemAvatar>
 												<Avatar>
