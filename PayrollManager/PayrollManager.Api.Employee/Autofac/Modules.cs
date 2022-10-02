@@ -26,6 +26,14 @@ namespace PayrollManager.Api.Employee.Autofac
                 .As<IEmployeeService>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<LeaveDaysService>()
+                .As<ILeaveDaysService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TeamService>()
+                .As<ITeamService>()
+                .InstancePerLifetimeScope();
+
             #endregion
 
             #region Repositories

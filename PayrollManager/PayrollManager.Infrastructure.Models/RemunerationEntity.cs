@@ -8,7 +8,7 @@ namespace PayrollManager.Infrastructure.Models
         public decimal AnnualBaseSalary { get; set; }
         public decimal BonusPercentage { get; set; }
         public int BonusFrequency { get; set; }
-        public decimal RetirementContribution { get; set; }
+        public decimal RetirementContributionPercentage { get; set; }
         public decimal RetirementBalance { get; set; }
         public int OvertimeHrs { get; set; }
         public Guid EmployeeId { get; set; }

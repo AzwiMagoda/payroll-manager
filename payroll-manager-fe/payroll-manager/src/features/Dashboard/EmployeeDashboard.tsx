@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Employee } from '../../app/models/employee';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
 	Avatar,
 	Box,
@@ -22,6 +22,7 @@ import GridCard from './components/GridCard';
 import WorkIcon from '@mui/icons-material/Work';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { useStore } from '../../app/stores/store';
+import TeamList from './TeamList/TeamList';
 
 interface Props {
 	employee: Employee;
@@ -105,14 +106,16 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 										My Profile
 									</Typography>
 									<List>
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>
-													<WorkIcon />
-												</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='My Details' />
-										</ListItem>
+										<NavLink to='/profile'>
+											<ListItem>
+												<ListItemAvatar>
+													<Avatar>
+														<WorkIcon />
+													</Avatar>
+												</ListItemAvatar>
+												<ListItemText primary='My Details' />
+											</ListItem>
+										</NavLink>
 										<ListItem>
 											<ListItemAvatar>
 												<Avatar>
@@ -189,42 +192,7 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 									>
 										My Team
 									</Typography>
-									<List>
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>J</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='John Smith' secondary='Engineer' />
-										</ListItem>
-										<Divider variant='inset' component='li' />
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>M</Avatar>
-											</ListItemAvatar>
-											<ListItemText
-												primary='Martha Stewart'
-												secondary='Team lead'
-											/>
-										</ListItem>
-										<Divider variant='inset' component='li' />
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>K</Avatar>
-											</ListItemAvatar>
-											<ListItemText
-												primary='Kola Nut'
-												secondary='Scrum Master'
-											/>
-										</ListItem>
-										<Divider variant='inset' component='li' />
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>P</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='Pola Beara' secondary='Engineer' />
-										</ListItem>
-										<Divider variant='inset' component='li' />
-									</List>
+									<TeamList teamName={employee.teamName} />
 								</CardContent>
 								<CardActions>
 									<Button size='small'>View All</Button>
