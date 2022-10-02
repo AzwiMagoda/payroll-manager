@@ -5,6 +5,7 @@ import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
 import { PersonalInfoForm } from '../models/personalInfoForm';
+import { TeamMembers } from '../models/teamMembers';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -55,26 +56,32 @@ const Employees = {
 	deleteDependant: (id: string) =>
 		requests.del<void>(`/Employee/DeleteDependant/${id}`),
 	getLeaveDays: (employeeId: string) =>
-		requests.get<LeaveDays>(`/Employee/GetEmployeeLeaveDays/${employeeId}`),
+		requests.get<LeaveDays>(`/LeaveDays/GetEmployeeLeaveDays/${employeeId}`),
 	getBookedLeaveDays: (employeeId: string) =>
 		requests.get<BookedLeaveDays[]>(
-			`/Employee/GetEmployeeBookedLeaveDays/${employeeId}`
+			`/LeaveDays/GetEmployeeBookedLeaveDays/${employeeId}`
 		),
 	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
-		requests.post<string>(`/Employee/BookLeave/${employeeId}`, leaveDays),
+		requests.post<string>(`/LeaveDays/BookLeave/${employeeId}`, leaveDays),
 	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
 		requests.put<LeaveDays>(
-			`/Employee/UpdateBookedLeave/${employeeId}`,
+			`/LeaveDays/UpdateBookedLeave/${employeeId}`,
 			leaveDays
 		),
 	deleteLeave: (leaveId: string, employeeId: string) =>
 		requests.del<string>(
-			`/Employee/DeleteBookedLeave/${employeeId}/${leaveId}`
+			`/LeaveDays/DeleteBookedLeave/${employeeId}/${leaveId}`
 		),
 };
 
-const agent: any = {
+const Team = {
+	getAllTeamMembers: (teamName: string) =>
+		requests.get<TeamMembers[]>(`/Team/GetTeamMembers/${teamName}`),
+};
+
+const agent = {
 	Employees,
+	Team,
 };
 
 export default agent;

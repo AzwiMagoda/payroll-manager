@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Api.Employee.Controllers
 {
-    public class LeaveDaysController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LeaveDaysController : ControllerBase
     {
         private readonly ILeaveDaysService _leaveDaysService;
 
