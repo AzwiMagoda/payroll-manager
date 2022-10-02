@@ -28,7 +28,7 @@ export default function TeamList({ teamName }: Props) {
 			<List>
 				{teamMembers &&
 					teamMembers.map((member) => (
-						<>
+						<List>
 							<ListItem>
 								<ListItemAvatar>
 									<Avatar>{member.firstName.charAt(0)}</Avatar>
@@ -39,7 +39,7 @@ export default function TeamList({ teamName }: Props) {
 								/>
 							</ListItem>
 							<Divider variant='inset' component='li' />
-						</>
+						</List>
 					))}
 			</List>
 		</Box>
