@@ -76,7 +76,7 @@ export default observer(function DependantCard({ dependant }: Props) {
 		}
 	};
 
-	const formik: any = useFormik({
+	const formik = useFormik({
 		initialValues: initialValues,
 		validationSchema: validationSchema,
 		onSubmit: (values) => {

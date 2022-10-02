@@ -13,9 +13,11 @@ namespace PayrollManager.Infrastructure.PayrollDbContext
 
         public DbSet<EmployeeEntity> Employees { get; set; }
         public DbSet<RemunerationEntity> Remunerations { get; set; }
+        public DbSet<DeductionEntity> Deductions { get; set; }
         public DbSet<ContactDetailsEntity> ContactDetails { get; set; }
         public DbSet<DependentEntity> Dependents { get; set; }
         public DbSet<LeaveDaysEntity> LeaveDays { get; set; }
+        public DbSet<BookedLeaveDaysEntity> BookedLeaveDays { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

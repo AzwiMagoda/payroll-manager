@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Employee } from '../../app/models/employee';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
 	Avatar,
 	Box,
@@ -22,6 +22,7 @@ import GridCard from './components/GridCard';
 import WorkIcon from '@mui/icons-material/Work';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { useStore } from '../../app/stores/store';
+import TeamList from './TeamList/TeamList';
 
 interface Props {
 	employee: Employee;
@@ -29,8 +30,13 @@ interface Props {
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
 	const {
-		employeeStore: { leaveDays },
+		employeeStore: { leaveDays, getAllBookedLeaveDays, getLeaveDaysBalances },
 	} = useStore();
+
+	useEffect(() => {
+		getLeaveDaysBalances(employee.id);
+		getAllBookedLeaveDays(employee.id);
+	}, [employee.id, getAllBookedLeaveDays, getLeaveDaysBalances]);
 
 	return (
 		<Box>
@@ -47,23 +53,37 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 					alignItems='stretch'
 					sx={{ marginBottom: '4rem' }}
 				>
+					{leaveDays ? (
+						<GridCard
+							size={3}
+							details={leaveDays.annualLeaveBalance}
+							heading={'Annual Leave Days'}
+							linkText={'View Balances'}
+							path='/leaveDashboard'
+						/>
+					) : (
+						<GridCard
+							size={3}
+							details={'Loading...'}
+							heading={'Annual Leave Days'}
+							linkText={'View Balances'}
+							path='/leaveDashboard'
+						/>
+					)}
+
 					<GridCard
 						size={3}
-						details={leaveDays!.annualLeaveBalance.toString()}
-						heading={'Annual Leave Days'}
-						linkText={'View Balances'}
-					/>
-					<GridCard
-						size={3}
-						details={'Jenny Smith'}
+						details={employee.manager}
 						heading={'Your Manager'}
 						linkText={'View Details'}
+						path='teamDetails/manager'
 					/>
 					<GridCard
 						size={3}
 						details={'Download Latest'}
 						heading={'Payslips'}
 						linkText={'Download'}
+						path='payslips'
 					/>
 				</Grid>
 
@@ -86,14 +106,16 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 										My Profile
 									</Typography>
 									<List>
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>
-													<WorkIcon />
-												</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='My Details' />
-										</ListItem>
+										<NavLink to='/profile'>
+											<ListItem>
+												<ListItemAvatar>
+													<Avatar>
+														<WorkIcon />
+													</Avatar>
+												</ListItemAvatar>
+												<ListItemText primary='My Details' />
+											</ListItem>
+										</NavLink>
 										<ListItem>
 											<ListItemAvatar>
 												<Avatar>
@@ -170,42 +192,7 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 									>
 										My Team
 									</Typography>
-									<List>
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>J</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='John Smith' secondary='Engineer' />
-										</ListItem>
-										<Divider variant='inset' component='li' />
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>M</Avatar>
-											</ListItemAvatar>
-											<ListItemText
-												primary='Martha Stewart'
-												secondary='Team lead'
-											/>
-										</ListItem>
-										<Divider variant='inset' component='li' />
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>K</Avatar>
-											</ListItemAvatar>
-											<ListItemText
-												primary='Kola Nut'
-												secondary='Scrum Master'
-											/>
-										</ListItem>
-										<Divider variant='inset' component='li' />
-										<ListItem>
-											<ListItemAvatar>
-												<Avatar>P</Avatar>
-											</ListItemAvatar>
-											<ListItemText primary='Pola Beara' secondary='Engineer' />
-										</ListItem>
-										<Divider variant='inset' component='li' />
-									</List>
+									<TeamList teamName={employee.teamName} />
 								</CardContent>
 								<CardActions>
 									<Button size='small'>View All</Button>
@@ -215,67 +202,6 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 					</Grid>
 				</Grid>
 			</Box>
-
-			{/* <Content>
-				<div className='show-grid'>
-					<FlexboxGrid justify='space-around' align='top'>
-						<FlexboxGrid.Item as={Col} colspan={7}>
-							<Header>
-								<h5>My Details</h5>
-							</Header>
-							<Content>
-								<div>
-									<Link to='/profile'> Profile</Link>
-								</div>
-								<div>
-									<Link to='/remuneration'> Remuneration</Link>
-								</div>
-							</Content>
-						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7}>
-							<Header>
-								<h5>
-									<PeoplesIcon />
-									My Team
-								</h5>
-							</Header>
-							<Content>
-								<div>
-									<Link to='/team'> View Team</Link>
-								</div>
-								<div>
-									<Link to='/team/manager'>View Manager</Link>
-								</div>
-							</Content>
-						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7}>
-							<Header>
-								<h5>Leave</h5>
-							</Header>
-							<Content>
-								<div>
-									<Link to='/leave/request'> Request Leave</Link>
-								</div>
-								<div>
-									<Link to='/leave/balance'> View Leave Balance</Link>
-								</div>
-							</Content>
-						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} smHidden>
-							<Header>
-								<h5>Benefits</h5>
-							</Header>
-							<Content>hey</Content>
-						</FlexboxGrid.Item>
-						<FlexboxGrid.Item as={Col} colspan={7} smHidden>
-							<Header>
-								<h5>Payslips</h5>
-							</Header>
-							<Content>hey</Content>
-						</FlexboxGrid.Item>
-					</FlexboxGrid>
-				</div>
-			</Content> */}
 		</Box>
 	);
 });

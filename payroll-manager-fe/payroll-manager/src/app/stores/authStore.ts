@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import { toast } from 'react-toastify';
 import authAgent from '../api/authAgent';
 import { Login } from '../models/login';
 import { User } from '../models/user';
@@ -23,11 +24,15 @@ export default class AuthStore {
 				runInAction(() => {
 					this.user = user;
 					this.loading = false;
+					toast.success('Success!');
 				});
 			}
 		} catch (error) {
 			console.log(error);
-			this.loading = false;
+			runInAction(() => {
+				this.loading = false;
+			});
+			toast.error('There was a problem signing you in');
 		}
 	};
 

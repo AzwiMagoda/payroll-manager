@@ -53,7 +53,7 @@ export default observer(function ContactDetails() {
 		setReadOnly(true);
 	};
 
-	const formik: any = useFormik({
+	const formik = useFormik({
 		initialValues: initialValues,
 		validationSchema: validationSchema,
 		onSubmit: (values) => {

@@ -1,6 +1,8 @@
 ﻿using PayrollManager.Application.Employee.Dto;
+using PayrollManager.Application.Employee.Helpers;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
@@ -19,19 +21,18 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IRemunerationRepository _remunerationRepository;
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
-        private readonly ILeaveDaysRepository _leaveDaysRepository;
 
         public EmployeeService(IEmployeeRepository employeeRepository,
                                IRemunerationRepository remunerationRepository,
                                IContactDetailsRepository contactDetailsRepository,
                                IDependantRepository dependantRepository,
-                               ILeaveDaysRepository leaveDaysRepository)
+                               ILeaveDaysRepository leaveDaysRepository,
+                               IBookedLeaveDaysRepository bookedLeaveDaysRepository)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _remunerationRepository = remunerationRepository ?? throw new ArgumentNullException(nameof(remunerationRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
-            _leaveDaysRepository = leaveDaysRepository ?? throw new ArgumentNullException(nameof(leaveDaysRepository));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -292,24 +293,6 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public async Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId)
-        {
-            try
-            {
-                var leaveDays = await _leaveDaysRepository.GetByEmployeeId(employeeId);
-
-                return new LeaveDaysDto
-                {
-                    AnnualLeaveBalance = leaveDays.AnnualLeaveBalance,
-                    EmployeeId = employeeId,
-                    SickLeaveBalance = leaveDays.SickLeaveBalance,
-                    StudyLeaveBalance = leaveDays.StudyLeaveBalance,                    
-                };
-            }
-            catch (Exception ex)
-            {
-                throw new Exception();
-            }
-        }
+        
     }
 }
