@@ -57,6 +57,10 @@ namespace PayrollManager.BackgroundTasks.PayslipGenerator.Services
                     var leave = leaveDays.First(x => x.EmployeeId == employee.EmployeeId);
                     var remuneration = remunerations.First(x => x.EmployeeId == employee.EmployeeId);
 
+                    var retirementContribution = remuneration.MonthlyBaseSalary * remuneration.RetirementContributionPercentage / 100;
+                    var totalDeductions = 125.60M + 2900.00M + 5600.00M;
+                    var totalEarnings = retirementContribution + remuneration.MonthlyBaseSalary;
+
                     var payslip = new Payslip
                     {
                         Id = employee.Id,
@@ -68,14 +72,24 @@ namespace PayrollManager.BackgroundTasks.PayslipGenerator.Services
                         Name = $"{employee.Title} {employee.Name}",
                         StartDate = employee.CreatedDate,
                         Surname = employee.Surname,
-                        TaxNumber = "92018212"
+                        TaxNumber = "92018212",
+                        CompanyAddress = "2326 Murlberry Lane, Johannesburg",
+                        CompanyName = employee.Company,
+                        LifeInsurance = 125.60M,
+                        MedicalAid = 2900.00M,
+                        MonthlyBaseSalary = remuneration.MonthlyBaseSalary,
+                        Tax = 5600.00M,
+                        RetirementContribution = retirementContribution,
+                        TotalDeductions = totalDeductions,
+                        TotalEarnings = totalEarnings,
+                        NettPay = totalEarnings - totalDeductions,
                     };
 
                     await _payslipGenerator.GeneratePayslipPdf(payslip);
                 }
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
 

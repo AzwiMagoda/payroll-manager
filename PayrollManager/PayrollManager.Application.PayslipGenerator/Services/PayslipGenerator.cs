@@ -29,10 +29,33 @@ namespace PayrollManager.Application.PayslipGenerator.Services
                 var fileName = $"{payslip.Id}_payslip_{date}";
                 var pdfPath = @$"{BASE_PATH}\{fileName}.pdf";
 
-                string html = $"<body> <div style = 'color:blue;text-align:center;'><h2> Payslip </h2> <h4> Company Name </h4> <h6> Company Address </h6> </div> " +
-                    $"<div style = 'margin: auto; width: 90%;'> <div style = 'float:left;'> <p> Employee Name: {payslip.Name} </p> <p> Identity Number: {payslip.IdentityNumber} </p> " +
-                    $"<p> Gender: {payslip.Gender} </p> <p> Tax Number: {payslip.TaxNumber} </p> </div> <div style = 'float:left; margin-left: 20%'> <p> Job Title: {payslip.Jobtitle} <p> " +
-                    $"Depatment: {payslip.Department} </p> <p> Pay Period: {DateTime.Today.Date.ToShortDateString()} </p> <p> Start Date: {payslip.StartDate.Date.ToShortDateString()} </p> </div> </div> </body>";
+                string html = $"<div style='font-family: Gill Sans, sans-serif'> <div style='margin: 0 auto; width: 90%; text-align: center'> <h2>Payslip</h2> <h4>{payslip.CompanyName}</h4> " +
+                    $"<h6>{payslip.CompanyAddress}</h6> </div> <div style=' margin: 50px auto; width: 90%; border: 2px solid #b3adad; text-align: justify; display: flex; justify-content: space-between; " +
+                    $"color: #5f5d5d; ' > <div style='display: inline-block; margin: 30px'> <div>Employee Name: {payslip.Name}</div> <div>Identity Number: {payslip.IdentityNumber}</div> " +
+                    $"<div>Gender: {payslip.Gender}</div> <div>Tax Number: {payslip.TaxNumber}</div> </div> <div style='display: inline-block; margin: 30px'> <div>Job Title: {payslip.Jobtitle}</div> " +
+                    $"<div>Department: {payslip.Department}</div> <div>Pay Period: {DateTime.Today.Date.ToShortDateString()}</div> <div>Start Date: {payslip.StartDate}</div> </div> </div> " +
+                    $"<div style=' margin: 50px auto; width: 90%; text-align: justify; display: flex; justify-content: space-between; color: #5f5d5d !important; ' > <table style=' border: 2px solid #b3adad; " +
+                    $"border-collapse: collapse; padding: 5px; width: 100%; ' > <thead> <tr> <th style=' border: 2px solid #b3adad; padding: 5px; background: #f0f0f0; color: #313030; ' > Earnings </th> " +
+                    $"<th style=' border: 2px solid #b3adad; padding: 5px; background: #f0f0f0; color: #313030; ' > Amount </th> <th style=' border: 2px solid #b3adad; padding: 5px; background: #f0f0f0; " +
+                    $"color: #313030; ' > Deductions </th> <th style=' border: 2px solid #b3adad; padding: 5px; background: #f0f0f0; color: #313030; ' > Amount </th> </tr> </thead> <tbody> <tr> " +
+                    $"<td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > Basic Salary </td> <td style=' border: 2px solid #b3adad; " +
+                    $"text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > {payslip.MonthlyBaseSalary} </td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; " +
+                    $"background: #ffffff; color: #0a0a0a; ' > Tax </td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > {payslip.Tax} </td> " +
+                    $"</tr> <tr> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > Retirement Contribution </td> <td style=' border: 2px solid #b3adad; " +
+                    $"text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > {payslip.RetirementContribution} </td> <td style=' border: 2px solid #b3adad; text-align: left; " +
+                    $"padding: 5px; background: #ffffff; color: #0a0a0a; ' > Medical Aid </td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' >" +
+                    $" {payslip.MedicalAid} </td> </tr> <tr> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > Life Insurance </td> <td style=' " +
+                    $"border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > {payslip.LifeInsurance} </td> <td style=' border: 2px solid #b3adad; text-align: left; " +
+                    $"padding: 5px; background: #ffffff; color: #0a0a0a; ' ></td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' ></td> </tr> <tr> " +
+                    $"<td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > &nbsp; </td> <td style=' border: 2px solid #b3adad; text-align: left; padding:" +
+                    $" 5px; background: #ffffff; color: #0a0a0a; ' ></td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' ></td> <td style=' border:" +
+                    $" 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' ></td> </tr> <tr> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px;" +
+                    $" background: #ffffff; color: #0a0a0a; ' > Total Earnings: </td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' >" +
+                    $" {payslip.TotalEarnings} </td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > Total Deductions: </td> <td style=' " +
+                    $"border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > {payslip.TotalDeductions} </td> </tr> <tr> <td style=' border: 2px solid #b3adad; " +
+                    $"text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' ></td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; '" +
+                    $" ></td> <td style=' border: 2px solid #b3adad; text-align: left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > Nett Pay: </td> <td style=' border: 2px solid #b3adad; text-align: " +
+                    $"left; padding: 5px; background: #ffffff; color: #0a0a0a; ' > {payslip.NettPay} </td> </tr> </tbody> </table> </div> </div>";
 
                 //Convert to pdf
                 HtmlConverter.ConvertToPdf(html, new PdfWriter(pdfPath));

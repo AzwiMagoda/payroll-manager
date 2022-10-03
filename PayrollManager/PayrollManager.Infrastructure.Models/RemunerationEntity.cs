@@ -6,6 +6,7 @@ namespace PayrollManager.Infrastructure.Models
     {
         public Guid Id { get; set; }
         public decimal AnnualBaseSalary { get; set; }
+        public decimal MonthlyBaseSalary { get; set; }
         public decimal BonusPercentage { get; set; }
         public int BonusFrequency { get; set; }
         public decimal RetirementContributionPercentage { get; set; }
