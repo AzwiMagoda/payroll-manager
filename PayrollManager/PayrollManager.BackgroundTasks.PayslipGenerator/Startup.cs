@@ -1,12 +1,14 @@
 using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PayrollManager.BackgroundTasks.PayslipGenerator.Autofac;
 using PayrollManager.BackgroundTasks.PayslipGenerator.Services;
+using PayrollManager.Infrastructure.PayrollDbContext;
 using Quartz;
 
 namespace PayrollManager.BackgroundTasks.PayslipGenerator
@@ -29,6 +31,8 @@ namespace PayrollManager.BackgroundTasks.PayslipGenerator
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PayrollManager.BackgroundTasks.PayslipGenerator", Version = "v1" });
             });
+
+            services.AddDbContext<PayrollDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PayrollDb")));
 
             //add quartz
             // base configuration from appsettings.json

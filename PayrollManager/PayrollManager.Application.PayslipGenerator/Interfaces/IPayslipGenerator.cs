@@ -9,7 +9,7 @@ namespace PayrollManager.Application.PayslipGenerator.Interfaces
 {
     public interface IPayslipGenerator
     {
-        void UploadPayslipToFirebase(string filePath, string fileName);
-        void GeneratePayslipPdf(Payslip payslip);
+        Task<string> UploadPayslipToFirebase(string filePath, string fileName);
+        Task GeneratePayslipPdf(Payslip payslip);
     }
 }

@@ -8,7 +8,7 @@ namespace PayrollManager.Application.PayslipGenerator.Dto
 {
     public class Payslip
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string IdentityNumber { get; set; }

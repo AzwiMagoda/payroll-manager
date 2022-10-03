@@ -14,4 +14,8 @@
     <PackageReference Include="itext7.pdfhtml" Version="4.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PayrollManager.Infrastructure.PayrollDb\PayrollManager.Infrastructure.PayrollDbContext.csproj" />
+  </ItemGroup>
+
 </Project>
