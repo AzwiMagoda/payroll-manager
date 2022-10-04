@@ -3,6 +3,7 @@ import AuthStore from './authStore';
 import CommonStore from './commonStore';
 import EmployeeStore from './employeeStore';
 import ModalStore from './modalStore';
+import PayslipStore from './payslipStore';
 import TeamStore from './teamStore';
 
 interface Store {
@@ -11,6 +12,7 @@ interface Store {
 	commonStore: CommonStore;
 	modalStore: ModalStore;
 	teamStore: TeamStore;
+	payslipStore: PayslipStore;
 }
 
 export const store: Store = {
@@ -19,6 +21,7 @@ export const store: Store = {
 	commonStore: new CommonStore(),
 	modalStore: new ModalStore(),
 	teamStore: new TeamStore(),
+	payslipStore: new PayslipStore(),
 };
 
 export const StoreContext = createContext(store);

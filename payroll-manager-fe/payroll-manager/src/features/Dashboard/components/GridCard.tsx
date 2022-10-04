@@ -4,7 +4,6 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	Divider,
 	Grid,
 	Paper,
 	Stack,
@@ -20,7 +19,8 @@ interface Props {
 	details: string | number;
 	linkText: string;
 	size: number;
-	path: string;
+	path?: string;
+	download?: string;
 }
 
 export default observer(function GridCard({
@@ -28,7 +28,8 @@ export default observer(function GridCard({
 	details,
 	linkText,
 	size,
-	path,
+	path = '',
+	download = '',
 }: Props) {
 	return (
 		<Grid item xs={size}>
@@ -65,9 +66,13 @@ export default observer(function GridCard({
 						</CardContent>
 					</Stack>
 					<CardActions>
-						<Link to={path}>
-							<Button size='small'>{linkText}</Button>
-						</Link>
+						{path !== '' ? (
+							<Link to={path}>
+								<Button size='small'>{linkText}</Button>
+							</Link>
+						) : (
+							<a href={download}>{linkText}</a>
+						)}
 					</CardActions>
 				</Card>
 			</Paper>

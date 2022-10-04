@@ -13,5 +13,15 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Payslips
         public PayslipsRepository(PayrollDbContext context) : base(context)
         {
         }
+
+        public IEnumerable<PayslipsEntity> GetAllPayslips(Guid employeeId)
+        {
+            return _context.Payslips.Where(x => x.EmployeeId == employeeId);
+        }
+
+        public PayslipsEntity GetLatestPayslip(Guid employeeId)
+        {
+            return _context.Payslips.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+        }
     }
 }

@@ -31,12 +31,15 @@ interface Props {
 export default observer(function EmployeeDashboard({ employee }: Props) {
 	const {
 		employeeStore: { leaveDays, getAllBookedLeaveDays, getLeaveDaysBalances },
+		payslipStore: { getAllPayslips, getlatestPayslip, loading, latestPayslip },
 	} = useStore();
 
 	useEffect(() => {
 		getLeaveDaysBalances(employee.id);
 		getAllBookedLeaveDays(employee.id);
-	}, [employee.id, getAllBookedLeaveDays, getLeaveDaysBalances]);
+		getAllPayslips(employee.id);
+		getlatestPayslip(employee.id);
+	}, [employee.id, getAllBookedLeaveDays, getAllPayslips, getLeaveDaysBalances, getlatestPayslip]);
 
 	return (
 		<Box>
@@ -78,13 +81,25 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 						linkText={'View Details'}
 						path='teamDetails/manager'
 					/>
-					<GridCard
-						size={3}
-						details={'Download Latest'}
-						heading={'Payslips'}
-						linkText={'Download'}
-						path='payslips'
-					/>
+
+					{latestPayslip ? (
+						<GridCard
+							size={3}
+							details={'Download Latest'}
+							heading={'Payslips'}
+							linkText={'Download'}
+							path=''
+							download={latestPayslip.downloadUrl}
+						/>
+					) : (
+						<GridCard
+							size={3}
+							details={'Download Latest'}
+							heading={'Payslips'}
+							linkText={'Download'}
+							path=''
+						/>
+					)}
 				</Grid>
 
 				<Grid

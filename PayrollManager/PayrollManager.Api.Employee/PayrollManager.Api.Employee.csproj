@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PayrollManager.Application.Employee\PayrollManager.Application.Employee.csproj" />
+    <ProjectReference Include="..\PayrollManager.Application.PayslipGenerator\PayrollManager.Application.PayslipGenerator.csproj" />
     <ProjectReference Include="..\PayrollManager.Infrastructure.PayrollDb\PayrollManager.Infrastructure.PayrollDbContext.csproj" />
   </ItemGroup>
 

@@ -10,5 +10,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Payslips
 {
     public interface IPayslipsRepository : IGenericRepository<PayslipsEntity>
     {
+        IEnumerable<PayslipsEntity> GetAllPayslips(Guid employeeId);
+        PayslipsEntity GetLatestPayslip(Guid employeeId);
     }
 }

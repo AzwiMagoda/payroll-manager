@@ -2,12 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Application.Employee.Services;
+using PayrollManager.Application.PayslipGenerator.Interfaces;
+using PayrollManager.Application.PayslipGenerator.Services;
 using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.Payslips;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 
 namespace PayrollManager.Api.Employee.Autofac
@@ -32,6 +35,10 @@ namespace PayrollManager.Api.Employee.Autofac
 
             builder.RegisterType<TeamService>()
                 .As<ITeamService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PayslipService>()
+                .As<IPayslipService>()
                 .InstancePerLifetimeScope();
 
             #endregion
@@ -60,6 +67,10 @@ namespace PayrollManager.Api.Employee.Autofac
 
             builder.RegisterType<BookedLeaveDaysRepository>()
                 .As<IBookedLeaveDaysRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PayslipsRepository>()
+                .As<IPayslipsRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion
