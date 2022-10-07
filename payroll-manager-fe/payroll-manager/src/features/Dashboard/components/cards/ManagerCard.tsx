@@ -13,7 +13,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default observer(function ManagerCard() {
+interface Props {
+	managerName: string;
+}
+
+export default observer(function ManagerCard({ managerName }: Props) {
 	return (
 		<Card sx={{ height: '100%' }}>
 			<CardContent>
@@ -23,7 +27,7 @@ export default observer(function ManagerCard() {
 							Your Manager
 						</Typography>
 						<Typography color='textPrimary' variant='h4'>
-							Brandon
+							{managerName}
 						</Typography>
 					</Grid>
 					<Grid item>

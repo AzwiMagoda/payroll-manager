@@ -18,6 +18,7 @@ import {
 	ListItemText,
 	Paper,
 	Typography,
+	CircularProgress,
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -34,8 +35,13 @@ interface Props {
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
 	const {
-		employeeStore: { leaveDays, getAllBookedLeaveDays, getLeaveDaysBalances },
-		payslipStore: { getAllPayslips, getlatestPayslip, loading, latestPayslip },
+		employeeStore: {
+			leaveDays,
+			getAllBookedLeaveDays,
+			getLeaveDaysBalances,
+			loading,
+		},
+		payslipStore: { getAllPayslips, getlatestPayslip, latestPayslip },
 	} = useStore();
 
 	useEffect(() => {
@@ -49,10 +55,16 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 		<Container maxWidth={false}>
 			<Grid container spacing={3}>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					<LeaveDaysCard />
+					{leaveDays ? (
+						<LeaveDaysCard leaveBalance={leaveDays.annualLeaveBalance} />
+					) : (
+						<Box sx={{ display: 'flex' }}>
+							<CircularProgress />
+						</Box>
+					)}
 				</Grid>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					<ManagerCard />
+					<ManagerCard managerName={employee.manager} />
 				</Grid>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
 					<PayslipCard />

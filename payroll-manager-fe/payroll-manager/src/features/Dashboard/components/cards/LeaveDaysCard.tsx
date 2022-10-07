@@ -14,7 +14,11 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default observer(function LeaveDaysCard() {
+interface Props {
+	leaveBalance: number;
+}
+
+export default observer(function LeaveDaysCard({ leaveBalance }: Props) {
 	return (
 		<Card sx={{ height: '100%' }}>
 			<CardContent>
@@ -24,7 +28,7 @@ export default observer(function LeaveDaysCard() {
 							Annual Leave Balance
 						</Typography>
 						<Typography color='textPrimary' variant='h4'>
-							17
+							{leaveBalance}
 						</Typography>
 					</Grid>
 					<Grid item>
