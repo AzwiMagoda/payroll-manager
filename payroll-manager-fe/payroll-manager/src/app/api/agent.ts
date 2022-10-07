@@ -6,6 +6,7 @@ import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 import { TeamMembers } from '../models/teamMembers';
+import { Payslip } from '../models/payslip';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -79,9 +80,17 @@ const Team = {
 		requests.get<TeamMembers[]>(`/Team/GetTeamMembers/${teamName}`),
 };
 
+const Payslips = {
+	getAllPayslips: (employeeId: string) =>
+		requests.get<Payslip[]>(`/Payslip/GetAllPayslips/${employeeId}`),
+	getLatestPayslip: (employeeId: string) =>
+		requests.get<Payslip>(`/Payslip/GetLatestPayslip/${employeeId}`),
+};
+
 const agent = {
 	Employees,
 	Team,
+	Payslips,
 };
 
 export default agent;

@@ -18,6 +18,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext
         public DbSet<DependentEntity> Dependents { get; set; }
         public DbSet<LeaveDaysEntity> LeaveDays { get; set; }
         public DbSet<BookedLeaveDaysEntity> BookedLeaveDays { get; set; }
+        public DbSet<PayslipsEntity> Payslips { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

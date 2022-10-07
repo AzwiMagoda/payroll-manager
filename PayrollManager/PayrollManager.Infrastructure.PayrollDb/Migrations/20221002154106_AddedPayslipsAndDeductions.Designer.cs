@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PayrollManager.Infrastructure.PayrollDbContext;
 
 namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
 {
     [DbContext(typeof(PayrollDbContext))]
-    partial class PayrollDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221002154106_AddedPayslipsAndDeductions")]
+    partial class AddedPayslipsAndDeductions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,9 +354,6 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
 
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("MonthlyBaseSalary")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OvertimeHrs")
                         .HasColumnType("int");

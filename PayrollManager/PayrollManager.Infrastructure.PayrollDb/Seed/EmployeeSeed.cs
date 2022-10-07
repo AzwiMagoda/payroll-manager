@@ -41,7 +41,6 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         BonusFrequency = 6,
                         BonusPercentage = 10,
                         CreatedDate = DateTime.Now,
-                        RetirementContribution = 5,
                     }
                 };
 
