@@ -19,6 +19,7 @@ import {
 	Paper,
 	Typography,
 	CircularProgress,
+	Stack,
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -28,6 +29,7 @@ import LeaveDaysCard from './components/cards/LeaveDaysCard';
 import ManagerCard from './components/cards/ManagerCard';
 import PayslipCard from './components/cards/PayslipCard';
 import PayslipList from './components/payslip/PayslipList';
+import UserDetails from './components/userDetails/UserDetails';
 
 interface Props {
 	employee: Employee;
@@ -54,20 +56,29 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 	return (
 		<Container maxWidth={false}>
 			<Grid container spacing={3}>
+				{/* <Grid item lg={3} sm={6} xl={3} xs={12}>
+					<UserDetails employee={employee} />
+				</Grid> */}
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
 					{leaveDays ? (
 						<LeaveDaysCard leaveBalance={leaveDays.annualLeaveBalance} />
 					) : (
-						<Box sx={{ display: 'flex' }}>
+						<Stack alignItems='center' spacing={5}>
 							<CircularProgress />
-						</Box>
+						</Stack>
 					)}
 				</Grid>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
 					<ManagerCard managerName={employee.manager} />
 				</Grid>
 				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					<PayslipCard />
+					{latestPayslip ? (
+						<PayslipCard latestPayslip={latestPayslip} />
+					) : (
+						<Stack alignItems='center' spacing={5}>
+							<CircularProgress />
+						</Stack>
+					)}
 				</Grid>
 
 				{/* Payslip */}

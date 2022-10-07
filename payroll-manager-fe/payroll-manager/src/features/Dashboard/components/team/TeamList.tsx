@@ -10,6 +10,8 @@ import {
 	ListItemAvatar,
 	ListItemText,
 	Avatar,
+	Stack,
+	CircularProgress,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -29,12 +31,13 @@ export default function TeamList({ teamName }: Props) {
 	useEffect(() => {
 		getAllTeamMembers(teamName);
 	}, [getAllTeamMembers, teamMembers, teamName]);
+
 	return (
 		<Card>
-			<CardHeader title='Payslips' />
+			<CardHeader title='Team Members' />
 			<Divider />
 			<List>
-				{teamMembers &&
+				{teamMembers ? (
 					teamMembers.map((member) => (
 						<List key={member.lastName}>
 							<ListItem>
@@ -54,7 +57,12 @@ export default function TeamList({ teamName }: Props) {
 							</ListItem>
 							<Divider variant='inset' component='li' />
 						</List>
-					))}
+					))
+				) : (
+					<Stack alignItems='center' spacing={5}>
+						<CircularProgress />
+					</Stack>
+				)}
 			</List>
 
 			<Divider />

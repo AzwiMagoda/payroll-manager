@@ -21,7 +21,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Payslips
 
         public PayslipsEntity GetLatestPayslip(Guid employeeId)
         {
-            return _context.Payslips.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
+            return _context.Payslips.Where(x => x.EmployeeId == employeeId).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
         }
     }
 }

@@ -4,6 +4,7 @@ import {
 	Box,
 	Button,
 	Container,
+	Divider,
 	IconButton,
 	Menu,
 	MenuItem,
@@ -17,9 +18,10 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Employee } from '../models/employee';
 import { User } from '../models/user';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useStore } from '../stores/store';
 
 const pages = ['Dashboard', 'Team', 'Payslips'];
-const settings = ['Profile', 'Leave', 'Logout'];
 
 interface Props {
 	employee: Employee;
@@ -27,6 +29,12 @@ interface Props {
 }
 
 export default observer(function Header({ employee, user }: Props) {
+	const {
+		authStore: { logout },
+	} = useStore();
+
+	let navigate = useNavigate();
+
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
 	);
@@ -47,6 +55,11 @@ export default observer(function Header({ employee, user }: Props) {
 
 	const handleCloseUserMenu = () => {
 		setAnchorElUser(null);
+	};
+
+	const handleLogout = async () => {
+		logout();
+		navigate('/');
 	};
 
 	return (
@@ -101,15 +114,32 @@ export default observer(function Header({ employee, user }: Props) {
 								display: { xs: 'block', md: 'none' },
 							}}
 						>
-							{pages.map((page) => (
-								<MenuItem
-									key={page}
-									onClick={handleCloseNavMenu}
-									sx={{ letterSpacing: '.2rem' }}
-								>
-									<Typography textAlign='center'>{page}</Typography>
-								</MenuItem>
-							))}
+							<MenuItem
+								component={Link}
+								to={'/'}
+								onClick={handleCloseNavMenu}
+								sx={{ letterSpacing: '.2rem' }}
+							>
+								<Typography textAlign='center'>Dashboard</Typography>
+							</MenuItem>
+
+							<MenuItem
+								component={Link}
+								to={'/team'}
+								onClick={handleCloseNavMenu}
+								sx={{ letterSpacing: '.2rem' }}
+							>
+								<Typography textAlign='center'>Team</Typography>
+							</MenuItem>
+
+							<MenuItem
+								component={Link}
+								to={'/payslips'}
+								onClick={handleCloseNavMenu}
+								sx={{ letterSpacing: '.2rem' }}
+							>
+								<Typography textAlign='center'>Payslips</Typography>
+							</MenuItem>
 						</Menu>
 					</Box>
 					<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -132,15 +162,32 @@ export default observer(function Header({ employee, user }: Props) {
 						PayME
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						{pages.map((page) => (
-							<Button
-								key={page}
-								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: 'white', display: 'block' }}
-							>
-								{page}
-							</Button>
-						))}
+						<Button
+							component={Link}
+							to={'/'}
+							onClick={handleCloseNavMenu}
+							sx={{ my: 2, color: 'white', display: 'block' }}
+						>
+							Dashboard
+						</Button>
+
+						<Button
+							component={Link}
+							to={'/team'}
+							onClick={handleCloseNavMenu}
+							sx={{ my: 2, color: 'white', display: 'block' }}
+						>
+							Team
+						</Button>
+
+						<Button
+							component={Link}
+							to={'/payslips'}
+							onClick={handleCloseNavMenu}
+							sx={{ my: 2, color: 'white', display: 'block' }}
+						>
+							Payslips
+						</Button>
 					</Box>
 
 					<Box sx={{ flexGrow: 0 }}>
@@ -170,11 +217,27 @@ export default observer(function Header({ employee, user }: Props) {
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign='center'>{setting}</Typography>
-								</MenuItem>
-							))}
+							<MenuItem
+								component={Link}
+								to={`/profile`}
+								onClick={handleCloseUserMenu}
+							>
+								<Typography textAlign='center'>Profile</Typography>
+							</MenuItem>
+
+							<MenuItem
+								component={Link}
+								to={`/leaveDashboard`}
+								onClick={handleCloseUserMenu}
+							>
+								<Typography textAlign='center'>Leave Days</Typography>
+							</MenuItem>
+
+							<Divider />
+
+							<MenuItem onClick={() => handleLogout()}>
+								<Typography textAlign='center'>Logout</Typography>
+							</MenuItem>
 						</Menu>
 					</Box>
 				</Toolbar>

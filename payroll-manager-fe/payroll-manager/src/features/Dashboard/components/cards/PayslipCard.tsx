@@ -12,8 +12,13 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DownloadIcon from '@mui/icons-material/Download';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Payslip } from '../../../../app/models/payslip';
 
-export default observer(function PayslipCard() {
+interface Props {
+	latestPayslip: Payslip;
+}
+
+export default observer(function PayslipCard({ latestPayslip }: Props) {
 	return (
 		<Card sx={{ height: '100%' }}>
 			<CardContent>
@@ -55,7 +60,7 @@ export default observer(function PayslipCard() {
 						variant='body2'
 					>
 						<a
-							href='https://www.linkedin.com/in/azwi-magoda/'
+							href={latestPayslip.downloadUrl}
 							target='_blank'
 							rel='noreferrer'
 						>
