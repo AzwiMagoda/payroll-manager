@@ -61,7 +61,7 @@ export default class EmployeeStore {
 		}
 	};
 
-	setCurrentEmployee = async (id: string) => {
+	getCurrentEmployee = async (id: string) => {
 		this.loading = true;
 		try {
 			const employee = await agent.Employees.getEmployeeById(id);
@@ -69,6 +69,10 @@ export default class EmployeeStore {
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
+				window.localStorage.setItem(
+					'employeeDetails',
+					JSON.stringify(employee)
+				);
 			});
 		} catch (error) {
 			console.log(error);
@@ -304,5 +308,9 @@ export default class EmployeeStore {
 				this.loading = false;
 			});
 		}
+	};
+
+	setCurrentEmployee = (employee: Employee) => {
+		this.currentEmployee = employee;
 	};
 }

@@ -20,9 +20,10 @@ export default class AuthStore {
 			if (!this.user) {
 				const user = await authAgent.Auth.login(login);
 				store.commonStore.setToken(user.token);
-				await store.employeeStore.setCurrentEmployee(user.employeeId);
+				await store.employeeStore.getCurrentEmployee(user.employeeId);
 				runInAction(() => {
 					this.user = user;
+					window.localStorage.setItem('user', JSON.stringify(user));
 					this.loading = false;
 					toast.success('Success!');
 				});
@@ -39,7 +40,17 @@ export default class AuthStore {
 	logout = () => {
 		store.commonStore.setToken(null);
 		window.localStorage.removeItem('jwt');
+		window.localStorage.removeItem('employeeDetails');
+		window.localStorage.removeItem('user');
 		this.user = null;
 		store.employeeStore.employeeLogOut();
+	};
+
+	setUser = (user: User) => {
+		this.user = user;
+	};
+
+	setLoading = (loading: boolean) => {
+		this.loading = loading;
 	};
 }
