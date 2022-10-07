@@ -19,6 +19,7 @@ import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
 import { User } from '../models/user';
 import { Employee } from '../models/employee';
+import HeaderNavigation from './HeaderNavigation';
 
 function App() {
 	const {
@@ -66,11 +67,11 @@ function App() {
 			</Backdrop> */}
 
 			<Box sx={{ display: 'flex' }} style={{ minHeight: '100vh' }}>
-				<CssBaseline enableColorScheme />
+				{/* <CssBaseline enableColorScheme /> */}
 
 				{user && currentEmployee && (
 					<>
-						<Box
+						{/* <Box
 							component='nav'
 							sx={{
 								width: { sm: drawerWidth },
@@ -84,7 +85,7 @@ function App() {
 								user={user}
 								drawerWidth={drawerWidth}
 							/>
-						</Box>
+						</Box> */}
 
 						<Box
 							component='main'
@@ -95,7 +96,7 @@ function App() {
 								padding: 0,
 							}}
 						>
-							<Toolbar>PayMe</Toolbar>
+							<HeaderNavigation employee={currentEmployee} user={user} />
 							<Box sx={{ margin: '2rem' }}>
 								<Routes>
 									<Route
