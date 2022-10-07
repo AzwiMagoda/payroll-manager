@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Box, CssBaseline, Toolbar } from '@mui/material';
+import {
+	Backdrop,
+	Box,
+	CircularProgress,
+	CssBaseline,
+	Toolbar,
+} from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
 import SideNavbar from './SideNavbar';
@@ -11,13 +17,32 @@ import ProfileDashboard from '../../features/profile/ProfileDashboard';
 import './App.css';
 import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
+import { User } from '../models/user';
+import { Employee } from '../models/employee';
 
 function App() {
 	const {
-		authStore: { user },
-		employeeStore: { currentEmployee },
+		authStore: { user, setUser, loading, setLoading },
+		employeeStore: { currentEmployee, setCurrentEmployee },
 	} = useStore();
 	const drawerWidth = 240;
+
+	useEffect(() => {
+		if (user === null) {
+			const userDetails = localStorage.getItem('user');
+			if (userDetails) {
+				const foundUser = JSON.parse(userDetails) as User;
+				setUser(foundUser);
+
+				const employee = localStorage.getItem('employeeDetails');
+
+				if (employee) {
+					const foundEmployee = JSON.parse(employee) as Employee;
+					setCurrentEmployee(foundEmployee);
+				}
+			}
+		}
+	});
 
 	return (
 		<>
@@ -32,9 +57,17 @@ function App() {
 				draggable
 				pauseOnHover
 			/>
+
+			{/* <Backdrop
+				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+				open={loading}
+			>
+				<CircularProgress color='inherit' />
+			</Backdrop> */}
+
 			<Box sx={{ display: 'flex' }} style={{ minHeight: '100vh' }}>
 				<CssBaseline enableColorScheme />
-				{!user && !currentEmployee && <Login />}
+
 				{user && currentEmployee && (
 					<>
 						<Box
@@ -83,6 +116,7 @@ function App() {
 						</Box>
 					</>
 				)}
+				{!user && !currentEmployee && <Login />}
 			</Box>
 		</>
 	);

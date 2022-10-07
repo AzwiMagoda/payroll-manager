@@ -21,14 +21,13 @@ export default function TeamList({ teamName }: Props) {
 
 	useEffect(() => {
 		getAllTeamMembers(teamName);
-		console.log(teamMembers);
 	}, [getAllTeamMembers, teamMembers, teamName]);
 	return (
 		<Box>
 			<List>
 				{teamMembers &&
 					teamMembers.map((member) => (
-						<List>
+						<List key={member.lastName}>
 							<ListItem>
 								<ListItemAvatar>
 									<Avatar>{member.firstName.charAt(0)}</Avatar>
