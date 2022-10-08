@@ -51,11 +51,8 @@ export default function TeamList({ teamName }: Props) {
 									primary={`${member.firstName} ${member.lastName}`}
 									secondary={member.jobTitle}
 								/>
-								<IconButton edge='end' size='small'>
-									<MoreVertIcon />
-								</IconButton>
 							</ListItem>
-							<Divider variant='inset' component='li' />
+							<Divider component='li' />
 						</List>
 					))
 				) : (

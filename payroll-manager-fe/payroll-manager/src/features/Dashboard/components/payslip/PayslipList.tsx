@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Box,
 	Button,
@@ -11,51 +11,59 @@ import {
 	ListItem,
 	ListItemAvatar,
 	ListItemText,
+	CircularProgress,
+	Stack,
 } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { Link } from 'react-router-dom';
+import { Payslip } from '../../../../app/models/payslip';
+import { useStore } from '../../../../app/stores/store';
 
-const payslips = [
-	{
-		id: 1,
-		name: 'Paylsip1',
-		downloadUrl: 'https://www.linkedin.com/in/azwi-magoda/',
-	},
-	{
-		id: 2,
-		name: 'Paylsip2',
-		downloadUrl: 'https://www.linkedin.com/in/azwi-magoda/',
-	},
-	{
-		id: 3,
-		name: 'Paylsip3',
-		downloadUrl: 'https://www.linkedin.com/in/azwi-magoda/',
-	},
-];
+interface Props {
+	employeeId: string;
+}
 
-export default observer(function PayslipList() {
+export default observer(function PayslipList({ employeeId }: Props) {
+	const {
+		payslipStore: { getAllPayslips, payslips, loading },
+	} = useStore();
+
+	useEffect(() => {
+		getAllPayslips(employeeId);
+	}, [employeeId, getAllPayslips]);
+
 	return (
 		<Card>
 			<CardHeader title='Payslips' />
 			<Divider />
-			<List>
-				{payslips.map((payslip, i) => (
-					<ListItem divider={i < payslips.length - 1} key={payslip.id}>
-						<ListItemAvatar>
-							<FileDownloadIcon />
-						</ListItemAvatar>
-						<ListItemText
-							primary={payslip.name}
-							secondary={`Created 25/09/2022`}
-						/>
-						<IconButton edge='end' size='small'>
-							<MoreVertIcon />
-						</IconButton>
-					</ListItem>
-				))}
-			</List>
+			{loading ? (
+				<Stack alignItems='center' spacing={5}>
+					<CircularProgress />
+				</Stack>
+			) : (
+				payslips && (
+					<List>
+						{payslips.map((payslip, i) => (
+							<ListItem
+								component='a'
+								href={payslip.downloadUrl}
+								divider={i < payslips.length - 1}
+								key={payslip.id}
+							>
+								<ListItemAvatar>
+									<FileDownloadIcon />
+								</ListItemAvatar>
+								<ListItemText
+									primary={payslip.payslipName}
+									secondary={`Created ${payslip.createdDate}`}
+								/>
+							</ListItem>
+						))}
+					</List>
+				)
+			)}
 			<Divider />
 			<Box
 				sx={{

@@ -43,19 +43,23 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 			getLeaveDaysBalances,
 			loading,
 		},
-		payslipStore: { getAllPayslips, getlatestPayslip, latestPayslip },
+		payslipStore: { getlatestPayslip, latestPayslip, payslips },
 	} = useStore();
 
 	useEffect(() => {
 		getLeaveDaysBalances(employee.id);
 		getAllBookedLeaveDays(employee.id);
-		getAllPayslips(employee.id);
 		getlatestPayslip(employee.id);
-	}, [employee.id, getAllBookedLeaveDays, getAllPayslips, getLeaveDaysBalances, getlatestPayslip]);
+	}, [employee.id, getAllBookedLeaveDays, getLeaveDaysBalances, getlatestPayslip]);
 
 	return (
 		<Container maxWidth={false}>
-			<Grid container spacing={3}>
+			<Grid
+				container
+				spacing={3}
+				justifyContent='space-evenly'
+				alignItems='center'
+			>
 				{/* <Grid item lg={3} sm={6} xl={3} xs={12}>
 					<UserDetails employee={employee} />
 				</Grid> */}
@@ -83,7 +87,7 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 
 				{/* Payslip */}
 				<Grid item lg={4} md={6} xl={3} xs={12}>
-					<PayslipList />
+					<PayslipList employeeId={employee.id} />
 				</Grid>
 
 				{/* Team list */}
