@@ -50,6 +50,14 @@ namespace PayrollManager.Api.Auth.Controllers
             return Ok(CreateUserObject(user, role));
         }
 
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return Ok();
+        }
+
         private UserDto CreateUserObject(UserEntity user, string role)
         {
             return new UserDto

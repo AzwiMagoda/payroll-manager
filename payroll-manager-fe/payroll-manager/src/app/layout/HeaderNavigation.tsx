@@ -233,6 +233,14 @@ export default observer(function Header({ employee, user }: Props) {
 								<Typography textAlign='center'>Leave Days</Typography>
 							</MenuItem>
 
+							<MenuItem
+								component={Link}
+								to={`/remuneration`}
+								onClick={handleCloseUserMenu}
+							>
+								<Typography textAlign='center'>Remuneration</Typography>
+							</MenuItem>
+
 							<Divider />
 
 							<MenuItem onClick={() => handleLogout()}>

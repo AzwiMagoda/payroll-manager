@@ -87,6 +87,7 @@ namespace PayrollManager.Api.Auth
                 });
             services.AddAuthorization();
             services.AddScoped<TokenService>();
+            services.AddHttpContextAccessor();
 
         }
 
@@ -105,7 +106,7 @@ namespace PayrollManager.Api.Auth
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
-
+            app.UseAuthorization();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
