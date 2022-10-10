@@ -19,6 +19,7 @@ import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
 import { User } from '../models/user';
 import { Employee } from '../models/employee';
+import HeaderNavigation from './HeaderNavigation';
 
 function App() {
 	const {
@@ -58,66 +59,33 @@ function App() {
 				pauseOnHover
 			/>
 
-			{/* <Backdrop
-				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={loading}
-			>
-				<CircularProgress color='inherit' />
-			</Backdrop> */}
+			{user && currentEmployee && (
+				<>
+					<HeaderNavigation employee={currentEmployee} user={user} />
 
-			<Box sx={{ display: 'flex' }} style={{ minHeight: '100vh' }}>
-				<CssBaseline enableColorScheme />
-
-				{user && currentEmployee && (
-					<>
-						<Box
-							component='nav'
-							sx={{
-								width: { sm: drawerWidth },
-								flexShrink: { sm: 0 },
-								margin: 0,
-							}}
-							aria-label='side navbar'
-						>
-							<SideNavbar
-								employee={currentEmployee}
-								user={user}
-								drawerWidth={drawerWidth}
+					<Box
+						component='main'
+						sx={{
+							flexGrow: 1,
+							py: 8,
+						}}
+					>
+						<Routes>
+							<Route
+								path='/'
+								element={<EmployeeDashboard employee={currentEmployee} />}
 							/>
-						</Box>
-
-						<Box
-							component='main'
-							sx={{
-								flexGrow: 1,
-								p: 3,
-								width: { sm: `calc(100% - ${drawerWidth}px)` },
-								padding: 0,
-							}}
-						>
-							<Toolbar>PayMe</Toolbar>
-							<Box sx={{ margin: '2rem' }}>
-								<Routes>
-									<Route
-										path='/'
-										element={<EmployeeDashboard employee={currentEmployee} />}
-									/>
-									<Route path='/profile' element={<ProfileDashboard />} />
-									<Route
-										path='/employees'
-										element={<EmployeeList employees={[]} />}
-									/>
-									<Route
-										path='leaveDashboard'
-										element={<LeaveDaysDashboard />}
-									/>
-								</Routes>
-							</Box>
-						</Box>
-					</>
-				)}
-				{!user && !currentEmployee && <Login />}
-			</Box>
+							<Route path='/profile' element={<ProfileDashboard />} />
+							<Route
+								path='/employees'
+								element={<EmployeeList employees={[]} />}
+							/>
+							<Route path='leaveDashboard' element={<LeaveDaysDashboard />} />
+						</Routes>
+					</Box>
+				</>
+			)}
+			{!user && !currentEmployee && <Login />}
 		</>
 	);
 }

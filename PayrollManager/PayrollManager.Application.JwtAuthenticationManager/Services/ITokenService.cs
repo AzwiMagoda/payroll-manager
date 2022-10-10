@@ -1,6 +1,6 @@
 ﻿using PayrollManager.Infrastructure.Models;
 
-namespace PayrollManager.Api.Auth.Services
+namespace PayrollManager.Application.JwtAuthenticationManager.Services
 {
     public interface ITokenService
     {

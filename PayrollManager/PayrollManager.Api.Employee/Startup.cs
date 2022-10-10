@@ -1,14 +1,18 @@
 using Autofac;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PayrollManager.Api.Employee.Autofac;
 using PayrollManager.Application.Employee.AutoMapper;
+using PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod;
 using PayrollManager.Infrastructure.PayrollDbContext;
+using System.Text;
 
 namespace PayrollManager.Api.Employee
 {
@@ -43,6 +47,8 @@ namespace PayrollManager.Api.Employee
 
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
+            services.AddCustomJwtAuthentication();
+            services.AddAuthenticationMethod();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +67,7 @@ namespace PayrollManager.Api.Employee
 
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

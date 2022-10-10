@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; //theme
 import 'primereact/resources/primereact.min.css'; //core css
 import 'primeicons/primeicons.css'; //icons
+import { ThemeProvider } from '@mui/material';
+import { theme } from './theme';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -20,11 +22,13 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<LocalizationProvider dateAdapter={AdapterDateFns}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</LocalizationProvider>
+		<ThemeProvider theme={theme}>
+			<LocalizationProvider dateAdapter={AdapterDateFns}>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</LocalizationProvider>
+		</ThemeProvider>
 	</React.StrictMode>
 );
 

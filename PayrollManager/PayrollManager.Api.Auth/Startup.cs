@@ -14,7 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PayrollManager.Api.Auth.Services;
+using PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod;
+using PayrollManager.Application.JwtAuthenticationManager.Services;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Security;
@@ -72,21 +73,11 @@ namespace PayrollManager.Api.Auth
             .AddSignInManager<SignInManager<UserEntity>>()
             .AddRoleManager<RoleManager<RoleEntity>>();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            services.AddCustomJwtAuthentication();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt =>
-                {
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                    };
-                });
             services.AddAuthorization();
-            services.AddScoped<TokenService>();
+            services.AddSingleton<TokenService>();
+            services.AddHttpContextAccessor();
 
         }
 
@@ -105,7 +96,7 @@ namespace PayrollManager.Api.Auth
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
