@@ -48,13 +48,7 @@ namespace PayrollManager.Api.Employee
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             services.AddCustomJwtAuthentication();
-            services.AddAuthorization(opt =>
-            {
-                opt.AddPolicy("EmployeePolicy", policy => policy.RequireClaim("Role", "Employee"));
-                opt.AddPolicy("HRPolicy", policy => policy.RequireClaim("Role", "HR"));
-                opt.AddPolicy("ManagerPolicy", policy => policy.RequireClaim("Role", "Manager"));
-                opt.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin"));
-            });
+            services.AddAuthenticationMethod();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -73,8 +73,6 @@ namespace PayrollManager.Api.Auth
             .AddSignInManager<SignInManager<UserEntity>>()
             .AddRoleManager<RoleManager<RoleEntity>>();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
-
             services.AddCustomJwtAuthentication();
 
             services.AddAuthorization();

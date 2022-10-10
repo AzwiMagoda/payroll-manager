@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using PayrollManager.Application.JwtAuthenticationManager.Configuration;
 
 namespace PayrollManager.Application.JwtAuthenticationManager.Services
 {
@@ -33,7 +34,7 @@ namespace PayrollManager.Application.JwtAuthenticationManager.Services
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddMinutes(JwtConfiguration.JWT_TOKEN_EXPIRY),
                 SigningCredentials = creds
             };
 

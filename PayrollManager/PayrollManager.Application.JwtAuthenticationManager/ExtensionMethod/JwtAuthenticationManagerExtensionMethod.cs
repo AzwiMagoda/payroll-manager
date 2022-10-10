@@ -29,6 +29,8 @@ namespace PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod
                             IssuerSigningKey = key,
                             ValidateIssuer = false,
                             ValidateAudience = false,
+                            //ValidIssuer = JwtConfiguration.JWT_ISSUER,
+                            //ValidAudience = JwtConfiguration.JWT_AUDIENCE,
                         };
                     });
         }

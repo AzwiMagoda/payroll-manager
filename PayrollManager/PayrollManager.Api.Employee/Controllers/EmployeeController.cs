@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PayrollManager.Api.Employee.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "AuthenticatedPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
