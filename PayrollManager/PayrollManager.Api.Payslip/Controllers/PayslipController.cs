@@ -1,17 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayrollManager.Application.PayslipGenerator.Dto;
 using PayrollManager.Application.PayslipGenerator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PayrollManager.Api.Employee.Controllers
+namespace PayrollManager.Api.Payslip.Controllers
 {
+    [Authorize(Policy = "AuthenticatedPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class PayslipController : ControllerBase
     {
-        private readonly  IPayslipService _payslipService;
+        private readonly IPayslipService _payslipService;
 
         public PayslipController(IPayslipService payslipService)
         {

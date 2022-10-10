@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PayrollManager.Api.Employee.Controllers
+namespace PayrollManager.Api.LeaveDays.Controllers
 {
+    [Authorize(Policy = "AuthenticatedPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class LeaveDaysController : ControllerBase

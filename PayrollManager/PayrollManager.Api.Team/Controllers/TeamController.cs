@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using System.Collections.Generic;
 
-namespace PayrollManager.Api.Employee.Controllers
+namespace PayrollManager.Api.Team.Controllers
 {
+    [Authorize(Policy = "AuthenticatedPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamController : ControllerBase
