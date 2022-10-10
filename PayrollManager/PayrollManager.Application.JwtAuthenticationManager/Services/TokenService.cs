@@ -7,7 +7,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace PayrollManager.Api.Auth.Services
+namespace PayrollManager.Application.JwtAuthenticationManager.Services
 {
     public class TokenService : ITokenService
     {
@@ -24,7 +24,7 @@ namespace PayrollManager.Api.Auth.Services
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role)
+                new Claim("Role", role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));

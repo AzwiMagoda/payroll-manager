@@ -5,9 +5,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PayrollManager.Api.Employee.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
@@ -20,6 +22,7 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "HRPolicy")]
         [Route("GetAllEmployees")]
         public ActionResult<IEnumerable<EmployeeDto>> GetAllEmployees()
         {
@@ -35,6 +38,7 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "HRPolicy")]
         [Route("CreateEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employee)
         {

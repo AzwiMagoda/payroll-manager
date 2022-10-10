@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PayrollManager.Api.Auth.Dto;
-using PayrollManager.Api.Auth.Services;
+using PayrollManager.Application.JwtAuthenticationManager.Services;
 using PayrollManager.Infrastructure.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
