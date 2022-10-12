@@ -61,6 +61,14 @@ namespace PayrollManager.Infrastructure.ApiGateway
                         x.WithDictionaryHandle();
                     });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                });
+            });
+
             services.AddScoped<TokenService>();
 
             services.AddControllers();
@@ -84,6 +92,7 @@ namespace PayrollManager.Infrastructure.ApiGateway
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 

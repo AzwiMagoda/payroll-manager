@@ -1,0 +1,23 @@
+﻿using PayrollManager.Application.LeaveDays.Dto;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace PayrollManager.Application.LeaveDays.Interfaces
+{
+    public interface IEmployeeService
+    {
+        IEnumerable<EmployeeDto> GetAllEmployees();
+        Task<EmployeeDto> GetEmployee(Guid employeeId);
+        Task CreateEmployee(EmployeeDto employee);
+        Task UpdateEmployee(EmployeeDto employee);
+        Task UpdatePersonalInfo(PersonalInfoDto info, Guid id);
+        Task UpdateContactDetails(ContactDetailsDto info, Guid id);
+        Task DeleteEmployee(Guid id);
+        IEnumerable<DependantDto> GetEmployeeDependants(Guid employeeId);
+        Task CreateDependant(DependantDto dependant);
+        Task UpdateDependant(DependantDto dependant);
+        Task DeleteDependant(Guid dependantId);
+
+    }
+}

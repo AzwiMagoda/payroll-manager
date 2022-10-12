@@ -45,7 +45,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44328
+          "Port": 44332
         }
       ],
       "FileCacheOptions": {
@@ -56,8 +56,8 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamPathTemplate": "/employee/getAll",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/Employee/GetEmployee/{employeeId}",
@@ -65,7 +65,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44328
+          "Port": 44332
         }
       ],
       "AuthenticationOptions": {
@@ -73,7 +73,55 @@
         "AllowedScopes": []
       },
       "UpstreamPathTemplate": "/employee/{employeeId}",
-      "UpstreamHttpMethod": [ "GET", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/UpdateEmployee",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/employee/update",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/UpdatePersonalInformation/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/employee/updatepersonalinfo/{id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/UpdateContactDetails/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/employee/updatecontactdetails/{id}",
+      "UpstreamHttpMethod": [ "PUT" ]
     }
   ]
 
