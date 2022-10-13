@@ -4,6 +4,8 @@ using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Application.Employee.Services;
 using PayrollManager.Application.PayslipGenerator.Interfaces;
 using PayrollManager.Application.PayslipGenerator.Services;
+using PayrollManager.Application.Team.Interfaces;
+using PayrollManager.Application.Team.Services;
 using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
@@ -25,20 +27,9 @@ namespace PayrollManager.Api.Team.Autofac
 
 
             #region Services
-            builder.RegisterType<EmployeeService>()
-                .As<IEmployeeService>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<LeaveDaysService>()
-                .As<ILeaveDaysService>()
-                .InstancePerLifetimeScope();
 
             builder.RegisterType<TeamService>()
                 .As<ITeamService>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<PayslipService>()
-                .As<IPayslipService>()
                 .InstancePerLifetimeScope();
 
             #endregion
@@ -49,28 +40,8 @@ namespace PayrollManager.Api.Team.Autofac
                 .As<IEmployeeRepository>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<RemunerationRepository>()
-                .As<IRemunerationRepository>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<ContactDetailsRepository>()
                 .As<IContactDetailsRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<DependantRepository>()
-                .As<IDependantRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<LeaveDaysRepository>()
-                .As<ILeaveDaysRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<BookedLeaveDaysRepository>()
-                .As<IBookedLeaveDaysRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<PayslipsRepository>()
-                .As<IPayslipsRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion

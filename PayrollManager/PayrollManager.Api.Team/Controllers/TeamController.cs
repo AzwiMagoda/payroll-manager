@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PayrollManager.Application.Employee.Dto;
-using PayrollManager.Application.Employee.Interfaces;
+using PayrollManager.Application.Team.Dto;
+using PayrollManager.Application.Team.Interfaces;
 using System.Collections.Generic;
 
 namespace PayrollManager.Api.Team.Controllers

@@ -31,11 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.JwtAuthenticationManager", "PayrollManager.Application.JwtAuthenticationManager\PayrollManager.Application.JwtAuthenticationManager.csproj", "{F62E632C-54B2-42F8-AF47-02CDADE32C93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Api.LeaveDays", "PayrollManager.Api.LeaveDays\PayrollManager.Api.LeaveDays.csproj", "{76E789A5-9346-4B33-B52A-ABB2CCF99807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.LeaveDays", "PayrollManager.Api.LeaveDays\PayrollManager.Api.LeaveDays.csproj", "{76E789A5-9346-4B33-B52A-ABB2CCF99807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Api.Payslip", "PayrollManager.Api.Payslip\PayrollManager.Api.Payslip.csproj", "{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Payslip", "PayrollManager.Api.Payslip\PayrollManager.Api.Payslip.csproj", "{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Api.Team", "PayrollManager.Api.Team\PayrollManager.Api.Team.csproj", "{20AB38D4-4515-43B9-846C-0EC9CADE08DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Team", "PayrollManager.Api.Team\PayrollManager.Api.Team.csproj", "{20AB38D4-4515-43B9-846C-0EC9CADE08DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Application.LeaveDays", "PayrollManager.Application.LeaveDays\PayrollManager.Application.LeaveDays.csproj", "{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{76E789A5-9346-4B33-B52A-ABB2CCF99807} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
 		{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
 		{20AB38D4-4515-43B9-846C-0EC9CADE08DD} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE7CF3D0-73D6-48B5-981B-9443B5CC405C}

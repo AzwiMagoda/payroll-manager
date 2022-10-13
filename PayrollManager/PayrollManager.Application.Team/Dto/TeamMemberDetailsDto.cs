@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayrollManager.Application.LeaveDays.Dto
+namespace PayrollManager.Application.Team.Dto
 {
     public class TeamMemberDetailsDto
     {

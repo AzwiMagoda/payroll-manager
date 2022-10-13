@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PayrollManager.Application.Employee.Dto;
-using PayrollManager.Application.Employee.Interfaces;
+using PayrollManager.Application.LeaveDays.Dto;
+using PayrollManager.Application.LeaveDays.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

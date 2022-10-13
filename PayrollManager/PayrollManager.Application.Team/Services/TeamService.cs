@@ -1,5 +1,5 @@
-﻿using PayrollManager.Application.Employee.Dto;
-using PayrollManager.Application.Employee.Interfaces;
+﻿using PayrollManager.Application.Team.Dto;
+using PayrollManager.Application.Team.Interfaces;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PayrollManager.Application.Employee.Services
+namespace PayrollManager.Application.Team.Services
 {
     public class TeamService : ITeamService
     {

@@ -1,5 +1,4 @@
 ﻿using PayrollManager.Application.Employee.Dto;
-using PayrollManager.Application.Employee.Helpers;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
@@ -18,19 +17,14 @@ namespace PayrollManager.Application.Employee.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly IRemunerationRepository _remunerationRepository;
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
 
         public EmployeeService(IEmployeeRepository employeeRepository,
-                               IRemunerationRepository remunerationRepository,
                                IContactDetailsRepository contactDetailsRepository,
-                               IDependantRepository dependantRepository,
-                               ILeaveDaysRepository leaveDaysRepository,
-                               IBookedLeaveDaysRepository bookedLeaveDaysRepository)
+                               IDependantRepository dependantRepository)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
-            _remunerationRepository = remunerationRepository ?? throw new ArgumentNullException(nameof(remunerationRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
         }
@@ -148,7 +142,6 @@ namespace PayrollManager.Application.Employee.Services
         {
             try
             {
-                await _remunerationRepository.Delete(id);
                 await _employeeRepository.Delete(id);
             }
             catch (Exception ex)
