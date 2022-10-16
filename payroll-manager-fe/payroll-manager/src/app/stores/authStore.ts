@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
-import authAgent from '../api/authAgent';
+import agent from '../api/agent';
 import { Login } from '../models/login';
 import { User } from '../models/user';
 import { store } from './store';
@@ -18,7 +18,7 @@ export default class AuthStore {
 		this.loading = true;
 		try {
 			if (!this.user) {
-				const user = await authAgent.Auth.login(login);
+				const user = await agent.Auth.login(login);
 				store.commonStore.setToken(user.token);
 				await store.employeeStore.getCurrentEmployee(user.employeeId);
 				runInAction(() => {
@@ -37,13 +37,15 @@ export default class AuthStore {
 		}
 	};
 
-	logout = () => {
+	logout = async () => {
 		store.commonStore.setToken(null);
 		window.localStorage.removeItem('jwt');
 		window.localStorage.removeItem('employeeDetails');
 		window.localStorage.removeItem('user');
 		this.user = null;
 		store.employeeStore.employeeLogOut();
+
+		await agent.Auth.logout();
 	};
 
 	setUser = (user: User) => {

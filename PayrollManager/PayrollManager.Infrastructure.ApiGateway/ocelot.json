@@ -104,7 +104,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee/updatepersonalinfo/{id}",
+      "UpstreamPathTemplate": "/employee/update/personalinfo/{id}",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
@@ -120,8 +120,142 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee/updatecontactdetails/{id}",
+      "UpstreamPathTemplate": "/employee/update/contactdetails/{id}",
       "UpstreamHttpMethod": [ "PUT" ]
+    },
+
+    //team
+    {
+      "DownstreamPathTemplate": "/api/Team/GetTeamMembers/{teamName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44384
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/team/{teamName}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    //leave days
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/leave/balance/{employeeId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/leave/balance/booked/{employeeId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/BookLeave/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/leave/book/{employeeId}",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/UpdateBookedLeave/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/leave/update/{employeeId}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/DeleteBookedLeave/{employeeId}/{bookedLeaveId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/leave/cancel/{employeeId}/{bookedLeaveId}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+
+    //payslip
+    {
+      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44312
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/payslip/{employeeId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44312
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/payslip/latest/{employeeId}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 

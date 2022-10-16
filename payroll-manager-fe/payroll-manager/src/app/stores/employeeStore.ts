@@ -202,7 +202,7 @@ export default class EmployeeStore {
 	getLeaveDaysBalances = async (employeeId: string) => {
 		this.loading = true;
 		try {
-			const leaveDays = await agent.Employees.getLeaveDays(employeeId);
+			const leaveDays = await agent.Leave.getLeaveDays(employeeId);
 			runInAction(() => {
 				this.loading = false;
 				this.leaveDays = leaveDays;
@@ -218,7 +218,7 @@ export default class EmployeeStore {
 	getAllBookedLeaveDays = async (id: string) => {
 		this.loading = true;
 		try {
-			const bookedDays = await agent.Employees.getBookedLeaveDays(id);
+			const bookedDays = await agent.Leave.getBookedLeaveDays(id);
 
 			runInAction(() => {
 				this.bookedLeaveDays = bookedDays;
@@ -235,7 +235,7 @@ export default class EmployeeStore {
 	bookLeave = async (leaveDays: BookedLeaveDays) => {
 		this.loading = true;
 		try {
-			const bookedLeave = agent.Employees.bookLeave(
+			const bookedLeave = agent.Leave.bookLeave(
 				leaveDays,
 				this.currentEmployee!.id
 			);
@@ -261,7 +261,7 @@ export default class EmployeeStore {
 	updateLeave = async (leaveDays: BookedLeaveDays) => {
 		this.loading = true;
 		try {
-			const bookedLeave = agent.Employees.updateLeave(
+			const bookedLeave = agent.Leave.updateLeave(
 				leaveDays,
 				this.currentEmployee!.id
 			);
@@ -285,7 +285,7 @@ export default class EmployeeStore {
 	deleteLeave = async (leaveId: string) => {
 		this.loading = true;
 		try {
-			const deleteLeave = agent.Employees.deleteLeave(
+			const deleteLeave = agent.Leave.deleteLeave(
 				leaveId,
 				this.currentEmployee!.id
 			);

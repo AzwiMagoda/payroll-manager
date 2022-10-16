@@ -29,14 +29,6 @@ namespace PayrollManager.Api.Payslip.Autofac
                 .As<IEmployeeService>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<LeaveDaysService>()
-                .As<ILeaveDaysService>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<TeamService>()
-                .As<ITeamService>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<PayslipService>()
                 .As<IPayslipService>()
                 .InstancePerLifetimeScope();

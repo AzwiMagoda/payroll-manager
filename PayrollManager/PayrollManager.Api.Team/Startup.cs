@@ -1,19 +1,15 @@
 using Autofac;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PayrollManager.Api.Team.Autofac;
-using PayrollManager.Application.Employee.AutoMapper;
 using PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod;
 using PayrollManager.Application.Team.AutoMapper;
 using PayrollManager.Infrastructure.PayrollDbContext;
-using System.Text;
 
 namespace PayrollManager.Api.Team
 {
