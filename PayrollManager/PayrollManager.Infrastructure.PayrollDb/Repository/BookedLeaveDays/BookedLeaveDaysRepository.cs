@@ -1,4 +1,5 @@
-﻿using PayrollManager.Infrastructure.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Generic;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveD
     {
         public BookedLeaveDaysRepository(PayrollDbContext context) : base(context)
         {
+        }
+
+        public IEnumerable<BookedLeaveDaysEntity> GetBookedLeaveDaysForEmployeeList(IEnumerable<Guid> employeeIds)
+        {
+            return _context.BookedLeaveDays.Where(x => employeeIds.Contains(x.EmployeeId));
         }
     }
 }

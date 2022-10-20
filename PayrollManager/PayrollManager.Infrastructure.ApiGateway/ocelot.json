@@ -256,6 +256,24 @@
       },
       "UpstreamPathTemplate": "/payslip/{employeeId}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+
+    //Manager
+    {
+      "DownstreamPathTemplate": "/api/Manager/GetAllEmployeeBookedLeaveDays/{managerId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44322
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/manager/getBookedLeaveDays/{managerId}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 
