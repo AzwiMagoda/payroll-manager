@@ -20,6 +20,7 @@ import { ToastContainer } from 'react-toastify';
 import { User } from '../models/user';
 import { Employee } from '../models/employee';
 import HeaderNavigation from './HeaderNavigation';
+import Error404 from '../common/error/Error404';
 
 function App() {
 	const {
@@ -81,6 +82,7 @@ function App() {
 								element={<EmployeeList employees={[]} />}
 							/>
 							<Route path='leaveDashboard' element={<LeaveDaysDashboard />} />
+							<Route path='/error404' element={<Error404 />} />
 						</Routes>
 					</Box>
 				</>

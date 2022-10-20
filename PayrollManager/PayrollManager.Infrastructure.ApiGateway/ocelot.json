@@ -144,22 +144,6 @@
 
     //leave days
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays/{employeeId}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44328
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
-      },
-      "UpstreamPathTemplate": "/leave/balance/{employeeId}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays/{employeeId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -173,6 +157,22 @@
         "AllowedScopes": []
       },
       "UpstreamPathTemplate": "/leave/balance/booked/{employeeId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/leave/balance/{employeeId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -226,22 +226,6 @@
 
     //payslip
     {
-      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips/{employeeId}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44312
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
-      },
-      "UpstreamPathTemplate": "/payslip/{employeeId}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip/{employeeId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -255,6 +239,22 @@
         "AllowedScopes": []
       },
       "UpstreamPathTemplate": "/payslip/latest/{employeeId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44312
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/payslip/{employeeId}",
       "UpstreamHttpMethod": [ "GET" ]
     }
   ]

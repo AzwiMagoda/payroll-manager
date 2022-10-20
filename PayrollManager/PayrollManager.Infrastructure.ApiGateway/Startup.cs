@@ -94,13 +94,16 @@ namespace PayrollManager.Infrastructure.ApiGateway
 
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
+
+            await app.UseOcelot();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-            await app.UseOcelot();
+            
         }
     }
 }

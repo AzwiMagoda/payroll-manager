@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
@@ -33,10 +34,24 @@ api.interceptors.request.use(
 	}
 );
 
-api.interceptors.response.use(async (response) => {
-	await sleep(1000);
-	return response;
-});
+api.interceptors.response.use(
+	async (response) => {
+		await sleep(1000);
+		return response;
+	},
+	(error: AxiosError) => {
+		const { data, status, config } = error.response!;
+		switch (status) {
+			case 401:
+				console.log('hey its a 401');
+				localStorage.clear();
+				return (window.location.href = '/');
+			// case 404:
+			// 	console.log('hey its a 404');
+			// 	return (window.location.href = '/error404');
+		}
+	}
+);
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -91,7 +106,7 @@ const Leave = {
 
 const Team = {
 	getAllTeamMembers: (teamName: string) =>
-		requests.get<TeamMembers[]>(`team/{teamName}${teamName}`),
+		requests.get<TeamMembers[]>(`team/${teamName}`),
 };
 
 const Payslips = {
