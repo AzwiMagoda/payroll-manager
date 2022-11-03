@@ -1,9 +1,11 @@
 import React from 'react';
 import {
+	Avatar,
 	Box,
 	Button,
 	Divider,
 	Drawer,
+	Stack,
 	Typography,
 	useMediaQuery,
 } from '@mui/material';
@@ -14,6 +16,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PaidIcon from '@mui/icons-material/Paid';
 import NavItem from './NavItem';
+import { Employee } from '../../models/employee';
 
 const items = [
 	{
@@ -52,7 +55,11 @@ const items = [
 	//performance
 ];
 
-export default function Sidebar() {
+interface Props {
+	employee: Employee;
+}
+
+export default function Sidebar({ employee }: Props) {
 	const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'), {
 		defaultMatches: true,
 		noSsr: false,
@@ -69,7 +76,45 @@ export default function Sidebar() {
 			>
 				<div>
 					<Box sx={{ p: 3 }}></Box>
-					<Box sx={{ px: 2 }}></Box>
+					<Box sx={{ px: 2 }}>
+						<Stack
+							direction='column'
+							justifyContent='space-around'
+							alignItems='center'
+							spacing={3}
+						>
+							<Avatar
+								alt='Hulisani Nefolovhodwe'
+								src='/static/images/avatar/1.jpg'
+								sx={{
+									height: '8em',
+									mb: 2,
+									width: '8em',
+								}}
+							/>
+
+							<Box
+								sx={{
+									alignItems: 'center',
+									backgroundColor: 'rgba(255, 255, 255, 0.04)',
+									display: 'flex',
+									justifyContent: 'space-between',
+									px: 3,
+									py: '11px',
+									borderRadius: 1,
+								}}
+							>
+								<div>
+									<Typography color='inherit' variant='subtitle1'>
+										{employee.name} {employee.surname}
+									</Typography>
+									<Typography color='neutral.400' variant='body2'>
+										{employee.jobTitle}
+									</Typography>
+								</div>
+							</Box>
+						</Stack>
+					</Box>
 				</div>
 				<Divider
 					sx={{

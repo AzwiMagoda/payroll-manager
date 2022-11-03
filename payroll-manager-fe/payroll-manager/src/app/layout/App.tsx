@@ -10,7 +10,6 @@ import {
 import { styled } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
-import SideNavbar from './SideNavbar';
 import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
@@ -20,7 +19,6 @@ import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
 import { User } from '../models/user';
 import { Employee } from '../models/employee';
-import HeaderNavigation from './HeaderNavigation';
 import Error404 from '../common/error/Error404';
 import Navbar from './navbar/Navbar';
 import Sidebar from './sidebar/Sidebar';
@@ -36,6 +34,10 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 function App() {
+	useEffect(() => {
+		document.title = 'Home | PayME';
+	}, []);
+
 	const {
 		authStore: { user, setUser, loading, setLoading },
 		employeeStore: { currentEmployee, setCurrentEmployee },
@@ -83,10 +85,33 @@ function App() {
 								width: '100%',
 							}}
 						>
-							Hi
+							<Box
+								component='main'
+								sx={{
+									flexGrow: 1,
+									py: 8,
+								}}
+							>
+								<Routes>
+									<Route
+										path='/'
+										element={<EmployeeDashboard employee={currentEmployee} />}
+									/>
+									<Route path='/profile' element={<ProfileDashboard />} />
+									<Route
+										path='/employees'
+										element={<EmployeeList employees={[]} />}
+									/>
+									<Route
+										path='leaveDashboard'
+										element={<LeaveDaysDashboard />}
+									/>
+									<Route path='/error404' element={<Error404 />} />
+								</Routes>
+							</Box>
 						</Box>
 						<Navbar />
-						<Sidebar />
+						<Sidebar employee={currentEmployee} />
 					</DashboardLayoutRoot>
 					{/* <HeaderNavigation employee={currentEmployee} user={user} />
 
