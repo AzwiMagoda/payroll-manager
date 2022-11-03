@@ -17,6 +17,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PaidIcon from '@mui/icons-material/Paid';
 import NavItem from './NavItem';
 import { Employee } from '../../models/employee';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const items = [
 	{
@@ -91,7 +92,9 @@ export default function Sidebar({ employee }: Props) {
 									mb: 2,
 									width: '8em',
 								}}
-							/>
+							>
+								<AccountCircleIcon sx={{ fontSize: '10em' }} />
+							</Avatar>
 
 							<Box
 								sx={{
