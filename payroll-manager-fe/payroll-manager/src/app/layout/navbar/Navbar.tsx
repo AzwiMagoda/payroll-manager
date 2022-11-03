@@ -85,7 +85,7 @@ export default function Navbar() {
 						}}
 						src='/static/images/avatars/avatar_1.png'
 					>
-						<AccountCircleIcon fontSize='inherit' />
+						<AccountCircleIcon sx={{ fontSize: 40, bgcolor: '#4B5563' }} />
 					</Avatar>
 				</Toolbar>
 			</DashboardNavbarRoot>

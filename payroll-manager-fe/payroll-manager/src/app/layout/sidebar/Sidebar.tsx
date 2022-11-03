@@ -93,7 +93,9 @@ export default function Sidebar({ employee }: Props) {
 									width: '8em',
 								}}
 							>
-								<AccountCircleIcon sx={{ fontSize: '10em' }} />
+								<AccountCircleIcon
+									sx={{ fontSize: '10em', bgcolor: '#4B5563' }}
+								/>
 							</Avatar>
 
 							<Box
