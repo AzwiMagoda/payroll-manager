@@ -1,30 +1,20 @@
-import React from 'react';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
-import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
+import React from 'react';
+import NotificationElement from './NotificationElement';
 
 interface Props {
 	anchorEl?: HTMLButtonElement | null;
 	open: boolean;
 	onClose: any;
-	employeeName: string;
 }
 
-export default observer(function AccountPopover({
+export default observer(function NotificationPopover({
 	anchorEl,
 	open,
 	onClose,
-	employeeName,
 }: Props) {
-	// const open = Boolean(anchorEl);
-	const {
-		authStore: { logout },
-	} = useStore();
-
-	const signOut = () => {
-		logout();
-	};
-
+	console.log(anchorEl);
 	return (
 		<Popover
 			anchorEl={anchorEl}
@@ -35,9 +25,8 @@ export default observer(function AccountPopover({
 			onClose={onClose}
 			open={open}
 			PaperProps={{
-				sx: { width: '300px' },
+				sx: { width: '350px' },
 			}}
-			// {...other}
 		>
 			<Box
 				sx={{
@@ -45,10 +34,7 @@ export default observer(function AccountPopover({
 					px: 2,
 				}}
 			>
-				<Typography variant='overline'>Account</Typography>
-				<Typography color='text.secondary' variant='body2'>
-					{employeeName}
-				</Typography>
+				<Typography variant='overline'>Notifications</Typography>
 			</Box>
 			<MenuList
 				disablePadding
@@ -63,7 +49,8 @@ export default observer(function AccountPopover({
 					},
 				}}
 			>
-				<MenuItem onClick={() => signOut()}>Sign out</MenuItem>
+				<NotificationElement />
+				<NotificationElement />
 			</MenuList>
 		</Popover>
 	);

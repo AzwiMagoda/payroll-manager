@@ -16,6 +16,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountPopover from './AccountPopover';
 import { Employee } from '../../models/employee';
+import NotificationPopover from './NotificationPopover';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 	backgroundColor: '#FFFFFF',
@@ -29,6 +30,7 @@ interface Props {
 export default function Navbar({ employee }: Props) {
 	const settingsRef = useRef(null);
 	const [openAccountPopover, setOpenAccountPopover] = useState(false);
+	const [openNotifications, setOpenNotifications] = useState(false);
 
 	return (
 		<>
@@ -73,7 +75,11 @@ export default function Navbar({ employee }: Props) {
 						</IconButton>
 					</Tooltip>
 					<Tooltip title='Notifications'>
-						<IconButton sx={{ ml: 1 }}>
+						<IconButton
+							sx={{ ml: 1 }}
+							onClick={() => setOpenNotifications(true)}
+							ref={settingsRef}
+						>
 							<Badge badgeContent={4} color='primary' variant='dot'>
 								<NotificationsIcon fontSize='small' />
 							</Badge>
@@ -99,6 +105,11 @@ export default function Navbar({ employee }: Props) {
 				open={openAccountPopover}
 				onClose={() => setOpenAccountPopover(false)}
 				employeeName={`${employee.name} ${employee.surname}`}
+			/>
+			<NotificationPopover
+				anchorEl={settingsRef.current}
+				open={openNotifications}
+				onClose={() => setOpenNotifications(false)}
 			/>
 		</>
 	);

@@ -91,7 +91,7 @@ export default function Sidebar({ employee }: Props) {
 							spacing={3}
 						>
 							<Avatar
-								alt='Hulisani Nefolovhodwe'
+								alt={`${employee.name} ${employee.surname}`}
 								src='/static/images/avatar/1.jpg'
 								sx={{
 									height: '8em',
