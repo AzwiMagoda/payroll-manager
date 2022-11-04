@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, ListItem } from '@mui/material';
-import { useMatch } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
 	title?: string;
@@ -10,6 +11,7 @@ interface Props {
 
 export default function NavItem({ title, icon, href }: Props) {
 	const active = useMatch(href);
+	const navigate = useNavigate();
 
 	return (
 		<ListItem
@@ -22,6 +24,7 @@ export default function NavItem({ title, icon, href }: Props) {
 			}}
 		>
 			<Button
+				href={href}
 				component='a'
 				startIcon={icon}
 				disableRipple

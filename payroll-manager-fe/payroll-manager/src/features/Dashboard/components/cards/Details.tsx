@@ -7,6 +7,7 @@ import {
 	Stack,
 	Typography,
 } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import GridDetailItem from './GridDetailItem';
 
@@ -21,12 +22,17 @@ const details = [
 	{ title: 'Time in Position', description: '2 years' },
 ];
 
-const contact = [{ title: 'Employee Id', description: '308956' }];
+const contact = [
+	{ title: 'Email', description: 'hulisani@42.com' },
+	{ title: 'Cellphone', description: '076 898 7799' },
+	{ title: 'Telephone', description: '011 987 9696' },
+	{ title: 'Work Address', description: '3 Mulberry Lane, Bryanston' },
+];
 
-export default function Details() {
+export default observer(function Details() {
 	return (
 		<Card>
-			<CardHeader title='Details' />
+			<CardHeader title='Job Details' />
 			<CardContent>
 				<Grid
 					container
@@ -47,11 +53,11 @@ export default function Details() {
 					justifyContent='space-around'
 					alignItems='flex-start'
 				>
-					{details.map((item) => (
+					{contact.map((item) => (
 						<GridDetailItem title={item.title} description={item.description} />
 					))}
 				</Grid>
 			</CardContent>
 		</Card>
 	);
-}
+});

@@ -97,7 +97,7 @@ function App() {
 										path='/'
 										element={<EmployeeDashboard employee={currentEmployee} />}
 									/>
-									<Route path='/profile' element={<ProfileDashboard />} />
+									<Route path='/account' element={<ProfileDashboard />} />
 									<Route
 										path='/employees'
 										element={<EmployeeList employees={[]} />}
@@ -110,7 +110,7 @@ function App() {
 								</Routes>
 							</Box>
 						</Box>
-						<Navbar />
+						<Navbar employee={currentEmployee} />
 						<Sidebar employee={currentEmployee} />
 					</DashboardLayoutRoot>
 					{/* <HeaderNavigation employee={currentEmployee} user={user} />

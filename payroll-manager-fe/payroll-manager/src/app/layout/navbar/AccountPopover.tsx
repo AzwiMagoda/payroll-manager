@@ -1,14 +1,28 @@
 import React from 'react';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import { useStore } from '../../stores/store';
 
 interface Props {
 	anchorEl?: HTMLButtonElement | null;
 	open: boolean;
 	onClose: any;
+	employeeName: string;
 }
 
-export default function AccountPopover({ anchorEl, open, onClose }: Props) {
+export default function AccountPopover({
+	anchorEl,
+	open,
+	onClose,
+	employeeName,
+}: Props) {
 	// const open = Boolean(anchorEl);
+	const {
+		authStore: { logout },
+	} = useStore();
+
+	const signOut = () => {
+		logout();
+	};
 
 	return (
 		<Popover
@@ -32,7 +46,7 @@ export default function AccountPopover({ anchorEl, open, onClose }: Props) {
 			>
 				<Typography variant='overline'>Account</Typography>
 				<Typography color='text.secondary' variant='body2'>
-					John Doe
+					{employeeName}
 				</Typography>
 			</Box>
 			<MenuList
@@ -48,7 +62,7 @@ export default function AccountPopover({ anchorEl, open, onClose }: Props) {
 					},
 				}}
 			>
-				<MenuItem>Sign out</MenuItem>
+				<MenuItem onClick={() => signOut()}>Sign out</MenuItem>
 			</MenuList>
 		</Popover>
 	);

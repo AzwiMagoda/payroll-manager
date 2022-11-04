@@ -15,13 +15,18 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountPopover from './AccountPopover';
+import { Employee } from '../../models/employee';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 	backgroundColor: '#FFFFFF',
 	boxShadow: '0px 1px 4px rgba(100, 116, 139, 0.12)',
 }));
 
-export default function Navbar() {
+interface Props {
+	employee: Employee;
+}
+
+export default function Navbar({ employee }: Props) {
 	const settingsRef = useRef(null);
 	const [openAccountPopover, setOpenAccountPopover] = useState(false);
 
@@ -45,8 +50,8 @@ export default function Navbar() {
 						px: 2,
 					}}
 				>
-					{/* <IconButton
-						onClick={onSidebarOpen}
+					<IconButton
+						// onClick={onSidebarOpen}
 						sx={{
 							display: {
 								xs: 'inline-flex',
@@ -55,7 +60,7 @@ export default function Navbar() {
 						}}
 					>
 						<MenuIcon fontSize='small' />
-					</IconButton> */}
+					</IconButton>
 					<Tooltip title='Search'>
 						<IconButton sx={{ ml: 1 }}>
 							<SearchIcon fontSize='small' />
@@ -93,6 +98,7 @@ export default function Navbar() {
 				anchorEl={settingsRef.current}
 				open={openAccountPopover}
 				onClose={() => setOpenAccountPopover(false)}
+				employeeName={`${employee.name} ${employee.surname}`}
 			/>
 		</>
 	);

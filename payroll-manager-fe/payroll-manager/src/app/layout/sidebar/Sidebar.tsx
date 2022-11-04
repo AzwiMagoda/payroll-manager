@@ -18,6 +18,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import NavItem from './NavItem';
 import { Employee } from '../../models/employee';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HouseboatIcon from '@mui/icons-material/Houseboat';
 
 const items = [
 	{
@@ -29,6 +30,11 @@ const items = [
 		href: '/employees',
 		icon: <PeopleAltIcon fontSize='small' />,
 		title: 'Employees',
+	},
+	{
+		href: '/leaveRequests',
+		icon: <HouseboatIcon fontSize='small' />,
+		title: 'Leave Requests',
 	},
 	{
 		href: '/account',
