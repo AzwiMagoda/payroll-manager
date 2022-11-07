@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PayrollManager.Api.LeaveDays.Autofac;
+using PayrollManager.Api.LeaveDays.SignalR;
 using PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod;
 using PayrollManager.Application.LeaveDays.AutoMapper;
 using PayrollManager.Infrastructure.PayrollDbContext;
@@ -27,6 +28,7 @@ namespace PayrollManager.Api.LeaveDays
         {
 
             services.AddControllers();
+            services.AddSignalR();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PayrollManager.Api.LeaveDays", Version = "v1" });
@@ -70,6 +72,7 @@ namespace PayrollManager.Api.LeaveDays
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<Hubs>("/hubs/notifications");
             });
         }
 

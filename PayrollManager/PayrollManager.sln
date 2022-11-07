@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Manager", "PayrollManager.Api.Manager\PayrollManager.Api.Manager.csproj", "{3951E27D-67D1-4904-89A7-121D58774586}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Application.Manager", "PayrollManager.Application.Manager\PayrollManager.Application.Manager.csproj", "{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.Manager", "PayrollManager.Application.Manager\PayrollManager.Application.Manager.csproj", "{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

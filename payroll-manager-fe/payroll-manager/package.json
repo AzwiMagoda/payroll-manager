@@ -10,6 +10,7 @@
 		"@fullcalendar/daygrid": "^5.11.0",
 		"@fullcalendar/interaction": "^5.11.0",
 		"@fullcalendar/react": "^5.11.1",
+		"@microsoft/signalr": "^6.0.10",
 		"@mui/icons-material": "^5.8.4",
 		"@mui/lab": "^5.0.0-alpha.88",
 		"@mui/material": "^5.8.6",

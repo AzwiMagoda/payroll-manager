@@ -14,7 +14,6 @@ export default observer(function NotificationPopover({
 	open,
 	onClose,
 }: Props) {
-	console.log(anchorEl);
 	return (
 		<Popover
 			anchorEl={anchorEl}

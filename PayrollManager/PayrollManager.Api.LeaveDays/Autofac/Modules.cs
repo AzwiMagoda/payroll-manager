@@ -5,6 +5,7 @@ using PayrollManager.Application.LeaveDays.Services;
 using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 
 namespace PayrollManager.Api.LeaveDays.Autofac
 {
@@ -32,6 +33,10 @@ namespace PayrollManager.Api.LeaveDays.Autofac
 
             builder.RegisterType<BookedLeaveDaysRepository>()
                 .As<IBookedLeaveDaysRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<NotificationsRepository>()
+                .As<INotificationsRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion
