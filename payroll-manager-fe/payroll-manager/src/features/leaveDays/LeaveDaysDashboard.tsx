@@ -45,7 +45,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		}
 
 		getAllBookedLeaveDays(employee.id);
-	});
+	}, [getAllBookedLeaveDays]);
 
 	const [activeMenu, setActiveMenu] = useState(0);
 	const [balanceDate, setBalanceDate] = useState(new Date());
@@ -74,7 +74,6 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 							>
 								<Typography variant='body2'>Leave balance as at: </Typography>
 								<DatePicker
-									// label='Balance'
 									value={balanceDate}
 									onChange={(newValue) => {
 										if (newValue !== null) setBalanceDate(newValue);
