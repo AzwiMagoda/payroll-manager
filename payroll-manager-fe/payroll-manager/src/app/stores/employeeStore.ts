@@ -6,6 +6,7 @@ import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
+import { NotificationDto } from '../models/notification';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 
 export default class EmployeeStore {
@@ -18,6 +19,7 @@ export default class EmployeeStore {
 	newDependantId: string = '';
 	leaveDays: LeaveDays | undefined = undefined;
 	bookedLeaveDays = new Array<BookedLeaveDays>();
+	notifications = new Array<NotificationDto>();
 
 	constructor() {
 		makeAutoObservable(this);
@@ -312,5 +314,23 @@ export default class EmployeeStore {
 
 	setCurrentEmployee = (employee: Employee) => {
 		this.currentEmployee = employee;
+	};
+
+	getNotifications = async (id: string) => {
+		this.loading = true;
+		try {
+			const notifications = await agent.Employees.getNotifications(id);
+			// console.log(notifications);
+
+			runInAction(() => {
+				this.notifications = notifications;
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
 	};
 }

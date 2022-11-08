@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PayrollManager.Api.LeaveDays.SignalR;
+using PayrollManager.Application.Helpers.Interface;
 using PayrollManager.Application.LeaveDays.Dto;
 using PayrollManager.Application.LeaveDays.Interfaces;
 using System;
@@ -14,10 +16,12 @@ namespace PayrollManager.Api.LeaveDays.Controllers
     public class LeaveDaysController : ControllerBase
     {
         private readonly ILeaveDaysService _leaveDaysService;
+        private readonly IHelper _helper;
 
-        public LeaveDaysController(ILeaveDaysService leaveDaysService)
+        public LeaveDaysController(ILeaveDaysService leaveDaysService, IHelper helper)
         {
             _leaveDaysService = leaveDaysService;
+            _helper = helper;
         }
 
         [HttpGet]
@@ -42,6 +46,8 @@ namespace PayrollManager.Api.LeaveDays.Controllers
             try
             {
                 await _leaveDaysService.CreateBookedLeaveDay(leave, employeeId);
+                var managerId = await _helper.GetEmployeeManagerId(employeeId);
+
                 return Ok($"Leave days {leave.StartDate} - {leave.EndDate} booked!");
             }
             catch (Exception ex)

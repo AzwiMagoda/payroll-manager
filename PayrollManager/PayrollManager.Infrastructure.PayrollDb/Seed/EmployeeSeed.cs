@@ -24,11 +24,17 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         Surname = "Nefolovhodwe",
                         Company = "42Company",
                         Department = "Engineering",
-                        JobTitle = "Splunk ENgineer",
+                        JobTitle = "Splunk Engineer",
                         Manager = "Brandon",
                         TeamName = "Splunkies",
                         Title = "Mr",
-                        CreatedDate = DateTime.Now
+                        EmployeeType= "Regular",
+                        CreatedDate = DateTime.Now,
+                        HireDate = DateTime.Parse("2020/01/01"),
+                        OriginalHireDate = DateTime.Parse("2020/01/01"),
+                        JobType = "Full Time",
+                        Location = "Johannesburg",
+                        ManagerEmployeeId = idManager,
                     },
                     new EmployeeEntity
                     {
@@ -42,7 +48,13 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         Manager = "Paula",
                         TeamName = "Splunkies",
                         Title = "Mr",
-                        CreatedDate = DateTime.Now
+                        EmployeeType= "Regular",
+                        CreatedDate = DateTime.Now,
+                        HireDate = DateTime.Parse("2002/01/01"),
+                        OriginalHireDate = DateTime.Parse("2002/01/01"),
+                        JobType = "Full Time",
+                        Location = "Johannesburg",
+                        ManagerEmployeeId = Guid.NewGuid(),
                     },
                 };
 
@@ -80,6 +92,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         PhysicalAddress = "20 Kingfisher Court, North Riding, Johannsburg",
                         PostalAddress = "20 Kingfisher Court, North Riding, Johannsburg",
                         CreatedDate= DateTime.Now,
+                        WorkAddress = "3 Mulberry Lane, Bryanston"
 
                     },
                     new ContactDetailsEntity
@@ -92,6 +105,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         PhysicalAddress = "6 Alacazam Street, Bryanston, Gauteng",
                         PostalAddress = "6 Alacazam Street, Bryanston, Gauteng",
                         CreatedDate= DateTime.Now,
+                        WorkAddress = "3 Mulberry Lane, Bryanston"
 
                     }
                 };

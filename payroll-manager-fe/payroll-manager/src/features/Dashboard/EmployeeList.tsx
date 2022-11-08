@@ -41,6 +41,10 @@ export default observer(function EmployeeList({ employees }: Props) {
 					connection.on('ReceiveMessage', (message) => {
 						console.log(message);
 					});
+
+					connection.on('ReceiveNotification', (message) => {
+						console.log(message);
+					});
 				})
 				.catch((error) => console.log(error));
 		}

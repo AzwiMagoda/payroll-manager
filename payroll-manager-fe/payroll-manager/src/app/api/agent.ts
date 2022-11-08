@@ -10,6 +10,7 @@ import { TeamMembers } from '../models/teamMembers';
 import { Payslip } from '../models/payslip';
 import { Login } from '../models/login';
 import { User } from '../models/user';
+import { NotificationDto } from '../models/notification';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -89,6 +90,8 @@ const Employees = {
 		requests.put<Dependant[]>(`/Employee/UpdateDependant`, dependant),
 	deleteDependant: (id: string) =>
 		requests.del<void>(`/Employee/DeleteDependant/${id}`),
+	getNotifications: (id: string) =>
+		requests.get<NotificationDto[]>(`employee/getNotifications/${id}`),
 };
 
 const Leave = {

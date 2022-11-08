@@ -1,7 +1,12 @@
 import { Box, Grid, MenuItem, Stack, Typography } from '@mui/material';
 import React from 'react';
+import { NotificationDto } from '../../models/notification';
 
-export default function NotificationElement() {
+interface Props {
+	notification: NotificationDto;
+}
+
+export default function NotificationElement({ notification }: Props) {
 	return (
 		<MenuItem>
 			<Grid container direction='column'>
@@ -14,20 +19,20 @@ export default function NotificationElement() {
 							spacing={4}
 						>
 							<Typography variant='body2' color='textSecondary'>
-								Leave Request
+								{notification.notificationType}
 							</Typography>
 							<Typography
 								variant='subtitle1'
 								color='textSecondary'
 								align='right'
 							>
-								10:05AM
+								{notification.createdDate.toString()}
 							</Typography>
 						</Stack>
 					</Grid>
 					<Grid item sx={{ width: 'inherit' }}>
 						<Typography variant='body2' color='textSecondary' noWrap={true}>
-							Hulisani Nefolovhodwe has requested leave
+							{notification.message}
 						</Typography>
 					</Grid>
 				</Box>

@@ -10,6 +10,7 @@ using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRe
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Payslips;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 
@@ -43,6 +44,10 @@ namespace PayrollManager.Api.Employee.Autofac
 
             builder.RegisterType<DependantRepository>()
                 .As<IDependantRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<NotificationsRepository>()
+                .As<INotificationsRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion

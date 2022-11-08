@@ -18,6 +18,8 @@ namespace PayrollManager.Application.Employee.Interfaces
         Task CreateDependant(DependantDto dependant);
         Task UpdateDependant(DependantDto dependant);
         Task DeleteDependant(Guid dependantId);
-        
+        IEnumerable<NotificationDto> GetAllNotifications(Guid employeeId);
+
+
     }
 }

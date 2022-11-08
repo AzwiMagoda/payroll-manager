@@ -1,12 +1,10 @@
 ﻿using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
-using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
-using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
-using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +17,17 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
+        private readonly INotificationsRepository _notificationsRepository;
 
         public EmployeeService(IEmployeeRepository employeeRepository,
                                IContactDetailsRepository contactDetailsRepository,
-                               IDependantRepository dependantRepository)
+                               IDependantRepository dependantRepository,
+                               INotificationsRepository notificationsRepository)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
+            _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -286,6 +287,27 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        
+        public IEnumerable<NotificationDto> GetAllNotifications(Guid employeeId)
+        {
+            try
+            {
+                var entities = _notificationsRepository.GetAllByEmployeeId(employeeId);
+                return entities.Select(x =>
+                {
+                    return new NotificationDto
+                    {
+                        Id = x.Id,
+                        EmployeeId = x.EmployeeId,
+                        Message = x.Message,
+                        NotificationType = x.NotificationType,
+                        CreatedDate = x.CreatedDate
+                    };
+                });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
     }
 }

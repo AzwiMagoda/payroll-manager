@@ -1,9 +1,11 @@
 ﻿using PayrollManager.Application.LeaveDays.Dto;
+using PayrollManager.Application.LeaveDays.Enums;
 using PayrollManager.Application.LeaveDays.Helpers;
 using PayrollManager.Application.LeaveDays.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,15 @@ namespace PayrollManager.Application.LeaveDays.Services
     {
         private readonly ILeaveDaysRepository _leaveDaysRepository;
         private readonly IBookedLeaveDaysRepository _bookedLeaveDaysRepository;
+        private readonly INotificationsRepository _notificationsRepository;
 
         public LeaveDaysService(ILeaveDaysRepository leaveDaysRepository,
-                               IBookedLeaveDaysRepository bookedLeaveDaysRepository)
+                               IBookedLeaveDaysRepository bookedLeaveDaysRepository,
+                               INotificationsRepository notificationsRepository)
         {
             _leaveDaysRepository = leaveDaysRepository ?? throw new ArgumentNullException(nameof(leaveDaysRepository));
             _bookedLeaveDaysRepository = bookedLeaveDaysRepository ?? throw new ArgumentNullException(nameof(bookedLeaveDaysRepository));
+            _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
         }
 
         public async Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId)
@@ -91,9 +96,18 @@ namespace PayrollManager.Application.LeaveDays.Services
                         StartDate = bookedLeave.StartDate
                     };
 
+                    var notificationEntity = new NotificationEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        CreatedDate = DateTime.Now,
+                        EmployeeId = employeeId,
+                        Message = $"Leave days booked from {bookedLeave.StartDate.ToShortDateString()} - {bookedLeave.EndDate.ToShortDateString()}",
+                        NotificationType = NotificationTypes.LeaveDays.ToString()
+                    };
+
                     await _bookedLeaveDaysRepository.Create(bookedLeaveEntity);
 
-
+                    await _notificationsRepository.Create(notificationEntity);
                 }
             }
             catch (Exception ex)

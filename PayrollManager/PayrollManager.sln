@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Manager"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.Manager", "PayrollManager.Application.Manager\PayrollManager.Application.Manager.csproj", "{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Application.Helpers", "PayrollManager.Application.Helpers\PayrollManager.Application.Helpers.csproj", "{8538E0EB-3011-48CE-A01F-D95AE4AE3139}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +142,7 @@ Global
 		{00350733-2F66-440B-A688-D2277AEFFFD6} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
 		{3951E27D-67D1-4904-89A7-121D58774586} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
 		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE7CF3D0-73D6-48B5-981B-9443B5CC405C}

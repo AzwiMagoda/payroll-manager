@@ -15,6 +15,7 @@ namespace PayrollManager.Infrastructure.Models
         public string Cellphone { get; set; }
         public string PhysicalAddress { get; set; }
         public string PostalAddress { get; set; }
+        public string WorkAddress { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

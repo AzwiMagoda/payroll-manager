@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import {
 	AppBar,
@@ -17,6 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountPopover from './AccountPopover';
 import { Employee } from '../../models/employee';
 import NotificationPopover from './NotificationPopover';
+import { useStore } from '../../stores/store';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 	backgroundColor: '#FFFFFF',
@@ -31,6 +32,14 @@ export default function Navbar({ employee }: Props) {
 	const settingsRef = useRef(null);
 	const [openAccountPopover, setOpenAccountPopover] = useState(false);
 	const [openNotifications, setOpenNotifications] = useState(false);
+
+	const {
+		employeeStore: { notifications, getNotifications },
+	} = useStore();
+
+	useEffect(() => {
+		getNotifications(employee.id);
+	}, []);
 
 	return (
 		<>
@@ -110,6 +119,7 @@ export default function Navbar({ employee }: Props) {
 				anchorEl={settingsRef.current}
 				open={openNotifications}
 				onClose={() => setOpenNotifications(false)}
+				notifications={notifications}
 			/>
 		</>
 	);

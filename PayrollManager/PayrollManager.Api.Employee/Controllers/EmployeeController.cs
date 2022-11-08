@@ -30,6 +30,13 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllNotifications/{employeeId}")]
+        public ActionResult<IEnumerable<NotificationDto>> GetAllNotifications(Guid employeeId)
+        {
+            return Ok(_employeeService.GetAllNotifications(employeeId));
+        }
+
+        [HttpGet]
         [Route("GetEmployee/{employeeId}")]
         public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid employeeId)
         {

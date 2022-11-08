@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PayrollManager.Application.Helpers\PayrollManager.Application.Helpers.csproj" />
     <ProjectReference Include="..\PayrollManager.Application.JwtAuthenticationManager\PayrollManager.Application.JwtAuthenticationManager.csproj" />
     <ProjectReference Include="..\PayrollManager.Application.LeaveDays\PayrollManager.Application.LeaveDays.csproj" />
     <ProjectReference Include="..\PayrollManager.Infrastructure.PayrollDb\PayrollManager.Infrastructure.PayrollDbContext.csproj" />
