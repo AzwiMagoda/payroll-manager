@@ -104,7 +104,12 @@ function App() {
 									/>
 									<Route
 										path='/leaveDashboard'
-										element={<LeaveDaysDashboard employee={currentEmployee} />}
+										element={
+											<LeaveDaysDashboard
+												employee={currentEmployee}
+												user={user}
+											/>
+										}
 									/>
 									<Route path='/error404' element={<Error404 />} />
 								</Routes>

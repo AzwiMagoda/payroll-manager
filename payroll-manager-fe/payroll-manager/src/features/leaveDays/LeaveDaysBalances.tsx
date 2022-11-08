@@ -1,60 +1,65 @@
-import { Box, Stack, Typography } from '@mui/material';
+import {
+	Box,
+	Card,
+	CardContent,
+	InputAdornment,
+	Stack,
+	SvgIcon,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableRow,
+	TextField,
+	Typography,
+} from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { LeaveDays } from '../../app/models/leaveDays';
 import { useStore } from '../../app/stores/store';
 
-export default observer(function LeaveDaysBalances() {
-	const {
-		employeeStore: { leaveDays },
-	} = useStore();
-
+interface Props {
+	leaveDays: LeaveDays;
+}
+export default observer(function LeaveDaysBalances({ leaveDays }: Props) {
 	return (
-		<Box>
-			{leaveDays && (
-				<Stack
-					direction='column'
-					justifyContent='center'
-					alignItems='flex-start'
-					spacing={3}
-				>
-					<Typography variant='h5'>Leave Balances</Typography>
-					<Stack
-						direction='column'
-						justifyContent='center'
-						alignItems='flex-start'
-						spacing={0}
+		<Card>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableCell>Leave Type</TableCell>
+						<TableCell>Balance</TableCell>
+						<TableCell>Carryover</TableCell>
+						<TableCell>Unit of Time</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					<TableRow
+						hover
+						// selected={selectedCustomerIds.indexOf(customer.id) !== -1}
 					>
-						<Typography variant='subtitle1'>Annual Leave</Typography>
-						<Typography variant='body2'>
-							{leaveDays!.annualLeaveBalance}
-						</Typography>
-					</Stack>
-
-					<Stack
-						direction='column'
-						justifyContent='center'
-						alignItems='flex-start'
-						spacing={0}
+						<TableCell>Annual Leave</TableCell>
+						<TableCell>{leaveDays.annualLeaveBalance}</TableCell>
+						<TableCell>0</TableCell>
+						<TableCell>Days</TableCell>
+					</TableRow>
+					<TableRow
+						hover
+						// selected={selectedCustomerIds.indexOf(customer.id) !== -1}
 					>
-						<Typography variant='subtitle1'>Sick Leave</Typography>
-						<Typography variant='body2'>
-							{leaveDays!.sickLeaveBalance}
-						</Typography>
-					</Stack>
-
-					<Stack
-						direction='column'
-						justifyContent='center'
-						alignItems='flex-start'
-						spacing={0}
-					>
-						<Typography variant='subtitle1'>Study Leave</Typography>
-						<Typography variant='body2'>
-							{leaveDays!.studyLeaveBalance}
-						</Typography>
-					</Stack>
-				</Stack>
-			)}
-		</Box>
+						<TableCell>Sick Leave</TableCell>
+						<TableCell>{leaveDays.sickLeaveBalance}</TableCell>
+						<TableCell>0</TableCell>
+						<TableCell>Days</TableCell>
+					</TableRow>
+					<TableRow hover>
+						<TableCell>Study Leave</TableCell>
+						<TableCell>{leaveDays.studyLeaveBalance}</TableCell>
+						<TableCell>0</TableCell>
+						<TableCell>Days</TableCell>
+					</TableRow>
+				</TableBody>
+			</Table>
+		</Card>
 	);
 });
