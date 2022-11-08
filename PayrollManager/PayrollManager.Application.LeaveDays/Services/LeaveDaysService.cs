@@ -96,7 +96,16 @@ namespace PayrollManager.Application.LeaveDays.Services
                         StartDate = bookedLeave.StartDate
                     };
 
-                    var notificationEntity = new NotificationEntity
+                    var employeeNotification = new NotificationEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        CreatedDate = DateTime.Now,
+                        EmployeeId = employeeId,
+                        Message = $"Leave days booked from {bookedLeave.StartDate.ToShortDateString()} - {bookedLeave.EndDate.ToShortDateString()}",
+                        NotificationType = NotificationTypes.LeaveDays.ToString()
+                    };
+
+                    var managerNotification = new NotificationEntity
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.Now,
@@ -107,7 +116,7 @@ namespace PayrollManager.Application.LeaveDays.Services
 
                     await _bookedLeaveDaysRepository.Create(bookedLeaveEntity);
 
-                    await _notificationsRepository.Create(notificationEntity);
+                    await _notificationsRepository.Create(managerNotification);
                 }
             }
             catch (Exception ex)

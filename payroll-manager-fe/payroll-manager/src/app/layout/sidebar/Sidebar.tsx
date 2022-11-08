@@ -32,9 +32,9 @@ const items = [
 		title: 'Employees',
 	},
 	{
-		href: '/leaveRequests',
+		href: '/leaveDashboard',
 		icon: <HouseboatIcon fontSize='small' />,
-		title: 'Leave Requests',
+		title: 'Leave',
 	},
 	{
 		href: '/account',

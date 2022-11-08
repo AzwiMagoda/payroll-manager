@@ -83,7 +83,15 @@ namespace PayrollManager.Application.Employee.Services
                         PhysicalAddress = contactDetails.PhysicalAddress,
                         Telephone = contactDetails.Telephone,
                         PostalAddress = contactDetails.PostalAddress,
-                        CreatedDate = employee.CreatedDate
+                        CreatedDate = employee.CreatedDate,
+                        EmployeeNumber = employee.EmployeeNumber,
+                        EmployeeType = employee.EmployeeType,
+                        HireDate = employee.HireDate,
+                        JobType = employee.JobType,
+                        Location = employee.Location,
+                        ManagerEmployeeId = employeeId,
+                        OriginalHireDate = employee.OriginalHireDate,
+                        TeamId = employee.TeamId
                     };
             }
             catch (Exception ex)

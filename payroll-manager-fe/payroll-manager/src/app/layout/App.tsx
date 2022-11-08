@@ -103,8 +103,8 @@ function App() {
 										element={<EmployeeList employees={[]} />}
 									/>
 									<Route
-										path='leaveDashboard'
-										element={<LeaveDaysDashboard />}
+										path='/leaveDashboard'
+										element={<LeaveDaysDashboard employee={currentEmployee} />}
 									/>
 									<Route path='/error404' element={<Error404 />} />
 								</Routes>
@@ -113,29 +113,6 @@ function App() {
 						<Navbar employee={currentEmployee} />
 						<Sidebar employee={currentEmployee} />
 					</DashboardLayoutRoot>
-					{/* <HeaderNavigation employee={currentEmployee} user={user} />
-
-					<Box
-						component='main'
-						sx={{
-							flexGrow: 1,
-							py: 8,
-						}}
-					>
-						<Routes>
-							<Route
-								path='/'
-								element={<EmployeeDashboard employee={currentEmployee} />}
-							/>
-							<Route path='/profile' element={<ProfileDashboard />} />
-							<Route
-								path='/employees'
-								element={<EmployeeList employees={[]} />}
-							/>
-							<Route path='leaveDashboard' element={<LeaveDaysDashboard />} />
-							<Route path='/error404' element={<Error404 />} />
-						</Routes>
-					</Box> */}
 				</>
 			)}
 			{!user && !currentEmployee && <Login />}

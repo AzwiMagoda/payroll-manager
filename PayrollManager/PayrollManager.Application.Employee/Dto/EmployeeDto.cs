@@ -19,5 +19,13 @@ namespace PayrollManager.Application.Employee.Dto
         public string PhysicalAddress { get; set; }
         public string PostalAddress { get; set; }
         public DateTime CreatedDate { get; set; }
+        public Guid ManagerEmployeeId { get; set; }
+        public string EmployeeNumber { get; set; }
+        public string EmployeeType { get; set; }
+        public string JobType { get; set; }
+        public string Location { get; set; }
+        public DateTime HireDate { get; set; }
+        public DateTime OriginalHireDate { get; set; }
+        public Guid TeamId { get; set; }
     }
 }

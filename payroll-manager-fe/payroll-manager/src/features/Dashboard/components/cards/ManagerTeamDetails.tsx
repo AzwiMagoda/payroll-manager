@@ -12,8 +12,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import GroupsIcon from '@mui/icons-material/Groups';
 import { observer } from 'mobx-react-lite';
+import { Employee } from '../../../../app/models/employee';
 
-export default observer(function ManagerTeamDetails() {
+interface Props {
+	employee: Employee;
+}
+export default observer(function ManagerTeamDetails({ employee }: Props) {
 	return (
 		<Card>
 			<CardContent>
@@ -37,7 +41,7 @@ export default observer(function ManagerTeamDetails() {
 								<Typography variant='body2' sx={{ fontWeight: 600 }}>
 									Team Name
 								</Typography>
-								<Typography variant='body2'>Splunkies</Typography>
+								<Typography variant='body2'>{employee.teamName}</Typography>
 							</Stack>
 						</Stack>
 					</Grid>
@@ -54,7 +58,7 @@ export default observer(function ManagerTeamDetails() {
 								<Typography variant='body2' sx={{ fontWeight: 600 }}>
 									Manager
 								</Typography>
-								<Typography variant='body2'>Brandon Friedman</Typography>
+								<Typography variant='body2'>{employee.manager}</Typography>
 							</Stack>
 						</Stack>
 					</Grid>

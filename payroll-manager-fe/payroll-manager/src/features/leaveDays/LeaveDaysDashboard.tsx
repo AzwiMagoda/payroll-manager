@@ -1,27 +1,31 @@
 import { Box, Grid, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
+import { Employee } from '../../app/models/employee';
 import { useStore } from '../../app/stores/store';
 import LeaveDaysBalances from './LeaveDaysBalances';
 import LeaveDaysCalendar from './LeaveDaysCalendar';
 
-export default observer(function LeaveDaysDashboard() {
+interface Props {
+	employee: Employee;
+}
+
+export default observer(function LeaveDaysDashboard({ employee }: Props) {
 	const {
 		employeeStore: {
 			leaveDays,
 			bookedLeaveDays,
 			getLeaveDaysBalances,
 			getAllBookedLeaveDays,
-			currentEmployee,
 		},
 	} = useStore();
 
 	useEffect(() => {
 		if (!leaveDays) {
-			getLeaveDaysBalances(currentEmployee!.id);
+			getLeaveDaysBalances(employee.id);
 		}
 		if (!bookedLeaveDays) {
-			getAllBookedLeaveDays(currentEmployee!.id);
+			getAllBookedLeaveDays(employee.id);
 		}
 	});
 

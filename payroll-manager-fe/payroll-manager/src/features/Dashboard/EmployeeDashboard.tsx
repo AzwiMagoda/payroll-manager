@@ -57,13 +57,13 @@ export default observer(function EmployeeDashboard({ employee }: Props) {
 		<Container maxWidth={false}>
 			<Grid container spacing={3}>
 				<Grid item lg={8} md={12} xl={9} xs={12}>
-					<ManagerDetails />
+					<ManagerDetails employee={employee} />
 				</Grid>
 				<Grid item lg={4} md={6} xl={3} xs={12}>
 					<LeaveDaysCard leaveBalance={0} />
 				</Grid>
 				<Grid item lg={8} md={12} xl={9} xs={12}>
-					<Details />
+					<Details employee={employee} />
 				</Grid>
 			</Grid>
 		</Container>

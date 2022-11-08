@@ -9,27 +9,38 @@ import {
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Employee } from '../../../../app/models/employee';
 import GridDetailItem from './GridDetailItem';
 
-const details = [
-	{ title: 'Employee Id', description: '308956' },
-	{ title: 'Job Title', description: 'Splunk Engineer' },
-	{ title: 'Employee Type', description: 'Regular' },
-	{ title: 'Job Type', description: 'Full Time' },
-	{ title: 'Location', description: 'Johannesburg' },
-	{ title: 'Hire Date', description: '01/11/2020' },
-	{ title: 'Original Hire Date', description: '01/11/2018' },
-	{ title: 'Time in Position', description: '2 years' },
-];
+interface Props {
+	employee: Employee;
+}
 
-const contact = [
-	{ title: 'Email', description: 'hulisani@42.com' },
-	{ title: 'Cellphone', description: '076 898 7799' },
-	{ title: 'Telephone', description: '011 987 9696' },
-	{ title: 'Work Address', description: '3 Mulberry Lane, Bryanston' },
-];
+export default observer(function Details({ employee }: Props) {
+	const details = [
+		{ title: 'Employee Id', description: '308956' },
+		{ title: 'Job Title', description: employee.jobTitle },
+		{ title: 'Employee Type', description: employee.employeeType },
+		{ title: 'Job Type', description: employee.jobType },
+		{ title: 'Location', description: employee.location },
+		{
+			title: 'Hire Date',
+			description: new Date(employee.hireDate).toDateString(),
+		},
+		{
+			title: 'Original Hire Date',
+			description: new Date(employee.originalHireDate).toDateString(),
+		},
+		{ title: 'Time in Position', description: '2 years' },
+	];
 
-export default observer(function Details() {
+	const contact = [
+		{ title: 'Email', description: employee.email },
+		{ title: 'Cellphone', description: employee.cellphone },
+		{ title: 'Telephone', description: employee.telephone },
+		{ title: 'Work Address', description: employee.physicalAddress },
+	];
+
 	return (
 		<Card>
 			<CardHeader title='Job Details' />
@@ -41,7 +52,11 @@ export default observer(function Details() {
 					alignItems='flex-start'
 				>
 					{details.map((item) => (
-						<GridDetailItem title={item.title} description={item.description} />
+						<GridDetailItem
+							key={item.title}
+							title={item.title}
+							description={item.description}
+						/>
 					))}
 				</Grid>
 			</CardContent>
@@ -54,7 +69,11 @@ export default observer(function Details() {
 					alignItems='flex-start'
 				>
 					{contact.map((item) => (
-						<GridDetailItem title={item.title} description={item.description} />
+						<GridDetailItem
+							key={item.title}
+							title={item.title}
+							description={item.description}
+						/>
 					))}
 				</Grid>
 			</CardContent>
