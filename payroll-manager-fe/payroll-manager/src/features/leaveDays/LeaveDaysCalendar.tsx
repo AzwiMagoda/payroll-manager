@@ -12,10 +12,14 @@ import LeaveDayEdit from './LeaveDayEdit';
 import { addDays } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import LeaveDayCreate from './LeaveDayCreate';
+import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 
-export default observer(function LeaveDaysCalendar() {
+interface Props {
+	bookedLeaveDays: BookedLeaveDays[];
+}
+
+export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 	const {
-		employeeStore: { bookedLeaveDays },
 		modalStore: { openModal, open },
 	} = useStore();
 
@@ -24,7 +28,7 @@ export default observer(function LeaveDaysCalendar() {
 	const [editEvent, setEditEvent] = useState<EventApi>();
 	const [createEvent, setCreateEvent] = useState<DateSelectArg>();
 
-	const events = bookedLeaveDays!.map((leaveDays) => {
+	const events = bookedLeaveDays.map((leaveDays) => {
 		return {
 			id: leaveDays.id,
 			title: leaveDays.leaveType,
@@ -33,6 +37,7 @@ export default observer(function LeaveDaysCalendar() {
 			allDay: true,
 		};
 	});
+	// console.log(events);
 
 	useEffect(() => {
 		if (!open) {

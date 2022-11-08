@@ -43,9 +43,8 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		if (!leaveDays) {
 			getLeaveDaysBalances(employee.id);
 		}
-		if (!bookedLeaveDays) {
-			getAllBookedLeaveDays(employee.id);
-		}
+
+		getAllBookedLeaveDays(employee.id);
 	});
 
 	const [activeMenu, setActiveMenu] = useState(0);
@@ -94,7 +93,9 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 				{activeMenu === 0 && leaveDays && (
 					<LeaveDaysBalances leaveDays={leaveDays} />
 				)}
-				{activeMenu === 1 && <LeaveDaysCalendar />}
+				{activeMenu === 1 && (
+					<LeaveDaysCalendar bookedLeaveDays={bookedLeaveDays} />
+				)}
 			</Box>
 		</Container>
 	);

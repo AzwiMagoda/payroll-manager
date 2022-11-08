@@ -38,20 +38,12 @@ interface Props {
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
 	const {
-		employeeStore: {
-			leaveDays,
-			getAllBookedLeaveDays,
-			getLeaveDaysBalances,
-			loading,
-		},
 		payslipStore: { getlatestPayslip, latestPayslip, payslips },
 	} = useStore();
 
-	useEffect(() => {
-		getLeaveDaysBalances(employee.id);
-		getAllBookedLeaveDays(employee.id);
-		getlatestPayslip(employee.id);
-	}, [employee.id, getAllBookedLeaveDays, getLeaveDaysBalances, getlatestPayslip]);
+	// useEffect(() => {
+	// 	// getlatestPayslip(employee.id);
+	// }, [employee.id, getlatestPayslip]);
 
 	return (
 		<Container maxWidth={false}>

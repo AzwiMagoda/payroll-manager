@@ -98,7 +98,7 @@ const Leave = {
 	getLeaveDays: (employeeId: string) =>
 		requests.get<LeaveDays>(`leave/balance/${employeeId}`),
 	getBookedLeaveDays: (employeeId: string) =>
-		requests.get<BookedLeaveDays[]>(`leave/balance/booked/${employeeId}`),
+		requests.get<BookedLeaveDays[]>(`booked/${employeeId}`),
 	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
 		requests.post<string>(`leave/book/${employeeId}`, leaveDays),
 	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
