@@ -23,6 +23,8 @@ import LeaveDaysCalendar from './LeaveDaysCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 import LeaveRequests from './LeaveRequests';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
 	employee: Employee;
@@ -91,21 +93,22 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 					)}
 					{activeMenu === 2 && (
 						<CardContent>
-							<Box sx={{ maxWidth: 500 }}>
-								<TextField
-									fullWidth
-									InputProps={{
-										startAdornment: (
-											<InputAdornment position='start'>
-												<SvgIcon color='action' fontSize='small'>
-													<SearchIcon />
-												</SvgIcon>
-											</InputAdornment>
-										),
-									}}
-									placeholder='Search Employee'
-									variant='outlined'
-								/>
+							<Box sx={{ m: 1 }}>
+								<Button
+									startIcon={<DoneIcon fontSize='small' />}
+									sx={{ mr: 1 }}
+								>
+									Import
+								</Button>
+								<Button
+									startIcon={<CloseIcon fontSize='small' />}
+									sx={{ mr: 1 }}
+								>
+									Export
+								</Button>
+								<Button color='primary' variant='contained'>
+									Add Customers
+								</Button>
 							</Box>
 						</CardContent>
 					)}

@@ -1,9 +1,68 @@
-import { Card, Box } from '@mui/material';
+import { Card, Box, Chip } from '@mui/material';
 import React, { useEffect } from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import {
+	DataGrid,
+	GridColDef,
+	GridRenderCellParams,
+	GridToolbar,
+	GridValueFormatterParams,
+	GridValueGetterParams,
+} from '@mui/x-data-grid';
 import { useStore } from '../../app/stores/store';
-import { columns } from './GridColumns';
 import { format } from 'date-fns';
+
+const columns: GridColDef[] = [
+	{
+		field: 'name',
+		flex: 1.5,
+		headerName: 'First name',
+		resizable: true,
+	},
+	{
+		field: 'startDate',
+		headerName: 'Start Date',
+		flex: 1,
+		type: 'date',
+		valueFormatter: (params: GridValueFormatterParams<string>) => {
+			return format(new Date(params.value), 'dd-MM-yyyy');
+		},
+	},
+	{
+		field: 'endDate',
+		headerName: 'End Date',
+		flex: 1,
+		type: 'date',
+		valueFormatter: (params: GridValueFormatterParams<string>) => {
+			return format(new Date(params.value), 'dd-MM-yyyy');
+		},
+	},
+	{
+		field: 'leaveType',
+		headerName: 'Leave Type',
+		flex: 1,
+	},
+	{
+		field: 'approved',
+		headerName: 'Status',
+		flex: 1,
+		renderCell: (params: GridRenderCellParams<Boolean>) => {
+			return (
+				<strong>
+					{params.value === false ? (
+						<Chip label='Not Approved' color='error' size='small' />
+					) : (
+						<Chip label='Approved' color='success' size='small' />
+					)}
+				</strong>
+			);
+		},
+	},
+	{
+		field: 'teamName',
+		flex: 1,
+		headerName: 'Team',
+	},
+];
 
 export default function LeaveRequests() {
 	const {
@@ -13,6 +72,7 @@ export default function LeaveRequests() {
 			getEmployeeBookedLeaveDays,
 		},
 	} = useStore();
+	const [pageSize, setPageSize] = React.useState(5);
 
 	useEffect(() => {
 		getEmployeeBookedLeaveDays();
@@ -20,15 +80,20 @@ export default function LeaveRequests() {
 
 	return (
 		<Card>
-			<Box sx={{ height: 400, width: '100%' }}>
+			<Box sx={{ width: '100%', display: 'flex' }}>
 				{employeeLeaveDays && (
 					<DataGrid
+						autoHeight
 						rows={employeeLeaveDays}
 						columns={columns}
-						pageSize={5}
-						rowsPerPageOptions={[5]}
+						checkboxSelection
+						pageSize={pageSize}
+						onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+						rowsPerPageOptions={[5, 10, 20]}
 						disableSelectionOnClick
+						disableColumnMenu
 						experimentalFeatures={{ newEditingApi: true }}
+						components={{ Toolbar: GridToolbar }}
 					/>
 				)}
 			</Box>
