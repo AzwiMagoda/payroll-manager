@@ -15,5 +15,8 @@ namespace PayrollManager.Infrastructure.Models
         public DateTime EndDate { get; set; }
         public bool Approved { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string Status { get; set; }
+        public string Reason { get; set; }
+
     }
 }

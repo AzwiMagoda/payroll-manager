@@ -344,7 +344,6 @@ export default class EmployeeStore {
 					this.currentEmployee!.id
 				);
 
-				console.log(bookedDays);
 				runInAction(() => {
 					this.employeeLeaveDays = bookedDays;
 					this.loading = false;

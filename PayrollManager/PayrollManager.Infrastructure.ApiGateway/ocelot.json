@@ -244,6 +244,38 @@
       "UpstreamHttpMethod": [ "DELETE" ]
     },
     {
+      "DownstreamPathTemplate": "/api/LeaveDays/ApproveLeave",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/manager/approve",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/DeclineLeave",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/manager/decline",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays/{managerId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

@@ -19,5 +19,16 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveD
         {
             return _context.BookedLeaveDays.Where(x => employeeIds.Contains(x.EmployeeId));
         }
+
+        public IEnumerable<BookedLeaveDaysEntity> GetBookedLeaveByIds(IEnumerable<Guid> leaveIds)
+        {
+            return _context.BookedLeaveDays.Where(x => leaveIds.Contains(x.Id));
+        }
+
+        public async Task BulkUpdate(IEnumerable<BookedLeaveDaysEntity> leave)
+        {
+            _context.BookedLeaveDays.UpdateRange(leave);
+            await _context.SaveChangesAsync();
+        }
     }
 }

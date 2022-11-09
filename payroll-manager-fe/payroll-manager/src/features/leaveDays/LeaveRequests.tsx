@@ -1,22 +1,25 @@
-import { Card, Box, Chip } from '@mui/material';
+import { Card, Box, Chip, Button } from '@mui/material';
 import React, { useEffect } from 'react';
 import {
 	DataGrid,
+	GridActionsCellItem,
 	GridColDef,
 	GridRenderCellParams,
+	GridRowParams,
+	GridSelectionModel,
 	GridToolbar,
 	GridValueFormatterParams,
 	GridValueGetterParams,
 } from '@mui/x-data-grid';
 import { useStore } from '../../app/stores/store';
 import { format } from 'date-fns';
+import CloseIcon from '@mui/icons-material/Close';
 
 const columns: GridColDef[] = [
 	{
 		field: 'name',
 		flex: 1.5,
 		headerName: 'First name',
-		resizable: true,
 	},
 	{
 		field: 'startDate',
@@ -62,9 +65,29 @@ const columns: GridColDef[] = [
 		flex: 1,
 		headerName: 'Team',
 	},
+	{
+		field: 'actions',
+		type: 'actions',
+		flex: 1,
+		renderCell: (params: GridRenderCellParams<Boolean>) => {
+			return (
+				<strong>
+					<Button
+						startIcon={<CloseIcon fontSize='small' />}
+						sx={{ mr: 1 }}
+						onClick={() => console.log(params)}
+					>
+						Decline
+					</Button>
+				</strong>
+			);
+		},
+	},
 ];
 
 export default function LeaveRequests() {
+	const [selectedIds, setSelectedIds] = React.useState<GridSelectionModel>([]);
+
 	const {
 		employeeStore: {
 			currentEmployee,
@@ -94,6 +117,7 @@ export default function LeaveRequests() {
 						disableColumnMenu
 						experimentalFeatures={{ newEditingApi: true }}
 						components={{ Toolbar: GridToolbar }}
+						onSelectionModelChange={(rows) => setSelectedIds(rows)}
 					/>
 				)}
 			</Box>

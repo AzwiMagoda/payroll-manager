@@ -64,7 +64,8 @@ namespace PayrollManager.Application.LeaveDays.Services
                         Id = x.Id,
                         EndDate = x.EndDate,
                         LeaveType = x.LeaveType,
-                        StartDate = x.StartDate
+                        StartDate = x.StartDate,
+                        
                     };
                 }).OrderBy(x => x.LeaveType);
             }
@@ -100,7 +101,9 @@ namespace PayrollManager.Application.LeaveDays.Services
                         EmployeeId = x.Employee.EmployeeId,
                         Name = x.Employee.Name,
                         Surname = x.Employee.Surname,
-                        TeamName = x.Employee.TeamName
+                        TeamName = x.Employee.TeamName,
+                        Status = x.BookedLeave.Status,
+                        Reason = x.BookedLeave.Reason
                     };
                 }).OrderBy(x => x.EmployeeId).OrderBy(x => x.LeaveType);
             }
@@ -132,7 +135,9 @@ namespace PayrollManager.Application.LeaveDays.Services
                         LeaveType = bookedLeave.LeaveType,
                         EmployeeId = employeeId,
                         EndDate = bookedLeave.EndDate,
-                        StartDate = bookedLeave.StartDate
+                        StartDate = bookedLeave.StartDate,
+                        Approved = false,
+                        Status = ApprovalStatus.Pending.ToString()
                     };
 
                     var employeeNotification = new NotificationEntity
@@ -213,6 +218,31 @@ namespace PayrollManager.Application.LeaveDays.Services
                 Console.Error.WriteLine(ex.Message);
 
             }
+        }
+
+        public async Task ApproveLeave(IEnumerable<Guid> leaveIds)
+        {
+            var leaveEntities = _bookedLeaveDaysRepository.GetBookedLeaveByIds(leaveIds);
+
+            leaveEntities = leaveEntities.Select(x =>
+            {
+                x.Approved = true;
+                x.Status = ApprovalStatus.Approved.ToString();
+                return x;
+            });
+
+            await _bookedLeaveDaysRepository.BulkUpdate(leaveEntities);
+        }
+
+        public async Task DeclineLeave(BookedLeaveDaysDto bookedLeave)
+        {
+            var entity = await _bookedLeaveDaysRepository.GetByID(bookedLeave.Id);
+
+            entity.Reason = bookedLeave.Reason;
+            entity.Approved = false;
+            entity.Status = ApprovalStatus.Declined.ToString();
+
+            await _bookedLeaveDaysRepository.Update(entity);
         }
 
         public static LeaveDaysEntity AdjustLeave(LeaveDaysEntity leaveBalance, int leaveQty, string leaveType, Guid employeeId)

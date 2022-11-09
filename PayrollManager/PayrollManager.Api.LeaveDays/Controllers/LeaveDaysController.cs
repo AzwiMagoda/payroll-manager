@@ -82,6 +82,42 @@ namespace PayrollManager.Api.LeaveDays.Controllers
 
         }
 
+        [Authorize(Policy = "ManagerPolicy")]
+        [HttpPut]
+        [Route("ApproveLeave")]
+        public async Task<IActionResult> ApproveLeave([FromBody] IEnumerable<Guid> leaves)
+        {
+            try
+            {
+                await _leaveDaysService.ApproveLeave(leaves);
+                return Ok("Leave days approved");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [Authorize(Policy = "ManagerPolicy")]
+        [HttpPut]
+        [Route("DeclineLeave")]
+        public async Task<IActionResult> DeclineLeave([FromBody] BookedLeaveDaysDto leave)
+        {
+            try
+            {
+                await _leaveDaysService.DeclineLeave(leave);
+                return Ok("Leave day declined");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
         [HttpDelete]
         [Route("DeleteBookedLeave/{employeeId}/{bookedLeaveId}")]
         public async Task<IActionResult> DeleteBookedLeave(Guid employeeId, Guid bookedLeaveId)

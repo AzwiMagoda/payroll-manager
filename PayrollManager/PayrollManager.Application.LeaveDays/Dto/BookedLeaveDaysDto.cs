@@ -13,5 +13,8 @@ namespace PayrollManager.Application.LeaveDays.Dto
         public string Name { get; set; }
         public string Surname { get; set; }
         public string TeamName { get; set; }
+        public string Reason { get; set; }
+        public string Status { get; set; }
+
     }
 }

@@ -11,5 +11,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveD
     public interface IBookedLeaveDaysRepository : IGenericRepository<BookedLeaveDaysEntity>
     {
         IEnumerable<BookedLeaveDaysEntity> GetBookedLeaveDaysForEmployeeList(IEnumerable<Guid> employeeIds);
+        IEnumerable<BookedLeaveDaysEntity> GetBookedLeaveByIds(IEnumerable<Guid> leaveIds);
+        Task BulkUpdate(IEnumerable<BookedLeaveDaysEntity> leave);
     }
 }

@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Card,
 	CardContent,
 	Container,
@@ -24,7 +25,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 import LeaveRequests from './LeaveRequests';
 import DoneIcon from '@mui/icons-material/Done';
-import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
 	employee: Employee;
@@ -93,23 +93,21 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 					)}
 					{activeMenu === 2 && (
 						<CardContent>
-							<Box sx={{ m: 1 }}>
+							<Stack
+								direction='row'
+								justifyContent='flex-end'
+								alignItems='center'
+								spacing={4}
+							>
 								<Button
 									startIcon={<DoneIcon fontSize='small' />}
 									sx={{ mr: 1 }}
+									color='secondary'
+									variant='contained'
 								>
-									Import
+									Approve
 								</Button>
-								<Button
-									startIcon={<CloseIcon fontSize='small' />}
-									sx={{ mr: 1 }}
-								>
-									Export
-								</Button>
-								<Button color='primary' variant='contained'>
-									Add Customers
-								</Button>
-							</Box>
+							</Stack>
 						</CardContent>
 					)}
 				</Card>
