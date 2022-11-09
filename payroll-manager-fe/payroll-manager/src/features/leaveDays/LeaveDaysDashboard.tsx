@@ -25,6 +25,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchIcon from '@mui/icons-material/Search';
 import LeaveRequests from './LeaveRequests';
 import DoneIcon from '@mui/icons-material/Done';
+import { GridSelectionModel } from '@mui/x-data-grid';
 
 interface Props {
 	employee: Employee;
@@ -32,6 +33,10 @@ interface Props {
 }
 
 export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
+	const [activeMenu, setActiveMenu] = useState(0);
+	const [balanceDate, setBalanceDate] = useState(new Date());
+	const [selectedIds, setSelectedIds] = React.useState<GridSelectionModel>([]);
+
 	const {
 		employeeStore: {
 			leaveDays,
@@ -53,8 +58,11 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		getAllBookedLeaveDays(employee.id);
 	}, [getAllBookedLeaveDays]);
 
-	const [activeMenu, setActiveMenu] = useState(0);
-	const [balanceDate, setBalanceDate] = useState(new Date());
+	useEffect(() => {
+		console.log(selectedIds);
+	}, [selectedIds]);
+
+	const approveLeave = () => {};
 
 	return (
 		<Container maxWidth={false}>
@@ -104,6 +112,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 									sx={{ mr: 1 }}
 									color='secondary'
 									variant='contained'
+									onClick={() => approveLeave()}
 								>
 									Approve
 								</Button>
@@ -120,7 +129,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 				{activeMenu === 1 && (
 					<LeaveDaysCalendar bookedLeaveDays={bookedLeaveDays} />
 				)}
-				{activeMenu === 2 && <LeaveRequests />}
+				{activeMenu === 2 && <LeaveRequests setSelectedIds={setSelectedIds} />}
 			</Box>
 		</Container>
 	);

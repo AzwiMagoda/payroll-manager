@@ -85,9 +85,10 @@ const columns: GridColDef[] = [
 	},
 ];
 
-export default function LeaveRequests() {
-	const [selectedIds, setSelectedIds] = React.useState<GridSelectionModel>([]);
-
+interface Props {
+	setSelectedIds: (params: any) => any;
+}
+export default function LeaveRequests({ setSelectedIds }: Props) {
 	const {
 		employeeStore: {
 			currentEmployee,
