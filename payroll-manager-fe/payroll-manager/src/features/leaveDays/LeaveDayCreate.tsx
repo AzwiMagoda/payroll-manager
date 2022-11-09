@@ -45,23 +45,29 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 
 	const [start, setStart] = useState<Date | null>(leaveEvent.start);
 	const [end, setEnd] = useState<Date | null>(addDays(leaveEvent.end!, -1));
+	const [leaveType, setLeaveType] = useState('AnnualLeave');
 
 	const initialValues: BookedLeaveDays = {
 		endDate: end!.toISOString(),
 		id: uuidv4(),
 		leaveType: 'AnnualLeave',
 		startDate: start!.toISOString(),
+		approved: false,
+		employeeId: '',
 	};
 
 	const handleSubmit = async (values: BookedLeaveDays) => {
-		values.endDate = end!.toISOString();
-		values.startDate = start!.toISOString();
+		const newEnd = addDays(end!, 1);
+		const newStart = addDays(start!, 1);
+		values.endDate = newEnd.toISOString();
+		values.startDate = newStart.toISOString();
 		await bookLeave(values);
 	};
 
 	const formik = useFormik({
 		initialValues: initialValues,
 		onSubmit: (values) => {
+			values.leaveType = leaveType;
 			handleSubmit(values);
 		},
 	});
@@ -87,8 +93,8 @@ export default observer(function LeaveDayCreate({ leaveEvent }: Props) {
 									labelId='typeLabel'
 									id='type'
 									name='type'
-									value={formik.values.leaveType}
-									onChange={formik.handleChange}
+									value={leaveType}
+									onChange={(e: any) => setLeaveType(e.target.value)}
 								>
 									<MenuItem value={'AnnualLeave'}>Annual Leave</MenuItem>
 									<MenuItem value={'SickLeave'}>Sick Leave</MenuItem>

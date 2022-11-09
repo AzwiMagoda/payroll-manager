@@ -55,6 +55,8 @@ export default observer(function LeaveDayEdit({ leaveEvent }: Props) {
 		id: leaveEvent.id,
 		leaveType: leaveEvent.title,
 		startDate: start!.toISOString(),
+		approved: false,
+		employeeId: '',
 	};
 
 	const handleSubmit = async (values: BookedLeaveDays) => {

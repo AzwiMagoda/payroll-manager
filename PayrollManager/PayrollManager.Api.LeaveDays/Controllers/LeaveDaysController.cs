@@ -33,10 +33,18 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         }
 
         [HttpGet]
-        [Route("GetEmployeeBookedLeaveDays/{employeeId}")]
-        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetEmployeeBookedLeaveDays(Guid employeeId)
+        [Route("GetBookedLeaveDays/{employeeId}")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetBookedLeaveDays(Guid employeeId)
         {
             return Ok(_leaveDaysService.GetBookedLeaveDays(employeeId));
+        }
+
+        [Authorize(Policy = "ManagerPolicy")]
+        [HttpGet]
+        [Route("GetEmployeeBookedLeaveDays/{managerId}")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetEmployeeBookedLeaveDays(Guid managerId)
+        {
+            return Ok(_leaveDaysService.GetEmployeeBookedLeaveDays(managerId));
         }
 
         [HttpPost]

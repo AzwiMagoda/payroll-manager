@@ -221,7 +221,7 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			const bookedDays = await agent.Leave.getBookedLeaveDays(id);
-			console.log(bookedDays);
+
 			runInAction(() => {
 				this.bookedLeaveDays = bookedDays;
 				this.loading = false;

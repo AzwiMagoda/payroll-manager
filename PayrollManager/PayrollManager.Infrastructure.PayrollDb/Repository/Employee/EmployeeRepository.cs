@@ -18,5 +18,10 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee
         {
             return _context.Employees.Where(x => x.TeamName == teamName);
         }
+
+        public IEnumerable<EmployeeEntity> GetAllManagerEmployees(Guid managerId)
+        {
+            return _context.Employees.Where(x => x.ManagerEmployeeId == managerId);
+        }
     }
 }

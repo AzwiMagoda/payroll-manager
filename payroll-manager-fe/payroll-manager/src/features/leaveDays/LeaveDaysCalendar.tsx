@@ -35,9 +35,10 @@ export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 			start: leaveDays.startDate,
 			end: addDays(new Date(leaveDays.endDate), 1),
 			allDay: true,
+			approved: leaveDays.approved,
+			employeeId: leaveDays.employeeId,
 		};
 	});
-	// console.log(events);
 
 	useEffect(() => {
 		if (!open) {
@@ -70,7 +71,7 @@ export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 				editable={false}
 				weekends={false}
 				selectable={true}
-				selectOverlap={false}
+				selectOverlap={true}
 				select={(e: DateSelectArg) => onDateSelect(e)}
 			/>
 

@@ -4,8 +4,10 @@ import {
 	CardContent,
 	Container,
 	Grid,
+	InputAdornment,
 	Paper,
 	Stack,
+	SvgIcon,
 	Tab,
 	Tabs,
 	TextField,
@@ -19,6 +21,8 @@ import { useStore } from '../../app/stores/store';
 import LeaveDaysBalances from './LeaveDaysBalances';
 import LeaveDaysCalendar from './LeaveDaysCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import SearchIcon from '@mui/icons-material/Search';
+import LeaveRequests from './LeaveRequests';
 
 interface Props {
 	employee: Employee;
@@ -85,6 +89,26 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 							</Stack>
 						</CardContent>
 					)}
+					{activeMenu === 2 && (
+						<CardContent>
+							<Box sx={{ maxWidth: 500 }}>
+								<TextField
+									fullWidth
+									InputProps={{
+										startAdornment: (
+											<InputAdornment position='start'>
+												<SvgIcon color='action' fontSize='small'>
+													<SearchIcon />
+												</SvgIcon>
+											</InputAdornment>
+										),
+									}}
+									placeholder='Search Employee'
+									variant='outlined'
+								/>
+							</Box>
+						</CardContent>
+					)}
 				</Card>
 			</Box>
 
@@ -95,6 +119,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 				{activeMenu === 1 && (
 					<LeaveDaysCalendar bookedLeaveDays={bookedLeaveDays} />
 				)}
+				{activeMenu === 2 && <LeaveRequests />}
 			</Box>
 		</Container>
 	);

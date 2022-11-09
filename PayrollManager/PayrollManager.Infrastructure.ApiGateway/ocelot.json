@@ -164,7 +164,7 @@
 
     //leave days
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays/{employeeId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/GetBookedLeaveDays/{employeeId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -243,7 +243,22 @@
       "UpstreamPathTemplate": "/leave/cancel/{employeeId}/{bookedLeaveId}",
       "UpstreamHttpMethod": [ "DELETE" ]
     },
-
+    {
+      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays/{managerId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/manager/booked/{managerId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //payslip
     {
       "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip/{employeeId}",

@@ -4,12 +4,12 @@ using PayrollManager.Application.LeaveDays.Helpers;
 using PayrollManager.Application.LeaveDays.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PayrollManager.Application.LeaveDays.Services
@@ -19,14 +19,17 @@ namespace PayrollManager.Application.LeaveDays.Services
         private readonly ILeaveDaysRepository _leaveDaysRepository;
         private readonly IBookedLeaveDaysRepository _bookedLeaveDaysRepository;
         private readonly INotificationsRepository _notificationsRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public LeaveDaysService(ILeaveDaysRepository leaveDaysRepository,
                                IBookedLeaveDaysRepository bookedLeaveDaysRepository,
-                               INotificationsRepository notificationsRepository)
+                               INotificationsRepository notificationsRepository,
+                               IEmployeeRepository employeeRepository)
         {
             _leaveDaysRepository = leaveDaysRepository ?? throw new ArgumentNullException(nameof(leaveDaysRepository));
             _bookedLeaveDaysRepository = bookedLeaveDaysRepository ?? throw new ArgumentNullException(nameof(bookedLeaveDaysRepository));
             _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
+            _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
         }
 
         public async Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId)
@@ -64,6 +67,42 @@ namespace PayrollManager.Application.LeaveDays.Services
                         StartDate = x.StartDate
                     };
                 }).OrderBy(x => x.LeaveType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public IEnumerable<BookedLeaveDaysDto> GetEmployeeBookedLeaveDays(Guid managerId)
+        {
+            try
+            {
+                var employees = _employeeRepository.GetAllManagerEmployees(managerId);
+                var employeeIds = employees.Select(x => x.EmployeeId);
+                var bookedLeaveDays = _bookedLeaveDaysRepository.GetBookedLeaveDaysForEmployeeList(employeeIds);
+
+                var entitiesJoined = employees.Join(bookedLeaveDays,
+                                                    employee => employee.EmployeeId,
+                                                    bookedLeave => bookedLeave.EmployeeId,
+                                                    (employee, bookedLeave) => new {Employee = employee, BookedLeave = bookedLeave});
+
+
+                return entitiesJoined.Select(x =>
+                {
+                    return new BookedLeaveDaysDto
+                    {
+                        Id = x.BookedLeave.Id,
+                        EndDate = x.BookedLeave.EndDate,
+                        LeaveType = x.BookedLeave.LeaveType,
+                        StartDate = x.BookedLeave.StartDate,
+                        Approved = x.BookedLeave.Approved,
+                        EmployeeId = x.Employee.EmployeeId,
+                        Name = x.Employee.Name,
+                        Surname = x.Employee.Surname,
+                        TeamName = x.Employee.TeamName
+                    };
+                }).OrderBy(x => x.EmployeeId).OrderBy(x => x.LeaveType);
             }
             catch (Exception ex)
             {
