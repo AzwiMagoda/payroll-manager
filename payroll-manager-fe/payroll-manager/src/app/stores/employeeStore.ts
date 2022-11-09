@@ -8,6 +8,7 @@ import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
 import { NotificationDto } from '../models/notification';
 import { PersonalInfoForm } from '../models/personalInfoForm';
+import { store } from './store';
 
 export default class EmployeeStore {
 	selectedEmployee: Employee | undefined = undefined;
@@ -20,6 +21,7 @@ export default class EmployeeStore {
 	leaveDays: LeaveDays | undefined = undefined;
 	bookedLeaveDays = new Array<BookedLeaveDays>();
 	notifications = new Array<NotificationDto>();
+	employeeLeaveDays = new Array<BookedLeaveDays>();
 
 	constructor() {
 		makeAutoObservable(this);
@@ -331,6 +333,28 @@ export default class EmployeeStore {
 			runInAction(() => {
 				this.loading = false;
 			});
+		}
+	};
+
+	getEmployeeBookedLeaveDays = async () => {
+		if (store.authStore.user?.role == 'Manager') {
+			this.loading = true;
+			try {
+				const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays(
+					this.currentEmployee!.id
+				);
+
+				console.log(bookedDays);
+				runInAction(() => {
+					this.employeeLeaveDays = bookedDays;
+					this.loading = false;
+				});
+			} catch (error) {
+				console.log(error);
+				runInAction(() => {
+					this.loading = false;
+				});
+			}
 		}
 	};
 }

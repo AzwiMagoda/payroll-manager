@@ -1,7 +1,7 @@
 import { Box, Grid, MenuItem, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { NotificationDto } from '../../models/notification';
-import formatISO from 'date-fns/formatISO';
+import { formatDistance } from 'date-fns';
 
 interface Props {
 	notification: NotificationDto;
@@ -27,7 +27,11 @@ export default function NotificationElement({ notification }: Props) {
 								color='textSecondary'
 								align='right'
 							>
-								{new Date(notification.createdDate).toDateString()}
+								{formatDistance(
+									new Date(notification.createdDate),
+									new Date(),
+									{ addSuffix: true }
+								)}
 							</Typography>
 						</Stack>
 					</Grid>
