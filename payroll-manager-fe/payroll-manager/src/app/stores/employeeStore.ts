@@ -356,4 +356,27 @@ export default class EmployeeStore {
 			}
 		}
 	};
+
+	approveLeave = async (leaveIds: string[]) => {
+		this.loading = true;
+		try {
+			const bookedLeave = agent.Leave.approveLeave(leaveIds);
+			toast.promise(bookedLeave, {
+				pending: 'Submitting...',
+				success: 'Leave day(s) approved successfully!',
+				error: 'Failed to approve leave day(s)',
+			});
+
+			await this.getEmployeeBookedLeaveDays();
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
 }

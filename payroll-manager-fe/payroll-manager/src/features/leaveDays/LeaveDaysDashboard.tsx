@@ -43,6 +43,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 			bookedLeaveDays,
 			getLeaveDaysBalances,
 			getAllBookedLeaveDays,
+			approveLeave,
 		},
 	} = useStore();
 
@@ -62,7 +63,9 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		console.log(selectedIds);
 	}, [selectedIds]);
 
-	const approveLeave = () => {};
+	const approveOnClick = async () => {
+		await approveLeave(selectedIds.map(String));
+	};
 
 	return (
 		<Container maxWidth={false}>
@@ -112,7 +115,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 									sx={{ mr: 1 }}
 									color='secondary'
 									variant='contained'
-									onClick={() => approveLeave()}
+									onClick={() => approveOnClick()}
 								>
 									Approve
 								</Button>

@@ -107,6 +107,8 @@ const Leave = {
 		requests.del<string>(`leave/cancel/${employeeId}/${leaveId}`),
 	getEmployeeBookedLeaveDays: (managerId: string) =>
 		requests.get<BookedLeaveDays[]>(`/manager/booked/${managerId}`),
+	approveLeave: (leaveIds: string[]) =>
+		requests.put(`/manager/approve`, leaveIds),
 };
 
 const Team = {
