@@ -117,10 +117,8 @@ const Team = {
 };
 
 const Payslips = {
-	getAllPayslips: (employeeId: string) =>
-		requests.get<Payslip[]>(`payslip/${employeeId}`),
-	getLatestPayslip: (employeeId: string) =>
-		requests.get<Payslip>(`payslip/latest/${employeeId}`),
+	getAllPayslips: () => requests.get<Payslip[]>(`payslips`),
+	getLatestPayslip: () => requests.get<Payslip>(`payslips/latest`),
 };
 
 const agent = {

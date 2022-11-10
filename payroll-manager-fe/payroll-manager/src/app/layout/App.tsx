@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import {
-	Backdrop,
-	Box,
-	CircularProgress,
-	CssBaseline,
-	Toolbar,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';

@@ -11,10 +11,10 @@ export default class PayslipStore {
 		makeAutoObservable(this);
 	}
 
-	getAllPayslips = async (employeeId: string) => {
+	getAllPayslips = async () => {
 		this.loading = true;
 		try {
-			const payslips = await agent.Payslips.getAllPayslips(employeeId);
+			const payslips = await agent.Payslips.getAllPayslips();
 
 			runInAction(() => {
 				this.payslips = payslips;
@@ -28,10 +28,10 @@ export default class PayslipStore {
 		}
 	};
 
-	getlatestPayslip = async (employeeId: string) => {
+	getlatestPayslip = async () => {
 		this.loading = true;
 		try {
-			const payslip = await agent.Payslips.getLatestPayslip(employeeId);
+			const payslip = await agent.Payslips.getLatestPayslip();
 
 			runInAction(() => {
 				this.latestPayslip = payslip;

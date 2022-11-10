@@ -293,7 +293,7 @@
     },
     //payslip
     {
-      "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip/{employeeId}",
+      "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -305,11 +305,11 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/payslip/latest/{employeeId}",
+      "UpstreamPathTemplate": "/payslips/latest",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips/{employeeId}",
+      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -321,13 +321,13 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/payslip/{employeeId}",
+      "UpstreamPathTemplate": "/payslips",
       "UpstreamHttpMethod": [ "GET" ]
     },
 
     //Manager
     {
-      "DownstreamPathTemplate": "/api/Manager/GetAllEmployeeBookedLeaveDays/{managerId}",
+      "DownstreamPathTemplate": "/api/Manager/GetAllEmployeeBookedLeaveDays",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -339,7 +339,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/manager/getBookedLeaveDays/{managerId}",
+      "UpstreamPathTemplate": "/manager/getBookedLeaveDays",
       "UpstreamHttpMethod": [ "GET" ]
     }
   ]

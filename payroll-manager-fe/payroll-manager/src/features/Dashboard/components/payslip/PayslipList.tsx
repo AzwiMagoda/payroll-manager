@@ -21,18 +21,14 @@ import { Link } from 'react-router-dom';
 import { Payslip } from '../../../../app/models/payslip';
 import { useStore } from '../../../../app/stores/store';
 
-interface Props {
-	employeeId: string;
-}
-
-export default observer(function PayslipList({ employeeId }: Props) {
+export default observer(function PayslipList() {
 	const {
 		payslipStore: { getAllPayslips, payslips, loading },
 	} = useStore();
 
 	useEffect(() => {
-		getAllPayslips(employeeId);
-	}, [employeeId, getAllPayslips]);
+		getAllPayslips();
+	}, [getAllPayslips]);
 
 	return (
 		<Card>

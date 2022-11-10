@@ -1,13 +1,4 @@
-import {
-	Avatar,
-	Box,
-	Button,
-	Card,
-	CardActions,
-	CardContent,
-	Divider,
-	Typography,
-} from '@mui/material';
+import { Avatar, Box, Card, CardContent, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { Employee } from '../../app/models/employee';
 

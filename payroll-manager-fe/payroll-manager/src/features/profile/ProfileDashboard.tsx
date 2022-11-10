@@ -1,15 +1,4 @@
-import {
-	Avatar,
-	Box,
-	Card,
-	Grid,
-	Paper,
-	Stack,
-	Tab,
-	Tabs,
-	Typography,
-	Container,
-} from '@mui/material';
+import { Grid, Tab, Tabs, Typography, Container } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useStore } from '../../app/stores/store';

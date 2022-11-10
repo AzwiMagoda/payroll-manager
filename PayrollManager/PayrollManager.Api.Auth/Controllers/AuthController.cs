@@ -41,16 +41,6 @@ namespace PayrollManager.Api.Auth.Controllers
             return result.Succeeded ? CreateUserObject(user, role) : Unauthorized();
         }
 
-        //[Authorize(Roles = "Recruiter, JobSeeker")]
-        [HttpGet("GetCurrentUser")]
-        public async Task<ActionResult<UserDto>> GetCurrentUser()
-        {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-            var role = await _userManager.GetRolesAsync(user);
-
-            return Ok(CreateUserObject(user, role[0]));
-        }
-
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
