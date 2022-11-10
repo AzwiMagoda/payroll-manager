@@ -4,6 +4,7 @@ import agent from '../api/agent';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { BookLeave } from '../models/bookLeave';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
+import { DeclineLeave } from '../models/DeclineLeave';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
@@ -366,6 +367,29 @@ export default class EmployeeStore {
 			});
 
 			await this.getEmployeeBookedLeaveDays();
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	declineLeave = async (leaveDays: DeclineLeave) => {
+		this.loading = true;
+		try {
+			const bookLeave = agent.Leave.declineLeave(leaveDays);
+			toast.promise(bookLeave, {
+				pending: 'Submitting...',
+				success: 'Leave day(s) declined successfully!',
+				error: 'Failed to decline leave day(s)',
+			});
+
+			await this.getLeaveDaysBalances(this.currentEmployee!.id);
 
 			runInAction(() => {
 				this.loading = false;

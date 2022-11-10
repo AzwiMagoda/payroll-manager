@@ -12,6 +12,7 @@ import { Login } from '../models/login';
 import { User } from '../models/user';
 import { NotificationDto } from '../models/notification';
 import { BookLeave } from '../models/bookLeave';
+import { DeclineLeave } from '../models/DeclineLeave';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -107,9 +108,11 @@ const Leave = {
 	deleteLeave: (leaveId: string, employeeId: string) =>
 		requests.del<string>(`leave/cancel/${employeeId}/${leaveId}`),
 	getEmployeeBookedLeaveDays: (managerId: string) =>
-		requests.get<BookedLeaveDays[]>(`/manager/booked/${managerId}`),
+		requests.get<BookedLeaveDays[]>(`manager/booked/${managerId}`),
 	approveLeave: (leaveIds: string[]) =>
-		requests.put(`/manager/approve`, leaveIds),
+		requests.put(`manager/approve`, leaveIds),
+	declineLeave: (leaveDays: DeclineLeave) =>
+		requests.put(`manager/decline`, leaveDays),
 };
 
 const Team = {

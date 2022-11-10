@@ -66,7 +66,7 @@ namespace PayrollManager.Api.LeaveDays.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        
         [HttpPut]
         [Route("UpdateBookedLeave/{employeeId}")]
         public ActionResult<IEnumerable<BookedLeaveDaysDto>> UpdateBookedLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
@@ -107,7 +107,7 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         [Authorize(Policy = "ManagerPolicy")]
         [HttpPut]
         [Route("DeclineLeave")]
-        public async Task<IActionResult> DeclineLeave([FromBody] BookedLeaveDaysDto leave)
+        public async Task<IActionResult> DeclineLeave([FromBody] DeclineLeaveDto leave)
         {
             try
             {

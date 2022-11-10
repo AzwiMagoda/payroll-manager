@@ -229,7 +229,7 @@ namespace PayrollManager.Application.LeaveDays.Services
             await _bookedLeaveDaysRepository.BulkUpdate(leaveEntities);
         }
 
-        public async Task DeclineLeave(BookedLeaveDaysDto bookedLeave)
+        public async Task DeclineLeave(DeclineLeaveDto bookedLeave)
         {
             var entity = await _bookedLeaveDaysRepository.GetByID(bookedLeave.Id);
 

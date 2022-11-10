@@ -16,6 +16,6 @@ namespace PayrollManager.Application.LeaveDays.Interfaces
         Task UpdateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId);
         Task DeleteBookedLeaveDay(Guid leaveId, Guid employeeId);
         Task ApproveLeave(IEnumerable<Guid> leaveIds);
-        Task DeclineLeave(BookedLeaveDaysDto bookedLeave);
+        Task DeclineLeave(DeclineLeaveDto bookedLeave);
     }
 }
