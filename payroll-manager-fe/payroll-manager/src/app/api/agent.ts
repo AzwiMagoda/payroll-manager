@@ -11,6 +11,7 @@ import { Payslip } from '../models/payslip';
 import { Login } from '../models/login';
 import { User } from '../models/user';
 import { NotificationDto } from '../models/notification';
+import { BookLeave } from '../models/bookLeave';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -99,8 +100,8 @@ const Leave = {
 		requests.get<LeaveDays>(`leave/balance/${employeeId}`),
 	getBookedLeaveDays: (employeeId: string) =>
 		requests.get<BookedLeaveDays[]>(`booked/${employeeId}`),
-	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
-		requests.post<string>(`leave/book/${employeeId}`, leaveDays),
+	bookLeave: (leaveDays: BookLeave) =>
+		requests.post<string>(`leave/book`, leaveDays),
 	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
 		requests.put<LeaveDays>(`leave/update/${employeeId}`, leaveDays),
 	deleteLeave: (leaveId: string, employeeId: string) =>

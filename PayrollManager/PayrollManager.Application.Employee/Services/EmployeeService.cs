@@ -310,7 +310,7 @@ namespace PayrollManager.Application.Employee.Services
                         NotificationType = x.NotificationType,
                         CreatedDate = x.CreatedDate
                     };
-                });
+                }).OrderByDescending(x => x.CreatedDate);
             }
             catch (Exception ex)
             {

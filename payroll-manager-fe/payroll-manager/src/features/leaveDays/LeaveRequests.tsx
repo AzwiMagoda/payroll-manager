@@ -14,6 +14,7 @@ import {
 import { useStore } from '../../app/stores/store';
 import { format } from 'date-fns';
 import CloseIcon from '@mui/icons-material/Close';
+import { observer } from 'mobx-react-lite';
 
 const columns: GridColDef[] = [
 	{
@@ -45,16 +46,18 @@ const columns: GridColDef[] = [
 		flex: 1,
 	},
 	{
-		field: 'approved',
+		field: 'status',
 		headerName: 'Status',
 		flex: 1,
-		renderCell: (params: GridRenderCellParams<Boolean>) => {
+		renderCell: (params: GridRenderCellParams<String>) => {
 			return (
 				<strong>
-					{params.value === false ? (
-						<Chip label='Not Approved' color='error' size='small' />
+					{params.value === 'Declined' ? (
+						<Chip label={params.value} color='error' size='small' />
+					) : params.value === 'Approved' ? (
+						<Chip label={params.value} color='success' size='small' />
 					) : (
-						<Chip label='Approved' color='success' size='small' />
+						<Chip label={params.value} color='warning' size='small' />
 					)}
 				</strong>
 			);
@@ -88,13 +91,9 @@ const columns: GridColDef[] = [
 interface Props {
 	setSelectedIds: (params: any) => any;
 }
-export default function LeaveRequests({ setSelectedIds }: Props) {
+export default observer(function LeaveRequests({ setSelectedIds }: Props) {
 	const {
-		employeeStore: {
-			currentEmployee,
-			employeeLeaveDays,
-			getEmployeeBookedLeaveDays,
-		},
+		employeeStore: { employeeLeaveDays, getEmployeeBookedLeaveDays },
 	} = useStore();
 	const [pageSize, setPageSize] = React.useState(5);
 
@@ -124,4 +123,4 @@ export default function LeaveRequests({ setSelectedIds }: Props) {
 			</Box>
 		</Card>
 	);
-}
+});

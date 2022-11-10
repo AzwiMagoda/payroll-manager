@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FullCalendar, {
 	DateSelectArg,
 	EventApi,
@@ -8,10 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/store';
-import LeaveDayEdit from './LeaveDayEdit';
 import { addDays } from 'date-fns';
-import { v4 as uuidv4 } from 'uuid';
-import LeaveDayCreate from './LeaveDayCreate';
 import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 
 interface Props {
@@ -74,13 +71,6 @@ export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 				selectOverlap={true}
 				select={(e: DateSelectArg) => onDateSelect(e)}
 			/>
-
-			{openEdit && editEvent && (
-				<LeaveDayEdit key={editEvent.id} leaveEvent={editEvent} />
-			)}
-			{openCreate && createEvent && (
-				<LeaveDayCreate key={uuidv4()} leaveEvent={createEvent} />
-			)}
 		</>
 	);
 });

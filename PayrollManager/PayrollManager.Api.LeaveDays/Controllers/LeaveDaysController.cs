@@ -48,13 +48,15 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         }
 
         [HttpPost]
-        [Route("BookLeave/{employeeId}")]
-        public async Task<IActionResult> BookLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
+        [Route("BookLeave")]
+        public async Task<IActionResult> BookLeave([FromBody] BookLeaveDto leave)
         {
             try
             {
-                await _leaveDaysService.CreateBookedLeaveDay(leave, employeeId);
-                var managerId = await _helper.GetEmployeeManagerId(employeeId);
+                var id = Guid.Parse(User.FindFirst("Id").Value);
+                var name = User.FindFirst("Name").Value;
+                await _leaveDaysService.CreateBookedLeaveDay(leave, id, name);
+                //var managerId = await _helper.GetEmployeeManagerId(employeeId);
 
                 return Ok($"Leave days {leave.StartDate} - {leave.EndDate} booked!");
             }
@@ -89,6 +91,8 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         {
             try
             {
+                
+
                 await _leaveDaysService.ApproveLeave(leaves);
                 return Ok("Leave days approved");
             }

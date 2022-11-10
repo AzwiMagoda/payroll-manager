@@ -4,11 +4,7 @@ import {
 	Card,
 	CardContent,
 	Container,
-	Grid,
-	InputAdornment,
-	Paper,
 	Stack,
-	SvgIcon,
 	Tab,
 	Tabs,
 	TextField,
@@ -22,10 +18,12 @@ import { useStore } from '../../app/stores/store';
 import LeaveDaysBalances from './LeaveDaysBalances';
 import LeaveDaysCalendar from './LeaveDaysCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import SearchIcon from '@mui/icons-material/Search';
 import LeaveRequests from './LeaveRequests';
 import DoneIcon from '@mui/icons-material/Done';
 import { GridSelectionModel } from '@mui/x-data-grid';
+import AddIcon from '@mui/icons-material/Add';
+import CancelIcon from '@mui/icons-material/Cancel';
+import BookLeave from './BookLeave';
 
 interface Props {
 	employee: Employee;
@@ -36,6 +34,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 	const [activeMenu, setActiveMenu] = useState(0);
 	const [balanceDate, setBalanceDate] = useState(new Date());
 	const [selectedIds, setSelectedIds] = React.useState<GridSelectionModel>([]);
+	const [showBookLeaveForm, setShowBookLeaveForm] = React.useState(false);
 
 	const {
 		employeeStore: {
@@ -67,6 +66,10 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		await approveLeave(selectedIds.map(String));
 	};
 
+	const onBookLeaveClick = () => {
+		setShowBookLeaveForm(!showBookLeaveForm);
+	};
+
 	return (
 		<Container maxWidth={false}>
 			<Tabs
@@ -75,7 +78,8 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 				aria-label='profile detail tabs'
 			>
 				<Tab label='Leave Balance'></Tab>
-				<Tab label='Book Leave'></Tab>
+				<Tab label='Booked Leave'></Tab>
+				<Tab label='Team Calendar'></Tab>
 				{user.role === 'Manager' && <Tab label='Leave Requests'></Tab>}
 			</Tabs>
 
@@ -85,24 +89,52 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 						<CardContent>
 							<Stack
 								direction='row'
-								justifyContent='flex-end'
+								justifyContent='space-between'
 								alignItems='center'
-								spacing={4}
+								spacing={2}
 							>
-								<Typography variant='body2'>Leave balance as at: </Typography>
-								<DatePicker
-									value={balanceDate}
-									onChange={(newValue) => {
-										if (newValue !== null) setBalanceDate(newValue);
-									}}
-									renderInput={(params) => (
-										<TextField variant='outlined' {...params} />
-									)}
-								/>
+								{!showBookLeaveForm ? (
+									<Button
+										startIcon={<AddIcon fontSize='small' />}
+										sx={{ mr: 1 }}
+										color='success'
+										variant='contained'
+										onClick={() => onBookLeaveClick()}
+									>
+										Book Leave
+									</Button>
+								) : (
+									<Button
+										startIcon={<CancelIcon fontSize='small' />}
+										sx={{ mr: 1 }}
+										color='error'
+										variant='contained'
+										onClick={() => onBookLeaveClick()}
+									>
+										Cancel
+									</Button>
+								)}
+								<Stack
+									direction='row'
+									justifyContent='flex-end'
+									alignItems='center'
+									spacing={4}
+								>
+									<Typography variant='body2'>Leave balance as at: </Typography>
+									<DatePicker
+										value={balanceDate}
+										onChange={(newValue) => {
+											if (newValue !== null) setBalanceDate(newValue);
+										}}
+										renderInput={(params) => (
+											<TextField variant='outlined' {...params} />
+										)}
+									/>
+								</Stack>
 							</Stack>
 						</CardContent>
 					)}
-					{activeMenu === 2 && (
+					{activeMenu === 3 && (
 						<CardContent>
 							<Stack
 								direction='row'
@@ -127,12 +159,18 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 
 			<Box sx={{ mt: 3 }}>
 				{activeMenu === 0 && leaveDays && (
-					<LeaveDaysBalances leaveDays={leaveDays} />
+					<>
+						{showBookLeaveForm ? (
+							<BookLeave />
+						) : (
+							<LeaveDaysBalances leaveDays={leaveDays} />
+						)}
+					</>
 				)}
-				{activeMenu === 1 && (
+				{activeMenu === 2 && (
 					<LeaveDaysCalendar bookedLeaveDays={bookedLeaveDays} />
 				)}
-				{activeMenu === 2 && <LeaveRequests setSelectedIds={setSelectedIds} />}
+				{activeMenu === 3 && <LeaveRequests setSelectedIds={setSelectedIds} />}
 			</Box>
 		</Container>
 	);

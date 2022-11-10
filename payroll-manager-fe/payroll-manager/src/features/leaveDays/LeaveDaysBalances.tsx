@@ -1,22 +1,13 @@
 import {
-	Box,
 	Card,
-	CardContent,
-	InputAdornment,
-	Stack,
-	SvgIcon,
 	Table,
 	TableBody,
 	TableCell,
 	TableHead,
 	TableRow,
-	TextField,
-	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { LeaveDays } from '../../app/models/leaveDays';
-import { useStore } from '../../app/stores/store';
 
 interface Props {
 	leaveDays: LeaveDays;
@@ -34,19 +25,13 @@ export default observer(function LeaveDaysBalances({ leaveDays }: Props) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					<TableRow
-						hover
-						// selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-					>
+					<TableRow hover>
 						<TableCell>Annual Leave</TableCell>
 						<TableCell>{leaveDays.annualLeaveBalance}</TableCell>
 						<TableCell>0</TableCell>
 						<TableCell>Days</TableCell>
 					</TableRow>
-					<TableRow
-						hover
-						// selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-					>
+					<TableRow hover>
 						<TableCell>Sick Leave</TableCell>
 						<TableCell>{leaveDays.sickLeaveBalance}</TableCell>
 						<TableCell>0</TableCell>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Button, ListItem } from '@mui/material';
 import { Link, useMatch } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
 	title?: string;
@@ -9,7 +10,7 @@ interface Props {
 	href: string;
 }
 
-export default function NavItem({ title, icon, href }: Props) {
+export default observer(function NavItem({ title, icon, href }: Props) {
 	const active = useMatch(href);
 	const navigate = useNavigate();
 
@@ -50,4 +51,4 @@ export default function NavItem({ title, icon, href }: Props) {
 			</Button>
 		</ListItem>
 	);
-}
+});

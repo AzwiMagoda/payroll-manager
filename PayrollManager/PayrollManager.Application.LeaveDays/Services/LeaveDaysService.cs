@@ -65,7 +65,7 @@ namespace PayrollManager.Application.LeaveDays.Services
                         EndDate = x.EndDate,
                         LeaveType = x.LeaveType,
                         StartDate = x.StartDate,
-                        
+
                     };
                 }).OrderBy(x => x.LeaveType);
             }
@@ -86,7 +86,7 @@ namespace PayrollManager.Application.LeaveDays.Services
                 var entitiesJoined = employees.Join(bookedLeaveDays,
                                                     employee => employee.EmployeeId,
                                                     bookedLeave => bookedLeave.EmployeeId,
-                                                    (employee, bookedLeave) => new {Employee = employee, BookedLeave = bookedLeave});
+                                                    (employee, bookedLeave) => new { Employee = employee, BookedLeave = bookedLeave });
 
 
                 return entitiesJoined.Select(x =>
@@ -113,29 +113,23 @@ namespace PayrollManager.Application.LeaveDays.Services
             }
         }
 
-        public async Task CreateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId)
+        public async Task CreateBookedLeaveDay(BookLeaveDto bookLeave, Guid employeeId, string name)
         {
             try
             {
                 //validate
-                if (EmployeeHelper.ValidateDateRange(bookedLeave.StartDate, bookedLeave.EndDate))
+                if (EmployeeHelper.ValidateDateRange(bookLeave.StartDate, bookLeave.EndDate))
                 {
-                    //calculateBalance
-                    var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
-                    var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count() * -1;
-                    await _leaveDaysRepository.Update(AdjustLeave(leaveBalance, leaveQty, bookedLeave.LeaveType, employeeId));
-
-
-                    var range = EmployeeHelper.RemoveWeekendsFromBookedLeave(bookedLeave.StartDate, bookedLeave.EndDate);
+                    var employee = await _employeeRepository.GetByID(employeeId);
 
                     var bookedLeaveEntity = new BookedLeaveDaysEntity
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.Now,
-                        LeaveType = bookedLeave.LeaveType,
+                        LeaveType = ((LeaveTypes)bookLeave.LeaveType).ToString(),
                         EmployeeId = employeeId,
-                        EndDate = bookedLeave.EndDate,
-                        StartDate = bookedLeave.StartDate,
+                        EndDate = bookLeave.EndDate,
+                        StartDate = bookLeave.StartDate,
                         Approved = false,
                         Status = ApprovalStatus.Pending.ToString()
                     };
@@ -145,7 +139,7 @@ namespace PayrollManager.Application.LeaveDays.Services
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.Now,
                         EmployeeId = employeeId,
-                        Message = $"Leave days booked from {bookedLeave.StartDate.ToShortDateString()} - {bookedLeave.EndDate.ToShortDateString()}",
+                        Message = $"Leave days booked from {bookLeave.StartDate.ToShortDateString()} - {bookLeave.EndDate.ToShortDateString()}",
                         NotificationType = NotificationTypes.LeaveDays.ToString()
                     };
 
@@ -153,13 +147,14 @@ namespace PayrollManager.Application.LeaveDays.Services
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.Now,
-                        EmployeeId = employeeId,
-                        Message = $"Leave days booked from {bookedLeave.StartDate.ToShortDateString()} - {bookedLeave.EndDate.ToShortDateString()}",
+                        EmployeeId = employee.ManagerEmployeeId,
+                        Message = $"{name} booked leave from {bookLeave.StartDate.ToShortDateString()} - {bookLeave.EndDate.ToShortDateString()}",
                         NotificationType = NotificationTypes.LeaveDays.ToString()
                     };
 
                     await _bookedLeaveDaysRepository.Create(bookedLeaveEntity);
 
+                    await _notificationsRepository.Create(employeeNotification);
                     await _notificationsRepository.Create(managerNotification);
                 }
             }

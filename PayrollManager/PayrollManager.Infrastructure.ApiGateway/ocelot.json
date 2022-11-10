@@ -196,7 +196,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/BookLeave/{employeeId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/BookLeave",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -208,7 +208,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/leave/book/{employeeId}",
+      "UpstreamPathTemplate": "/leave/book",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {

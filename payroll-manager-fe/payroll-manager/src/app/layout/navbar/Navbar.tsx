@@ -18,6 +18,7 @@ import AccountPopover from './AccountPopover';
 import { Employee } from '../../models/employee';
 import NotificationPopover from './NotificationPopover';
 import { useStore } from '../../stores/store';
+import { observer } from 'mobx-react-lite';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 	backgroundColor: '#FFFFFF',
@@ -28,7 +29,7 @@ interface Props {
 	employee: Employee;
 }
 
-export default function Navbar({ employee }: Props) {
+export default observer(function Navbar({ employee }: Props) {
 	const settingsRef = useRef(null);
 	const [openAccountPopover, setOpenAccountPopover] = useState(false);
 	const [openNotifications, setOpenNotifications] = useState(false);
@@ -123,4 +124,4 @@ export default function Navbar({ employee }: Props) {
 			/>
 		</>
 	);
-}
+});

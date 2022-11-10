@@ -23,9 +23,10 @@ namespace PayrollManager.Application.JwtAuthenticationManager.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("Role", role)
+                new Claim("Name", user.UserName),
+                new Claim("Email", user.Email),
+                new Claim("Role", role),
+                new Claim("Id", user.Id.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));

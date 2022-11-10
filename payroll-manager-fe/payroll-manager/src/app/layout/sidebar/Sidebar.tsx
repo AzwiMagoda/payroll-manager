@@ -19,6 +19,7 @@ import NavItem from './NavItem';
 import { Employee } from '../../models/employee';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HouseboatIcon from '@mui/icons-material/Houseboat';
+import { observer } from 'mobx-react-lite';
 
 const items = [
 	{
@@ -66,7 +67,7 @@ interface Props {
 	employee: Employee;
 }
 
-export default function Sidebar({ employee }: Props) {
+export default observer(function Sidebar({ employee }: Props) {
 	const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'), {
 		defaultMatches: true,
 		noSsr: false,
@@ -184,4 +185,4 @@ export default function Sidebar({ employee }: Props) {
 			{content}
 		</Drawer>
 	);
-}
+});

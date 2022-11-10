@@ -8,4 +8,6 @@ export interface BookedLeaveDays {
 	name?: string;
 	surname?: string;
 	teamName?: string;
+	status?: string;
+	reason?: string;
 }

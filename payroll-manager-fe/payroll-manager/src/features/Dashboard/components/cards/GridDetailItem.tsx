@@ -1,11 +1,12 @@
 import { Grid, Typography } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 interface Props {
 	title: string;
 	description: string;
 }
-export default function GridDetailItem({ title, description }: Props) {
+export default observer(function GridDetailItem({ title, description }: Props) {
 	return (
 		<>
 			<Grid item xs={6} md={4}>
@@ -18,4 +19,4 @@ export default function GridDetailItem({ title, description }: Props) {
 			</Grid>
 		</>
 	);
-}
+});

@@ -2,12 +2,13 @@ import { Box, Grid, MenuItem, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { NotificationDto } from '../../models/notification';
 import { formatDistance } from 'date-fns';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
 	notification: NotificationDto;
 }
 
-export default function NotificationElement({ notification }: Props) {
+export default observer(function NotificationElement({ notification }: Props) {
 	return (
 		<MenuItem>
 			<Grid container direction='column'>
@@ -44,4 +45,4 @@ export default function NotificationElement({ notification }: Props) {
 			</Grid>
 		</MenuItem>
 	);
-}
+});
