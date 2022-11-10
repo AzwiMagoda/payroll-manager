@@ -80,7 +80,7 @@ export default observer(function LeaveRequests({ setSelectedIds }: Props) {
 	const columns: GridColDef[] = [
 		{
 			field: 'name',
-			flex: 1.5,
+			flex: 1,
 			headerName: 'First name',
 		},
 		{
@@ -146,6 +146,11 @@ export default observer(function LeaveRequests({ setSelectedIds }: Props) {
 					</strong>
 				);
 			},
+		},
+		{
+			field: 'reason',
+			flex: 2,
+			headerName: 'Reason',
 		},
 	];
 
