@@ -25,25 +25,28 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         }
 
         [HttpGet]
-        [Route("GetEmployeeLeaveDays/{employeeId}")]
-        public async Task<ActionResult<LeaveDaysDto>> GetEmployeeLeaveDays(Guid employeeId)
+        [Route("GetEmployeeLeaveDays")]
+        public async Task<ActionResult<LeaveDaysDto>> GetEmployeeLeaveDays()
         {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
             var leaveDays = await _leaveDaysService.GetLeaveDaysBalances(employeeId);
             return Ok(leaveDays);
         }
 
         [HttpGet]
-        [Route("GetBookedLeaveDays/{employeeId}")]
-        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetBookedLeaveDays(Guid employeeId)
+        [Route("GetBookedLeaveDays")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetBookedLeaveDays()
         {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
             return Ok(_leaveDaysService.GetBookedLeaveDays(employeeId));
         }
 
         [Authorize(Policy = "ManagerPolicy")]
         [HttpGet]
-        [Route("GetEmployeeBookedLeaveDays/{managerId}")]
-        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetEmployeeBookedLeaveDays(Guid managerId)
+        [Route("GetEmployeeBookedLeaveDays")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetEmployeeBookedLeaveDays()
         {
+            var managerId = Guid.Parse(User.FindFirst("Id").Value);
             return Ok(_leaveDaysService.GetEmployeeBookedLeaveDays(managerId));
         }
 
@@ -55,6 +58,7 @@ namespace PayrollManager.Api.LeaveDays.Controllers
             {
                 var id = Guid.Parse(User.FindFirst("Id").Value);
                 var name = User.FindFirst("Name").Value;
+
                 await _leaveDaysService.CreateBookedLeaveDay(leave, id, name);
                 //var managerId = await _helper.GetEmployeeManagerId(employeeId);
 
@@ -68,11 +72,13 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         }
         
         [HttpPut]
-        [Route("UpdateBookedLeave/{employeeId}")]
-        public ActionResult<IEnumerable<BookedLeaveDaysDto>> UpdateBookedLeave([FromBody] BookedLeaveDaysDto leave, Guid employeeId)
+        [Route("UpdateBookedLeave")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> UpdateBookedLeave([FromBody] BookedLeaveDaysDto leave)
         {
             try
             {
+                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+
                 _leaveDaysService.UpdateBookedLeaveDay(leave, employeeId).Wait();
                 return Ok(_leaveDaysService.GetBookedLeaveDays(employeeId));
             }
@@ -91,8 +97,6 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         {
             try
             {
-                
-
                 await _leaveDaysService.ApproveLeave(leaves);
                 return Ok("Leave days approved");
             }
@@ -123,11 +127,13 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteBookedLeave/{employeeId}/{bookedLeaveId}")]
-        public async Task<IActionResult> DeleteBookedLeave(Guid employeeId, Guid bookedLeaveId)
+        [Route("DeleteBookedLeave/{bookedLeaveId}")]
+        public async Task<IActionResult> DeleteBookedLeave(Guid bookedLeaveId)
         {
             try
             {
+                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+
                 await _leaveDaysService.DeleteBookedLeaveDay(bookedLeaveId, employeeId);
                 return Ok($"Leave day with id {bookedLeaveId} deleted");
             }

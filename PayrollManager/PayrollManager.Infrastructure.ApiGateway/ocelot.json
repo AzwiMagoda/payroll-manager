@@ -60,7 +60,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Employee/GetAllNotifications/{id}",
+      "DownstreamPathTemplate": "/api/Employee/GetAllNotifications",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -76,11 +76,11 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee/getNotifications/{id}",
+      "UpstreamPathTemplate": "/employee/getNotifications",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Employee/GetEmployee/{employeeId}",
+      "DownstreamPathTemplate": "/api/Employee/GetEmployee",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -92,7 +92,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee/{employeeId}",
+      "UpstreamPathTemplate": "/employee",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -112,7 +112,7 @@
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Employee/UpdatePersonalInformation/{id}",
+      "DownstreamPathTemplate": "/api/Employee/UpdatePersonalInformation",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -124,11 +124,11 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee/update/personalinfo/{id}",
+      "UpstreamPathTemplate": "/employee/update/personalinfo",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Employee/UpdateContactDetails/{id}",
+      "DownstreamPathTemplate": "/api/Employee/UpdateContactDetails",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -140,7 +140,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/employee/update/contactdetails/{id}",
+      "UpstreamPathTemplate": "/employee/update/contactdetails",
       "UpstreamHttpMethod": [ "PUT" ]
     },
 
@@ -164,7 +164,7 @@
 
     //leave days
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/GetBookedLeaveDays/{employeeId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/GetBookedLeaveDays",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -176,11 +176,11 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/booked/{employeeId}",
+      "UpstreamPathTemplate": "/booked",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays/{employeeId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -192,7 +192,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/leave/balance/{employeeId}",
+      "UpstreamPathTemplate": "/leave/balance",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -212,7 +212,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/UpdateBookedLeave/{employeeId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/UpdateBookedLeave",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -224,11 +224,11 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/leave/update/{employeeId}",
+      "UpstreamPathTemplate": "/leave/update",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/DeleteBookedLeave/{employeeId}/{bookedLeaveId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/DeleteBookedLeave/{bookedLeaveId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -240,7 +240,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/leave/cancel/{employeeId}/{bookedLeaveId}",
+      "UpstreamPathTemplate": "/leave/cancel/{bookedLeaveId}",
       "UpstreamHttpMethod": [ "DELETE" ]
     },
     {
@@ -276,7 +276,7 @@
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays/{managerId}",
+      "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -288,7 +288,7 @@
         "AuthenticationProviderKey": "IdentityApiKey",
         "AllowedScopes": []
       },
-      "UpstreamPathTemplate": "/manager/booked/{managerId}",
+      "UpstreamPathTemplate": "/manager/booked",
       "UpstreamHttpMethod": [ "GET" ]
     },
     //payslip

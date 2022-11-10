@@ -73,42 +73,38 @@ const Auth = {
 
 const Employees = {
 	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
-	getEmployeeById: (id: string) => requests.get<Employee>(`employee/${id}`),
+	getEmployeeById: () => requests.get<Employee>(`employee`),
 	// addNewEmployee: (employee: Employee) =>
 	// 	requests.post<Employee>('/Employee/CreateEmployee', employee),
 	updateEmployeeDetails: (employee: Employee) =>
 		requests.put<void>(`employee/update`, employee),
 	// deleteEmployee: (id: string) =>
 	// 	requests.del<void>(`/Employee/DeleteEmployee/${id}`),
-	updatePersonalInformation: (info: PersonalInfoForm, id: string) =>
-		requests.put<Employee>(`employee/update/personalinfo/{id}`, info),
-	updateContactDetails: (info: ContactDetailsForm, id: string) =>
-		requests.put<Employee>(`employee/update/contactdetails/${id}`, info),
-	getAllDependants: (id: string) =>
-		requests.get<Dependant[]>(`/Employee/GetDependants/${id}`),
+	updatePersonalInformation: (info: PersonalInfoForm) =>
+		requests.put<Employee>(`employee/update/personalinfo`, info),
+	updateContactDetails: (info: ContactDetailsForm) =>
+		requests.put<Employee>(`employee/update/contactdetails`, info),
+	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),
 	addNewDependant: (dependant: Dependant) =>
 		requests.post<Dependant[]>('/Employee/CreateDependant', dependant),
 	updateDependant: (dependant: Dependant) =>
 		requests.put<Dependant[]>(`/Employee/UpdateDependant`, dependant),
-	deleteDependant: (id: string) =>
-		requests.del<void>(`/Employee/DeleteDependant/${id}`),
-	getNotifications: (id: string) =>
-		requests.get<NotificationDto[]>(`employee/getNotifications/${id}`),
+	deleteDependant: () => requests.del<void>(`/Employee/DeleteDependant`),
+	getNotifications: () =>
+		requests.get<NotificationDto[]>(`employee/getNotifications`),
 };
 
 const Leave = {
-	getLeaveDays: (employeeId: string) =>
-		requests.get<LeaveDays>(`leave/balance/${employeeId}`),
-	getBookedLeaveDays: (employeeId: string) =>
-		requests.get<BookedLeaveDays[]>(`booked/${employeeId}`),
+	getLeaveDays: () => requests.get<LeaveDays>(`leave/balance`),
+	getBookedLeaveDays: () => requests.get<BookedLeaveDays[]>(`booked`),
 	bookLeave: (leaveDays: BookLeave) =>
 		requests.post<string>(`leave/book`, leaveDays),
-	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
-		requests.put<LeaveDays>(`leave/update/${employeeId}`, leaveDays),
-	deleteLeave: (leaveId: string, employeeId: string) =>
-		requests.del<string>(`leave/cancel/${employeeId}/${leaveId}`),
-	getEmployeeBookedLeaveDays: (managerId: string) =>
-		requests.get<BookedLeaveDays[]>(`manager/booked/${managerId}`),
+	updateLeave: (leaveDays: BookedLeaveDays) =>
+		requests.put<LeaveDays>(`leave/update`, leaveDays),
+	deleteLeave: (leaveId: string) =>
+		requests.del<string>(`leave/cancel/${leaveId}`),
+	getEmployeeBookedLeaveDays: () =>
+		requests.get<BookedLeaveDays[]>(`manager/booked`),
 	approveLeave: (leaveIds: string[]) =>
 		requests.put(`manager/approve`, leaveIds),
 	declineLeave: (leaveDays: DeclineLeave) =>

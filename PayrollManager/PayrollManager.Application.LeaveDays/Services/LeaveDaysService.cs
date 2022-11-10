@@ -65,7 +65,10 @@ namespace PayrollManager.Application.LeaveDays.Services
                         EndDate = x.EndDate,
                         LeaveType = x.LeaveType,
                         StartDate = x.StartDate,
-
+                        Approved = x.Approved,
+                        Reason = x.Reason,
+                        Status = x.Status,
+                        CreatedDate = x.CreatedDate
                     };
                 }).OrderBy(x => x.LeaveType);
             }
@@ -223,6 +226,7 @@ namespace PayrollManager.Application.LeaveDays.Services
             {
                 x.Approved = true;
                 x.Status = ApprovalStatus.Approved.ToString();
+                x.Reason = "";
                 return x;
             });
 

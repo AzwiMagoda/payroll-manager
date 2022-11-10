@@ -152,6 +152,15 @@ export default observer(function LeaveRequests({ setSelectedIds }: Props) {
 			flex: 2,
 			headerName: 'Reason',
 		},
+		{
+			field: 'createdDate',
+			headerName: 'Date Requested',
+			flex: 1,
+			type: 'date',
+			valueFormatter: (params: GridValueFormatterParams<string>) => {
+				return format(new Date(params.value), 'dd-MM-yyyy');
+			},
+		},
 	];
 
 	return (

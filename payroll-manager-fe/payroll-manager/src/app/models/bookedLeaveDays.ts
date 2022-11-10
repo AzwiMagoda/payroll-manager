@@ -4,6 +4,7 @@ export interface BookedLeaveDays {
 	leaveType: string;
 	startDate: string;
 	endDate: string;
+	createdDate: string;
 	approved: boolean;
 	name?: string;
 	surname?: string;

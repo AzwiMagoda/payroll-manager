@@ -67,10 +67,10 @@ export default class EmployeeStore {
 		}
 	};
 
-	getCurrentEmployee = async (id: string) => {
+	getCurrentEmployee = async () => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.getEmployeeById(id);
+			const employee = await agent.Employees.getEmployeeById();
 
 			runInAction(() => {
 				this.loading = false;
@@ -91,10 +91,7 @@ export default class EmployeeStore {
 	updatePersonalInfo = async (info: PersonalInfoForm) => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.updatePersonalInformation(
-				info,
-				this.currentEmployee!.id
-			);
+			const employee = await agent.Employees.updatePersonalInformation(info);
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
@@ -110,10 +107,7 @@ export default class EmployeeStore {
 	updateContactDetails = async (info: ContactDetailsForm) => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.updateContactDetails(
-				info,
-				this.currentEmployee!.id
-			);
+			const employee = await agent.Employees.updateContactDetails(info);
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
@@ -129,7 +123,7 @@ export default class EmployeeStore {
 	getAllDependants = async (id: string) => {
 		this.loading = true;
 		try {
-			const dependants = await agent.Employees.getAllDependants(id);
+			const dependants = await agent.Employees.getAllDependants();
 
 			runInAction(() => {
 				this.dependants = dependants;
@@ -180,7 +174,7 @@ export default class EmployeeStore {
 	deleteDependant = async (id: string) => {
 		this.loading = true;
 		try {
-			await agent.Employees.deleteDependant(id);
+			await agent.Employees.deleteDependant();
 			runInAction(() => {
 				this.loading = false;
 				this.dependants = this.dependants.filter(
@@ -205,10 +199,10 @@ export default class EmployeeStore {
 		this.newDependantId = '';
 	};
 
-	getLeaveDaysBalances = async (employeeId: string) => {
+	getLeaveDaysBalances = async () => {
 		this.loading = true;
 		try {
-			const leaveDays = await agent.Leave.getLeaveDays(employeeId);
+			const leaveDays = await agent.Leave.getLeaveDays();
 			runInAction(() => {
 				this.loading = false;
 				this.leaveDays = leaveDays;
@@ -221,11 +215,12 @@ export default class EmployeeStore {
 		}
 	};
 
-	getAllBookedLeaveDays = async (id: string) => {
+	getAllBookedLeaveDays = async () => {
 		this.loading = true;
 		try {
-			const bookedDays = await agent.Leave.getBookedLeaveDays(id);
+			const bookedDays = await agent.Leave.getBookedLeaveDays();
 
+			console.log(bookedDays);
 			runInAction(() => {
 				this.bookedLeaveDays = bookedDays;
 				this.loading = false;
@@ -248,7 +243,7 @@ export default class EmployeeStore {
 				error: 'Failed to book leave day(s)',
 			});
 
-			await this.getLeaveDaysBalances(this.currentEmployee!.id);
+			await this.getLeaveDaysBalances();
 
 			runInAction(() => {
 				this.loading = false;
@@ -264,10 +259,7 @@ export default class EmployeeStore {
 	updateLeave = async (leaveDays: BookedLeaveDays) => {
 		this.loading = true;
 		try {
-			const bookedLeave = agent.Leave.updateLeave(
-				leaveDays,
-				this.currentEmployee!.id
-			);
+			const bookedLeave = agent.Leave.updateLeave(leaveDays);
 			toast.promise(bookedLeave, {
 				pending: 'Updating...',
 				success: 'Leave day(s) successfully updated',
@@ -288,10 +280,7 @@ export default class EmployeeStore {
 	deleteLeave = async (leaveId: string) => {
 		this.loading = true;
 		try {
-			const deleteLeave = agent.Leave.deleteLeave(
-				leaveId,
-				this.currentEmployee!.id
-			);
+			const deleteLeave = agent.Leave.deleteLeave(leaveId);
 
 			toast.promise(deleteLeave, {
 				pending: 'Deleteing...',
@@ -320,7 +309,7 @@ export default class EmployeeStore {
 	getNotifications = async (id: string) => {
 		this.loading = true;
 		try {
-			const notifications = await agent.Employees.getNotifications(id);
+			const notifications = await agent.Employees.getNotifications();
 			// console.log(notifications);
 
 			runInAction(() => {
@@ -339,9 +328,7 @@ export default class EmployeeStore {
 		if (store.authStore.user?.role == 'Manager') {
 			this.loading = true;
 			try {
-				const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays(
-					this.currentEmployee!.id
-				);
+				const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays();
 
 				runInAction(() => {
 					this.employeeLeaveDays = bookedDays;
@@ -389,7 +376,7 @@ export default class EmployeeStore {
 				error: 'Failed to decline leave day(s)',
 			});
 
-			await this.getLeaveDaysBalances(this.currentEmployee!.id);
+			await this.getLeaveDaysBalances();
 
 			runInAction(() => {
 				this.loading = false;

@@ -24,6 +24,7 @@ import { GridSelectionModel } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import BookLeave from './BookLeave';
+import LeaveDaysList from './LeaveDaysList';
 
 interface Props {
 	employee: Employee;
@@ -52,10 +53,10 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 
 	useEffect(() => {
 		if (!leaveDays) {
-			getLeaveDaysBalances(employee.id);
+			getLeaveDaysBalances();
 		}
 
-		getAllBookedLeaveDays(employee.id);
+		getAllBookedLeaveDays();
 	}, [getAllBookedLeaveDays]);
 
 	useEffect(() => {
@@ -167,6 +168,8 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 						)}
 					</>
 				)}
+				{activeMenu === 1 && <LeaveDaysList />}
+
 				{activeMenu === 2 && (
 					<LeaveDaysCalendar bookedLeaveDays={bookedLeaveDays} />
 				)}

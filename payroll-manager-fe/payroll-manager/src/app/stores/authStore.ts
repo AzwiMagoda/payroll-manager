@@ -20,7 +20,7 @@ export default class AuthStore {
 			if (!this.user) {
 				const user = await agent.Auth.login(login);
 				store.commonStore.setToken(user.token);
-				await store.employeeStore.getCurrentEmployee(user.employeeId);
+				await store.employeeStore.getCurrentEmployee();
 				runInAction(() => {
 					this.user = user;
 					window.localStorage.setItem('user', JSON.stringify(user));
