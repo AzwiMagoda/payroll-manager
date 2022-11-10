@@ -79,11 +79,6 @@ export default observer(function Navbar({ employee }: Props) {
 						</IconButton>
 					</Tooltip>
 					<Box sx={{ flexGrow: 1 }} />
-					<Tooltip title='Contacts'>
-						<IconButton sx={{ ml: 1 }}>
-							<PeopleAltIcon fontSize='small' />
-						</IconButton>
-					</Tooltip>
 					<Tooltip title='Notifications'>
 						<IconButton
 							sx={{ ml: 1 }}
