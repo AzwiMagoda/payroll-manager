@@ -1,13 +1,10 @@
 ﻿using PayrollManager.Application.Employee.Dto;
-using PayrollManager.Application.Employee.Helpers;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
-using PayrollManager.Infrastructure.PayrollDbContext.Repository.BookedLeaveDays;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
-using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
-using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,21 +15,19 @@ namespace PayrollManager.Application.Employee.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
-        private readonly IRemunerationRepository _remunerationRepository;
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
+        private readonly INotificationsRepository _notificationsRepository;
 
         public EmployeeService(IEmployeeRepository employeeRepository,
-                               IRemunerationRepository remunerationRepository,
                                IContactDetailsRepository contactDetailsRepository,
                                IDependantRepository dependantRepository,
-                               ILeaveDaysRepository leaveDaysRepository,
-                               IBookedLeaveDaysRepository bookedLeaveDaysRepository)
+                               INotificationsRepository notificationsRepository)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
-            _remunerationRepository = remunerationRepository ?? throw new ArgumentNullException(nameof(remunerationRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
+            _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -88,7 +83,15 @@ namespace PayrollManager.Application.Employee.Services
                         PhysicalAddress = contactDetails.PhysicalAddress,
                         Telephone = contactDetails.Telephone,
                         PostalAddress = contactDetails.PostalAddress,
-                        CreatedDate = employee.CreatedDate
+                        CreatedDate = employee.CreatedDate,
+                        EmployeeNumber = employee.EmployeeNumber,
+                        EmployeeType = employee.EmployeeType,
+                        HireDate = employee.HireDate,
+                        JobType = employee.JobType,
+                        Location = employee.Location,
+                        ManagerEmployeeId = employeeId,
+                        OriginalHireDate = employee.OriginalHireDate,
+                        TeamId = employee.TeamId
                     };
             }
             catch (Exception ex)
@@ -148,7 +151,6 @@ namespace PayrollManager.Application.Employee.Services
         {
             try
             {
-                await _remunerationRepository.Delete(id);
                 await _employeeRepository.Delete(id);
             }
             catch (Exception ex)
@@ -293,6 +295,27 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        
+        public IEnumerable<NotificationDto> GetAllNotifications(Guid employeeId)
+        {
+            try
+            {
+                var entities = _notificationsRepository.GetAllByEmployeeId(employeeId);
+                return entities.Select(x =>
+                {
+                    return new NotificationDto
+                    {
+                        Id = x.Id,
+                        EmployeeId = x.EmployeeId,
+                        Message = x.Message,
+                        NotificationType = x.NotificationType,
+                        CreatedDate = x.CreatedDate
+                    };
+                }).OrderByDescending(x => x.CreatedDate);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FullCalendar, {
 	DateSelectArg,
 	EventApi,
@@ -8,14 +8,15 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/store';
-import LeaveDayEdit from './LeaveDayEdit';
 import { addDays } from 'date-fns';
-import { v4 as uuidv4 } from 'uuid';
-import LeaveDayCreate from './LeaveDayCreate';
+import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 
-export default observer(function LeaveDaysCalendar() {
+interface Props {
+	bookedLeaveDays: BookedLeaveDays[];
+}
+
+export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 	const {
-		employeeStore: { bookedLeaveDays },
 		modalStore: { openModal, open },
 	} = useStore();
 
@@ -24,13 +25,15 @@ export default observer(function LeaveDaysCalendar() {
 	const [editEvent, setEditEvent] = useState<EventApi>();
 	const [createEvent, setCreateEvent] = useState<DateSelectArg>();
 
-	const events = bookedLeaveDays!.map((leaveDays) => {
+	const events = bookedLeaveDays.map((leaveDays) => {
 		return {
 			id: leaveDays.id,
 			title: leaveDays.leaveType,
 			start: leaveDays.startDate,
 			end: addDays(new Date(leaveDays.endDate), 1),
 			allDay: true,
+			approved: leaveDays.approved,
+			employeeId: leaveDays.employeeId,
 		};
 	});
 
@@ -65,16 +68,9 @@ export default observer(function LeaveDaysCalendar() {
 				editable={false}
 				weekends={false}
 				selectable={true}
-				selectOverlap={false}
+				selectOverlap={true}
 				select={(e: DateSelectArg) => onDateSelect(e)}
 			/>
-
-			{openEdit && editEvent && (
-				<LeaveDayEdit key={editEvent.id} leaveEvent={editEvent} />
-			)}
-			{openCreate && createEvent && (
-				<LeaveDayCreate key={uuidv4()} leaveEvent={createEvent} />
-			)}
 		</>
 	);
 });

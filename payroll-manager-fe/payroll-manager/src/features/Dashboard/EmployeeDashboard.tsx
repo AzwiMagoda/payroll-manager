@@ -29,7 +29,8 @@ import LeaveDaysCard from './components/cards/LeaveDaysCard';
 import ManagerCard from './components/cards/ManagerCard';
 import PayslipCard from './components/cards/PayslipCard';
 import PayslipList from './components/payslip/PayslipList';
-import UserDetails from './components/userDetails/UserDetails';
+import Details from './components/cards/Details';
+import ManagerDetails from './components/cards/ManagerTeamDetails';
 
 interface Props {
 	employee: Employee;
@@ -37,62 +38,24 @@ interface Props {
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
 	const {
-		employeeStore: {
-			leaveDays,
-			getAllBookedLeaveDays,
-			getLeaveDaysBalances,
-			loading,
-		},
 		payslipStore: { getlatestPayslip, latestPayslip, payslips },
 	} = useStore();
 
-	useEffect(() => {
-		getLeaveDaysBalances(employee.id);
-		getAllBookedLeaveDays(employee.id);
-		getlatestPayslip(employee.id);
-	}, [employee.id, getAllBookedLeaveDays, getLeaveDaysBalances, getlatestPayslip]);
+	// useEffect(() => {
+	// 	// getlatestPayslip(employee.id);
+	// }, [employee.id, getlatestPayslip]);
 
 	return (
 		<Container maxWidth={false}>
-			<Grid
-				container
-				spacing={3}
-				justifyContent='space-evenly'
-				alignItems='center'
-			>
-				{/* <Grid item lg={3} sm={6} xl={3} xs={12}>
-					<UserDetails employee={employee} />
-				</Grid> */}
-				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					{leaveDays ? (
-						<LeaveDaysCard leaveBalance={leaveDays.annualLeaveBalance} />
-					) : (
-						<Stack alignItems='center' spacing={5}>
-							<CircularProgress />
-						</Stack>
-					)}
+			<Grid container spacing={3}>
+				<Grid item lg={8} md={12} xl={9} xs={12}>
+					<ManagerDetails employee={employee} />
 				</Grid>
-				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					<ManagerCard managerName={employee.manager} />
-				</Grid>
-				<Grid item lg={3} sm={6} xl={3} xs={12}>
-					{latestPayslip ? (
-						<PayslipCard latestPayslip={latestPayslip} />
-					) : (
-						<Stack alignItems='center' spacing={5}>
-							<CircularProgress />
-						</Stack>
-					)}
-				</Grid>
-
-				{/* Payslip */}
 				<Grid item lg={4} md={6} xl={3} xs={12}>
-					<PayslipList employeeId={employee.id} />
+					<LeaveDaysCard leaveBalance={0} />
 				</Grid>
-
-				{/* Team list */}
-				<Grid item lg={4} md={6} xl={3} xs={12}>
-					<TeamList teamName={employee.teamName} />
+				<Grid item lg={8} md={12} xl={9} xs={12}>
+					<Details employee={employee} />
 				</Grid>
 			</Grid>
 		</Container>

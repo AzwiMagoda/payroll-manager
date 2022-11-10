@@ -8,13 +8,14 @@ import {
 	Divider,
 	Typography,
 } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import { Employee } from '../../app/models/employee';
 
 interface Props {
 	employee: Employee;
 }
 
-export default function ProfileDetails({ employee }: Props) {
+export default observer(function ProfileDetails({ employee }: Props) {
 	return (
 		<Card>
 			<CardContent>
@@ -45,4 +46,4 @@ export default function ProfileDetails({ employee }: Props) {
 			</CardContent>
 		</Card>
 	);
-}
+});

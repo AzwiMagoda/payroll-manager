@@ -30,9 +30,18 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
-        [Route("GetEmployee/{employeeId}")]
-        public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid employeeId)
+        [Route("GetAllNotifications")]
+        public ActionResult<IEnumerable<NotificationDto>> GetAllNotifications()
         {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+            return Ok(_employeeService.GetAllNotifications(employeeId));
+        }
+
+        [HttpGet]
+        [Route("GetEmployee")]
+        public async Task<ActionResult<EmployeeDto>> GetEmployee()
+        {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
             var employee = await _employeeService.GetEmployee(employeeId);
             return Ok(employee);
         }
@@ -73,13 +82,14 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpPut]
-        [Route("UpdatePersonalInformation/{id}")]
-        public async Task<ActionResult<EmployeeDto>> UpdatePersonalInformation([FromBody] PersonalInfoDto info, Guid id)
+        [Route("UpdatePersonalInformation")]
+        public async Task<ActionResult<EmployeeDto>> UpdatePersonalInformation([FromBody] PersonalInfoDto info)
         {
             try
             {
-                await _employeeService.UpdatePersonalInfo(info, id);
-                return Ok(await _employeeService.GetEmployee(id));
+                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+                await _employeeService.UpdatePersonalInfo(info, employeeId);
+                return Ok(await _employeeService.GetEmployee(employeeId));
             }
             catch (Exception ex)
             {
@@ -90,13 +100,14 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateContactDetails/{id}")]
-        public async Task<ActionResult<EmployeeDto>> UpdateContactDetails([FromBody] ContactDetailsDto info, Guid id)
+        [Route("UpdateContactDetails")]
+        public async Task<ActionResult<EmployeeDto>> UpdateContactDetails([FromBody] ContactDetailsDto info)
         {
             try
             {
-                await _employeeService.UpdateContactDetails(info, id);
-                return Ok(await _employeeService.GetEmployee(id));
+                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+                await _employeeService.UpdateContactDetails(info, employeeId);
+                return Ok(await _employeeService.GetEmployee(employeeId));
             }
             catch (Exception ex)
             {
@@ -107,8 +118,9 @@ namespace PayrollManager.Api.Employee.Controllers
 
         [HttpGet]
         [Route("GetDependants/{employeeId}")]
-        public ActionResult<IEnumerable<DependantDto>> GetDependants(Guid employeeId)
+        public ActionResult<IEnumerable<DependantDto>> GetDependants()
         {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
             return Ok( _employeeService.GetEmployeeDependants(employeeId));
         }
 
@@ -118,8 +130,9 @@ namespace PayrollManager.Api.Employee.Controllers
         {
             try
             {
+                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
                 _employeeService.CreateDependant(dependant).Wait();
-                return Ok(_employeeService.GetEmployeeDependants(dependant.EmployeeId));
+                return Ok(_employeeService.GetEmployeeDependants(employeeId));
             }
             catch (Exception ex)
             {
@@ -135,8 +148,10 @@ namespace PayrollManager.Api.Employee.Controllers
         {
             try
             {
+                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+
                 _employeeService.UpdateDependant(dependant).Wait();
-                return Ok(_employeeService.GetEmployeeDependants(dependant.EmployeeId));
+                return Ok(_employeeService.GetEmployeeDependants(employeeId));
             }
             catch (Exception ex)
             {

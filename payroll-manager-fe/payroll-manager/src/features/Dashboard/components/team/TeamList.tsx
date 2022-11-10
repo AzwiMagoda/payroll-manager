@@ -18,12 +18,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useStore } from '../../../../app/stores/store';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
 	teamName: string;
 }
 
-export default function TeamList({ teamName }: Props) {
+export default observer(function TeamList({ teamName }: Props) {
 	const {
 		teamStore: { getAllTeamMembers, teamMembers, loading },
 	} = useStore();
@@ -83,4 +84,4 @@ export default function TeamList({ teamName }: Props) {
 			</Box>
 		</Card>
 	);
-}
+});

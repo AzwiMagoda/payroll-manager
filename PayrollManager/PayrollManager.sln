@@ -27,11 +27,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackgroundTasks", "Backgrou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.BackgroundTasks.PayslipGenerator", "PayrollManager.BackgroundTasks.PayslipGenerator\PayrollManager.BackgroundTasks.PayslipGenerator.csproj", "{848131A3-BEE7-4E34-908F-682845CAF9F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Manager", "PayrollManager.Api.Manager\PayrollManager.Api.Manager.csproj", "{63EA4F52-6830-4DF2-9684-28AE8458A403}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Infrastructure.ApiGateway", "PayrollManager.Infrastructure.ApiGateway\PayrollManager.Infrastructure.ApiGateway.csproj", "{26887C85-6F08-442E-AB24-EC548E34F3FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Infrastructure.ApiGateway", "PayrollManager.Infrastructure.ApiGateway\PayrollManager.Infrastructure.ApiGateway.csproj", "{26887C85-6F08-442E-AB24-EC548E34F3FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.JwtAuthenticationManager", "PayrollManager.Application.JwtAuthenticationManager\PayrollManager.Application.JwtAuthenticationManager.csproj", "{F62E632C-54B2-42F8-AF47-02CDADE32C93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Application.JwtAuthenticationManager", "PayrollManager.Application.JwtAuthenticationManager\PayrollManager.Application.JwtAuthenticationManager.csproj", "{F62E632C-54B2-42F8-AF47-02CDADE32C93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.LeaveDays", "PayrollManager.Api.LeaveDays\PayrollManager.Api.LeaveDays.csproj", "{76E789A5-9346-4B33-B52A-ABB2CCF99807}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Payslip", "PayrollManager.Api.Payslip\PayrollManager.Api.Payslip.csproj", "{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Team", "PayrollManager.Api.Team\PayrollManager.Api.Team.csproj", "{20AB38D4-4515-43B9-846C-0EC9CADE08DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.LeaveDays", "PayrollManager.Application.LeaveDays\PayrollManager.Application.LeaveDays.csproj", "{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.Team", "PayrollManager.Application.Team\PayrollManager.Application.Team.csproj", "{00350733-2F66-440B-A688-D2277AEFFFD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Api.Manager", "PayrollManager.Api.Manager\PayrollManager.Api.Manager.csproj", "{3951E27D-67D1-4904-89A7-121D58774586}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollManager.Application.Manager", "PayrollManager.Application.Manager\PayrollManager.Application.Manager.csproj", "{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollManager.Application.Helpers", "PayrollManager.Application.Helpers\PayrollManager.Application.Helpers.csproj", "{8538E0EB-3011-48CE-A01F-D95AE4AE3139}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +81,6 @@ Global
 		{848131A3-BEE7-4E34-908F-682845CAF9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{848131A3-BEE7-4E34-908F-682845CAF9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{848131A3-BEE7-4E34-908F-682845CAF9F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63EA4F52-6830-4DF2-9684-28AE8458A403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63EA4F52-6830-4DF2-9684-28AE8458A403}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63EA4F52-6830-4DF2-9684-28AE8458A403}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63EA4F52-6830-4DF2-9684-28AE8458A403}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26887C85-6F08-442E-AB24-EC548E34F3FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26887C85-6F08-442E-AB24-EC548E34F3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26887C85-6F08-442E-AB24-EC548E34F3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -79,6 +89,38 @@ Global
 		{F62E632C-54B2-42F8-AF47-02CDADE32C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F62E632C-54B2-42F8-AF47-02CDADE32C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F62E632C-54B2-42F8-AF47-02CDADE32C93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76E789A5-9346-4B33-B52A-ABB2CCF99807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76E789A5-9346-4B33-B52A-ABB2CCF99807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76E789A5-9346-4B33-B52A-ABB2CCF99807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76E789A5-9346-4B33-B52A-ABB2CCF99807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20AB38D4-4515-43B9-846C-0EC9CADE08DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00350733-2F66-440B-A688-D2277AEFFFD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00350733-2F66-440B-A688-D2277AEFFFD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00350733-2F66-440B-A688-D2277AEFFFD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00350733-2F66-440B-A688-D2277AEFFFD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3951E27D-67D1-4904-89A7-121D58774586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3951E27D-67D1-4904-89A7-121D58774586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3951E27D-67D1-4904-89A7-121D58774586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3951E27D-67D1-4904-89A7-121D58774586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,9 +133,16 @@ Global
 		{761DA557-1617-4E02-9681-EF7F12C964F2} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
 		{67F99932-4E52-4CD1-AB46-F7342FDD6E2A} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
 		{848131A3-BEE7-4E34-908F-682845CAF9F8} = {B3AC667A-D3B8-4C86-8742-A7A92B51E66A}
-		{63EA4F52-6830-4DF2-9684-28AE8458A403} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
 		{26887C85-6F08-442E-AB24-EC548E34F3FA} = {D2F71791-69A6-41A4-9311-D5E8C8E36E59}
 		{F62E632C-54B2-42F8-AF47-02CDADE32C93} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
+		{76E789A5-9346-4B33-B52A-ABB2CCF99807} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
+		{E9F64EA8-7BE5-457F-BDAB-91CCB7CE7164} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
+		{20AB38D4-4515-43B9-846C-0EC9CADE08DD} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
+		{A640C3B6-7EEC-4815-AE04-EC27A1C1500B} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
+		{00350733-2F66-440B-A688-D2277AEFFFD6} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
+		{3951E27D-67D1-4904-89A7-121D58774586} = {A3DAAFDE-C509-4F7E-8177-A36D60E4E5B0}
+		{A79CC66B-EB4F-4AE1-96CE-9D00677B7CC7} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
+		{8538E0EB-3011-48CE-A01F-D95AE4AE3139} = {8C84C8B1-332B-4173-A9C9-60E8994F03AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE7CF3D0-73D6-48B5-981B-9443B5CC405C}

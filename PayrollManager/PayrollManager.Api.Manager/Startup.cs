@@ -1,16 +1,15 @@
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PayrollManager.Api.Manager.Autofac;
+using PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod;
+using PayrollManager.Application.Manager.AutoMapper;
+using PayrollManager.Infrastructure.PayrollDbContext;
 
 namespace PayrollManager.Api.Manager
 {
@@ -32,6 +31,21 @@ namespace PayrollManager.Api.Manager
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PayrollManager.Api.Manager", Version = "v1" });
             });
+
+            services.AddDbContext<PayrollDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PayrollDb")));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+                });
+            });
+
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+            services.AddCustomJwtAuthentication();
+            services.AddAuthenticationMethod();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,12 +62,20 @@ namespace PayrollManager.Api.Manager
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new Modules());
         }
     }
 }

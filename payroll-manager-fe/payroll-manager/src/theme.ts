@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
 	breakpoints: {
@@ -11,13 +11,6 @@ export const theme = createTheme({
 		},
 	},
 	components: {
-		MuiLink: {
-			styleOverrides: {
-				root: {
-					textTransform: 'none',
-				},
-			},
-		},
 		MuiButton: {
 			defaultProps: {
 				disableElevation: true,
@@ -139,6 +132,17 @@ export const theme = createTheme({
 		},
 	},
 	palette: {
+		neutral: {
+			100: '#F3F4F6',
+			200: '#E5E7EB',
+			300: '#D1D5DB',
+			400: '#9CA3AF',
+			500: '#6B7280',
+			600: '#4B5563',
+			700: '#374151',
+			800: '#1F2937',
+			900: '#111827',
+		},
 		action: {
 			active: '#6B7280',
 			focus: 'rgba(55, 65, 81, 0.12)',
@@ -151,17 +155,17 @@ export const theme = createTheme({
 			default: '#F9FAFC',
 			paper: '#FFFFFF',
 		},
-		divider: '#CCDBE1',
+		divider: '#E6E8F0',
 		primary: {
-			main: '#347B98',
-			light: '#E4F1F6',
-			dark: '#092834',
+			main: '#5048E5',
+			light: '#828DF8',
+			dark: '#3832A0',
 			contrastText: '#FFFFFF',
 		},
 		secondary: {
-			main: '#66B032',
-			light: '#EBF7E3',
-			dark: '#1B3409',
+			main: '#10B981',
+			light: '#3FC79A',
+			dark: '#0B815A',
 			contrastText: '#FFFFFF',
 		},
 		success: {
@@ -189,7 +193,7 @@ export const theme = createTheme({
 			contrastText: '#FFFFFF',
 		},
 		text: {
-			primary: '#001a33',
+			primary: '#121828',
 			secondary: '#65748B',
 			disabled: 'rgba(55, 65, 81, 0.48)',
 		},
