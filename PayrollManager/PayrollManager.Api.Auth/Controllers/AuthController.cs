@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PayrollManager.Api.Auth.Dto;
-using PayrollManager.Api.Auth.Services;
+using PayrollManager.Application.JwtAuthenticationManager.Services;
 using PayrollManager.Infrastructure.Models;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -45,9 +46,17 @@ namespace PayrollManager.Api.Auth.Controllers
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-            var role = _userManager.GetRolesAsync(user).Result[0];
+            var role = await _userManager.GetRolesAsync(user);
 
-            return Ok(CreateUserObject(user, role));
+            return Ok(CreateUserObject(user, role[0]));
+        }
+
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return Ok();
         }
 
         private UserDto CreateUserObject(UserEntity user, string role)

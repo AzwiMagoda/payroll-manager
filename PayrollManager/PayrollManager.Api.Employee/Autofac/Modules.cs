@@ -10,6 +10,7 @@ using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRe
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.LeaveDays;
+using PayrollManager.Infrastructure.PayrollDbContext.Repository.NotificationsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Payslips;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Remuneration;
 
@@ -29,28 +30,12 @@ namespace PayrollManager.Api.Employee.Autofac
                 .As<IEmployeeService>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<LeaveDaysService>()
-                .As<ILeaveDaysService>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<TeamService>()
-                .As<ITeamService>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<PayslipService>()
-                .As<IPayslipService>()
-                .InstancePerLifetimeScope();
-
             #endregion
 
             #region Repositories
 
             builder.RegisterType<EmployeeRepository>()
                 .As<IEmployeeRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<RemunerationRepository>()
-                .As<IRemunerationRepository>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<ContactDetailsRepository>()
@@ -61,16 +46,8 @@ namespace PayrollManager.Api.Employee.Autofac
                 .As<IDependantRepository>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<LeaveDaysRepository>()
-                .As<ILeaveDaysRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<BookedLeaveDaysRepository>()
-                .As<IBookedLeaveDaysRepository>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<PayslipsRepository>()
-                .As<IPayslipsRepository>()
+            builder.RegisterType<NotificationsRepository>()
+                .As<INotificationsRepository>()
                 .InstancePerLifetimeScope();
 
             #endregion

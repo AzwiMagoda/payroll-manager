@@ -7,9 +7,9 @@ import {
 	CssBaseline,
 	Toolbar,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
-import SideNavbar from './SideNavbar';
 import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
@@ -19,13 +19,29 @@ import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
 import { User } from '../models/user';
 import { Employee } from '../models/employee';
+import Error404 from '../common/error/Error404';
+import Navbar from './navbar/Navbar';
+import Sidebar from './sidebar/Sidebar';
+
+const DashboardLayoutRoot = styled('div')(({ theme }) => ({
+	display: 'flex',
+	flex: '1 1 auto',
+	maxWidth: '100%',
+	paddingTop: 64,
+	[theme.breakpoints.up('lg')]: {
+		paddingLeft: 280,
+	},
+}));
 
 function App() {
+	useEffect(() => {
+		document.title = 'Home | PayME';
+	}, []);
+
 	const {
 		authStore: { user, setUser, loading, setLoading },
 		employeeStore: { currentEmployee, setCurrentEmployee },
 	} = useStore();
-	const drawerWidth = 240;
 
 	useEffect(() => {
 		if (user === null) {
@@ -58,66 +74,53 @@ function App() {
 				pauseOnHover
 			/>
 
-			{/* <Backdrop
-				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={loading}
-			>
-				<CircularProgress color='inherit' />
-			</Backdrop> */}
-
-			<Box sx={{ display: 'flex' }} style={{ minHeight: '100vh' }}>
-				<CssBaseline enableColorScheme />
-
-				{user && currentEmployee && (
-					<>
+			{user && currentEmployee && (
+				<>
+					<DashboardLayoutRoot>
 						<Box
-							component='nav'
 							sx={{
-								width: { sm: drawerWidth },
-								flexShrink: { sm: 0 },
-								margin: 0,
-							}}
-							aria-label='side navbar'
-						>
-							<SideNavbar
-								employee={currentEmployee}
-								user={user}
-								drawerWidth={drawerWidth}
-							/>
-						</Box>
-
-						<Box
-							component='main'
-							sx={{
-								flexGrow: 1,
-								p: 3,
-								width: { sm: `calc(100% - ${drawerWidth}px)` },
-								padding: 0,
+								display: 'flex',
+								flex: '1 1 auto',
+								flexDirection: 'column',
+								width: '100%',
 							}}
 						>
-							<Toolbar>PayMe</Toolbar>
-							<Box sx={{ margin: '2rem' }}>
+							<Box
+								component='main'
+								sx={{
+									flexGrow: 1,
+									py: 8,
+								}}
+							>
 								<Routes>
 									<Route
 										path='/'
 										element={<EmployeeDashboard employee={currentEmployee} />}
 									/>
-									<Route path='/profile' element={<ProfileDashboard />} />
+									<Route path='/account' element={<ProfileDashboard />} />
 									<Route
 										path='/employees'
 										element={<EmployeeList employees={[]} />}
 									/>
 									<Route
-										path='leaveDashboard'
-										element={<LeaveDaysDashboard />}
+										path='/leaveDashboard'
+										element={
+											<LeaveDaysDashboard
+												employee={currentEmployee}
+												user={user}
+											/>
+										}
 									/>
+									<Route path='/error404' element={<Error404 />} />
 								</Routes>
 							</Box>
 						</Box>
-					</>
-				)}
-				{!user && !currentEmployee && <Login />}
-			</Box>
+						<Navbar employee={currentEmployee} />
+						<Sidebar employee={currentEmployee} />
+					</DashboardLayoutRoot>
+				</>
+			)}
+			{!user && !currentEmployee && <Login />}
 		</>
 	);
 }

@@ -14,4 +14,12 @@ export interface Employee {
 	physicalAddress: string;
 	postalAddress: string;
 	createdDate: string;
+	managerEmployeeId: string;
+	employeeNumber: string;
+	employeeType: string;
+	jobType: string;
+	location: string;
+	hireDate: Date;
+	originalHireDate: Date;
+	teamId: string;
 }

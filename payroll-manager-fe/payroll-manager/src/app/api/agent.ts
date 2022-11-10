@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
@@ -7,6 +8,11 @@ import { LeaveDays } from '../models/leaveDays';
 import { PersonalInfoForm } from '../models/personalInfoForm';
 import { TeamMembers } from '../models/teamMembers';
 import { Payslip } from '../models/payslip';
+import { Login } from '../models/login';
+import { User } from '../models/user';
+import { NotificationDto } from '../models/notification';
+import { BookLeave } from '../models/bookLeave';
+import { DeclineLeave } from '../models/DeclineLeave';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -14,81 +20,113 @@ const sleep = (delay: number) => {
 	});
 };
 
-const employeeApi = axios.create({
-	baseURL: 'https://localhost:44328/api',
+const api = axios.create({
+	baseURL: 'https://localhost:44361/',
 });
 
-employeeApi.interceptors.response.use(async (response) => {
-	await sleep(1000);
-	return response;
-});
+api.interceptors.request.use(
+	function (config) {
+		const token = localStorage.getItem('jwt');
+		if (token) {
+			config.headers!['Authorization'] = `Bearer ${token}`;
+		}
+		return config;
+	},
+	function (error) {
+		return Promise.reject(error);
+	}
+);
+
+api.interceptors.response.use(
+	async (response) => {
+		await sleep(1000);
+		return response;
+	},
+	(error: AxiosError) => {
+		const { data, status, config } = error.response!;
+		switch (status) {
+			case 401:
+				console.log('hey its a 401');
+				localStorage.clear();
+				return (window.location.href = '/');
+			// case 404:
+			// 	console.log('hey its a 404');
+			// 	return (window.location.href = '/error404');
+		}
+	}
+);
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
-	get: <T>(url: string) => employeeApi.get<T>(url).then(responseBody),
-	post: <T>(url: string, body: {}) =>
-		employeeApi.post<T>(url, body).then(responseBody),
-	put: <T>(url: string, body: {}) =>
-		employeeApi.put<T>(url, body).then(responseBody),
-	del: <T>(url: string) => employeeApi.delete<T>(url).then(responseBody),
+	get: <T>(url: string) => api.get<T>(url).then(responseBody),
+	post: <T>(url: string, body: {}) => api.post<T>(url, body).then(responseBody),
+	postNoBody: <T>(url: string) => api.post<T>(url).then(responseBody),
+	put: <T>(url: string, body: {}) => api.put<T>(url, body).then(responseBody),
+	del: <T>(url: string) => api.delete<T>(url).then(responseBody),
+};
+
+const Auth = {
+	login: (login: Login) => requests.post<User>('auth/login', login),
+	logout: () => requests.postNoBody<User>('auth/logout'),
 };
 
 const Employees = {
-	getAllEmployees: () => requests.get<Employee[]>('/Employee/GetAllEmployees'),
-	getEmployeeById: (id: string) =>
-		requests.get<Employee>(`/Employee/GetEmployee/${id}`),
-	addNewEmployee: (employee: Employee) =>
-		requests.post<Employee>('/Employee/CreateEmployee', employee),
+	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
+	getEmployeeById: () => requests.get<Employee>(`employee`),
+	// addNewEmployee: (employee: Employee) =>
+	// 	requests.post<Employee>('/Employee/CreateEmployee', employee),
 	updateEmployeeDetails: (employee: Employee) =>
-		requests.put<void>(`/Employee/UpdateEmployee`, employee),
-	deleteEmployee: (id: string) =>
-		requests.del<void>(`/Employee/DeleteEmployee/${id}`),
-	updatePersonalInformation: (info: PersonalInfoForm, id: string) =>
-		requests.put<Employee>(`/Employee/UpdatePersonalInformation/${id}`, info),
-	updateContactDetails: (info: ContactDetailsForm, id: string) =>
-		requests.put<Employee>(`/Employee/UpdateContactDetails/${id}`, info),
-	getAllDependants: (id: string) =>
-		requests.get<Dependant[]>(`/Employee/GetDependants/${id}`),
+		requests.put<void>(`employee/update`, employee),
+	// deleteEmployee: (id: string) =>
+	// 	requests.del<void>(`/Employee/DeleteEmployee/${id}`),
+	updatePersonalInformation: (info: PersonalInfoForm) =>
+		requests.put<Employee>(`employee/update/personalinfo`, info),
+	updateContactDetails: (info: ContactDetailsForm) =>
+		requests.put<Employee>(`employee/update/contactdetails`, info),
+	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),
 	addNewDependant: (dependant: Dependant) =>
 		requests.post<Dependant[]>('/Employee/CreateDependant', dependant),
 	updateDependant: (dependant: Dependant) =>
 		requests.put<Dependant[]>(`/Employee/UpdateDependant`, dependant),
-	deleteDependant: (id: string) =>
-		requests.del<void>(`/Employee/DeleteDependant/${id}`),
-	getLeaveDays: (employeeId: string) =>
-		requests.get<LeaveDays>(`/LeaveDays/GetEmployeeLeaveDays/${employeeId}`),
-	getBookedLeaveDays: (employeeId: string) =>
-		requests.get<BookedLeaveDays[]>(
-			`/LeaveDays/GetEmployeeBookedLeaveDays/${employeeId}`
-		),
-	bookLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
-		requests.post<string>(`/LeaveDays/BookLeave/${employeeId}`, leaveDays),
-	updateLeave: (leaveDays: BookedLeaveDays, employeeId: string) =>
-		requests.put<LeaveDays>(
-			`/LeaveDays/UpdateBookedLeave/${employeeId}`,
-			leaveDays
-		),
-	deleteLeave: (leaveId: string, employeeId: string) =>
-		requests.del<string>(
-			`/LeaveDays/DeleteBookedLeave/${employeeId}/${leaveId}`
-		),
+	deleteDependant: () => requests.del<void>(`/Employee/DeleteDependant`),
+	getNotifications: () =>
+		requests.get<NotificationDto[]>(`employee/getNotifications`),
+};
+
+const Leave = {
+	getLeaveDays: () => requests.get<LeaveDays>(`leave/balance`),
+	getBookedLeaveDays: () => requests.get<BookedLeaveDays[]>(`booked`),
+	bookLeave: (leaveDays: BookLeave) =>
+		requests.post<string>(`leave/book`, leaveDays),
+	updateLeave: (leaveDays: BookedLeaveDays) =>
+		requests.put<LeaveDays>(`leave/update`, leaveDays),
+	deleteLeave: (leaveId: string) =>
+		requests.del<string>(`leave/cancel/${leaveId}`),
+	getEmployeeBookedLeaveDays: () =>
+		requests.get<BookedLeaveDays[]>(`manager/booked`),
+	approveLeave: (leaveIds: string[]) =>
+		requests.put(`manager/approve`, leaveIds),
+	declineLeave: (leaveDays: DeclineLeave) =>
+		requests.put(`manager/decline`, leaveDays),
 };
 
 const Team = {
 	getAllTeamMembers: (teamName: string) =>
-		requests.get<TeamMembers[]>(`/Team/GetTeamMembers/${teamName}`),
+		requests.get<TeamMembers[]>(`team/${teamName}`),
 };
 
 const Payslips = {
 	getAllPayslips: (employeeId: string) =>
-		requests.get<Payslip[]>(`/Payslip/GetAllPayslips/${employeeId}`),
+		requests.get<Payslip[]>(`payslip/${employeeId}`),
 	getLatestPayslip: (employeeId: string) =>
-		requests.get<Payslip>(`/Payslip/GetLatestPayslip/${employeeId}`),
+		requests.get<Payslip>(`payslip/latest/${employeeId}`),
 };
 
 const agent = {
+	Auth,
 	Employees,
+	Leave,
 	Team,
 	Payslips,
 };
