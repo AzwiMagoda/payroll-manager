@@ -4,28 +4,24 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { Remuneration } from '../../../app/models/remuneration';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
-	remuneration: Remuneration;
+	items: any[];
 }
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function RemunerationChart({ remuneration }: Props) {
+export default observer(function RemunerationChart({ items }: Props) {
 	const theme = useTheme();
 
 	const data: ChartData<'doughnut'> = {
-		labels: ['Base Pay', 'Bonus', 'Overtime'],
+		labels: items.map((item) => item.label),
 		datasets: [
 			{
 				label: 'Amount',
-				data: [
-					// remuneration.annualBaseSalary,
-					// remuneration.bonusPercentage,
-					// remuneration.overtimeHrs,
-					240000, 25000, 10000,
-				],
-				backgroundColor: ['#3F51B5', '#e53935', '#FB8C00'],
+				data: items.map((item) => item.amount),
+				backgroundColor: items.map((item) => item.color),
 				borderWidth: 8,
 				borderColor: '#FFFFFF',
 				hoverBorderColor: '#FFFFFF',
@@ -34,9 +30,8 @@ export default function RemunerationChart({ remuneration }: Props) {
 	};
 
 	const options = {
-		// animation: false,
 		cutoutPercentage: 80,
-		layout: { padding: 0 },
+		layout: { padding: 20 },
 		legend: {
 			display: true,
 		},
@@ -64,4 +59,4 @@ export default function RemunerationChart({ remuneration }: Props) {
 			<Doughnut data={data} options={options} />
 		</Box>
 	);
-}
+});
