@@ -4,6 +4,7 @@ import CommonStore from './commonStore';
 import EmployeeStore from './employeeStore';
 import ModalStore from './modalStore';
 import PayslipStore from './payslipStore';
+import RemunerationStore from './remunerationStore';
 import TeamStore from './teamStore';
 
 interface Store {
@@ -13,6 +14,7 @@ interface Store {
 	modalStore: ModalStore;
 	teamStore: TeamStore;
 	payslipStore: PayslipStore;
+	remunerationStore: RemunerationStore;
 }
 
 export const store: Store = {
@@ -22,6 +24,7 @@ export const store: Store = {
 	modalStore: new ModalStore(),
 	teamStore: new TeamStore(),
 	payslipStore: new PayslipStore(),
+	remunerationStore: new RemunerationStore(),
 };
 
 export const StoreContext = createContext(store);

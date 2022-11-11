@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Avatar,
 	Box,
-	Button,
 	Divider,
 	Drawer,
 	Stack,
@@ -20,6 +19,7 @@ import { Employee } from '../../models/employee';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HouseboatIcon from '@mui/icons-material/Houseboat';
 import { observer } from 'mobx-react-lite';
+import { User } from '../../models/user';
 
 const items = [
 	{
@@ -27,11 +27,7 @@ const items = [
 		icon: <DashboardIcon fontSize='small' />,
 		title: 'Dashboard',
 	},
-	{
-		href: '/employees',
-		icon: <PeopleAltIcon fontSize='small' />,
-		title: 'Employees',
-	},
+
 	{
 		href: '/leaveDashboard',
 		icon: <HouseboatIcon fontSize='small' />,
@@ -43,9 +39,9 @@ const items = [
 		title: 'Account',
 	},
 	{
-		href: 'Compensation',
+		href: '/remuneration',
 		icon: <PaidIcon fontSize='small' />,
-		title: 'Compensation',
+		title: 'Remuneration',
 	},
 	{
 		href: '/team',
@@ -57,17 +53,26 @@ const items = [
 		icon: <PictureAsPdfIcon fontSize='small' />,
 		title: 'Payslips',
 	},
-	// benefits
-	//leave
 	//contacts
 	//performance
 ];
 
 interface Props {
 	employee: Employee;
+	user: User;
 }
 
-export default observer(function Sidebar({ employee }: Props) {
+export default observer(function Sidebar({ employee, user }: Props) {
+	useEffect(() => {
+		if (user.role === 'HR' || user.role === 'Manager') {
+			items.push({
+				href: '/employees',
+				icon: <PeopleAltIcon fontSize='small' />,
+				title: 'Employees',
+			});
+		}
+	});
+
 	const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'), {
 		defaultMatches: true,
 		noSsr: false,
@@ -135,13 +140,15 @@ export default observer(function Sidebar({ employee }: Props) {
 					}}
 				/>
 				<Box sx={{ flexGrow: 1 }}>
-					{items.map((item) => (
-						<NavItem
-							key={item.title}
-							icon={item.icon}
-							href={item.href}
-							title={item.title}
-						/>
+					{items.map((item, i) => (
+						<>
+							<NavItem
+								key={i}
+								icon={item.icon}
+								href={item.href}
+								title={item.title}
+							/>
+						</>
 					))}
 				</Box>
 			</Box>

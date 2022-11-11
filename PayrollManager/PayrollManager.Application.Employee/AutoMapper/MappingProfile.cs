@@ -14,6 +14,7 @@ namespace PayrollManager.Application.Employee.AutoMapper
         public MappingProfile()
         {
             CreateMap<EmployeeEntity, EmployeeDto>();
+            CreateMap<RemunerationEntity, RemunerationDto>();
         }
     }
 }

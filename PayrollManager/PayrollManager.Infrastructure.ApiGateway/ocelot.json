@@ -143,7 +143,27 @@
       "UpstreamPathTemplate": "/employee/update/contactdetails",
       "UpstreamHttpMethod": [ "PUT" ]
     },
-
+    //remuneration
+    {
+      "DownstreamPathTemplate": "/api/Remuneration/GetRemuneration",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "employeecaching"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/remuneration",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     //team
     {
       "DownstreamPathTemplate": "/api/Team/GetTeamMembers/{teamName}",

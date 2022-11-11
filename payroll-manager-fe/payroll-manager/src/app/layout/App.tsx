@@ -17,6 +17,7 @@ import Error404 from '../common/error/Error404';
 import Navbar from './navbar/Navbar';
 import Sidebar from './sidebar/Sidebar';
 import PayslipDashboard from '../../features/payslips/PayslipDashboard';
+import RemunerationDashboard from '../../features/remuneration/RemunerationDashboard';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -107,12 +108,16 @@ function App() {
 										}
 									/>
 									<Route path='/payslips' element={<PayslipDashboard />} />
+									<Route
+										path='/remuneration'
+										element={<RemunerationDashboard />}
+									/>
 									<Route path='/error404' element={<Error404 />} />
 								</Routes>
 							</Box>
 						</Box>
 						<Navbar employee={currentEmployee} />
-						<Sidebar employee={currentEmployee} />
+						<Sidebar employee={currentEmployee} user={user} />
 					</DashboardLayoutRoot>
 				</>
 			)}
