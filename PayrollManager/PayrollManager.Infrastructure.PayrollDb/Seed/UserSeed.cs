@@ -48,6 +48,17 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 await userManager.CreateAsync(manager, "Pa$$w0rd");
                 await userManager.AddToRoleAsync(manager, "Manager");
 
+                var hr = new UserEntity
+                {
+                    Id = Guid.Parse("b6d5a90e-bafc-44a8-8366-2d365647280e"),
+                    Email = "sheila@test.com",
+                    UserName = "Sheila",
+                    PhoneNumber = "0875486985"
+                };
+
+                await userManager.CreateAsync(hr, "Pa$$w0rd");
+                await userManager.AddToRoleAsync(hr, "HR");
+
             }
         }
     }

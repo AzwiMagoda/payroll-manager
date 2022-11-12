@@ -25,14 +25,11 @@ export default observer(function RemunerationItem({
 					alignItems='center'
 					spacing={4}
 				>
-					<Avatar src='/static/images/avatars/avatar_1.png'>
-						{/* <AttachMoneyIcon sx={{ fontSize: 40, bgcolor: '#4B5563' }} /> */}
-						{icon}
-					</Avatar>
+					<Avatar src='/static/images/avatars/avatar_1.png'>{icon}</Avatar>
 					<Typography component='div' variant='h6'>
 						{label}
 					</Typography>
-					<Typography component='div' variant='body1'>
+					<Typography component='div' variant='body1' sx={{ color: color }}>
 						{`R ${amount}`}
 					</Typography>
 				</Stack>

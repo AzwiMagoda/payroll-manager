@@ -14,6 +14,8 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
             {
                 var id = Guid.Parse("FDC2520B-A3D2-437C-88C3-8D814B151DBB");
                 var idManager = Guid.Parse("575F6FFC-C82D-4540-8D92-1B098CA7C460");
+                var idHr = Guid.Parse("b6d5a90e-bafc-44a8-8366-2d365647280e");
+
                 var employees = new List<EmployeeEntity>
                 {
                     new EmployeeEntity
@@ -56,6 +58,26 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         Location = "Johannesburg",
                         ManagerEmployeeId = Guid.NewGuid(),
                     },
+                    new EmployeeEntity
+                    {
+                        Id = idHr,
+                        EmployeeId = idHr,
+                        Name = "Sheila",
+                        Surname = "Smithson",
+                        Company = "42Company",
+                        Department = "HR",
+                        JobTitle = "Head of Human Resources",
+                        Manager = "Adam",
+                        TeamName = "Resourcerers",
+                        Title = "Mrs",
+                        EmployeeType= "Regular",
+                        CreatedDate = DateTime.Now,
+                        HireDate = DateTime.Parse("2005/01/01"),
+                        OriginalHireDate = DateTime.Parse("2005/01/01"),
+                        JobType = "Full Time",
+                        Location = "Johannesburg",
+                        ManagerEmployeeId = Guid.NewGuid(),
+                    },
                 };
 
                 var remunerations = new List<RemunerationEntity>
@@ -68,15 +90,27 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         BonusFrequency = 1,
                         BonusPercentage = 10,
                         CreatedDate = DateTime.Now,
+                        RetirementContributionPercentage = 5
                     },
                     new RemunerationEntity
                     {
                         Id = Guid.NewGuid(),
                         EmployeeId = idManager,
                         AnnualBaseSalary = 1000500,
-                        BonusFrequency = 2,
+                        BonusFrequency = 1,
                         BonusPercentage = 25,
                         CreatedDate = DateTime.Now,
+                        RetirementContributionPercentage = 20
+                    },
+                    new RemunerationEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = idHr,
+                        AnnualBaseSalary = 650000,
+                        BonusFrequency = 1,
+                        BonusPercentage = 25,
+                        CreatedDate = DateTime.Now,
+                        RetirementContributionPercentage = 10
                     }
                 };
 
@@ -93,7 +127,6 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         PostalAddress = "20 Kingfisher Court, North Riding, Johannsburg",
                         CreatedDate= DateTime.Now,
                         WorkAddress = "3 Mulberry Lane, Bryanston"
-
                     },
                     new ContactDetailsEntity
                     {
@@ -106,7 +139,19 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         PostalAddress = "6 Alacazam Street, Bryanston, Gauteng",
                         CreatedDate= DateTime.Now,
                         WorkAddress = "3 Mulberry Lane, Bryanston"
-
+                    }
+                    ,
+                    new ContactDetailsEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId=idHr,
+                        Cellphone = "0875486985",
+                        Telephone = "0118987858",
+                        Email = "sheila.smithson@42company.com",
+                        PhysicalAddress = "21 Street Street, Bryanston, Gauteng",
+                        PostalAddress = "21 Street Street, Bryanston, Gauteng",
+                        CreatedDate= DateTime.Now,
+                        WorkAddress = "3 Mulberry Lane, Bryanston"
                     }
                 };
 
@@ -123,7 +168,6 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         Email = "",
                         IDNumber = "1234567891234",
                         CreatedDate= DateTime.Now,
-
                     }
                 };
 
@@ -147,6 +191,15 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         StudyLeaveBalance = 5,
                         CreatedDate = DateTime.Now
                     },
+                    new LeaveDaysEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = idHr,
+                        AnnualLeaveBalance = 21,
+                        SickLeaveBalance = 30,
+                        StudyLeaveBalance = 5,
+                        CreatedDate = DateTime.Now
+                    },
                 };
 
                 var bookedLeaveDays = new List<BookedLeaveDaysEntity>
@@ -162,12 +215,44 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     }
                 };
 
+                var deductions = new List<DeductionEntity>
+                {
+                    new DeductionEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = id,
+                        CreatedDate = DateTime.Now,
+                        LifeInsurance = 90.45M,
+                        MedicalAid = 3500,
+                        Tax = 3000
+                    },
+                    new DeductionEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = idManager,
+                        CreatedDate = DateTime.Now,
+                        LifeInsurance = 90.45M,
+                        MedicalAid = 7000,
+                        Tax = 11000
+                    },
+                    new DeductionEntity
+                    {
+                        Id = Guid.NewGuid(),
+                        EmployeeId = idHr,
+                        CreatedDate = DateTime.Now,
+                        LifeInsurance = 90.45M,
+                        MedicalAid = 6000,
+                        Tax = 9000
+                    }
+                };
+
                 await context.Employees.AddRangeAsync(employees);
                 await context.Remunerations.AddRangeAsync(remunerations);
                 await context.ContactDetails.AddRangeAsync(contactDetails);
                 await context.Dependents.AddRangeAsync(dependents);
                 await context.LeaveDays.AddRangeAsync(leaveDays);
                 await context.BookedLeaveDays.AddRangeAsync(bookedLeaveDays);
+                await context.Deductions.AddRangeAsync(deductions);
                 await context.SaveChangesAsync();
             }
         }
