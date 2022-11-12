@@ -39,7 +39,7 @@ export default observer(function RemunerationDashboard() {
 		getRemuneration();
 		getRemunerationGraphData();
 
-		if (remunerationGraphData)
+		if (remunerationGraphData && option === options[0])
 			setAmountArray([
 				remunerationGraphData.annualBaseSalary,
 				remunerationGraphData.annualBonus,
