@@ -7,6 +7,7 @@ namespace PayrollManager.Application.Employee.Interfaces
     public interface IRemunerationService
     {
         Task<RemunerationDto> GetRemuneration(Guid employeeId);
+        Task<RemunerationGraphDto> GetRemunerationGraphData(Guid employeeId);
 
     }
 }

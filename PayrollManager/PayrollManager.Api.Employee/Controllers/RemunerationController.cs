@@ -28,5 +28,14 @@ namespace PayrollManager.Api.Employee.Controllers
             var remuneration = await _remunerationService.GetRemuneration(employeeId);
             return Ok(remuneration);
         }
+
+        [HttpGet]
+        [Route("GetRemunerationGraphData")]
+        public async Task<ActionResult<RemunerationGraphDto>> GetRemunerationGraphData()
+        {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+            var remuneration = await _remunerationService.GetRemunerationGraphData(employeeId);
+            return Ok(remuneration);
+        }
     }
 }

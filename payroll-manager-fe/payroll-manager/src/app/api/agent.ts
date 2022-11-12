@@ -14,6 +14,7 @@ import { NotificationDto } from '../models/notification';
 import { BookLeave } from '../models/bookLeave';
 import { DeclineLeave } from '../models/DeclineLeave';
 import { Remuneration } from '../models/remuneration';
+import { RemunerationGraph } from '../models/remunerationGraph';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -124,6 +125,8 @@ const Payslips = {
 
 const Remunerations = {
 	getRemuneration: () => requests.get<Remuneration>(`remuneration`),
+	getRemunerationGraphData: () =>
+		requests.get<RemunerationGraph>(`remuneration/graphData`),
 };
 
 const agent = {

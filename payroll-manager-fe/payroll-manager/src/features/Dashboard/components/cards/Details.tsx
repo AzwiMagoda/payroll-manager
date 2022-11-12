@@ -51,9 +51,9 @@ export default observer(function Details({ employee }: Props) {
 					justifyContent='space-around'
 					alignItems='flex-start'
 				>
-					{details.map((item) => (
+					{details.map((item, index) => (
 						<GridDetailItem
-							key={item.title}
+							key={index}
 							title={item.title}
 							description={item.description}
 						/>
@@ -68,9 +68,9 @@ export default observer(function Details({ employee }: Props) {
 					justifyContent='space-around'
 					alignItems='flex-start'
 				>
-					{contact.map((item) => (
+					{contact.map((item, index) => (
 						<GridDetailItem
-							key={item.title}
+							key={index}
 							title={item.title}
 							description={item.description}
 						/>

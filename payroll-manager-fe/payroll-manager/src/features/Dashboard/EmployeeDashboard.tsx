@@ -37,14 +37,6 @@ interface Props {
 }
 
 export default observer(function EmployeeDashboard({ employee }: Props) {
-	const {
-		payslipStore: { getlatestPayslip, latestPayslip, payslips },
-	} = useStore();
-
-	// useEffect(() => {
-	// 	// getlatestPayslip(employee.id);
-	// }, [employee.id, getlatestPayslip]);
-
 	return (
 		<Container maxWidth={false}>
 			<Grid container spacing={3}>

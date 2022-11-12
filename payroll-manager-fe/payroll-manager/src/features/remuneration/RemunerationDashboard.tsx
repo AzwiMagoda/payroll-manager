@@ -23,14 +23,55 @@ export default observer(function RemunerationDashboard() {
 	const options = ['Annual', 'Monthly', 'Hourly'];
 	const [activeMenu, setActiveMenu] = useState(0);
 	const [option, setOption] = useState(options[0]);
+	const [amountArray, setAmountArray] = useState<number[]>([]);
 
 	const {
-		remunerationStore: { loading, getRemuneration, remuneration },
+		remunerationStore: {
+			loading,
+			getRemuneration,
+			remuneration,
+			getRemunerationGraphData,
+			remunerationGraphData,
+		},
 	} = useStore();
 
 	useEffect(() => {
 		getRemuneration();
+		getRemunerationGraphData();
+
+		if (remunerationGraphData)
+			setAmountArray([
+				remunerationGraphData.annualBaseSalary,
+				remunerationGraphData.annualBonus,
+				remunerationGraphData.annualOvertimePay,
+			]);
 	});
+
+	const onChange = (newOption: string) => {
+		setOption(newOption);
+
+		if (remunerationGraphData) {
+			if (newOption == options[0]) {
+				setAmountArray([
+					remunerationGraphData.annualBaseSalary,
+					remunerationGraphData.annualBonus,
+					remunerationGraphData.annualOvertimePay,
+				]);
+			} else if (newOption == options[1]) {
+				setAmountArray([
+					remunerationGraphData.monthlyBaseSalary,
+					remunerationGraphData.monthlyBonus,
+					remunerationGraphData.monthlyOvertimePay,
+				]);
+			} else {
+				setAmountArray([
+					remunerationGraphData.dailyBaseSalary,
+					remunerationGraphData.dailyBonus,
+					remunerationGraphData.dailyOvertimePay,
+				]);
+			}
+		}
+	};
 
 	return (
 		<Container maxWidth={false}>
@@ -64,7 +105,7 @@ export default observer(function RemunerationDashboard() {
 										id='leaveType'
 										value={option}
 										label='Leave Type'
-										onChange={(e) => setOption(e.target.value)}
+										onChange={(e) => onChange(e.target.value)}
 									>
 										{options.map((o, i) => (
 											<MenuItem key={i} value={o}>
@@ -80,8 +121,8 @@ export default observer(function RemunerationDashboard() {
 			</Box>
 
 			<Box sx={{ mt: 3 }}>
-				{activeMenu === 0 && remuneration && (
-					<Remuneration remuneration={remuneration} />
+				{activeMenu === 0 && remunerationGraphData && (
+					<Remuneration remuneration={amountArray} />
 				)}
 			</Box>
 		</Container>
