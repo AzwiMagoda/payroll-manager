@@ -18,6 +18,7 @@ import Sidebar from './sidebar/Sidebar';
 import PayslipDashboard from '../../features/payslips/PayslipDashboard';
 import RemunerationDashboard from '../../features/remuneration/RemunerationDashboard';
 import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
+import AdminDashboard from '../../features/admin/AdminDashboard';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -69,8 +70,9 @@ function App() {
 				draggable
 				pauseOnHover
 			/>
+			{user && user.role === 'Admin' && <AdminDashboard />}
 
-			{user && currentEmployee && (
+			{user && currentEmployee && user.role !== 'Admin' && (
 				<>
 					<DashboardLayoutRoot>
 						<Box

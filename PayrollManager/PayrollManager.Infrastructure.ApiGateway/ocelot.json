@@ -16,20 +16,6 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/Auth/GetCurrentUser",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44346
-        }
-      ],
-      "UpstreamPathTemplate": "/auth/current",
-      "UpstreamHttpMethod": [
-        "POST"
-      ]
-    },
-    {
       "DownstreamPathTemplate": "/api/Auth/Logout",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -43,7 +29,25 @@
         "POST"
       ]
     },
-
+    {
+      "DownstreamPathTemplate": "/api/Auth/Register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44346
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/auth/register",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
     //employee
     {
       "DownstreamPathTemplate": "/api/Employee/GetAllEmployees",
