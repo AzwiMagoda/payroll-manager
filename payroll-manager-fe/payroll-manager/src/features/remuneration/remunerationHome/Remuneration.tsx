@@ -1,21 +1,9 @@
-import {
-	Avatar,
-	Box,
-	Card,
-	Grid,
-	Stack,
-	Typography,
-	useTheme,
-} from '@mui/material';
-import React, { useEffect } from 'react';
-import { useStore } from '../../../app/stores/store';
+import { Card, Grid, useTheme } from '@mui/material';
 import RemunerationChart from './RemunerationChart';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-import { Remuneration as RemunerationDto } from '../../../app/models/remuneration';
 import RemunerationItem from './RemunerationItem';
 import { observer } from 'mobx-react-lite';
-import { RemunerationGraph } from '../../../app/models/remunerationGraph';
 
 interface Props {
 	remuneration: number[];

@@ -22,6 +22,7 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "AdminPolicy")]
         [Authorize(Policy = "HRPolicy")]
         [Route("GetAllEmployees")]
         public ActionResult<IEnumerable<EmployeeDto>> GetAllEmployees()
@@ -47,6 +48,7 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminPolicy")]
         [Authorize(Policy = "HRPolicy")]
         [Route("CreateEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employee)
@@ -175,9 +177,6 @@ namespace PayrollManager.Api.Employee.Controllers
                 Console.Error.WriteLine(ex);
                 return BadRequest(ex.Message);
             }
-
         }
-
-        
     }
 }

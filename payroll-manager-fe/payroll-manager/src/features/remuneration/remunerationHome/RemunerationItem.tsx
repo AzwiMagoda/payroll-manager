@@ -1,6 +1,4 @@
 import { Avatar, Box, Card, Stack, Typography } from '@mui/material';
-import React from 'react';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { observer } from 'mobx-react-lite';
 
 interface Props {

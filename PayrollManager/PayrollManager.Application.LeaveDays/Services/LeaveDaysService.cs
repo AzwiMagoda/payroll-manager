@@ -143,7 +143,8 @@ namespace PayrollManager.Application.LeaveDays.Services
                         CreatedDate = DateTime.Now,
                         EmployeeId = employeeId,
                         Message = $"Leave days booked from {bookLeave.StartDate.ToShortDateString()} - {bookLeave.EndDate.ToShortDateString()}",
-                        NotificationType = NotificationTypes.LeaveDays.ToString()
+                        NotificationType = NotificationTypes.LeaveDays.ToString(),
+                        Read = false
                     };
 
                     var managerNotification = new NotificationEntity
@@ -152,7 +153,8 @@ namespace PayrollManager.Application.LeaveDays.Services
                         CreatedDate = DateTime.Now,
                         EmployeeId = employee.ManagerEmployeeId,
                         Message = $"{name} booked leave from {bookLeave.StartDate.ToShortDateString()} - {bookLeave.EndDate.ToShortDateString()}",
-                        NotificationType = NotificationTypes.LeaveDays.ToString()
+                        NotificationType = NotificationTypes.LeaveDays.ToString(),
+                        Read = false
                     };
 
                     await _bookedLeaveDaysRepository.Create(bookedLeaveEntity);

@@ -3,7 +3,6 @@ import { ChartData } from 'chart.js';
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import { Remuneration } from '../../../app/models/remuneration';
 import { observer } from 'mobx-react-lite';
 
 interface Props {

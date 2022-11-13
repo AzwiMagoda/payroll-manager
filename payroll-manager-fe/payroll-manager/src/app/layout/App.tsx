@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
-import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
 import ProfileDashboard from '../../features/profile/ProfileDashboard';
@@ -18,6 +17,7 @@ import Navbar from './navbar/Navbar';
 import Sidebar from './sidebar/Sidebar';
 import PayslipDashboard from '../../features/payslips/PayslipDashboard';
 import RemunerationDashboard from '../../features/remuneration/RemunerationDashboard';
+import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -94,10 +94,7 @@ function App() {
 										element={<EmployeeDashboard employee={currentEmployee} />}
 									/>
 									<Route path='/account' element={<ProfileDashboard />} />
-									<Route
-										path='/employees'
-										element={<EmployeeList employees={[]} />}
-									/>
+									<Route path='/employees' element={<HREmployeesDashboard />} />
 									<Route
 										path='/leaveDashboard'
 										element={

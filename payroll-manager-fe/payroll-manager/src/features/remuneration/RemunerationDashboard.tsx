@@ -10,12 +10,10 @@ import {
 	Stack,
 	Tab,
 	Tabs,
-	TextField,
 	Typography,
 } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from '../../app/stores/store';
 import Remuneration from './remunerationHome/Remuneration';
 
@@ -27,9 +25,7 @@ export default observer(function RemunerationDashboard() {
 
 	const {
 		remunerationStore: {
-			loading,
 			getRemuneration,
-			remuneration,
 			getRemunerationGraphData,
 			remunerationGraphData,
 		},
@@ -51,13 +47,13 @@ export default observer(function RemunerationDashboard() {
 		setOption(newOption);
 
 		if (remunerationGraphData) {
-			if (newOption == options[0]) {
+			if (newOption === options[0]) {
 				setAmountArray([
 					remunerationGraphData.annualBaseSalary,
 					remunerationGraphData.annualBonus,
 					remunerationGraphData.annualOvertimePay,
 				]);
-			} else if (newOption == options[1]) {
+			} else if (newOption === options[1]) {
 				setAmountArray([
 					remunerationGraphData.monthlyBaseSalary,
 					remunerationGraphData.monthlyBonus,

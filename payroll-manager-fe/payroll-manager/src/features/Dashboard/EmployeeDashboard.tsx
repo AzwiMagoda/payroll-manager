@@ -1,34 +1,7 @@
-import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Employee } from '../../app/models/employee';
-import { Link, NavLink } from 'react-router-dom';
-import {
-	Avatar,
-	Box,
-	Button,
-	Card,
-	CardActions,
-	CardContent,
-	Container,
-	Divider,
-	Grid,
-	List,
-	ListItem,
-	ListItemAvatar,
-	ListItemText,
-	Paper,
-	Typography,
-	CircularProgress,
-	Stack,
-} from '@mui/material';
-import WorkIcon from '@mui/icons-material/Work';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { useStore } from '../../app/stores/store';
-import TeamList from './components/team/TeamList';
+import { Container, Grid } from '@mui/material';
 import LeaveDaysCard from './components/cards/LeaveDaysCard';
-import ManagerCard from './components/cards/ManagerCard';
-import PayslipCard from './components/cards/PayslipCard';
-import PayslipList from './components/payslip/PayslipList';
 import Details from './components/cards/Details';
 import ManagerDetails from './components/cards/ManagerTeamDetails';
 

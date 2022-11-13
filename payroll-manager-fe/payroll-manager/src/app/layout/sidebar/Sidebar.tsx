@@ -64,14 +64,14 @@ interface Props {
 
 export default observer(function Sidebar({ employee, user }: Props) {
 	useEffect(() => {
-		if (user.role === 'HR' || user.role === 'Manager') {
+		if (user.role === 'HR' || (user.role === 'Manager' && items.length < 6)) {
 			items.push({
 				href: '/employees',
 				icon: <PeopleAltIcon fontSize='small' />,
 				title: 'Employees',
 			});
 		}
-	});
+	}, []);
 
 	const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'), {
 		defaultMatches: true,

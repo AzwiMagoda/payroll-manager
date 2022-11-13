@@ -308,7 +308,8 @@ namespace PayrollManager.Application.Employee.Services
                         EmployeeId = x.EmployeeId,
                         Message = x.Message,
                         NotificationType = x.NotificationType,
-                        CreatedDate = x.CreatedDate
+                        CreatedDate = x.CreatedDate,
+                        Read = x.Read
                     };
                 }).OrderByDescending(x => x.CreatedDate);
             }
