@@ -74,4 +74,38 @@ export default class AuthStore {
 			});
 		}
 	};
+
+	updateStatus = async (userId: string) => {
+		this.loading = true;
+		try {
+			const response = await agent.Auth.updateStatus(userId);
+			console.log(response);
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	updateDetails = async (user: UserDetails) => {
+		this.loading = true;
+		try {
+			const response = await agent.Auth.updateDetails(user);
+			console.log(response);
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
 }

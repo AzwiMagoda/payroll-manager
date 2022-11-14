@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Api.Auth.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -28,7 +29,6 @@ namespace PayrollManager.Api.Auth.Controllers
             _userManager = userManager;
         }
 
-        [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
@@ -42,50 +42,6 @@ namespace PayrollManager.Api.Auth.Controllers
             return result.Succeeded ? CreateUserObject(user, role) : Unauthorized();
         }
 
-        [Authorize(Policy = "AdminPolicy")]
-        [HttpPost("Register")]
-        public async Task<ActionResult<Guid>> RegisterUser(RegisterDto registerDto)
-        {
-            var userId = Guid.NewGuid();
-            var user = new UserEntity
-            {
-                Id = userId,
-                Email = registerDto.Email,
-                PhoneNumber = registerDto.PhoneNumber,
-                UserName = $"{registerDto.FirstName.ToLower()}.{registerDto.LastName.ToLower()}",
-                IsActive = false,
-            };
-
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
-
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(user, registerDto.Role);
-                return Ok(userId);
-            }
-            return BadRequest();
-        }
-
-        [Authorize(Policy = "AdminPolicy")]
-        [HttpGet("GetUserList")]
-        public ActionResult<IEnumerable<UserDetailsDto>> GetUserList()
-        {
-            var userEntity = _userManager.Users.Select(x => new UserDetailsDto
-            {
-                Id = x.Id,
-                ActivationDate = x.ActivationDate,
-                DeactivationDate = x.DeactivationDate,
-                Email = x.Email,
-                IsActive = x.IsActive,
-                PhoneNumber = x.PhoneNumber,
-                UpdatedDate = x.UpdatedDate,
-                UserName = x.UserName,
-            }).ToList();
-
-            return Ok(userEntity);
-        }
-
-        [Authorize(Policy = "AuthenticatedPolicy")]
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {

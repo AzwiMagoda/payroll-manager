@@ -72,6 +72,10 @@ const Auth = {
 	login: (login: Login) => requests.post<User>('auth/login', login),
 	logout: () => requests.postNoBody<User>('auth/logout'),
 	getUserList: () => requests.get<UserDetails[]>('auth/userList'),
+	updateDetails: (user: UserDetails) =>
+		requests.put<LeaveDays>(`auth/updateDetails`, user),
+	updateStatus: (userId: string) =>
+		requests.put<LeaveDays>(`auth/updateStatus/${userId}`, {}),
 };
 
 const Employees = {

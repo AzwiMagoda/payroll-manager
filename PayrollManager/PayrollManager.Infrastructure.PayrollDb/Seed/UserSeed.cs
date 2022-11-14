@@ -22,7 +22,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         UserName = "hulisani.nefolovhodwe",
                         PhoneNumber = "0768987799",
                         IsActive = true,
-                        ActivationDate = DateTime.Now,
+                        StatusUpdateDate = DateTime.Now,
                     },
                 };
 
@@ -39,7 +39,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     UserName = "brandon.friedman",
                     PhoneNumber = "0876789089",
                     IsActive = true,
-                    ActivationDate = DateTime.Now,
+                    StatusUpdateDate = DateTime.Now,
                 };
 
                 await userManager.CreateAsync(manager, "Pa$$w0rd");
@@ -52,7 +52,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     UserName = "sheila.smithson",
                     PhoneNumber = "0875486985",
                     IsActive = true,
-                    ActivationDate = DateTime.Now,
+                    StatusUpdateDate = DateTime.Now,
                 };
 
                 await userManager.CreateAsync(hr, "Pa$$w0rd");
@@ -65,7 +65,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     UserName = "Admin",
                     PhoneNumber = "0875486985",
                     IsActive = true,
-                    ActivationDate = DateTime.Now,
+                    StatusUpdateDate = DateTime.Now,
                 };
 
                 await userManager.CreateAsync(admin, "Pa$$w0rd");

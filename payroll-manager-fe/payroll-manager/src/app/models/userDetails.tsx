@@ -4,7 +4,6 @@ export interface UserDetails {
 	email: string;
 	phoneNumber: string;
 	isActive: boolean;
-	activationDate: string;
-	deactivationDate: string;
+	statusUpdateDate: string;
 	updatedDate: string;
 }
