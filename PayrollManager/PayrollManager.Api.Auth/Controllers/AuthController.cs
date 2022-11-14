@@ -72,6 +72,7 @@ namespace PayrollManager.Api.Auth.Controllers
         {
             var userEntity = _userManager.Users.Select(x => new UserDetailsDto
             {
+                Id = x.Id,
                 ActivationDate = x.ActivationDate,
                 DeactivationDate = x.DeactivationDate,
                 Email = x.Email,

@@ -20,6 +20,7 @@ import RemunerationDashboard from '../../features/remuneration/RemunerationDashb
 import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
 import AdminDashboard from '../../features/admin/dashboard/AdminDashboard';
 import UserDashboard from '../../features/admin/users/UserDashboard';
+import EditUser from '../../features/admin/users/EditUser';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -101,10 +102,14 @@ function App() {
 													}
 												/>
 												<Route path='/account' element={<ProfileDashboard />} />
-												<Route
-													path='/employees'
-													element={<HREmployeesDashboard />}
-												/>
+
+												{user.role === 'HR' && (
+													<Route
+														path='/employees'
+														element={<HREmployeesDashboard />}
+													/>
+												)}
+
 												<Route
 													path='/leaveDashboard'
 													element={
@@ -128,6 +133,7 @@ function App() {
 											<>
 												<Route path='/' element={<AdminDashboard />} />
 												<Route path='/employees' element={<UserDashboard />} />
+												<Route path='/employee/:id' element={<EditUser />} />
 											</>
 										)}
 										<Route path='*' element={<Error404 />} />
