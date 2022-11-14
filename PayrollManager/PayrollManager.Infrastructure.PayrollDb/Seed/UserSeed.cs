@@ -17,17 +17,12 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 {
                     new UserEntity
                     {
-                        Id = Guid.Parse("D3B8BC49-BC21-49CC-ACBD-2A8381D06243"),
-                        Email = "azwi@test.com",
-                        UserName = "Azwi",
-                        PhoneNumber = "0813147181"
-                    },
-                    new UserEntity
-                    {
                         Id = Guid.Parse("FDC2520B-A3D2-437C-88C3-8D814B151DBB"),
                         Email = "huli@test.com",
-                        UserName = "Huli",
-                        PhoneNumber = "0768987799"
+                        UserName = "hulisani.nefolovhodwe",
+                        PhoneNumber = "0768987799",
+                        IsActive = true,
+                        ActivationDate = DateTime.Now,
                     },
                 };
 
@@ -41,8 +36,10 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 {
                     Id = Guid.Parse("575F6FFC-C82D-4540-8D92-1B098CA7C460"),
                     Email = "brandon@test.com",
-                    UserName = "Brandon",
-                    PhoneNumber = "0876789089"
+                    UserName = "brandon.friedman",
+                    PhoneNumber = "0876789089",
+                    IsActive = true,
+                    ActivationDate = DateTime.Now,
                 };
 
                 await userManager.CreateAsync(manager, "Pa$$w0rd");
@@ -52,8 +49,10 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 {
                     Id = Guid.Parse("b6d5a90e-bafc-44a8-8366-2d365647280e"),
                     Email = "sheila@test.com",
-                    UserName = "Sheila",
-                    PhoneNumber = "0875486985"
+                    UserName = "sheila.smithson",
+                    PhoneNumber = "0875486985",
+                    IsActive = true,
+                    ActivationDate = DateTime.Now,
                 };
 
                 await userManager.CreateAsync(hr, "Pa$$w0rd");
@@ -64,7 +63,9 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     Id = Guid.Parse("a5d399c8-62c5-4f63-bd73-e85e09308f07"),
                     Email = "admin@test.com",
                     UserName = "Admin",
-                    PhoneNumber = "0875486985"
+                    PhoneNumber = "0875486985",
+                    IsActive = true,
+                    ActivationDate = DateTime.Now,
                 };
 
                 await userManager.CreateAsync(admin, "Pa$$w0rd");

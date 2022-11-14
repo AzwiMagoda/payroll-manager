@@ -3,10 +3,12 @@ import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { Login } from '../models/login';
 import { User } from '../models/user';
+import { UserDetails } from '../models/userDetails';
 import { store } from './store';
 
 export default class AuthStore {
 	user: User | null = null;
+	users = new Array<UserDetails>();
 	loading = false;
 	loadingInitial = false;
 
@@ -54,5 +56,22 @@ export default class AuthStore {
 
 	setLoading = (loading: boolean) => {
 		this.loading = loading;
+	};
+
+	getUserList = async () => {
+		this.loading = true;
+		try {
+			const users = await agent.Auth.getUserList();
+
+			runInAction(() => {
+				this.loading = false;
+				this.users = users;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
 	};
 }

@@ -18,7 +18,8 @@ import Sidebar from './sidebar/Sidebar';
 import PayslipDashboard from '../../features/payslips/PayslipDashboard';
 import RemunerationDashboard from '../../features/remuneration/RemunerationDashboard';
 import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
-import AdminDashboard from '../../features/admin/AdminDashboard';
+import AdminDashboard from '../../features/admin/dashboard/AdminDashboard';
+import UserDashboard from '../../features/admin/users/UserDashboard';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -70,9 +71,8 @@ function App() {
 				draggable
 				pauseOnHover
 			/>
-			{user && user.role === 'Admin' && <AdminDashboard />}
 
-			{user && currentEmployee && user.role !== 'Admin' && (
+			{user && (
 				<>
 					<DashboardLayoutRoot>
 						<Box
@@ -91,27 +91,47 @@ function App() {
 								}}
 							>
 								<Routes>
-									<Route
-										path='/'
-										element={<EmployeeDashboard employee={currentEmployee} />}
-									/>
-									<Route path='/account' element={<ProfileDashboard />} />
-									<Route path='/employees' element={<HREmployeesDashboard />} />
-									<Route
-										path='/leaveDashboard'
-										element={
-											<LeaveDaysDashboard
-												employee={currentEmployee}
-												user={user}
-											/>
-										}
-									/>
-									<Route path='/payslips' element={<PayslipDashboard />} />
-									<Route
-										path='/remuneration'
-										element={<RemunerationDashboard />}
-									/>
-									<Route path='/error404' element={<Error404 />} />
+									<>
+										{user.role !== 'Admin' && currentEmployee ? (
+											<>
+												<Route
+													path='/'
+													element={
+														<EmployeeDashboard employee={currentEmployee} />
+													}
+												/>
+												<Route path='/account' element={<ProfileDashboard />} />
+												<Route
+													path='/employees'
+													element={<HREmployeesDashboard />}
+												/>
+												<Route
+													path='/leaveDashboard'
+													element={
+														<LeaveDaysDashboard
+															employee={currentEmployee}
+															user={user}
+														/>
+													}
+												/>
+												<Route
+													path='/payslips'
+													element={<PayslipDashboard />}
+												/>
+												<Route
+													path='/remuneration'
+													element={<RemunerationDashboard />}
+												/>
+												<Route path='/error404' element={<Error404 />} />
+											</>
+										) : (
+											<>
+												<Route path='/' element={<AdminDashboard />} />
+												<Route path='/employees' element={<UserDashboard />} />
+											</>
+										)}
+										<Route path='*' element={<Error404 />} />
+									</>
 								</Routes>
 							</Box>
 						</Box>

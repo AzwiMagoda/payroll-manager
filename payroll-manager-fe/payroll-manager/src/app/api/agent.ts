@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
@@ -15,6 +14,7 @@ import { BookLeave } from '../models/bookLeave';
 import { DeclineLeave } from '../models/DeclineLeave';
 import { Remuneration } from '../models/remuneration';
 import { RemunerationGraph } from '../models/remunerationGraph';
+import { UserDetails } from '../models/userDetails';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -71,6 +71,7 @@ const requests = {
 const Auth = {
 	login: (login: Login) => requests.post<User>('auth/login', login),
 	logout: () => requests.postNoBody<User>('auth/logout'),
+	getUserList: () => requests.get<UserDetails[]>('auth/userList'),
 };
 
 const Employees = {

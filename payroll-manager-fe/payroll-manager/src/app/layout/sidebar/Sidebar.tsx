@@ -57,8 +57,21 @@ const items = [
 	//performance
 ];
 
+const adminItems = [
+	{
+		href: '/',
+		icon: <DashboardIcon fontSize='small' />,
+		title: 'Dashboard',
+	},
+	{
+		href: '/employees',
+		icon: <PeopleAltIcon fontSize='small' />,
+		title: 'Employees',
+	},
+];
+
 interface Props {
-	employee: Employee;
+	employee: Employee | undefined;
 	user: User;
 }
 
@@ -89,49 +102,51 @@ export default observer(function Sidebar({ employee, user }: Props) {
 			>
 				<div>
 					<Box sx={{ p: 3 }}></Box>
-					<Box sx={{ px: 2 }}>
-						<Stack
-							direction='column'
-							justifyContent='space-around'
-							alignItems='center'
-							spacing={3}
-						>
-							<Avatar
-								alt={`${employee.name} ${employee.surname}`}
-								src='/static/images/avatar/1.jpg'
-								sx={{
-									height: '8em',
-									mb: 2,
-									width: '8em',
-								}}
+					{employee && (
+						<Box sx={{ px: 2 }}>
+							<Stack
+								direction='column'
+								justifyContent='space-around'
+								alignItems='center'
+								spacing={3}
 							>
-								<AccountCircleIcon
-									sx={{ fontSize: '10em', bgcolor: '#4B5563' }}
-								/>
-							</Avatar>
+								<Avatar
+									alt={`${employee.name} ${employee.surname}`}
+									src='/static/images/avatar/1.jpg'
+									sx={{
+										height: '8em',
+										mb: 2,
+										width: '8em',
+									}}
+								>
+									<AccountCircleIcon
+										sx={{ fontSize: '10em', bgcolor: '#4B5563' }}
+									/>
+								</Avatar>
 
-							<Box
-								sx={{
-									alignItems: 'center',
-									backgroundColor: 'rgba(255, 255, 255, 0.04)',
-									display: 'flex',
-									justifyContent: 'space-between',
-									px: 3,
-									py: '11px',
-									borderRadius: 1,
-								}}
-							>
-								<div>
-									<Typography color='inherit' variant='subtitle1'>
-										{employee.name} {employee.surname}
-									</Typography>
-									<Typography color='neutral.400' variant='body2'>
-										{employee.jobTitle}
-									</Typography>
-								</div>
-							</Box>
-						</Stack>
-					</Box>
+								<Box
+									sx={{
+										alignItems: 'center',
+										backgroundColor: 'rgba(255, 255, 255, 0.04)',
+										display: 'flex',
+										justifyContent: 'space-between',
+										px: 3,
+										py: '11px',
+										borderRadius: 1,
+									}}
+								>
+									<div>
+										<Typography color='inherit' variant='subtitle1'>
+											{employee.name} {employee.surname}
+										</Typography>
+										<Typography color='neutral.400' variant='body2'>
+											{employee.jobTitle}
+										</Typography>
+									</div>
+								</Box>
+							</Stack>
+						</Box>
+					)}
 				</div>
 				<Divider
 					sx={{
@@ -140,16 +155,27 @@ export default observer(function Sidebar({ employee, user }: Props) {
 					}}
 				/>
 				<Box sx={{ flexGrow: 1 }}>
-					{items.map((item, i) => (
-						<>
-							<NavItem
-								key={i}
-								icon={item.icon}
-								href={item.href}
-								title={item.title}
-							/>
-						</>
-					))}
+					{user.role === 'Admin'
+						? adminItems.map((item, i) => (
+								<>
+									<NavItem
+										key={i}
+										icon={item.icon}
+										href={item.href}
+										title={item.title}
+									/>
+								</>
+						  ))
+						: items.map((item, i) => (
+								<>
+									<NavItem
+										key={i}
+										icon={item.icon}
+										href={item.href}
+										title={item.title}
+									/>
+								</>
+						  ))}
 				</Box>
 			</Box>
 		</>
