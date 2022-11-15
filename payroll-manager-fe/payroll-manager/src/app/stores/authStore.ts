@@ -78,8 +78,13 @@ export default class AuthStore {
 	updateStatus = async (userId: string) => {
 		this.loading = true;
 		try {
-			const response = await agent.Auth.updateStatus(userId);
-			console.log(response);
+			const response = agent.Auth.updateStatus(userId);
+
+			toast.promise(response, {
+				pending: 'Submitting...',
+				success: 'Status updated successfully!',
+				error: 'Failed to update status',
+			});
 
 			runInAction(() => {
 				this.loading = false;
@@ -95,8 +100,13 @@ export default class AuthStore {
 	updateDetails = async (user: UserDetails) => {
 		this.loading = true;
 		try {
-			const response = await agent.Auth.updateDetails(user);
-			console.log(response);
+			const response = agent.Auth.updateDetails(user);
+
+			toast.promise(response, {
+				pending: 'Submitting...',
+				success: 'User updated successfully!',
+				error: 'Failed to update user',
+			});
 
 			runInAction(() => {
 				this.loading = false;

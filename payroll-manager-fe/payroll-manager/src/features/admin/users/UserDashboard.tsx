@@ -26,7 +26,10 @@ export default function UserDashboard() {
 			</Tabs>
 
 			<Box sx={{ mt: 3 }}>
-				<Card>{activeMenu === 0 && <UserList users={users} />}</Card>
+				<Card>
+					{activeMenu === 0 && <UserList users={users} />}
+					{activeMenu === 1 && <UserList users={users} />}
+				</Card>
 			</Box>
 		</Container>
 	);
