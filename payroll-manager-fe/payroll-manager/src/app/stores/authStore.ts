@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { Login } from '../models/login';
+import { RegisterDto } from '../models/register';
 import { User } from '../models/user';
 import { UserDetails } from '../models/userDetails';
 import { store } from './store';
@@ -111,6 +112,29 @@ export default class AuthStore {
 			runInAction(() => {
 				this.loading = false;
 			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	createUser = async (register: RegisterDto) => {
+		this.loading = true;
+		try {
+			const response = agent.Auth.createUser(register);
+
+			toast.promise(response, {
+				pending: 'Creating user...',
+				success: 'User created successfully!',
+				error: 'Failed to create user',
+			});
+
+			runInAction(() => {
+				this.loading = false;
+			});
+			return response;
 		} catch (error) {
 			console.log(error);
 			runInAction(() => {

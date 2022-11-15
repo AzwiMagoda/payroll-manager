@@ -20,34 +20,49 @@ namespace PayrollManager.Api.Auth.Controllers
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly PayrollDbContext _payrollDbContext;
 
-        public UserManagementController(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, PayrollDbContext payrollDbContext)
+        public UserManagementController(UserManager<UserEntity> userManager,
+                                        SignInManager<UserEntity> signInManager,
+                                        PayrollDbContext payrollDbContext)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
-            _payrollDbContext = payrollDbContext;
+            _payrollDbContext = payrollDbContext ?? throw new ArgumentNullException(nameof(payrollDbContext));
         }
 
         [HttpPost("Register")]
         public async Task<ActionResult<Guid>> RegisterUser(RegisterDto registerDto)
         {
             var userId = Guid.NewGuid();
-            var user = new UserEntity
-            {
-                Id = userId,
-                Email = registerDto.Email,
-                PhoneNumber = registerDto.PhoneNumber,
-                UserName = $"{registerDto.FirstName.ToLower()}.{registerDto.LastName.ToLower()}",
-                IsActive = false,
-            };
+            var userName = $"{registerDto.FirstName.ToLower()}.{registerDto.LastName.ToLower()}";
+            var domain = "test";
 
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
+            var exists = _userManager.Users.First(x => x.UserName == userName) != null;
 
-            if (result.Succeeded)
+            if (!exists)
             {
-                await _userManager.AddToRoleAsync(user, registerDto.Role);
-                return Ok(userId);
+                var user = new UserEntity
+                {
+                    Id = userId,
+                    Email = $"{userName}@{domain}.com",
+                    PhoneNumber = registerDto.PhoneNumber,
+                    UserName = userName,
+                    IsActive = false,
+                    CreatedDate = DateTime.Now,
+                    StatusUpdateDate = DateTime.Now,
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                };
+
+                var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, registerDto.Role);
+                    return Ok(userId);
+                }
+                return BadRequest("Unable to create user");
             }
-            return BadRequest();
+            return BadRequest("user exists");
         }
 
         [HttpGet("GetUserList")]
@@ -62,7 +77,10 @@ namespace PayrollManager.Api.Auth.Controllers
                 PhoneNumber = x.PhoneNumber,
                 UpdatedDate = x.UpdatedDate,
                 UserName = x.UserName,
-            }).ToList();
+                Role = GetUserRole(_userManager, x),
+                CreatedDate = x.CreatedDate,
+                HasEmployeeProfile = HasEmployeeProfile(_payrollDbContext, x.Id)
+            }).OrderByDescending(x => x.CreatedDate).ToList();
 
             return Ok(userEntity);
         }
@@ -73,9 +91,9 @@ namespace PayrollManager.Api.Auth.Controllers
             var user = _userManager.Users.FirstOrDefault(x => x.Id == userId);
 
             user.IsActive = !user.IsActive;
+            user.StatusUpdateDate = DateTime.Now;
 
             await _userManager.UpdateAsync(user);
-            await _payrollDbContext.SaveChangesAsync();
             return Ok("User status updated");
         }
 
@@ -89,8 +107,18 @@ namespace PayrollManager.Api.Auth.Controllers
             user.UserName = userDto.UserName;
 
             await _userManager.UpdateAsync(user);
-            await _payrollDbContext.SaveChangesAsync();
             return Ok("User updated");
+        }
+
+        private static string GetUserRole(UserManager<UserEntity> userManager, UserEntity user)
+        {
+            return userManager.GetRolesAsync(user).Result[0];
+        }
+
+        private static bool HasEmployeeProfile(PayrollDbContext payrollDbContext, Guid userId)
+        {
+
+            return payrollDbContext.Employees.Any(x => x.EmployeeId == userId);
         }
     }
 }

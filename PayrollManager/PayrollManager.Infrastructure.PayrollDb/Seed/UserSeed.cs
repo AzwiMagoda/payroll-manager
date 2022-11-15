@@ -18,11 +18,14 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     new UserEntity
                     {
                         Id = Guid.Parse("FDC2520B-A3D2-437C-88C3-8D814B151DBB"),
-                        Email = "huli@test.com",
+                        Email = "hulisani.nefolovhodwe@test.com",
                         UserName = "hulisani.nefolovhodwe",
                         PhoneNumber = "0768987799",
                         IsActive = true,
                         StatusUpdateDate = DateTime.Now,
+                        CreatedDate = DateTime.Now,
+                        FirstName = "Hulisani",
+                        LastName = "Nefolovhodwe",
                     },
                 };
 
@@ -35,11 +38,14 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 var manager = new UserEntity
                 {
                     Id = Guid.Parse("575F6FFC-C82D-4540-8D92-1B098CA7C460"),
-                    Email = "brandon@test.com",
+                    Email = "brandon.friedman@test.com",
                     UserName = "brandon.friedman",
                     PhoneNumber = "0876789089",
                     IsActive = true,
                     StatusUpdateDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
+                    FirstName = "Brandon",
+                    LastName = "Friedman",
                 };
 
                 await userManager.CreateAsync(manager, "Pa$$w0rd");
@@ -48,11 +54,14 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                 var hr = new UserEntity
                 {
                     Id = Guid.Parse("b6d5a90e-bafc-44a8-8366-2d365647280e"),
-                    Email = "sheila@test.com",
+                    Email = "sheila.smithson@test.com",
                     UserName = "sheila.smithson",
                     PhoneNumber = "0875486985",
                     IsActive = true,
                     StatusUpdateDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
+                    FirstName = "Sheila",
+                    LastName = "Smithson",
                 };
 
                 await userManager.CreateAsync(hr, "Pa$$w0rd");
@@ -66,6 +75,9 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                     PhoneNumber = "0875486985",
                     IsActive = true,
                     StatusUpdateDate = DateTime.Now,
+                    CreatedDate = DateTime.Now,
+                    FirstName = "Admin",
+                    LastName = "Admin",
                 };
 
                 await userManager.CreateAsync(admin, "Pa$$w0rd");

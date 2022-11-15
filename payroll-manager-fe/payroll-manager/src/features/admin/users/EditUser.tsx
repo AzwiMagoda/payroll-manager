@@ -9,6 +9,7 @@ import {
 	Grid,
 	Stack,
 	TextField,
+	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
@@ -26,9 +27,15 @@ export default observer(function EditUser() {
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [username, setUsername] = useState('');
 
+	const title = 'Edit User';
+
 	const {
 		authStore: { users, updateDetails, updateStatus, getUserList },
 	} = useStore();
+
+	useEffect(() => {
+		document.title = `${title} | PayME`;
+	}, []);
 
 	useEffect(() => {
 		var u = users.find((u) => u.id === id);
@@ -78,6 +85,14 @@ export default observer(function EditUser() {
 											Back
 										</Button>
 									</Stack>
+									<Typography
+										color='text.secondary'
+										variant='h5'
+										sx={{ textTransform: 'uppercase' }}
+										align='center'
+									>
+										{title}
+									</Typography>
 
 									<Stack
 										direction='row'
@@ -95,7 +110,6 @@ export default observer(function EditUser() {
 											Save Changes
 										</Button>
 										<Button
-											// startIcon={<ArrowBackIosIcon fontSize='small' />}
 											sx={{ mr: 1 }}
 											onClick={() => onStatusClick()}
 											color={user.isActive ? 'error' : 'success'}
@@ -116,16 +130,16 @@ export default observer(function EditUser() {
 									<Grid
 										container
 										direction='row'
-										justifyContent='center'
+										justifyContent='space-around'
 										alignItems='center'
 									>
 										<Grid item xs={4}>
 											<Stack
 												direction='column'
-												justifyContent='space-evenly'
+												justifyContent='flex-start'
 												alignItems='center'
 											>
-												<FormControl>
+												<FormControl fullWidth>
 													<TextField
 														margin='normal'
 														id='email'
@@ -137,7 +151,7 @@ export default observer(function EditUser() {
 														onChange={(e: any) => setEmail(e.target.value)}
 													/>
 												</FormControl>
-												<FormControl>
+												<FormControl fullWidth>
 													<TextField
 														margin='normal'
 														id='phoneNumber'
@@ -150,7 +164,7 @@ export default observer(function EditUser() {
 														}
 													/>
 												</FormControl>
-												<FormControl>
+												<FormControl fullWidth>
 													<TextField
 														margin='normal'
 														id='username'
@@ -163,14 +177,22 @@ export default observer(function EditUser() {
 												</FormControl>
 											</Stack>
 										</Grid>
-										<Divider orientation='vertical' variant='middle' flexItem />
+										<Divider
+											sx={{
+												borderColor: '#2D3748',
+												mx: 3,
+											}}
+											orientation='vertical'
+											variant='middle'
+											flexItem
+										/>
 										<Grid item xs={4}>
 											<Stack
 												direction='column'
 												justifyContent='space-evenly'
 												alignItems='center'
 											>
-												<FormControl>
+												<FormControl fullWidth>
 													<TextField
 														margin='normal'
 														id='updated'
@@ -183,7 +205,7 @@ export default observer(function EditUser() {
 														}}
 													/>
 												</FormControl>
-												<FormControl>
+												<FormControl fullWidth>
 													<TextField
 														margin='normal'
 														id='activated'

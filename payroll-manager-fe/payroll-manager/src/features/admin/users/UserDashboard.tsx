@@ -1,6 +1,7 @@
 import { Container, Tabs, Tab, Box, Card } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useStore } from '../../../app/stores/store';
+import CreateUser from './CreateUser';
 import UserList from './UserList';
 
 export default function UserDashboard() {
@@ -12,6 +13,7 @@ export default function UserDashboard() {
 
 	useEffect(() => {
 		getUserList();
+		console.log(users);
 	}, []);
 
 	return (
@@ -26,10 +28,8 @@ export default function UserDashboard() {
 			</Tabs>
 
 			<Box sx={{ mt: 3 }}>
-				<Card>
-					{activeMenu === 0 && <UserList users={users} />}
-					{activeMenu === 1 && <UserList users={users} />}
-				</Card>
+				{activeMenu === 0 && <UserList users={users} />}
+				{activeMenu === 1 && <CreateUser />}
 			</Box>
 		</Container>
 	);

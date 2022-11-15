@@ -15,6 +15,7 @@ import { DeclineLeave } from '../models/DeclineLeave';
 import { Remuneration } from '../models/remuneration';
 import { RemunerationGraph } from '../models/remunerationGraph';
 import { UserDetails } from '../models/userDetails';
+import { RegisterDto } from '../models/register';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -51,9 +52,6 @@ api.interceptors.response.use(
 				console.log('hey its a 401');
 				localStorage.clear();
 				return (window.location.href = '/');
-			// case 404:
-			// 	console.log('hey its a 404');
-			// 	return (window.location.href = '/error404');
 		}
 	}
 );
@@ -76,6 +74,8 @@ const Auth = {
 		requests.put<LeaveDays>(`auth/updateDetails`, user),
 	updateStatus: (userId: string) =>
 		requests.put<LeaveDays>(`auth/updateStatus/${userId}`, {}),
+	createUser: (register: RegisterDto) =>
+		requests.post<string>(`auth/register`, register),
 };
 
 const Employees = {

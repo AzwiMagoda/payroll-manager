@@ -6,4 +6,6 @@ export interface UserDetails {
 	isActive: boolean;
 	statusUpdateDate: string;
 	updatedDate: string;
+	role: string;
+	hasEmployeeProfile: boolean;
 }

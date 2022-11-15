@@ -1,4 +1,4 @@
-import { Chip, Button } from '@mui/material';
+import { Chip, Button, Card } from '@mui/material';
 import {
 	DataGrid,
 	GridColDef,
@@ -40,9 +40,20 @@ export default observer(function UserList({ users }: Props) {
 			headerName: 'Phone Number',
 		},
 		{
+			field: 'role',
+			flex: 1,
+			headerName: 'Role',
+		},
+		{
+			field: 'hasEmployeeProfile',
+			flex: 1,
+			headerName: 'EmployeeProfile',
+			type: 'boolean',
+		},
+		{
 			field: 'isActive',
 			headerName: 'Status',
-			flex: 0.3,
+			flex: 0.5,
 			headerAlign: 'center',
 			align: 'center',
 			renderCell: (params: GridRenderCellParams<Boolean>) => {
@@ -82,17 +93,17 @@ export default observer(function UserList({ users }: Props) {
 	};
 
 	return (
-		<DataGrid
-			autoHeight
-			rows={users}
-			columns={columns}
-			// checkboxSelection
-			pageSize={20}
-			disableSelectionOnClick
-			disableColumnMenu
-			experimentalFeatures={{ newEditingApi: true }}
-			components={{ Toolbar: GridToolbar }}
-			// onSelectionModelChange={(rows) => setSelectedIds(rows)}
-		/>
+		<Card>
+			<DataGrid
+				autoHeight
+				rows={users}
+				columns={columns}
+				pageSize={20}
+				disableSelectionOnClick
+				disableColumnMenu
+				experimentalFeatures={{ newEditingApi: true }}
+				components={{ Toolbar: GridToolbar }}
+			/>
+		</Card>
 	);
 });
