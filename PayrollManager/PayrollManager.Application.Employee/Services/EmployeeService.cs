@@ -1,6 +1,7 @@
 ﻿using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
+using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
@@ -18,16 +19,19 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
         private readonly INotificationsRepository _notificationsRepository;
+        private readonly PayrollDbContext _payrollDbContext;
 
         public EmployeeService(IEmployeeRepository employeeRepository,
                                IContactDetailsRepository contactDetailsRepository,
                                IDependantRepository dependantRepository,
-                               INotificationsRepository notificationsRepository)
+                               INotificationsRepository notificationsRepository,
+                               PayrollDbContext payrollDbContext)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
             _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
+            _payrollDbContext = payrollDbContext ?? throw new ArgumentNullException(nameof(payrollDbContext));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -100,28 +104,38 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public async Task CreateEmployee(EmployeeDto employee)
+        public async Task<string> CreateEmployee(CreateEmployeeDto employee)
         {
             try
             {
-                var id = Guid.NewGuid();
+                var user = _payrollDbContext.Users.FirstOrDefault(x => x.Id == employee.Id);
 
-                var employeeEntity = new EmployeeEntity
+                if (user != null)
                 {
-                    Company = employee.Company,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Id = id,
-                    CreatedDate = DateTime.Now,
-                };
+                    var employeeEntity = new EmployeeEntity
+                    {
+                        Company = "42Company",
+                        Name = employee.Name,
+                        Surname = employee.Surname,
+                        Id = employee.Id,
+                        CreatedDate = DateTime.Now,
+                        EmployeeId = employee.Id,
+                        JobTitle = employee.JobTitle,
+                        Department = employee.Department,
+                    };
 
-                await _employeeRepository.Create(employeeEntity);
+                    await _employeeRepository.Create(employeeEntity);
+                    return "User created";
+
+                }
+                return "User profile does not exist for this employee";
+
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
+                return ex.Message;
             }
-
         }
 
         public async Task UpdateEmployee(EmployeeDto employee)

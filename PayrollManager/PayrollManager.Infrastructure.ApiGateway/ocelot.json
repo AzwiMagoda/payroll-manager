@@ -228,6 +228,25 @@
         "PUT"
       ]
     },
+    {
+      "DownstreamPathTemplate": "/api/Employee/CreateEmployee",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/create",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
     //remuneration
     {
       "DownstreamPathTemplate": "/api/Remuneration/GetRemunerationGraphData",

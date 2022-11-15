@@ -51,7 +51,7 @@ namespace PayrollManager.Api.Employee.Controllers
         [Authorize(Policy = "AdminPolicy")]
         [Authorize(Policy = "HRPolicy")]
         [Route("CreateEmployee")]
-        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employee)
+        public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeDto employee)
         {
             try
             {

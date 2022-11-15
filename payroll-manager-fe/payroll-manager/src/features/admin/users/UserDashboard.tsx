@@ -1,7 +1,7 @@
 import { Container, Tabs, Tab, Box, Card } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useStore } from '../../../app/stores/store';
-import CreateUser from './CreateUser';
+import CreateUser from './createUser/CreateUser';
 import UserList from './UserList';
 
 export default function UserDashboard() {

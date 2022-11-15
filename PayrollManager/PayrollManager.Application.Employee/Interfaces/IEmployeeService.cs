@@ -9,7 +9,7 @@ namespace PayrollManager.Application.Employee.Interfaces
     {
         IEnumerable<EmployeeDto> GetAllEmployees();
         Task<EmployeeDto> GetEmployee(Guid employeeId);
-        Task CreateEmployee(EmployeeDto employee);
+        Task<string> CreateEmployee(CreateEmployeeDto employee);
         Task UpdateEmployee(EmployeeDto employee);
         Task UpdatePersonalInfo(PersonalInfoDto info, Guid id);
         Task UpdateContactDetails(ContactDetailsDto info, Guid id);
