@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Api.Auth.Controllers
 {
-    [Authorize(Policy = "AdminPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserManagementController : ControllerBase
@@ -29,6 +28,7 @@ namespace PayrollManager.Api.Auth.Controllers
             _payrollDbContext = payrollDbContext ?? throw new ArgumentNullException(nameof(payrollDbContext));
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPost("Register")]
         public async Task<ActionResult<Guid>> RegisterUser(RegisterDto registerDto)
         {
@@ -65,6 +65,7 @@ namespace PayrollManager.Api.Auth.Controllers
             return BadRequest("user exists");
         }
 
+        [Authorize(Policy = "AdminOrHR")]
         [HttpGet("GetUserList")]
         public ActionResult<IEnumerable<UserDetailsDto>> GetUserList()
         {
@@ -85,6 +86,7 @@ namespace PayrollManager.Api.Auth.Controllers
             return Ok(userEntity);
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPut("UpdateUserStatus/{userId}")]
         public async Task<IActionResult> UpdateUserStatus(Guid userId)
         {
@@ -97,6 +99,7 @@ namespace PayrollManager.Api.Auth.Controllers
             return Ok("User status updated");
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPut("UpdateUserDetails")]
         public async Task<IActionResult> UpdateUserDetails([FromBody] UserDetailsDto userDto)
         {

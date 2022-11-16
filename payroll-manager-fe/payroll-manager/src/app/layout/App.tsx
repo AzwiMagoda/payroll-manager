@@ -103,13 +103,6 @@ function App() {
 												/>
 												<Route path='/account' element={<ProfileDashboard />} />
 
-												{user.role === 'HR' && (
-													<Route
-														path='/employees'
-														element={<HREmployeesDashboard />}
-													/>
-												)}
-
 												<Route
 													path='/leaveDashboard'
 													element={
@@ -130,9 +123,14 @@ function App() {
 												<Route path='/error404' element={<Error404 />} />
 											</>
 										) : (
+											<Route path='/' element={<AdminDashboard />} />
+										)}
+										{(user.role === 'HR' || user.role === 'Admin') && (
 											<>
-												<Route path='/' element={<AdminDashboard />} />
-												<Route path='/employees' element={<UserDashboard />} />
+												<Route
+													path='/employees'
+													element={<UserDashboard role={user.role} />}
+												/>
 												<Route path='/employee/:id' element={<EditUser />} />
 											</>
 										)}
