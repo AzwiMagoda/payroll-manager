@@ -16,10 +16,14 @@ import React, { useEffect, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SaveIcon from '@mui/icons-material/Save';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useStore } from '../../../app/stores/store';
-import { UserDetails } from '../../../app/models/userDetails';
+import { useStore } from '../../../../app/stores/store';
+import { UserDetails } from '../../../../app/models/userDetails';
 
-export default observer(function EditUser() {
+interface Props {
+	role: string;
+}
+
+export default observer(function EditUser({ role }: Props) {
 	let navigate = useNavigate();
 	const { id } = useParams();
 	const [user, setUser] = useState<UserDetails>();

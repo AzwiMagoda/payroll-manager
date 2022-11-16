@@ -20,7 +20,7 @@ import RemunerationDashboard from '../../features/remuneration/RemunerationDashb
 import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
 import AdminDashboard from '../../features/admin/dashboard/AdminDashboard';
 import UserDashboard from '../../features/admin/users/UserDashboard';
-import EditUser from '../../features/admin/users/EditUser';
+import EditUser from '../../features/admin/users/editUser/EditUser';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -131,7 +131,10 @@ function App() {
 													path='/employees'
 													element={<UserDashboard role={user.role} />}
 												/>
-												<Route path='/employee/:id' element={<EditUser />} />
+												<Route
+													path='/employee/:id'
+													element={<EditUser role={user.role} />}
+												/>
 											</>
 										)}
 										<Route path='*' element={<Error404 />} />
