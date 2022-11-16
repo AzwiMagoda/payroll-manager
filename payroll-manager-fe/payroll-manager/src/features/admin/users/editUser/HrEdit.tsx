@@ -9,6 +9,7 @@ import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import PersonIcon from '@mui/icons-material/Person';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
 
 export default function HrEdit() {
 	const items = [
@@ -16,6 +17,11 @@ export default function HrEdit() {
 			icon: <PersonIcon />,
 			title: 'Employee Profile',
 			form: <EmployeeProfileForm />,
+		},
+		{
+			icon: <PermContactCalendarIcon />,
+			title: 'Contact Details',
+			form: <ContactDetailsForm />,
 		},
 	];
 
