@@ -16,6 +16,7 @@ import { Remuneration } from '../models/remuneration';
 import { RemunerationGraph } from '../models/remunerationGraph';
 import { UserDetails } from '../models/userDetails';
 import { RegisterDto } from '../models/register';
+import { CreateEmployee } from '../models/createEmployee';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -79,10 +80,10 @@ const Auth = {
 };
 
 const Employees = {
+	createEmployee: (employee: CreateEmployee) =>
+		requests.post<string>(`employee/create`, employee),
 	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
 	getEmployeeById: () => requests.get<Employee>(`employee`),
-	// addNewEmployee: (employee: Employee) =>
-	// 	requests.post<Employee>('/Employee/CreateEmployee', employee),
 	updateEmployeeDetails: (employee: Employee) =>
 		requests.put<void>(`employee/update`, employee),
 	// deleteEmployee: (id: string) =>

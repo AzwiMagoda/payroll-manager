@@ -36,9 +36,9 @@ namespace PayrollManager.Api.Auth.Controllers
             var userName = $"{registerDto.FirstName.ToLower()}.{registerDto.LastName.ToLower()}";
             var domain = "test";
 
-            var exists = _userManager.Users.First(x => x.UserName == userName) != null;
+            var exists = _userManager.Users.FirstOrDefault(x => x.UserName == userName);
 
-            if (!exists)
+            if (exists == null)
             {
                 var user = new UserEntity
                 {

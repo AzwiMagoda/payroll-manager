@@ -34,10 +34,10 @@ export default function CreateUser() {
 
 	const [user, setUser] = useState<RegisterDto>();
 	const [employee, setEmployee] = useState<CreateEmployee>();
-	const [id, setId] = useState('');
 
 	const {
 		authStore: { createUser },
+		employeeStore: { createEmployee },
 	} = useStore();
 
 	useEffect(() => {
@@ -49,8 +49,11 @@ export default function CreateUser() {
 			var response = await createUser(user);
 
 			if (response) {
-				setId(response);
+				if (employee) {
+					await createEmployee(employee, response);
+				}
 			}
+			console.log(response);
 		}
 	};
 

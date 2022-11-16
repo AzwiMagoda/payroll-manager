@@ -122,6 +122,7 @@ namespace PayrollManager.Application.Employee.Services
                         EmployeeId = employee.Id,
                         JobTitle = employee.JobTitle,
                         Department = employee.Department,
+                        Title = employee.Title,
                     };
 
                     await _employeeRepository.Create(employeeEntity);

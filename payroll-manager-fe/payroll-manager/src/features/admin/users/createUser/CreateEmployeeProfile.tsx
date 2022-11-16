@@ -9,7 +9,8 @@ import {
 	TextField,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { CreateEmployee } from '../../../../app/models/createEmployee';
 
 interface Props {
 	setEmployee: (params: any) => any;
@@ -28,6 +29,18 @@ export default observer(function CreateEmployeeProfile({
 	const [jobTitle, setJobTitle] = useState('');
 	const [department, setDepartment] = useState(0);
 	const [title, setTitle] = useState(0);
+
+	useEffect(() => {
+		var employee = new CreateEmployee(
+			titles[title],
+			firstName,
+			lastName,
+			departments[department],
+			jobTitle
+		);
+
+		setEmployee(employee);
+	}, [jobTitle, firstName, lastName, department, title]);
 
 	return (
 		<Grid

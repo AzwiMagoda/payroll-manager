@@ -9,7 +9,8 @@ import {
 	MenuItem,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { RegisterDto } from '../../../../app/models/register';
 
 interface Props {
 	setUser: (params: any) => any;
@@ -32,6 +33,18 @@ export default observer(function UserForm({
 	const [phoneNumber, setPhoneNumber] = useState('');
 
 	const [password, setPassword] = useState('');
+
+	useEffect(() => {
+		var user = new RegisterDto(
+			password,
+			firstName,
+			lastName,
+			phoneNumber,
+			roles[role]
+		);
+
+		setUser(user);
+	}, [password, firstName, lastName, phoneNumber, role]);
 
 	return (
 		<Grid
