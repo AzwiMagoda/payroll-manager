@@ -20,6 +20,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HouseboatIcon from '@mui/icons-material/Houseboat';
 import { observer } from 'mobx-react-lite';
 import { User } from '../../models/user';
+import NavbarMap from './NavbarMap';
 
 const items = [
 	{
@@ -53,9 +54,18 @@ const items = [
 		icon: <PictureAsPdfIcon fontSize='small' />,
 		title: 'Payslips',
 	},
-	//contacts
 	//performance
 ];
+
+const employeeLink = [
+	{
+		href: '/employees',
+		icon: <PeopleAltIcon fontSize='small' />,
+		title: 'Employees',
+	},
+];
+
+const hrItems = [...items, ...employeeLink];
 
 const adminItems = [
 	{
@@ -76,16 +86,6 @@ interface Props {
 }
 
 export default observer(function Sidebar({ employee, user }: Props) {
-	useEffect(() => {
-		if (user.role === 'HR' || (user.role === 'Manager' && items.length < 6)) {
-			items.push({
-				href: '/employees',
-				icon: <PeopleAltIcon fontSize='small' />,
-				title: 'Employees',
-			});
-		}
-	}, []);
-
 	const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'), {
 		defaultMatches: true,
 		noSsr: false,
@@ -155,27 +155,15 @@ export default observer(function Sidebar({ employee, user }: Props) {
 					}}
 				/>
 				<Box sx={{ flexGrow: 1 }}>
-					{user.role === 'Admin'
-						? adminItems.map((item, i) => (
-								<>
-									<NavItem
-										key={i}
-										icon={item.icon}
-										href={item.href}
-										title={item.title}
-									/>
-								</>
-						  ))
-						: items.map((item, i) => (
-								<>
-									<NavItem
-										key={i}
-										icon={item.icon}
-										href={item.href}
-										title={item.title}
-									/>
-								</>
-						  ))}
+					<NavbarMap
+						items={
+							user.role === 'Admin'
+								? adminItems
+								: user.role === 'HR'
+								? hrItems
+								: items
+						}
+					/>
 				</Box>
 			</Box>
 		</>
