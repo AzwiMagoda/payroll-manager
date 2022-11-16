@@ -1,20 +1,16 @@
 import { Container, Tabs, Tab, Box, Card } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { useStore } from '../../../app/stores/store';
 import CreateUser from './createUser/CreateUser';
 import UserList from './UserList';
 
-export default function UserDashboard() {
+interface Props {
+	role: string;
+}
+
+export default observer(function UserDashboard({ role }: Props) {
 	const [activeMenu, setActiveMenu] = useState(0);
-
-	const {
-		authStore: { getUserList, users },
-	} = useStore();
-
-	useEffect(() => {
-		getUserList();
-		console.log(users);
-	}, []);
 
 	return (
 		<Container maxWidth={false}>
@@ -24,13 +20,13 @@ export default function UserDashboard() {
 				aria-label='user details'
 			>
 				<Tab label='User List'></Tab>
-				<Tab label='Create User'></Tab>
+				{role === 'Admin' && <Tab label='Create User'></Tab>}
 			</Tabs>
 
 			<Box sx={{ mt: 3 }}>
-				{activeMenu === 0 && <UserList users={users} />}
-				{activeMenu === 1 && <CreateUser />}
+				{activeMenu === 0 && <UserList />}
+				{activeMenu === 1 && role === 'Admin' && <CreateUser />}
 			</Box>
 		</Container>
 	);
-}
+});

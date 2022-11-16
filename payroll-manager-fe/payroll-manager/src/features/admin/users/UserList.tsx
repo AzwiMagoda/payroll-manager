@@ -12,14 +12,20 @@ import React, { useEffect } from 'react';
 import { UserDetails } from '../../../app/models/userDetails';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../../app/stores/store';
 
-interface Props {
-	users: UserDetails[];
-}
-export default observer(function UserList({ users }: Props) {
+// interface Props {
+// 	users: UserDetails[];
+// }
+
+export default observer(function UserList() {
+	const {
+		authStore: { getUserList, users },
+	} = useStore();
+
 	useEffect(() => {
-		console.log(users);
-	});
+		getUserList();
+	}, [getUserList]);
 
 	let navigate = useNavigate();
 
