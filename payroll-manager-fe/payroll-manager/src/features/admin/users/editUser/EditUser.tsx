@@ -18,6 +18,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../../../app/stores/store';
 import { UserDetails } from '../../../../app/models/userDetails';
+import AdminEdit from './AdminEdit';
+import HrEdit from './HrEdit';
 
 interface Props {
 	role: string;
@@ -27,9 +29,6 @@ export default observer(function EditUser({ role }: Props) {
 	let navigate = useNavigate();
 	const { id } = useParams();
 	const [user, setUser] = useState<UserDetails>();
-	const [email, setEmail] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState('');
-	const [username, setUsername] = useState('');
 
 	const title = 'Edit User';
 
@@ -45,9 +44,6 @@ export default observer(function EditUser({ role }: Props) {
 		var u = users.find((u) => u.id === id);
 		if (u) {
 			setUser(u);
-			setEmail(u.email);
-			setPhoneNumber(u.phoneNumber);
-			setUsername(u.userName);
 		}
 	}, [user]);
 
@@ -113,14 +109,16 @@ export default observer(function EditUser({ role }: Props) {
 										>
 											Save Changes
 										</Button>
-										<Button
-											sx={{ mr: 1 }}
-											onClick={() => onStatusClick()}
-											color={user.isActive ? 'error' : 'success'}
-											variant='contained'
-										>
-											{user.isActive ? 'Deactivate' : 'Activate'} User
-										</Button>
+										{role === 'Admin' && (
+											<Button
+												sx={{ mr: 1 }}
+												onClick={() => onStatusClick()}
+												color={user.isActive ? 'error' : 'success'}
+												variant='contained'
+											>
+												{user.isActive ? 'Deactivate' : 'Activate'} User
+											</Button>
+										)}
 									</Stack>
 								</Stack>
 							</CardContent>
@@ -129,104 +127,14 @@ export default observer(function EditUser({ role }: Props) {
 
 					<Box sx={{ mt: 3 }}>
 						<Card>
-							{user && (
-								<CardContent>
-									<Grid
-										container
-										direction='row'
-										justifyContent='space-around'
-										alignItems='center'
-									>
-										<Grid item xs={4}>
-											<Stack
-												direction='column'
-												justifyContent='flex-start'
-												alignItems='center'
-											>
-												<FormControl fullWidth>
-													<TextField
-														margin='normal'
-														id='email'
-														label='Email Address'
-														name='email'
-														type='email'
-														autoFocus
-														value={email}
-														onChange={(e: any) => setEmail(e.target.value)}
-													/>
-												</FormControl>
-												<FormControl fullWidth>
-													<TextField
-														margin='normal'
-														id='phoneNumber'
-														label='Phone Number'
-														name='phoneNumber'
-														type='text'
-														value={phoneNumber}
-														onChange={(e: any) =>
-															setPhoneNumber(e.target.value)
-														}
-													/>
-												</FormControl>
-												<FormControl fullWidth>
-													<TextField
-														margin='normal'
-														id='username'
-														label='Username'
-														name='username'
-														type='text'
-														value={username}
-														onChange={(e: any) => setUsername(e.target.value)}
-													/>
-												</FormControl>
-											</Stack>
-										</Grid>
-										<Divider
-											sx={{
-												borderColor: '#2D3748',
-												mx: 3,
-											}}
-											orientation='vertical'
-											variant='middle'
-											flexItem
-										/>
-										<Grid item xs={4}>
-											<Stack
-												direction='column'
-												justifyContent='space-evenly'
-												alignItems='center'
-											>
-												<FormControl fullWidth>
-													<TextField
-														margin='normal'
-														id='updated'
-														name='updated'
-														type='text'
-														label='Date Updated'
-														value={user.updatedDate}
-														InputProps={{
-															readOnly: true,
-														}}
-													/>
-												</FormControl>
-												<FormControl fullWidth>
-													<TextField
-														margin='normal'
-														id='activated'
-														name='activated'
-														type='text'
-														label='Date Activated'
-														value={user.statusUpdateDate}
-														InputProps={{
-															readOnly: true,
-														}}
-													/>
-												</FormControl>
-											</Stack>
-										</Grid>
-									</Grid>
-								</CardContent>
-							)}
+							<CardContent>
+								{user && (
+									<>
+										{role === 'Admin' && <AdminEdit user={user} />}{' '}
+										{role === 'HR' && <HrEdit />}
+									</>
+								)}
+							</CardContent>
 						</Card>
 					</Box>
 				</>
