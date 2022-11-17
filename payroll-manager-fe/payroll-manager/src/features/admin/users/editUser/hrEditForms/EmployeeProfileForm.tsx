@@ -16,7 +16,28 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 		cellphone: user.phoneNumber,
 	};
 
+	const departments = ['HR', 'Technology', 'Finance'];
+	const titles = ['Mr', 'Miss', 'Mrs', 'Dr', 'Prof'];
+
 	const [employee, setEmployee] = useState<Employee>(initial);
+
+	const textFields = [
+		{
+			id: 'name',
+			value: employee.name,
+			label: 'First Name',
+		},
+		{
+			id: 'surname',
+			value: employee.surname,
+			label: 'Last Name',
+		},
+		{
+			id: 'jobTitle',
+			value: employee.jobTitle,
+			label: 'Job Title',
+		},
+	];
 
 	const {
 		employeeStore: { updateEmployee },
@@ -24,7 +45,7 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 
 	const onChange = (id: string, value: string) => {
 		switch (id) {
-			case 'firstName':
+			case 'name':
 				initial.name = value;
 				break;
 		}
@@ -45,20 +66,22 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 					justifyContent='flex-start'
 					alignItems='center'
 				>
-					<TextField
-						margin='normal'
-						id='firstName'
-						label='First Name'
-						name='firstName'
-						type='text'
-						autoFocus
-						autoComplete='off'
-						fullWidth
-						value={employee.name}
-						onChange={(
-							e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-						) => onChange(e.target.id, e.target.value)}
-					/>
+					{textFields.map((item, index) => (
+						<TextField
+							margin='normal'
+							id={item.id}
+							label={item.label}
+							name={item.id}
+							type='text'
+							autoFocus
+							autoComplete='off'
+							fullWidth
+							value={item.value}
+							onChange={(
+								e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+							) => onChange(e.target.id, e.target.value)}
+						/>
+					))}
 				</Stack>
 			</Grid>
 

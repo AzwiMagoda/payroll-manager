@@ -34,6 +34,10 @@ namespace PayrollManager.Api.Employee.Autofac
                 .As<IRemunerationService>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<GeneralService>()
+                .As<IGeneralService>()
+                .InstancePerLifetimeScope();
+
             #endregion
 
             #region Repositories

@@ -49,9 +49,15 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Repository.Generic
             Task<TEntity> entity = dbSet.AsNoTracking().AsQueryable().FirstOrDefaultAsync((x) => x.EmployeeId == employeeId);
             return entity;
         }
+
         public IEnumerable<TEntity> GetAllByEmployeeId(Guid employeeId)
         {
             return dbSet.Where(x => x.EmployeeId == employeeId);
+        }
+
+        public IEnumerable<TEntity> GetAllByEmployeeIdList(IEnumerable<Guid> employeeIds)
+        {
+            return dbSet.Where(x => employeeIds.Contains(x.EmployeeId));
         }
 
         public async Task Update(TEntity entity)
