@@ -14,7 +14,7 @@ export default observer(function ProfileDashboard() {
 	} = useStore();
 
 	useEffect(() => {
-		getAllDependants(currentEmployee!.id);
+		getAllDependants(currentEmployee!.id!);
 	});
 
 	return (

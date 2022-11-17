@@ -41,14 +41,14 @@ export default class AuthStore {
 	};
 
 	logout = async () => {
+		await agent.Auth.logout();
+
 		store.commonStore.setToken(null);
 		window.localStorage.removeItem('jwt');
 		window.localStorage.removeItem('employeeDetails');
 		window.localStorage.removeItem('user');
 		this.user = null;
 		store.employeeStore.employeeLogOut();
-
-		await agent.Auth.logout();
 	};
 
 	setUser = (user: User) => {

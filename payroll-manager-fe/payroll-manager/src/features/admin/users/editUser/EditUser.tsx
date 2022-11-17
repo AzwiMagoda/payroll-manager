@@ -130,8 +130,8 @@ export default observer(function EditUser({ role }: Props) {
 							<CardContent>
 								{user && (
 									<>
-										{role === 'Admin' && <AdminEdit user={user} />}{' '}
-										{role === 'HR' && <HrEdit />}
+										{role === 'Admin' && <AdminEdit user={user} />}
+										{role === 'HR' && <HrEdit user={user} />}
 									</>
 								)}
 							</CardContent>

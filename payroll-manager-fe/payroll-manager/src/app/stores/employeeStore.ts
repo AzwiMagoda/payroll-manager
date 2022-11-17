@@ -67,6 +67,28 @@ export default class EmployeeStore {
 		}
 	};
 
+	updateEmployee = async (employee: Employee) => {
+		this.loading = true;
+		try {
+			const response = agent.Employees.updateEmployee(employee);
+
+			toast.promise(response, {
+				pending: 'Submitting...',
+				success: 'Updated',
+				error: 'Failed to update',
+			});
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
 	getAllEmployees = async () => {
 		this.loading = true;
 		try {

@@ -26,7 +26,7 @@ export default observer(function Dependants() {
 		email: '',
 		createdDate: '',
 		id: uuidv4(),
-		employeeId: currentEmployee!.id,
+		employeeId: currentEmployee!.id!,
 	};
 
 	const handleAddDependant = () => {

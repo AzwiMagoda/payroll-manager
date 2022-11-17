@@ -80,7 +80,9 @@ namespace PayrollManager.Api.Auth.Controllers
                 UserName = x.UserName,
                 Role = GetUserRole(_userManager, x),
                 CreatedDate = x.CreatedDate,
-                HasEmployeeProfile = HasEmployeeProfile(_payrollDbContext, x.Id)
+                HasEmployeeProfile = HasEmployeeProfile(_payrollDbContext, x.Id),
+                FirstName = x.FirstName,
+                LastName = x.LastName,
             }).OrderByDescending(x => x.CreatedDate).ToList();
 
             return Ok(userEntity);

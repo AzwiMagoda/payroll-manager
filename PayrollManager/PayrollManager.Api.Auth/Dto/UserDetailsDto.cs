@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace PayrollManager.Api.Auth.Dto
 {
@@ -14,6 +15,7 @@ namespace PayrollManager.Api.Auth.Dto
         public string Role { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool HasEmployeeProfile { get; set; }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

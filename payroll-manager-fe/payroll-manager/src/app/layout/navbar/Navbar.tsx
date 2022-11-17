@@ -42,7 +42,7 @@ export default observer(function Navbar({ employee }: Props) {
 
 	useEffect(() => {
 		if (employee) {
-			getNotifications(employee.id);
+			getNotifications(employee.id!);
 		}
 	}, []);
 

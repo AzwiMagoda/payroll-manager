@@ -25,11 +25,11 @@ export default observer(function Details({ employee }: Props) {
 		{ title: 'Location', description: employee.location },
 		{
 			title: 'Hire Date',
-			description: new Date(employee.hireDate).toDateString(),
+			description: new Date(employee.hireDate!).toDateString(),
 		},
 		{
 			title: 'Original Hire Date',
-			description: new Date(employee.originalHireDate).toDateString(),
+			description: new Date(employee.originalHireDate!).toDateString(),
 		},
 		{ title: 'Time in Position', description: '2 years' },
 	];
@@ -55,7 +55,7 @@ export default observer(function Details({ employee }: Props) {
 						<GridDetailItem
 							key={index}
 							title={item.title}
-							description={item.description}
+							description={item.description!}
 						/>
 					))}
 				</Grid>
@@ -72,7 +72,7 @@ export default observer(function Details({ employee }: Props) {
 						<GridDetailItem
 							key={index}
 							title={item.title}
-							description={item.description}
+							description={item.description!}
 						/>
 					))}
 				</Grid>

@@ -82,12 +82,12 @@ const Auth = {
 const Employees = {
 	createEmployee: (employee: CreateEmployee) =>
 		requests.post<string>(`employee/create`, employee),
+	updateEmployee: (employee: Employee) =>
+		requests.post<string>(`employee/update`, employee),
 	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
 	getEmployeeById: () => requests.get<Employee>(`employee`),
 	updateEmployeeDetails: (employee: Employee) =>
 		requests.put<void>(`employee/update`, employee),
-	// deleteEmployee: (id: string) =>
-	// 	requests.del<void>(`/Employee/DeleteEmployee/${id}`),
 	updatePersonalInformation: (info: PersonalInfoForm) =>
 		requests.put<Employee>(`employee/update/personalinfo`, info),
 	updateContactDetails: (info: ContactDetailsForm) =>

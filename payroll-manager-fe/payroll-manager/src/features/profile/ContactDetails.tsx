@@ -31,10 +31,10 @@ export default observer(function ContactDetails() {
 	);
 
 	const initialValues: ContactDetailsForm = {
-		cellphone: currentEmployee!.cellphone,
-		physicalAddress: currentEmployee!.physicalAddress,
-		postalAddress: currentEmployee!.postalAddress,
-		telephone: currentEmployee!.telephone,
+		cellphone: currentEmployee!.cellphone!,
+		physicalAddress: currentEmployee!.physicalAddress!,
+		postalAddress: currentEmployee!.postalAddress!,
+		telephone: currentEmployee!.telephone!,
 	};
 
 	const validationSchema = yup.object({

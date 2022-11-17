@@ -8,4 +8,6 @@ export interface UserDetails {
 	updatedDate: string;
 	role: string;
 	hasEmployeeProfile: boolean;
+	firstName: string;
+	lastName: string;
 }

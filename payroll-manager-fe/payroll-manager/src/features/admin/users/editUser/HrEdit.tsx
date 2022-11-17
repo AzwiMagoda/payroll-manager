@@ -10,13 +10,18 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
+import { UserDetails } from '../../../../app/models/userDetails';
 
-export default function HrEdit() {
+interface Props {
+	user: UserDetails;
+}
+
+export default function HrEdit({ user }: Props) {
 	const items = [
 		{
 			icon: <PersonIcon />,
 			title: 'Employee Profile',
-			form: <EmployeeProfileForm />,
+			form: <EmployeeProfileForm user={user} />,
 		},
 		{
 			icon: <PermContactCalendarIcon />,
