@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react';
 import AuthStore from './authStore';
 import CommonStore from './commonStore';
 import EmployeeStore from './employeeStore';
+import GeneralStore from './generalStore';
 import ModalStore from './modalStore';
 import PayslipStore from './payslipStore';
 import RemunerationStore from './remunerationStore';
@@ -15,6 +16,7 @@ interface Store {
 	teamStore: TeamStore;
 	payslipStore: PayslipStore;
 	remunerationStore: RemunerationStore;
+	generalStore: GeneralStore;
 }
 
 export const store: Store = {
@@ -25,6 +27,7 @@ export const store: Store = {
 	teamStore: new TeamStore(),
 	payslipStore: new PayslipStore(),
 	remunerationStore: new RemunerationStore(),
+	generalStore: new GeneralStore(),
 };
 
 export const StoreContext = createContext(store);

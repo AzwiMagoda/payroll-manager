@@ -247,6 +247,102 @@
         "POST"
       ]
     },
+    //employee
+    {
+      "DownstreamPathTemplate": "/api/General/GetTitles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/titleList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetManagerList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/managerList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetTeamList/{department}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/teamList/{department}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetTeamList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/teamList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetDepartmentList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/departmentList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
     //remuneration
     {
       "DownstreamPathTemplate": "/api/Remuneration/GetRemunerationGraphData",

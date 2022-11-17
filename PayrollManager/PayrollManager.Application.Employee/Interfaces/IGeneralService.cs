@@ -10,6 +10,9 @@ namespace PayrollManager.Application.Employee.Interfaces
     public interface IGeneralService
     {
         IEnumerable<string> GetTitles();
-        IEnumerable<ManagerDto> GetManagerList();
+        IEnumerable<ListDto> GetManagerList();
+        IEnumerable<ListDto> GetTeamList();
+        IEnumerable<ListDto> GetTeamList(string department);
+        IEnumerable<ListDto> GetDepartmentList();
     }
 }

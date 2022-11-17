@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PayrollManager.Application.Employee.Dto
 {
-    public class ManagerDto
+    public class ListDto
     {
-        public Guid EmployeeId { get; set; }
-        public string FullName { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PayrollManager.Api.Employee.Controllers
 {
-    //[Authorize(Policy = "AuthenticatedPolicy")]
+    [Authorize(Policy = "AuthenticatedPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class GeneralController : ControllerBase
@@ -26,9 +26,30 @@ namespace PayrollManager.Api.Employee.Controllers
 
         [HttpGet]
         [Route("GetManagerList")]
-        public ActionResult<IEnumerable<ManagerDto>> GetManagerList()
+        public ActionResult<IEnumerable<ListDto>> GetManagerList()
         {
             return Ok(_generalService.GetManagerList());
+        }
+
+        [HttpGet]
+        [Route("GetTeamList")]
+        public ActionResult<IEnumerable<ListDto>> GetTeamList()
+        {
+            return Ok(_generalService.GetTeamList());
+        }
+
+        [HttpGet]
+        [Route("GetTeamList/{department}")]
+        public ActionResult<IEnumerable<ListDto>> GetTeamList(string department)
+        {
+            return Ok(_generalService.GetTeamList(department));
+        }
+
+        [HttpGet]
+        [Route("GetDepartmentList")]
+        public ActionResult<IEnumerable<ListDto>> GetDepartmentList()
+        {
+            return Ok(_generalService.GetDepartmentList());
         }
     }
 }

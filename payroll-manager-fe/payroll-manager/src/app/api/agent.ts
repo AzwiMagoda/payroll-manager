@@ -17,6 +17,7 @@ import { RemunerationGraph } from '../models/remunerationGraph';
 import { UserDetails } from '../models/userDetails';
 import { RegisterDto } from '../models/register';
 import { CreateEmployee } from '../models/createEmployee';
+import { ListDto } from '../models/listDto';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -135,6 +136,15 @@ const Remunerations = {
 		requests.get<RemunerationGraph>(`remuneration/graphData`),
 };
 
+const General = {
+	getTitle: () => requests.get<string[]>(`general/titleList`),
+	getManagerList: () => requests.get<ListDto[]>(`general/managerList`),
+	getTeamList: () => requests.get<ListDto[]>(`general/teamList`),
+	getTeamListDepartment: (department: string) =>
+		requests.get<ListDto[]>(`general/teamList/${department}`),
+	getDepartmentList: () => requests.get<ListDto[]>(`general/departmentList`),
+};
+
 const agent = {
 	Auth,
 	Employees,
@@ -142,6 +152,7 @@ const agent = {
 	Team,
 	Payslips,
 	Remunerations,
+	General,
 };
 
 export default agent;

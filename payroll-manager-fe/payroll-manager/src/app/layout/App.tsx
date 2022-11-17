@@ -33,14 +33,25 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 function App() {
-	useEffect(() => {
-		document.title = 'Home | PayME';
-	}, []);
-
 	const {
 		authStore: { user, setUser, loading, setLoading },
 		employeeStore: { currentEmployee, setCurrentEmployee },
+		generalStore: {
+			getDepartmentList,
+			getTitleList,
+			getManagerList,
+			getTeamList,
+		},
 	} = useStore();
+
+	// getTeamList();
+	// getTitleList();
+	// getDepartmentList();
+	// getManagerList();
+
+	useEffect(() => {
+		document.title = 'Home | PayME';
+	}, []);
 
 	useEffect(() => {
 		if (user === null) {
@@ -56,6 +67,13 @@ function App() {
 					setCurrentEmployee(foundEmployee);
 				}
 			}
+		}
+
+		if (user) {
+			getTeamList();
+			getTitleList();
+			getDepartmentList();
+			getManagerList();
 		}
 	});
 

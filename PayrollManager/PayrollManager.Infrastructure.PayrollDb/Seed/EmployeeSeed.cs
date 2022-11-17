@@ -65,7 +65,7 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Seed
                         Name = "Sheila",
                         Surname = "Smithson",
                         Company = "42Company",
-                        Department = "HR",
+                        Department = "Human Resources",
                         JobTitle = "Head of Human Resources",
                         Manager = "Adam",
                         TeamName = "Resourcerers",
