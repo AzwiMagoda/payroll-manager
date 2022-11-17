@@ -112,7 +112,7 @@ export default class EmployeeStore {
 	getCurrentEmployee = async () => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.getEmployeeById();
+			const employee = await agent.Employees.getCurrentEmployee();
 
 			runInAction(() => {
 				this.loading = false;
@@ -127,6 +127,15 @@ export default class EmployeeStore {
 			runInAction(() => {
 				this.loading = false;
 			});
+		}
+	};
+
+	getEmployee = async (employeeId: string) => {
+		try {
+			const employee = await agent.Employees.getEmployee(employeeId);
+			return employee;
+		} catch (error) {
+			console.log(error);
 		}
 	};
 

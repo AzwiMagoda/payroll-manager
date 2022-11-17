@@ -153,7 +153,7 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/api/Employee/GetEmployee",
+      "DownstreamPathTemplate": "/api/Employee/GetCurrentEmployee",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -166,7 +166,26 @@
         "AllowedScopes": [
         ]
       },
-      "UpstreamPathTemplate": "/employee",
+      "UpstreamPathTemplate": "/employee/current",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/GetEmployee/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/{employeeId}",
       "UpstreamHttpMethod": [
         "GET"
       ]

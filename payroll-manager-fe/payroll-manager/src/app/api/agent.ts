@@ -86,7 +86,9 @@ const Employees = {
 	updateEmployee: (employee: Employee) =>
 		requests.put<string>(`employee/update`, employee),
 	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
-	getEmployeeById: () => requests.get<Employee>(`employee`),
+	getCurrentEmployee: () => requests.get<Employee>(`employee/current`),
+	getEmployee: (employeeId: string) =>
+		requests.get<Employee>(`employee/${employeeId}`),
 	updateEmployeeDetails: (employee: Employee) =>
 		requests.put<void>(`employee/update`, employee),
 	updatePersonalInformation: (info: PersonalInfoForm) =>

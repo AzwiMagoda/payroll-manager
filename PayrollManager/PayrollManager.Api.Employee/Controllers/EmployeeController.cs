@@ -38,10 +38,19 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
-        [Route("GetEmployee")]
-        public async Task<ActionResult<EmployeeDto>> GetEmployee()
+        [Route("GetCurrentEmployee")]
+        public async Task<ActionResult<EmployeeDto>> GetCurrentEmployee()
         {
             var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+            var employee = await _employeeService.GetEmployee(employeeId);
+            return Ok(employee);
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "AdminOrHR")]
+        [Route("GetEmployee/{employeeId}")]
+        public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid employeeId)
+        {
             var employee = await _employeeService.GetEmployee(employeeId);
             return Ok(employee);
         }
