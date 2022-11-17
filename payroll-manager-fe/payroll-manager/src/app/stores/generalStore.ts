@@ -4,9 +4,9 @@ import { ListDto } from '../models/listDto';
 
 export default class GeneralStore {
 	teamList = new Array<ListDto>();
-	ManagerList = new Array<ListDto>();
-	DepartmentList = new Array<ListDto>();
-	TitleList = new Array<string>();
+	managerList = new Array<ListDto>();
+	departmentList = new Array<ListDto>();
+	titleList = new Array<string>();
 
 	constructor() {
 		makeAutoObservable(this);
@@ -39,7 +39,7 @@ export default class GeneralStore {
 			const list = await agent.General.getManagerList();
 
 			runInAction(() => {
-				this.ManagerList = list;
+				this.managerList = list;
 			});
 		} catch (error) {
 			console.log(error);
@@ -51,7 +51,7 @@ export default class GeneralStore {
 			const list = await agent.General.getDepartmentList();
 
 			runInAction(() => {
-				this.DepartmentList = list;
+				this.departmentList = list;
 			});
 		} catch (error) {
 			console.log(error);
@@ -63,7 +63,7 @@ export default class GeneralStore {
 			const list = await agent.General.getTitle();
 
 			runInAction(() => {
-				this.TitleList = list;
+				this.titleList = list;
 			});
 		} catch (error) {
 			console.log(error);
