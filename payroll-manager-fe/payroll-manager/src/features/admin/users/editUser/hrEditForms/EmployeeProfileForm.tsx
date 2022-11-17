@@ -70,6 +70,7 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 			id: 'department',
 			value: department,
 			onChange: setDepartment,
+			labelId: 'lblDepartment',
 		},
 		{
 			label: 'Manager',
@@ -77,6 +78,7 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 			id: 'manager',
 			value: manager,
 			onChange: setManager,
+			labelId: 'lblManager',
 		},
 		{
 			label: 'Team',
@@ -84,6 +86,7 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 			id: 'team',
 			value: team,
 			onChange: setTeam,
+			labelId: 'lblTeam',
 		},
 	];
 
@@ -174,56 +177,24 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 					justifyContent='flex-start'
 					alignItems='center'
 				>
-					<FormControl fullWidth margin='normal'>
-						<InputLabel id='lblDepartment'>Department</InputLabel>
-						<Select
-							labelId='lblDepartment'
-							label='Departemnt'
-							id='department'
-							value={department}
-							onChange={(e) => setDepartment(e.target.value)}
-						>
-							{departmentList.map((department, i) => (
-								<MenuItem key={i} value={department.id}>
-									{department.name}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-
-					<FormControl fullWidth margin='normal'>
-						<InputLabel id='lblManager'>Manager</InputLabel>
-						<Select
-							labelId='lblManager'
-							label='Manager'
-							id='manager'
-							value={manager}
-							onChange={(e) => setManager(e.target.value)}
-						>
-							{managerList.map((manager, i) => (
-								<MenuItem key={i} value={manager.id}>
-									{manager.name}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
-
-					<FormControl fullWidth margin='normal'>
-						<InputLabel id='lblTeam'>Team</InputLabel>
-						<Select
-							labelId='lblTeam'
-							label='Team'
-							id='team'
-							value={team}
-							onChange={(e) => setTeam(e.target.value)}
-						>
-							{teamList.map((team, i) => (
-								<MenuItem key={i} value={team.id}>
-									{team.name}
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
+					{selects.map((item, index) => (
+						<FormControl fullWidth margin='normal' key={index}>
+							<InputLabel id={item.labelId}>{item.label}</InputLabel>
+							<Select
+								labelId={item.labelId}
+								label={item.label}
+								id={item.id}
+								value={item.value}
+								onChange={(e) => item.onChange(e.target.value)}
+							>
+								{item.list.map((listItem, i) => (
+									<MenuItem key={i} value={listItem.id}>
+										{listItem.name}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+					))}
 				</Stack>
 			</Grid>
 		</Grid>
