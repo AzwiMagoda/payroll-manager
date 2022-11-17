@@ -26,15 +26,13 @@ export default observer(function ContactDetails() {
 
 	const [editMode, setEditMode] = useState(false);
 	const [readOnly, setReadOnly] = useState(true);
-	const [checked, setChecked] = useState(
-		currentEmployee!.physicalAddress === currentEmployee!.postalAddress
-	);
+	const [checked, setChecked] = useState(true);
 
 	const initialValues: ContactDetailsForm = {
-		cellphone: currentEmployee!.cellphone!,
-		physicalAddress: currentEmployee!.physicalAddress!,
-		postalAddress: currentEmployee!.postalAddress!,
-		telephone: currentEmployee!.telephone!,
+		cellphone: '',
+		physicalAddress: '',
+		postalAddress: '',
+		telephone: '',
 	};
 
 	const validationSchema = yup.object({

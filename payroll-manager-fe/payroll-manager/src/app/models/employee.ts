@@ -8,22 +8,14 @@ export interface Employee {
 	department?: string;
 	teamName?: string;
 	jobTitle?: string;
-	email?: string;
-	telephone?: string;
-	cellphone?: string;
-	physicalAddress?: string;
-	postalAddress?: string;
 	createdDate?: string;
+	employeeId?: string;
 	managerEmployeeId?: string;
 	employeeNumber?: string;
 	employeeType?: string;
 	jobType?: string;
 	location?: string;
-	hireDate?: Date;
-	originalHireDate?: Date;
+	hireDate?: string;
+	originalHireDate?: string;
 	teamId?: string;
 }
-
-// export class Employee implements Employee {
-// 	constructor() {}
-// }

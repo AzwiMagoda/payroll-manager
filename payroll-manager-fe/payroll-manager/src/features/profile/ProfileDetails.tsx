@@ -28,7 +28,7 @@ export default observer(function ProfileDetails({ employee }: Props) {
 						{employee.name} {employee.surname}
 					</Typography>
 					<Typography color='textSecondary' variant='body2'>
-						{employee.email}
+						{employee.name}.{employee.surname}@42Company.com
 					</Typography>
 					<Typography color='textSecondary' variant='body2'>
 						{employee.createdDate}

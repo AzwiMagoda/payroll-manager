@@ -29,7 +29,7 @@ export default observer(function PersonalInfo() {
 
 	const initialValues: PersonalInfoForm = {
 		department: currentEmployee!.department ?? '',
-		email: currentEmployee!.email ?? '',
+		email: 'name.surname@42Company,com',
 		jobTitle: currentEmployee!.jobTitle ?? '',
 		name: currentEmployee!.name ?? '',
 		surname: currentEmployee!.surname ?? '',

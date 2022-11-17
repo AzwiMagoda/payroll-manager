@@ -84,7 +84,7 @@ const Employees = {
 	createEmployee: (employee: CreateEmployee) =>
 		requests.post<string>(`employee/create`, employee),
 	updateEmployee: (employee: Employee) =>
-		requests.post<string>(`employee/update`, employee),
+		requests.put<string>(`employee/update`, employee),
 	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
 	getEmployeeById: () => requests.get<Employee>(`employee`),
 	updateEmployeeDetails: (employee: Employee) =>

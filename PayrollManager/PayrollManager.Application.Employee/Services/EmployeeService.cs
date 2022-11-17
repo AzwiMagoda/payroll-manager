@@ -1,4 +1,5 @@
-﻿using PayrollManager.Application.Employee.Dto;
+﻿using AutoMapper;
+using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
 using PayrollManager.Infrastructure.PayrollDbContext;
@@ -20,18 +21,22 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IDependantRepository _dependantRepository;
         private readonly INotificationsRepository _notificationsRepository;
         private readonly PayrollDbContext _payrollDbContext;
+        private readonly IMapper _mapper;
+
 
         public EmployeeService(IEmployeeRepository employeeRepository,
                                IContactDetailsRepository contactDetailsRepository,
                                IDependantRepository dependantRepository,
                                INotificationsRepository notificationsRepository,
-                               PayrollDbContext payrollDbContext)
+                               PayrollDbContext payrollDbContext,
+                               IMapper mapper)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
             _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
             _payrollDbContext = payrollDbContext ?? throw new ArgumentNullException(nameof(payrollDbContext));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -82,11 +87,6 @@ namespace PayrollManager.Application.Employee.Services
                         Manager = employee.Manager,
                         TeamName = employee.TeamName,
                         Title = employee.Title,
-                        Cellphone = contactDetails.Cellphone,
-                        Email = contactDetails.Email,
-                        PhysicalAddress = contactDetails.PhysicalAddress,
-                        Telephone = contactDetails.Telephone,
-                        PostalAddress = contactDetails.PostalAddress,
                         CreatedDate = employee.CreatedDate,
                         EmployeeNumber = employee.EmployeeNumber,
                         EmployeeType = employee.EmployeeType,
@@ -143,17 +143,11 @@ namespace PayrollManager.Application.Employee.Services
         {
             try
             {
-                var employeeEntity = new EmployeeEntity
-                {
-                    Company = employee.Company,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Id = employee.Id,
-                    CreatedDate = DateTime.Now,
-                };
+                var entity = await _employeeRepository.GetByEmployeeId(employee.Id);
 
+                entity = _mapper.Map(employee, entity);
 
-                await _employeeRepository.Update(employeeEntity);
+                await _employeeRepository.Update(entity);
             }
             catch (Exception ex)
             {

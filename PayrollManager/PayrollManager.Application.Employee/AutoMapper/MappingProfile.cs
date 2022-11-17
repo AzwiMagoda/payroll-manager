@@ -13,7 +13,8 @@ namespace PayrollManager.Application.Employee.AutoMapper
     {
         public MappingProfile()
         {
-            CreateMap<EmployeeEntity, EmployeeDto>();
+            CreateMap<EmployeeEntity, EmployeeDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<EmployeeDto, EmployeeEntity>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<RemunerationEntity, RemunerationDto>();
         }
     }

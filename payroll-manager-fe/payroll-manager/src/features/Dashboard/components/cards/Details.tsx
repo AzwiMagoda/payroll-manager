@@ -35,10 +35,10 @@ export default observer(function Details({ employee }: Props) {
 	];
 
 	const contact = [
-		{ title: 'Email', description: employee.email },
-		{ title: 'Cellphone', description: employee.cellphone },
-		{ title: 'Telephone', description: employee.telephone },
-		{ title: 'Work Address', description: employee.physicalAddress },
+		{ title: 'Email', description: 'employee.email' },
+		{ title: 'Cellphone', description: 'employee.cellphone' },
+		{ title: 'Telephone', description: 'employee.telephone' },
+		{ title: 'Work Address', description: 'employee.physicalAddress' },
 	];
 
 	return (
