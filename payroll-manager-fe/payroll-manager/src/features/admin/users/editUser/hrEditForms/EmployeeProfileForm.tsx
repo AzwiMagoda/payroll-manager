@@ -9,7 +9,7 @@ import {
 	TextField,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Employee } from '../../../../../app/models/employee';
 import { ListDto } from '../../../../../app/models/listDto';
 import { UserDetails } from '../../../../../app/models/userDetails';
@@ -63,6 +63,30 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 		},
 	];
 
+	const selects = [
+		{
+			label: 'Department',
+			list: departmentList,
+			id: 'department',
+			value: department,
+			onChange: setDepartment,
+		},
+		{
+			label: 'Manager',
+			list: managerList,
+			id: 'manager',
+			value: manager,
+			onChange: setManager,
+		},
+		{
+			label: 'Team',
+			list: teamList,
+			id: 'team',
+			value: team,
+			onChange: setTeam,
+		},
+	];
+
 	const onChange = (id: string, value: string) => {
 		switch (id) {
 			case 'name':
@@ -78,13 +102,11 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 		if (list) setTeamList(list);
 	};
 
-	const onDepartmentChange = (value: string) => {
-		setDepartment(value);
-
-		var departmentName = departmentList.find((x) => x.id === value)!.name;
+	useEffect(() => {
+		var departmentName = departmentList.find((x) => x.id === department)!.name;
 
 		getTeamList(departmentName);
-	};
+	}, [department]);
 
 	return (
 		<Grid
@@ -159,7 +181,7 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 							label='Departemnt'
 							id='department'
 							value={department}
-							onChange={(e) => onDepartmentChange(e.target.value)}
+							onChange={(e) => setDepartment(e.target.value)}
 						>
 							{departmentList.map((department, i) => (
 								<MenuItem key={i} value={department.id}>
