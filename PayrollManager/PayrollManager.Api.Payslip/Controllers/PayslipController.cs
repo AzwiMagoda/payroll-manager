@@ -21,16 +21,20 @@ namespace PayrollManager.Api.Payslip.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllPayslips/{employeeId}")]
-        public ActionResult<IEnumerable<PayslipDto>> GetAllPayslips(Guid employeeId)
+        [Route("GetAllPayslips")]
+        public ActionResult<IEnumerable<PayslipDto>> GetAllPayslips()
         {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+
             return Ok(_payslipService.GetAllPayslip(employeeId));
         }
 
         [HttpGet]
-        [Route("GetLatestPayslip/{employeeId}")]
-        public ActionResult<PayslipDto> GetLatestPayslip(Guid employeeId)
+        [Route("GetLatestPayslip")]
+        public ActionResult<PayslipDto> GetLatestPayslip()
         {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+
             return Ok(_payslipService.GetLatestPayslip(employeeId));
         }
     }

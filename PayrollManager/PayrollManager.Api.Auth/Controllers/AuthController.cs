@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using PayrollManager.Api.Auth.Dto;
 using PayrollManager.Application.JwtAuthenticationManager.Services;
 using PayrollManager.Infrastructure.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace PayrollManager.Api.Auth.Controllers
 {
-
     [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
@@ -33,22 +34,12 @@ namespace PayrollManager.Api.Auth.Controllers
         {
             var user = await _userManager.Users
                         .FirstOrDefaultAsync(x => x.Email == loginDto.Email);
-            if (user == null) return Unauthorized();
+            if (user == null || user.IsActive == false) return Unauthorized();
 
             var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, true, false);
             var role = _userManager.GetRolesAsync(user).Result[0];
 
             return result.Succeeded ? CreateUserObject(user, role) : Unauthorized();
-        }
-
-        //[Authorize(Roles = "Recruiter, JobSeeker")]
-        [HttpGet("GetCurrentUser")]
-        public async Task<ActionResult<UserDto>> GetCurrentUser()
-        {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-            var role = await _userManager.GetRolesAsync(user);
-
-            return Ok(CreateUserObject(user, role[0]));
         }
 
         [HttpPost("Logout")]

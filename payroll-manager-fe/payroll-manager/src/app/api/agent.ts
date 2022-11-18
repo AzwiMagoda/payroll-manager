@@ -1,11 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
-import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
-import { PersonalInfoForm } from '../models/personalInfoForm';
 import { TeamMembers } from '../models/teamMembers';
 import { Payslip } from '../models/payslip';
 import { Login } from '../models/login';
@@ -13,6 +10,12 @@ import { User } from '../models/user';
 import { NotificationDto } from '../models/notification';
 import { BookLeave } from '../models/bookLeave';
 import { DeclineLeave } from '../models/DeclineLeave';
+import { Remuneration } from '../models/remuneration';
+import { RemunerationGraph } from '../models/remunerationGraph';
+import { UserDetails } from '../models/userDetails';
+import { RegisterDto } from '../models/register';
+import { ListDto } from '../models/listDto';
+import { ContactDetailsDto } from '../models/contactDetailsDto';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -46,12 +49,8 @@ api.interceptors.response.use(
 		const { data, status, config } = error.response!;
 		switch (status) {
 			case 401:
-				console.log('hey its a 401');
 				localStorage.clear();
 				return (window.location.href = '/');
-			// case 404:
-			// 	console.log('hey its a 404');
-			// 	return (window.location.href = '/error404');
 		}
 	}
 );
@@ -69,20 +68,27 @@ const requests = {
 const Auth = {
 	login: (login: Login) => requests.post<User>('auth/login', login),
 	logout: () => requests.postNoBody<User>('auth/logout'),
+	getUserList: () => requests.get<UserDetails[]>('auth/userList'),
+	updateDetails: (user: UserDetails) =>
+		requests.put<LeaveDays>(`auth/updateDetails`, user),
+	updateStatus: (userId: string) =>
+		requests.put<LeaveDays>(`auth/updateStatus/${userId}`, {}),
+	createUser: (register: RegisterDto) =>
+		requests.post<string>(`auth/register`, register),
 };
 
 const Employees = {
+	createEmployee: (employee: Employee) =>
+		requests.post<string>(`employee/create`, employee),
+	updateEmployee: (employee: Employee) =>
+		requests.put<string>(`employee/update`, employee),
 	getAllEmployees: () => requests.get<Employee[]>('employee/getAll'),
-	getEmployeeById: () => requests.get<Employee>(`employee`),
-	// addNewEmployee: (employee: Employee) =>
-	// 	requests.post<Employee>('/Employee/CreateEmployee', employee),
+	getCurrentEmployee: () => requests.get<Employee>(`employee/current`),
+	getEmployee: (employeeId: string) =>
+		requests.get<Employee>(`employee/${employeeId}`),
 	updateEmployeeDetails: (employee: Employee) =>
 		requests.put<void>(`employee/update`, employee),
-	// deleteEmployee: (id: string) =>
-	// 	requests.del<void>(`/Employee/DeleteEmployee/${id}`),
-	updatePersonalInformation: (info: PersonalInfoForm) =>
-		requests.put<Employee>(`employee/update/personalinfo`, info),
-	updateContactDetails: (info: ContactDetailsForm) =>
+	updateContactDetails: (info: ContactDetailsDto) =>
 		requests.put<Employee>(`employee/update/contactdetails`, info),
 	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),
 	addNewDependant: (dependant: Dependant) =>
@@ -117,10 +123,24 @@ const Team = {
 };
 
 const Payslips = {
-	getAllPayslips: (employeeId: string) =>
-		requests.get<Payslip[]>(`payslip/${employeeId}`),
-	getLatestPayslip: (employeeId: string) =>
-		requests.get<Payslip>(`payslip/latest/${employeeId}`),
+	getAllPayslips: () => requests.get<Payslip[]>(`payslips`),
+	getLatestPayslip: () => requests.get<Payslip>(`payslips/latest`),
+};
+
+const Remunerations = {
+	getRemuneration: () => requests.get<Remuneration>(`remuneration`),
+	getRemunerationGraphData: () =>
+		requests.get<RemunerationGraph>(`remuneration/graphData`),
+};
+
+const General = {
+	getTitle: () => requests.get<string[]>(`general/titleList`),
+	getEmployeeTypeList: () => requests.get<string[]>(`general/employeeTypeList`),
+	getManagerList: () => requests.get<ListDto[]>(`general/managerList`),
+	getTeamList: () => requests.get<ListDto[]>(`general/teamList`),
+	getTeamListDepartment: (department: string) =>
+		requests.get<ListDto[]>(`general/teamList/${department}`),
+	getDepartmentList: () => requests.get<ListDto[]>(`general/departmentList`),
 };
 
 const agent = {
@@ -129,6 +149,8 @@ const agent = {
 	Leave,
 	Team,
 	Payslips,
+	Remunerations,
+	General,
 };
 
 export default agent;

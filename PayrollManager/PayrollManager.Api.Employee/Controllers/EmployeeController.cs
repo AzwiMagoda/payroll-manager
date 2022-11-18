@@ -22,7 +22,7 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "HRPolicy")]
+        [Authorize(Policy = "AdminOrHR")]
         [Route("GetAllEmployees")]
         public ActionResult<IEnumerable<EmployeeDto>> GetAllEmployees()
         {
@@ -38,16 +38,25 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
-        [Route("GetEmployee")]
-        public async Task<ActionResult<EmployeeDto>> GetEmployee()
+        [Route("GetCurrentEmployee")]
+        public async Task<ActionResult<EmployeeDto>> GetCurrentEmployee()
         {
             var employeeId = Guid.Parse(User.FindFirst("Id").Value);
             var employee = await _employeeService.GetEmployee(employeeId);
             return Ok(employee);
         }
 
+        [HttpGet]
+        [Authorize(Policy = "AdminOrHR")]
+        [Route("GetEmployee/{employeeId}")]
+        public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid employeeId)
+        {
+            var employee = await _employeeService.GetEmployee(employeeId);
+            return Ok(employee);
+        }
+
         [HttpPost]
-        [Authorize(Policy = "HRPolicy")]
+        [Authorize(Policy = "AdminOrHR")]
         [Route("CreateEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employee)
         {
@@ -72,24 +81,6 @@ namespace PayrollManager.Api.Employee.Controllers
             {
                 await _employeeService.UpdateEmployee(employee);
                 return Ok($"Employee: {employee.Name} {employee.Surname} updated");
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine(ex);
-                return BadRequest(ex.Message);
-            }
-
-        }
-
-        [HttpPut]
-        [Route("UpdatePersonalInformation")]
-        public async Task<ActionResult<EmployeeDto>> UpdatePersonalInformation([FromBody] PersonalInfoDto info)
-        {
-            try
-            {
-                var employeeId = Guid.Parse(User.FindFirst("Id").Value);
-                await _employeeService.UpdatePersonalInfo(info, employeeId);
-                return Ok(await _employeeService.GetEmployee(employeeId));
             }
             catch (Exception ex)
             {
@@ -175,9 +166,24 @@ namespace PayrollManager.Api.Employee.Controllers
                 Console.Error.WriteLine(ex);
                 return BadRequest(ex.Message);
             }
-
         }
 
-        
+        [HttpPost]
+        [Authorize(Policy = "AdminOrHR")]
+        [Route("CreateContactDetails")]
+        public async Task<IActionResult> CreateContactDetails([FromBody] ContactDetailsDto contactDetails)
+        {
+            try
+            {
+                await _employeeService.CreateContactDetails(contactDetails);
+                return Ok($"Contact Details created");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

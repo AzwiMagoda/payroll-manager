@@ -30,7 +30,13 @@ export default observer(function BookLeave() {
 	} = useStore();
 
 	const onSubmit = () => {
-		bookLeave(new BookLeaveDto(leaveValue, startDate, endDate));
+		let leave: BookLeaveDto = {
+			leaveType: leaveValue,
+			startDate: startDate,
+			endDate: endDate,
+		};
+
+		bookLeave(leave);
 	};
 
 	const onStartDateChange = (date: Date) => {

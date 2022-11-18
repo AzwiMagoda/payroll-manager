@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import {
-	Backdrop,
-	Box,
-	CircularProgress,
-	CssBaseline,
-	Toolbar,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
-import EmployeeList from '../../features/Dashboard/EmployeeList';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
-import ProfileDashboard from '../../features/profile/ProfileDashboard';
 import './App.css';
 import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
@@ -22,6 +14,12 @@ import { Employee } from '../models/employee';
 import Error404 from '../common/error/Error404';
 import Navbar from './navbar/Navbar';
 import Sidebar from './sidebar/Sidebar';
+import PayslipDashboard from '../../features/payslips/PayslipDashboard';
+import RemunerationDashboard from '../../features/remuneration/RemunerationDashboard';
+import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
+import AdminDashboard from '../../features/admin/dashboard/AdminDashboard';
+import UserDashboard from '../../features/admin/users/UserDashboard';
+import EditUser from '../../features/admin/users/editUser/EditUser';
 
 const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 	display: 'flex',
@@ -34,14 +32,21 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 function App() {
-	useEffect(() => {
-		document.title = 'Home | PayME';
-	}, []);
-
 	const {
 		authStore: { user, setUser, loading, setLoading },
 		employeeStore: { currentEmployee, setCurrentEmployee },
+		generalStore: {
+			getDepartmentList,
+			getTitleList,
+			getManagerList,
+			getTeamList,
+			getEmployeeTypeList,
+		},
 	} = useStore();
+
+	useEffect(() => {
+		document.title = 'Home | PayME';
+	}, []);
 
 	useEffect(() => {
 		if (user === null) {
@@ -57,6 +62,14 @@ function App() {
 					setCurrentEmployee(foundEmployee);
 				}
 			}
+		}
+
+		if (user) {
+			getTeamList();
+			getTitleList();
+			getDepartmentList();
+			getManagerList();
+			getEmployeeTypeList();
 		}
 	});
 
@@ -74,7 +87,7 @@ function App() {
 				pauseOnHover
 			/>
 
-			{user && currentEmployee && (
+			{user && (
 				<>
 					<DashboardLayoutRoot>
 						<Box
@@ -89,34 +102,62 @@ function App() {
 								component='main'
 								sx={{
 									flexGrow: 1,
-									py: 8,
+									py: 4,
 								}}
 							>
 								<Routes>
-									<Route
-										path='/'
-										element={<EmployeeDashboard employee={currentEmployee} />}
-									/>
-									<Route path='/account' element={<ProfileDashboard />} />
-									<Route
-										path='/employees'
-										element={<EmployeeList employees={[]} />}
-									/>
-									<Route
-										path='/leaveDashboard'
-										element={
-											<LeaveDaysDashboard
-												employee={currentEmployee}
-												user={user}
-											/>
-										}
-									/>
-									<Route path='/error404' element={<Error404 />} />
+									<>
+										{user.role !== 'Admin' && currentEmployee ? (
+											<>
+												<Route
+													path='/'
+													element={
+														<EmployeeDashboard employee={currentEmployee} />
+													}
+												/>
+												{/* <Route path='/account' element={<ProfileDashboard />} /> */}
+
+												<Route
+													path='/leaveDashboard'
+													element={
+														<LeaveDaysDashboard
+															employee={currentEmployee}
+															user={user}
+														/>
+													}
+												/>
+												<Route
+													path='/payslips'
+													element={<PayslipDashboard />}
+												/>
+												<Route
+													path='/remuneration'
+													element={<RemunerationDashboard />}
+												/>
+												<Route path='/error404' element={<Error404 />} />
+											</>
+										) : (
+											<Route path='/' element={<AdminDashboard />} />
+										)}
+										{(user.role === 'HR' || user.role === 'Admin') && (
+											<>
+												<Route
+													path='/employees'
+													element={<UserDashboard role={user.role} />}
+												/>
+												<Route
+													path='/employee/:id'
+													element={<EditUser role={user.role} />}
+												/>
+											</>
+										)}
+										<Route path='*' element={<Error404 />} />
+									</>
 								</Routes>
 							</Box>
 						</Box>
 						<Navbar employee={currentEmployee} />
-						<Sidebar employee={currentEmployee} />
+						<Sidebar employee={currentEmployee} user={user} />
 					</DashboardLayoutRoot>
 				</>
 			)}

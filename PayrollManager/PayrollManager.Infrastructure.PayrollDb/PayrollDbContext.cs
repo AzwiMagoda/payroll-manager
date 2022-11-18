@@ -21,6 +21,8 @@ namespace PayrollManager.Infrastructure.PayrollDbContext
         public DbSet<PayslipsEntity> Payslips { get; set; }
         public DbSet<ManagerEmployeesEntity> ManagerEmployees { get; set; }
         public DbSet<NotificationEntity> Notifications { get; set; }
+        public DbSet<TeamEntity> Teams { get; set; }
+        public DbSet<DepartmentEntity> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

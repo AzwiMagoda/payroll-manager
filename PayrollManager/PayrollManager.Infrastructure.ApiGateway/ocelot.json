@@ -11,19 +11,9 @@
         }
       ],
       "UpstreamPathTemplate": "/auth/login",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/Auth/GetCurrentUser",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44346
-        }
-      ],
-      "UpstreamPathTemplate": "/auth/current",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/Auth/Logout",
@@ -35,9 +25,86 @@
         }
       ],
       "UpstreamPathTemplate": "/auth/logout",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
     },
-
+    {
+      "DownstreamPathTemplate": "/api/UserManagement/Register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44346
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/auth/register",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/UserManagement/GetUserList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44346
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/auth/userList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/UserManagement/UpdateUserStatus/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44346
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/auth/updateStatus/{userId}",
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/UserManagement/UpdateUserDetails",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44346
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/auth/updateDetails",
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
+    },
     //employee
     {
       "DownstreamPathTemplate": "/api/Employee/GetAllEmployees",
@@ -54,10 +121,13 @@
       },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/employee/getAll",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/Employee/GetAllNotifications",
@@ -74,13 +144,16 @@
       },
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/employee/getNotifications",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     {
-      "DownstreamPathTemplate": "/api/Employee/GetEmployee",
+      "DownstreamPathTemplate": "/api/Employee/GetCurrentEmployee",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -90,10 +163,32 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
-      "UpstreamPathTemplate": "/employee",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/employee/current",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/GetEmployee/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/{employeeId}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/Employee/UpdateEmployee",
@@ -106,10 +201,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/employee/update",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/Employee/UpdatePersonalInformation",
@@ -122,10 +220,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/employee/update/personalinfo",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/Employee/UpdateContactDetails",
@@ -138,10 +239,194 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/employee/update/contactdetails",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/CreateEmployee",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/create",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
+    //general
+    {
+      "DownstreamPathTemplate": "/api/General/GetTitles",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/titleList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetEmployeeTypes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/employeeTypeList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetManagerList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/managerList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetTeamList/{department}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/teamList/{department}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetTeamList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/teamList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/General/GetDepartmentList",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/general/departmentList",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    //remuneration
+    {
+      "DownstreamPathTemplate": "/api/Remuneration/GetRemunerationGraphData",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "employeecaching"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/remuneration/graphData",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Remuneration/GetRemuneration",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "employeecaching"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/remuneration",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
 
     //team
@@ -156,10 +441,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/team/{teamName}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
 
     //leave days
@@ -174,10 +462,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/booked",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays",
@@ -190,10 +481,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/leave/balance",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/BookLeave",
@@ -206,10 +500,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/leave/book",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/UpdateBookedLeave",
@@ -222,10 +519,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/leave/update",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/DeleteBookedLeave/{bookedLeaveId}",
@@ -238,10 +538,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/leave/cancel/{bookedLeaveId}",
-      "UpstreamHttpMethod": [ "DELETE" ]
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/ApproveLeave",
@@ -254,10 +557,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/manager/approve",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/DeclineLeave",
@@ -270,10 +576,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/manager/decline",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [
+        "PUT"
+      ]
     },
     {
       "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeBookedLeaveDays",
@@ -286,14 +595,17 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
       "UpstreamPathTemplate": "/manager/booked",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     //payslip
     {
-      "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip/{employeeId}",
+      "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -303,13 +615,16 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
-      "UpstreamPathTemplate": "/payslip/latest/{employeeId}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/payslips/latest",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
     {
-      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips/{employeeId}",
+      "DownstreamPathTemplate": "/api/Payslip/GetAllPayslips",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -319,15 +634,18 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
-      "UpstreamPathTemplate": "/payslip/{employeeId}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/payslips",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     },
 
     //Manager
     {
-      "DownstreamPathTemplate": "/api/Manager/GetAllEmployeeBookedLeaveDays/{managerId}",
+      "DownstreamPathTemplate": "/api/Manager/GetAllEmployeeBookedLeaveDays",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -337,10 +655,13 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       },
-      "UpstreamPathTemplate": "/manager/getBookedLeaveDays/{managerId}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/manager/getBookedLeaveDays",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     }
   ]
 

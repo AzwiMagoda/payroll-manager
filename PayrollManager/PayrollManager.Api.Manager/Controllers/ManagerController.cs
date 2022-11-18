@@ -22,10 +22,12 @@ namespace PayrollManager.Api.Manager.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllEmployeeBookedLeaveDays/{managerId}")]
-        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetAllEmployeeBookedLeaveDays(Guid managerId)
+        [Route("GetAllEmployeeBookedLeaveDays")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetAllEmployeeBookedLeaveDays()
         {
-            var employeeLeaveDays = _managerService.GetEmployeeBookedLeaveDays(managerId);
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+
+            var employeeLeaveDays = _managerService.GetEmployeeBookedLeaveDays(employeeId);
             return Ok(employeeLeaveDays);
         }
     }

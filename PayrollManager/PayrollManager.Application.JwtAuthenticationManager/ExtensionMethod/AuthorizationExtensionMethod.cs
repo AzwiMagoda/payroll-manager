@@ -17,7 +17,8 @@ namespace PayrollManager.Application.JwtAuthenticationManager.ExtensionMethod
                 opt.AddPolicy("HRPolicy", policy => policy.RequireClaim("Role", "HR"));
                 opt.AddPolicy("ManagerPolicy", policy => policy.RequireClaim("Role", "Manager"));
                 opt.AddPolicy("AdminPolicy", policy => policy.RequireClaim("Role", "Admin"));
-                opt.AddPolicy("AuthenticatedPolicy", policy => policy.RequireAuthenticatedUser());
+                opt.AddPolicy("AdminOrHR", policy => policy.RequireClaim("Role", new string[] { "Admin", "HR" }));
+                opt.AddPolicy("AuthenticatedPolicy", policy => policy.RequireAuthenticatedUser());;
             });
         }
     }

@@ -16,20 +16,15 @@ import {
 import React, { useEffect, useState } from 'react';
 import {
 	DataGrid,
-	GridActionsCellItem,
 	GridColDef,
 	GridRenderCellParams,
-	GridRowParams,
-	GridSelectionModel,
 	GridToolbar,
 	GridValueFormatterParams,
-	GridValueGetterParams,
 } from '@mui/x-data-grid';
 import { useStore } from '../../app/stores/store';
 import { format } from 'date-fns';
 import CloseIcon from '@mui/icons-material/Close';
 import { observer } from 'mobx-react-lite';
-import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 import { DeclineLeave } from '../../app/models/DeclineLeave';
 
 interface Props {

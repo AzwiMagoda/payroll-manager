@@ -1,6 +1,14 @@
-import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import {
+	Box,
+	MenuItem,
+	MenuList,
+	Popover,
+	Stack,
+	Typography,
+} from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { NotificationDto } from '../../models/notification';
 import NotificationElement from './NotificationElement';
 
@@ -51,13 +59,26 @@ export default observer(function NotificationPopover({
 					},
 				}}
 			>
-				{notifications.map((notification) => (
+				{notifications.slice(0, 3).map((notification) => (
 					<NotificationElement
 						notification={notification}
 						key={notification.id}
 					/>
 				))}
 			</MenuList>
+
+			<Stack
+				direction='row'
+				justifyContent='flex-end'
+				alignItems='center'
+				spacing={2}
+			>
+				<MenuList disablePadding>
+					<Link to='/notifications'>
+						<MenuItem color='primary'>View All</MenuItem>
+					</Link>
+				</MenuList>
+			</Stack>
 		</Popover>
 	);
 });

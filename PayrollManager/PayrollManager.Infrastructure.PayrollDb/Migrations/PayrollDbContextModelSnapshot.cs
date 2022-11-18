@@ -219,6 +219,29 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
                     b.ToTable("Deductions");
                 });
 
+            modelBuilder.Entity("PayrollManager.Infrastructure.Models.DepartmentEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DepartmentHeadFullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepartmentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("PayrollManager.Infrastructure.Models.DependentEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -383,6 +406,9 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
                     b.Property<string>("NotificationType")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Read")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Notifications");
@@ -477,6 +503,35 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("PayrollManager.Infrastructure.Models.TeamEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TeamLeadName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeamName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("PayrollManager.Infrastructure.Models.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -490,12 +545,27 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -523,8 +593,14 @@ namespace PayrollManager.Infrastructure.PayrollDbContext.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("StatusUpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)

@@ -75,7 +75,7 @@ namespace PayrollManager.Api.Auth
 
             services.AddCustomJwtAuthentication();
 
-            services.AddAuthorization();
+            services.AddAuthenticationMethod();
             services.AddSingleton<TokenService>();
             services.AddHttpContextAccessor();
 

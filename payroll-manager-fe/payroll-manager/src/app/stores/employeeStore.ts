@@ -3,13 +3,12 @@ import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { BookLeave } from '../models/bookLeave';
-import { ContactDetailsForm } from '../models/contactDetailsForm';
+import { ContactDetailsDto } from '../models/contactDetailsDto';
 import { DeclineLeave } from '../models/DeclineLeave';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
 import { NotificationDto } from '../models/notification';
-import { PersonalInfoForm } from '../models/personalInfoForm';
 import { store } from './store';
 
 export default class EmployeeStore {
@@ -47,6 +46,45 @@ export default class EmployeeStore {
 		this.hasNewDependant = status;
 	};
 
+	createEmployee = async (employee: Employee, id: string) => {
+		this.loading = true;
+		try {
+			employee.id = id;
+			const response = await agent.Employees.createEmployee(employee);
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
+	updateEmployee = async (employee: Employee) => {
+		this.loading = true;
+		try {
+			const response = agent.Employees.updateEmployee(employee);
+
+			toast.promise(response, {
+				pending: 'Submitting...',
+				success: 'Updated',
+				error: 'Failed to update',
+			});
+
+			runInAction(() => {
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
+		}
+	};
+
 	getAllEmployees = async () => {
 		this.loading = true;
 		try {
@@ -70,7 +108,7 @@ export default class EmployeeStore {
 	getCurrentEmployee = async () => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.getEmployeeById();
+			const employee = await agent.Employees.getCurrentEmployee();
 
 			runInAction(() => {
 				this.loading = false;
@@ -88,26 +126,21 @@ export default class EmployeeStore {
 		}
 	};
 
-	updatePersonalInfo = async (info: PersonalInfoForm) => {
-		this.loading = true;
+	getEmployee = async (employeeId: string) => {
 		try {
-			const employee = await agent.Employees.updatePersonalInformation(info);
-			runInAction(() => {
-				this.loading = false;
-				this.currentEmployee = employee;
-			});
+			const employee = await agent.Employees.getEmployee(employeeId);
+			return employee;
 		} catch (error) {
 			console.log(error);
-			runInAction(() => {
-				this.loading = false;
-			});
 		}
 	};
 
-	updateContactDetails = async (info: ContactDetailsForm) => {
+	updateContactDetails = async (contactDetails: ContactDetailsDto) => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.updateContactDetails(info);
+			const employee = await agent.Employees.updateContactDetails(
+				contactDetails
+			);
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
@@ -220,7 +253,6 @@ export default class EmployeeStore {
 		try {
 			const bookedDays = await agent.Leave.getBookedLeaveDays();
 
-			console.log(bookedDays);
 			runInAction(() => {
 				this.bookedLeaveDays = bookedDays;
 				this.loading = false;
