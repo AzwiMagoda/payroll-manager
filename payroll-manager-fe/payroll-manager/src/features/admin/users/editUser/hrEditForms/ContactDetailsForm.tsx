@@ -1,5 +1,6 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 
-export default function ContactDetailsForm() {
+export default observer(function ContactDetailsForm() {
 	return <div>ContactDetailsForm</div>;
-}
+});
