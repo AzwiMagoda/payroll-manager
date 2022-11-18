@@ -86,8 +86,10 @@ const Employees = {
 	getCurrentEmployee: () => requests.get<Employee>(`employee/current`),
 	getEmployee: (employeeId: string) =>
 		requests.get<Employee>(`employee/${employeeId}`),
-	updateEmployeeDetails: (employee: Employee) =>
-		requests.put<void>(`employee/update`, employee),
+	getContactDetails: (employeeId: string) =>
+		requests.get<ContactDetailsDto>(`employee/contactDetails/${employeeId}`),
+	createContactDetails: (contactDetails: ContactDetailsDto) =>
+		requests.put<Employee>(`employee/create/contactdetails`, contactDetails),
 	updateContactDetails: (info: ContactDetailsDto) =>
 		requests.put<Employee>(`employee/update/contactdetails`, info),
 	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),

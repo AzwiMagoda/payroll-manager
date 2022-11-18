@@ -47,6 +47,23 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
+        [Route("GetContactDetails")]
+        public async Task<ActionResult<ContactDetailsDto>> GetContactDetails()
+        {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+            var employee = await _employeeService.GetContactDetails(employeeId);
+            return Ok(employee);
+        }
+
+        [HttpGet]
+        [Route("GetContactDetails/{employeeId}")]
+        public async Task<ActionResult<ContactDetailsDto>> GetContactDetails(Guid employeeId)
+        {
+            var employee = await _employeeService.GetContactDetails(employeeId);
+            return Ok(employee);
+        }
+
+        [HttpGet]
         [Authorize(Policy = "AdminOrHR")]
         [Route("GetEmployee/{employeeId}")]
         public async Task<ActionResult<EmployeeDto>> GetEmployee(Guid employeeId)
@@ -81,6 +98,24 @@ namespace PayrollManager.Api.Employee.Controllers
             {
                 await _employeeService.UpdateEmployee(employee);
                 return Ok($"Employee: {employee.Name} {employee.Surname} updated");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "AdminOrHR")]
+        [Route("CreateContactDetails")]
+        public async Task<IActionResult> CreateContactDetails([FromBody] ContactDetailsDto contactDetails)
+        {
+            try
+            {
+                await _employeeService.CreateContactDetails(contactDetails);
+                return Ok($"Contact Details created");
             }
             catch (Exception ex)
             {
@@ -166,24 +201,6 @@ namespace PayrollManager.Api.Employee.Controllers
                 Console.Error.WriteLine(ex);
                 return BadRequest(ex.Message);
             }
-        }
-
-        [HttpPost]
-        [Authorize(Policy = "AdminOrHR")]
-        [Route("CreateContactDetails")]
-        public async Task<IActionResult> CreateContactDetails([FromBody] ContactDetailsDto contactDetails)
-        {
-            try
-            {
-                await _employeeService.CreateContactDetails(contactDetails);
-                return Ok($"Contact Details created");
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine(ex);
-                return BadRequest(ex.Message);
-            }
-
         }
     }
 }

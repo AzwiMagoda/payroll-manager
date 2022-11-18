@@ -21,6 +21,10 @@ import { UserDetails } from '../../../../app/models/userDetails';
 import AdminEdit from './AdminEdit';
 import HrEdit from './HrEdit';
 import { Employee } from '../../../../app/models/employee';
+import {
+	getEmployee,
+	getContactDetails,
+} from '../../../../app/functions/employeeFunctions';
 
 interface Props {
 	role: string;
@@ -36,7 +40,6 @@ export default observer(function EditUser({ role }: Props) {
 
 	const {
 		authStore: { users, updateStatus, getUserList },
-		employeeStore: { getEmployee },
 	} = useStore();
 
 	useEffect(() => {
@@ -55,6 +58,7 @@ export default observer(function EditUser({ role }: Props) {
 		if (user) {
 			var e = await getEmployee(user.id);
 			if (e) setEmployee(e);
+			getContactDetails(user.id);
 		}
 	};
 

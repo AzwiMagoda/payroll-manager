@@ -126,12 +126,26 @@ export default class EmployeeStore {
 		}
 	};
 
-	getEmployee = async (employeeId: string) => {
+	createContactDetails = async (contactDetails: ContactDetailsDto) => {
+		this.loading = true;
 		try {
-			const employee = await agent.Employees.getEmployee(employeeId);
-			return employee;
+			const response = agent.Employees.createContactDetails(contactDetails);
+
+			toast.promise(response, {
+				pending: 'Submitting...',
+				success: 'Created!',
+				error: 'Failed to create',
+			});
+
+			runInAction(() => {
+				this.loading = false;
+			});
 		} catch (error) {
 			console.log(error);
+
+			runInAction(() => {
+				this.loading = false;
+			});
 		}
 	};
 

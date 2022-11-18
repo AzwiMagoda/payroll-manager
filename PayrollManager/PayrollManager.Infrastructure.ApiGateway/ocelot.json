@@ -107,6 +107,44 @@
     },
     //employee
     {
+      "DownstreamPathTemplate": "/api/Employee/GetContactDetails/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/contactDetails/{employeeId}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Employee/GetContactDetails",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/contactDetails",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/Employee/GetAllEmployees",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -248,6 +286,25 @@
       ]
     },
     {
+      "DownstreamPathTemplate": "/api/Employee/CreateContactDetails",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/employee/create/contactdetails",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/Employee/CreateEmployee",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -266,6 +323,7 @@
         "POST"
       ]
     },
+
     //general
     {
       "DownstreamPathTemplate": "/api/General/GetTitles",
