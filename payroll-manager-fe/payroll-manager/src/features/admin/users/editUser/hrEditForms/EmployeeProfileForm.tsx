@@ -18,16 +18,11 @@ import { useStore } from '../../../../../app/stores/store';
 import SaveIcon from '@mui/icons-material/Save';
 
 interface Props {
-	user: UserDetails;
+	employee: Employee;
 }
 
-export default observer(function EmployeeProfileForm({ user }: Props) {
-	let initial: Employee = {
-		name: user.firstName,
-		surname: user.lastName,
-		jobTitle: '',
-	};
-
+export default observer(function EmployeeProfileForm({ employee }: Props) {
+	console.log(employee);
 	const {
 		generalStore: {
 			managerList,
@@ -38,7 +33,7 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 		employeeStore: { updateEmployee },
 	} = useStore();
 
-	const [employee, setEmployee] = useState<Employee>(initial);
+	const [update, setUpdate] = useState<Employee>(employee);
 	const [department, setDepartment] = useState(departmentList[0].id);
 	const [manager, setManager] = useState(managerList[0].id);
 	const [team, setTeam] = useState('');
@@ -48,17 +43,17 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 	const textFields = [
 		{
 			id: 'name',
-			value: employee.name,
+			value: update.name,
 			label: 'First Name',
 		},
 		{
 			id: 'surname',
-			value: employee.surname,
+			value: update.surname,
 			label: 'Last Name',
 		},
 		{
 			id: 'jobTitle',
-			value: employee.jobTitle,
+			value: update.jobTitle,
 			label: 'Job Title',
 		},
 	];
@@ -97,21 +92,21 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 	}, [department]);
 
 	const onChange = (id: string, value: string) => {
-		console.log(employee);
+		console.log(update);
 
 		switch (id) {
 			case 'name':
-				initial.name = value;
+				employee.name = value;
 				break;
 			case 'surname':
-				initial.surname = value;
+				employee.surname = value;
 				break;
 			case 'jobTitle':
-				initial.jobTitle = value;
+				employee.jobTitle = value;
 				break;
 		}
 
-		setEmployee(initial);
+		setUpdate(employee);
 	};
 
 	const getTeamList = async (value: string) => {
@@ -120,16 +115,16 @@ export default observer(function EmployeeProfileForm({ user }: Props) {
 	};
 
 	const onSaveClick = async () => {
-		initial.department = departmentList.find((x) => x.id === department)!.name;
-		initial.manager = managerList.find((x) => x.id === manager)!.name;
-		initial.managerEmployeeId = manager;
-		initial.teamName = teamList.find((x) => x.id === team)!.name;
-		initial.teamId = team;
-		initial.id = user.id;
-		initial.title = titleList[title];
+		employee.department = departmentList.find((x) => x.id === department)!.name;
+		employee.manager = managerList.find((x) => x.id === manager)!.name;
+		employee.managerEmployeeId = manager;
+		employee.teamName = teamList.find((x) => x.id === team)!.name;
+		employee.teamId = team;
+		employee.id = employee.id;
+		employee.title = titleList[title];
 
-		console.log(initial);
-		await updateEmployee(initial);
+		console.log(employee);
+		await updateEmployee(employee);
 	};
 
 	return (

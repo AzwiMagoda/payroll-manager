@@ -4,24 +4,29 @@ import {
 	Typography,
 	AccordionDetails,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import PersonIcon from '@mui/icons-material/Person';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
 import { UserDetails } from '../../../../app/models/userDetails';
+import { useStore } from '../../../../app/stores/store';
+import { Employee } from '../../../../app/models/employee';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
 	user: UserDetails;
+	employee: Employee;
 }
 
-export default function HrEdit({ user }: Props) {
+export default observer(function HrEdit({ user, employee }: Props) {
 	const items = [
 		{
 			icon: <PersonIcon />,
 			title: 'Employee Profile',
-			form: <EmployeeProfileForm user={user} />,
+			form: <EmployeeProfileForm employee={employee} />,
+			prop: employee,
 		},
 		{
 			icon: <PermContactCalendarIcon />,
@@ -47,4 +52,4 @@ export default function HrEdit({ user }: Props) {
 			))}
 		</>
 	);
-}
+});

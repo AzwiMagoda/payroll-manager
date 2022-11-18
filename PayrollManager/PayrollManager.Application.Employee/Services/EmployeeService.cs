@@ -75,7 +75,7 @@ namespace PayrollManager.Application.Employee.Services
                 var employee = await _employeeRepository.GetByID(employeeId);
                 var contactDetails = await _contactDetailsRepository.GetByEmployeeId(employeeId);
 
-                return employee == null || contactDetails == null ? null
+                return employee == null ? null
                     : new EmployeeDto
                     {
                         Id = employeeId,

@@ -20,6 +20,7 @@ import { useStore } from '../../../../app/stores/store';
 import { UserDetails } from '../../../../app/models/userDetails';
 import AdminEdit from './AdminEdit';
 import HrEdit from './HrEdit';
+import { Employee } from '../../../../app/models/employee';
 
 interface Props {
 	role: string;
@@ -29,15 +30,18 @@ export default observer(function EditUser({ role }: Props) {
 	let navigate = useNavigate();
 	const { id } = useParams();
 	const [user, setUser] = useState<UserDetails>();
+	const [employee, setEmployee] = useState<Employee>();
 
 	const title = 'Edit User';
 
 	const {
 		authStore: { users, updateDetails, updateStatus, getUserList },
+		employeeStore: { getEmployee },
 	} = useStore();
 
 	useEffect(() => {
 		document.title = `${title} | PayME`;
+		console.log('hi');
 	}, []);
 
 	useEffect(() => {
@@ -45,7 +49,15 @@ export default observer(function EditUser({ role }: Props) {
 		if (u) {
 			setUser(u);
 		}
+		initialise();
 	}, [user]);
+
+	const initialise = async () => {
+		if (user) {
+			var e = await getEmployee(user.id);
+			if (e) setEmployee(e);
+		}
+	};
 
 	const onStatusClick = async () => {
 		await updateStatus(id!);
@@ -131,7 +143,9 @@ export default observer(function EditUser({ role }: Props) {
 								{user && (
 									<>
 										{role === 'Admin' && <AdminEdit user={user} />}
-										{role === 'HR' && <HrEdit user={user} />}
+										{role === 'HR' && employee && (
+											<HrEdit user={user} employee={employee} />
+										)}
 									</>
 								)}
 							</CardContent>
