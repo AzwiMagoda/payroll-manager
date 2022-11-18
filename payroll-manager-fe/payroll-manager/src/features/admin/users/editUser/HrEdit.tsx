@@ -3,49 +3,61 @@ import {
 	AccordionSummary,
 	Typography,
 	AccordionDetails,
+	useTheme,
+	Stack,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import PersonIcon from '@mui/icons-material/Person';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
 import { UserDetails } from '../../../../app/models/userDetails';
-import { useStore } from '../../../../app/stores/store';
 import { Employee } from '../../../../app/models/employee';
 import { observer } from 'mobx-react-lite';
 
 interface Props {
-	user: UserDetails;
 	employee: Employee;
 }
 
-export default observer(function HrEdit({ user, employee }: Props) {
+export default observer(function HrEdit({ employee }: Props) {
+	const theme = useTheme();
+
 	const items = [
 		{
-			icon: <PersonIcon />,
+			icon: <PersonIcon fontSize='large' />,
 			title: 'Employee Profile',
 			form: <EmployeeProfileForm employee={employee} />,
-			prop: employee,
+			color: theme.palette.primary.main,
 		},
 		{
-			icon: <PermContactCalendarIcon />,
+			icon: <PermContactCalendarIcon fontSize='large' />,
 			title: 'Contact Details',
 			form: <ContactDetailsForm />,
+			color: theme.palette.secondary.main,
 		},
 	];
 
 	return (
 		<>
 			{items.map((item, index) => (
-				<Accordion key={index}>
+				<Accordion key={index} sx={{ marginBottom: 3 }}>
 					<AccordionSummary
 						expandIcon={<ExpandMoreIcon />}
 						aria-controls={`${index}-panel`}
 						id={`${index}-header`}
+						sx={{ borderLeft: `7px solid ${item.color}` }}
 					>
-						{item.icon}
-						<Typography>{item.title}</Typography>
+						<Stack
+							direction='row'
+							justifyContent='center'
+							alignItems='center'
+							spacing={3}
+						>
+							{item.icon}
+							<Typography variant='h6' align='center'>
+								{item.title}
+							</Typography>
+						</Stack>
 					</AccordionSummary>
 					<AccordionDetails>{item.form}</AccordionDetails>
 				</Accordion>

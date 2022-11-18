@@ -137,6 +137,23 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 						justifyContent='flex-start'
 						alignItems='center'
 					>
+						<FormControl fullWidth margin='normal'>
+							<InputLabel id='lbltitle'>Title</InputLabel>
+							<Select
+								labelId='lbltitle'
+								label='Title'
+								id='title'
+								value={title}
+								onChange={(e) => setTitle(e.target.value as number)}
+							>
+								{titleList.map((title, i) => (
+									<MenuItem key={i} value={i}>
+										{title}
+									</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+
 						{textFields.map((item, index) => (
 							<TextField
 								key={index}
@@ -154,23 +171,6 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 								) => item.onChange(e.target.value)}
 							/>
 						))}
-
-						<FormControl fullWidth margin='normal'>
-							<InputLabel id='lbltitle'>Title</InputLabel>
-							<Select
-								labelId='lbltitle'
-								label='Title'
-								id='title'
-								value={title}
-								onChange={(e) => setTitle(e.target.value as number)}
-							>
-								{titleList.map((title, i) => (
-									<MenuItem key={i} value={i}>
-										{title}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
 					</Stack>
 				</Grid>
 

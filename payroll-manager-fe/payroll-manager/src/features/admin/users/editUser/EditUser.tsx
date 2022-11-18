@@ -35,7 +35,7 @@ export default observer(function EditUser({ role }: Props) {
 	const title = 'Edit User';
 
 	const {
-		authStore: { users, updateDetails, updateStatus, getUserList },
+		authStore: { users, updateStatus, getUserList },
 		employeeStore: { getEmployee },
 	} = useStore();
 
@@ -143,7 +143,7 @@ export default observer(function EditUser({ role }: Props) {
 									<>
 										{role === 'Admin' && <AdminEdit user={user} />}
 										{role === 'HR' && employee && (
-											<HrEdit user={user} employee={employee} />
+											<HrEdit employee={employee} />
 										)}
 									</>
 								)}
