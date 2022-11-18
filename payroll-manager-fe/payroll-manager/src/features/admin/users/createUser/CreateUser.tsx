@@ -53,7 +53,6 @@ export default function CreateUser() {
 					await createEmployee(employee, response);
 				}
 			}
-			console.log(response);
 		}
 	};
 

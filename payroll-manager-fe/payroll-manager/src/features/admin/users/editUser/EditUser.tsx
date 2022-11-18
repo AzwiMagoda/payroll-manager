@@ -41,7 +41,6 @@ export default observer(function EditUser({ role }: Props) {
 
 	useEffect(() => {
 		document.title = `${title} | PayME`;
-		console.log('hi');
 	}, []);
 
 	useEffect(() => {

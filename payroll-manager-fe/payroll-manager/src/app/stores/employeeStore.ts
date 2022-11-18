@@ -52,9 +52,7 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			employee.id = id;
-			console.log(employee);
 			const response = await agent.Employees.createEmployee(employee);
-			console.log(response);
 
 			runInAction(() => {
 				this.loading = false;
@@ -271,7 +269,6 @@ export default class EmployeeStore {
 		try {
 			const bookedDays = await agent.Leave.getBookedLeaveDays();
 
-			console.log(bookedDays);
 			runInAction(() => {
 				this.bookedLeaveDays = bookedDays;
 				this.loading = false;

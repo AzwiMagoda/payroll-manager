@@ -59,10 +59,6 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		getAllBookedLeaveDays();
 	}, [getAllBookedLeaveDays]);
 
-	useEffect(() => {
-		console.log(selectedIds);
-	}, [selectedIds]);
-
 	const approveOnClick = async () => {
 		await approveLeave(selectedIds.map(String));
 	};

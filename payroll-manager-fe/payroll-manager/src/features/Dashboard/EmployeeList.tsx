@@ -29,7 +29,6 @@ export default observer(function EmployeeList({ employees }: Props) {
 	}, []);
 
 	useEffect(() => {
-		console.log('inside connection change');
 		if (connection) {
 			connection.invoke('SendMessage').catch(function (err) {
 				console.error(err.toString());

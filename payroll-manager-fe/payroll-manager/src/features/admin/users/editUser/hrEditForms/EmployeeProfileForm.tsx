@@ -36,11 +36,16 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	const [surname, setSurname] = useState(employee.surname || '');
 	const [jobTitle, setJobTitle] = useState(employee.jobTitle || '');
 
-	const [department, setDepartment] = useState(departmentList[0].id);
-	const [manager, setManager] = useState(managerList[0].id);
-	const [team, setTeam] = useState('');
+	const [department, setDepartment] = useState(
+		departmentList.find((x) => x.name === employee.department)?.id ||
+			departmentList[0].id
+	);
+	const [manager, setManager] = useState(
+		employee.managerEmployeeId || managerList[0].id
+	);
+	const [team, setTeam] = useState(employee.teamId || '');
 	const [teamList, setTeamList] = useState<ListDto[]>([]);
-	const [title, setTitle] = useState(0);
+	const [title, setTitle] = useState(titleList.indexOf(employee.title!) || 0);
 
 	const textFields = [
 		{

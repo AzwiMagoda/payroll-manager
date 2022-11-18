@@ -93,7 +93,7 @@ namespace PayrollManager.Application.Employee.Services
                         HireDate = employee.HireDate,
                         JobType = employee.JobType,
                         Location = employee.Location,
-                        ManagerEmployeeId = employeeId,
+                        ManagerEmployeeId = employee.ManagerEmployeeId,
                         OriginalHireDate = employee.OriginalHireDate,
                         TeamId = employee.TeamId
                     };
