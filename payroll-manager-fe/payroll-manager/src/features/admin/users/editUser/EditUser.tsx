@@ -25,6 +25,7 @@ import {
 	getEmployee,
 	getContactDetails,
 } from '../../../../app/functions/employeeFunctions';
+import { ContactDetailsDto } from '../../../../app/models/contactDetailsDto';
 
 interface Props {
 	role: string;
@@ -35,6 +36,7 @@ export default observer(function EditUser({ role }: Props) {
 	const { id } = useParams();
 	const [user, setUser] = useState<UserDetails>();
 	const [employee, setEmployee] = useState<Employee>();
+	const [contactDetails, setContactDetails] = useState<ContactDetailsDto>();
 
 	const title = 'Edit User';
 
@@ -58,7 +60,9 @@ export default observer(function EditUser({ role }: Props) {
 		if (user) {
 			var e = await getEmployee(user.id);
 			if (e) setEmployee(e);
-			getContactDetails(user.id);
+
+			var c = await getContactDetails(user.id);
+			if (c) setContactDetails(c);
 		}
 	};
 
@@ -147,7 +151,10 @@ export default observer(function EditUser({ role }: Props) {
 									<>
 										{role === 'Admin' && <AdminEdit user={user} />}
 										{role === 'HR' && employee && (
-											<HrEdit employee={employee} />
+											<HrEdit
+												employee={employee}
+												contactDetails={contactDetails}
+											/>
 										)}
 									</>
 								)}

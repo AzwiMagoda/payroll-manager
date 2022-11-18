@@ -1,10 +1,8 @@
 import {
 	Button,
-	Divider,
 	FormControl,
 	FormControlLabel,
 	FormLabel,
-	Grid,
 	InputLabel,
 	MenuItem,
 	Radio,
@@ -17,9 +15,9 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Employee } from '../../../../../app/models/employee';
 import { ListDto } from '../../../../../app/models/listDto';
-import { UserDetails } from '../../../../../app/models/userDetails';
 import { useStore } from '../../../../../app/stores/store';
 import SaveIcon from '@mui/icons-material/Save';
+import FormBase from '../../../../../app/common/form/FormBase';
 
 interface Props {
 	employee: Employee;
@@ -132,122 +130,93 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 		await updateEmployee(employee);
 	};
 
+	const left = [
+		<FormControl fullWidth margin='normal'>
+			<InputLabel id='lbltitle'>Title</InputLabel>
+			<Select
+				labelId='lbltitle'
+				label='Title'
+				id='title'
+				value={title}
+				onChange={(e) => setTitle(e.target.value as number)}
+			>
+				{titleList.map((title, i) => (
+					<MenuItem key={i} value={i}>
+						{title}
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>,
+		<>
+			{textFields.map((item, index) => (
+				<TextField
+					key={index}
+					margin='normal'
+					id={item.id}
+					label={item.label}
+					name={item.id}
+					type='text'
+					autoFocus
+					autoComplete='off'
+					fullWidth
+					value={item.value}
+					onChange={(
+						e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+					) => item.onChange(e.target.value)}
+				/>
+			))}
+		</>,
+	];
+
+	const right = [
+		<>
+			{selects.map((item, index) => (
+				<FormControl fullWidth margin='normal' key={index}>
+					<InputLabel id={item.labelId}>{item.label}</InputLabel>
+					<Select
+						labelId={item.labelId}
+						label={item.label}
+						id={item.id}
+						value={item.value}
+						onChange={(e) => item.onChange(e.target.value)}
+					>
+						{item.list.map((listItem, i) => (
+							<MenuItem key={i} value={listItem.id}>
+								{listItem.name}
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
+			))}
+		</>,
+		<FormControl>
+			<FormLabel id='lblEmployeeType'>Employee Type</FormLabel>
+			<RadioGroup
+				row
+				aria-labelledby='employeeType'
+				name='employeeType'
+				value={employeeType}
+				onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+					setEmployeeType(event.target.value)
+				}
+			>
+				<Stack
+					direction='row'
+					justifyContent='space-between'
+					alignItems='center'
+					spacing={4}
+				>
+					{employeeTypeList.map((item, i) => (
+						<FormControlLabel value={item} control={<Radio />} label={item} />
+					))}
+				</Stack>
+			</RadioGroup>
+		</FormControl>,
+	];
+
 	return (
 		<>
-			<Grid
-				container
-				direction='row'
-				justifyContent='space-around'
-				alignItems='center'
-			>
-				<Grid item xs={5}>
-					<Stack
-						direction='column'
-						justifyContent='flex-start'
-						alignItems='center'
-					>
-						<FormControl fullWidth margin='normal'>
-							<InputLabel id='lbltitle'>Title</InputLabel>
-							<Select
-								labelId='lbltitle'
-								label='Title'
-								id='title'
-								value={title}
-								onChange={(e) => setTitle(e.target.value as number)}
-							>
-								{titleList.map((title, i) => (
-									<MenuItem key={i} value={i}>
-										{title}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-
-						{textFields.map((item, index) => (
-							<TextField
-								key={index}
-								margin='normal'
-								id={item.id}
-								label={item.label}
-								name={item.id}
-								type='text'
-								autoFocus
-								autoComplete='off'
-								fullWidth
-								value={item.value}
-								onChange={(
-									e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-								) => item.onChange(e.target.value)}
-							/>
-						))}
-					</Stack>
-				</Grid>
-
-				<Divider
-					sx={{
-						borderColor: '#2D3748',
-						mx: 3,
-					}}
-					orientation='vertical'
-					variant='middle'
-					flexItem
-				/>
-
-				<Grid item xs={5}>
-					<Stack
-						direction='column'
-						justifyContent='flex-start'
-						alignItems='center'
-					>
-						{selects.map((item, index) => (
-							<FormControl fullWidth margin='normal' key={index}>
-								<InputLabel id={item.labelId}>{item.label}</InputLabel>
-								<Select
-									labelId={item.labelId}
-									label={item.label}
-									id={item.id}
-									value={item.value}
-									onChange={(e) => item.onChange(e.target.value)}
-								>
-									{item.list.map((listItem, i) => (
-										<MenuItem key={i} value={listItem.id}>
-											{listItem.name}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						))}
-
-						<FormControl>
-							<FormLabel id='lblEmployeeType'>Employee Type</FormLabel>
-							<RadioGroup
-								row
-								aria-labelledby='employeeType'
-								name='employeeType'
-								value={employeeType}
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-									setEmployeeType(event.target.value)
-								}
-							>
-								<Stack
-									direction='row'
-									justifyContent='space-between'
-									alignItems='center'
-									spacing={4}
-								>
-									{employeeTypeList.map((item, i) => (
-										<FormControlLabel
-											value={item}
-											control={<Radio />}
-											label={item}
-										/>
-									))}
-								</Stack>
-							</RadioGroup>
-						</FormControl>
-					</Stack>
-				</Grid>
-			</Grid>
+			<FormBase leftComponents={left} rightComponents={right} />
 
 			<Stack
 				direction='row'

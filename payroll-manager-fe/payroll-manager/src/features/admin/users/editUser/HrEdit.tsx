@@ -11,15 +11,16 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
-import { UserDetails } from '../../../../app/models/userDetails';
 import { Employee } from '../../../../app/models/employee';
 import { observer } from 'mobx-react-lite';
+import { ContactDetailsDto } from '../../../../app/models/contactDetailsDto';
 
 interface Props {
 	employee: Employee;
+	contactDetails: ContactDetailsDto | undefined;
 }
 
-export default observer(function HrEdit({ employee }: Props) {
+export default observer(function HrEdit({ employee, contactDetails }: Props) {
 	const theme = useTheme();
 
 	const items = [
@@ -32,7 +33,7 @@ export default observer(function HrEdit({ employee }: Props) {
 		{
 			icon: <PermContactCalendarIcon fontSize='large' />,
 			title: 'Contact Details',
-			form: <ContactDetailsForm />,
+			form: <ContactDetailsForm contactDetails={contactDetails} />,
 			color: theme.palette.secondary.main,
 		},
 	];
