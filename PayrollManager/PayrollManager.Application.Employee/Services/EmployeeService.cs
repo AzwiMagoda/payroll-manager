@@ -44,59 +44,25 @@ namespace PayrollManager.Application.Employee.Services
             try
             {
                 var entities = _employeeRepository.GetAll();
-                return entities.Select(x =>
-                {
-                    return new EmployeeDto
-                    {
-                        Id = x.Id,
-                        Company = x.Company,
-                        Name = x.Name,
-                        Surname = x.Surname,
-                        Department = x.Department,
-                        JobTitle = x.JobTitle,
-                        Manager = x.Manager,
-                        TeamName = x.TeamName,
-                        Title = x.Title,
-                        CreatedDate = x.CreatedDate
-                    };
-                });
+                
+                var employees = _mapper.Map<IEnumerable<EmployeeEntity>, IEnumerable<EmployeeDto>>(entities);
+                return employees;
             }
             catch (Exception ex)
             {
                 throw new Exception();
             }
-
         }
 
         public async Task<EmployeeDto> GetEmployee(Guid employeeId)
         {
             try
             {
-                var employee = await _employeeRepository.GetByID(employeeId);
-                var contactDetails = await _contactDetailsRepository.GetByEmployeeId(employeeId);
+                var entity = await _employeeRepository.GetByID(employeeId);
 
-                return employee == null ? null
-                    : new EmployeeDto
-                    {
-                        Id = employeeId,
-                        Company = employee.Company,
-                        Name = employee.Name,
-                        Surname = employee.Surname,
-                        Department = employee.Department,
-                        JobTitle = employee.JobTitle,
-                        Manager = employee.Manager,
-                        TeamName = employee.TeamName,
-                        Title = employee.Title,
-                        CreatedDate = employee.CreatedDate,
-                        EmployeeNumber = employee.EmployeeNumber,
-                        EmployeeType = employee.EmployeeType,
-                        HireDate = employee.HireDate,
-                        JobType = employee.JobType,
-                        Location = employee.Location,
-                        ManagerEmployeeId = employee.ManagerEmployeeId,
-                        OriginalHireDate = employee.OriginalHireDate,
-                        TeamId = employee.TeamId
-                    };
+                var employee = _mapper.Map<EmployeeEntity, EmployeeDto>(entity);
+
+                return employee;
             }
             catch (Exception ex)
             {
@@ -104,7 +70,7 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public async Task<string> CreateEmployee(CreateEmployeeDto employee)
+        public async Task CreateEmployee(EmployeeDto employee)
         {
             try
             {
@@ -112,30 +78,21 @@ namespace PayrollManager.Application.Employee.Services
 
                 if (user != null)
                 {
-                    var employeeEntity = new EmployeeEntity
+                    var entity = new EmployeeEntity()
                     {
-                        Company = "42Company",
-                        Name = employee.Name,
-                        Surname = employee.Surname,
                         Id = employee.Id,
                         CreatedDate = DateTime.Now,
-                        EmployeeId = employee.Id,
-                        JobTitle = employee.JobTitle,
-                        Department = employee.Department,
-                        Title = employee.Title,
+                        Company = "42Company",
                     };
 
-                    await _employeeRepository.Create(employeeEntity);
-                    return "User created";
+                    entity = _mapper.Map(employee, entity);
 
+                    await _employeeRepository.Create(entity);
                 }
-                return "User profile does not exist for this employee";
-
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
-                return ex.Message;
             }
         }
 
@@ -169,41 +126,35 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public async Task UpdatePersonalInfo(PersonalInfoDto info, Guid id)
+        public async Task CreateContactDetails(ContactDetailsDto contactDetails)
         {
             try
             {
-                var employee = await _employeeRepository.GetByID(id);
+                var entity = new ContactDetailsEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedDate = DateTime.Now
+                };
 
-                employee.Name = info.Name;
-                employee.Surname = info.Surname;
-                employee.Title = info.Title;
-                employee.JobTitle = info.JobTitle;
-                employee.Department = info.Department;
+                entity = _mapper.Map(contactDetails, entity);
 
-
-                await _employeeRepository.Update(employee);
+                await _contactDetailsRepository.Create(entity);
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
             }
-
         }
 
-        public async Task UpdateContactDetails(ContactDetailsDto info, Guid id)
+        public async Task UpdateContactDetails(ContactDetailsDto contactDetails, Guid id)
         {
             try
             {
-                var contactDetails = await _contactDetailsRepository.GetByID(id);
+                var entity = await _contactDetailsRepository.GetByEmployeeId(id);
 
-                contactDetails.Telephone = info.Telephone;
-                contactDetails.Cellphone = info.Cellphone;
-                contactDetails.PhysicalAddress = info.PhysicalAddress;
-                contactDetails.PostalAddress = info.PostalAddress;
+                entity = _mapper.Map(contactDetails, entity);
 
-
-                await _contactDetailsRepository.Update(contactDetails);
+                await _contactDetailsRepository.Update(entity);
             }
             catch (Exception ex)
             {
@@ -326,6 +277,6 @@ namespace PayrollManager.Application.Employee.Services
             {
                 throw new Exception();
             }
-        }
+        }   
     }
 }

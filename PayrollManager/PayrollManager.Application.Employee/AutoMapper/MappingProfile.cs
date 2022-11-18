@@ -15,6 +15,8 @@ namespace PayrollManager.Application.Employee.AutoMapper
         {
             CreateMap<EmployeeEntity, EmployeeDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<EmployeeDto, EmployeeEntity>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ContactDetailsEntity, ContactDetailsDto>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ContactDetailsDto, ContactDetailsEntity>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<RemunerationEntity, RemunerationDto>();
         }
     }

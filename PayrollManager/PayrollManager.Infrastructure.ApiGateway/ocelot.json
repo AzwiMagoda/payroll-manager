@@ -266,7 +266,7 @@
         "POST"
       ]
     },
-    //employee
+    //general
     {
       "DownstreamPathTemplate": "/api/General/GetTitles",
       "DownstreamScheme": "https",
