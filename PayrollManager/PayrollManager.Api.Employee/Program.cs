@@ -26,6 +26,7 @@ namespace PayrollManager.Api.Employee
 
                 await context.Database.MigrateAsync();
                 await EmployeeSeed.SeedData(context);
+                await GeneralSeed.SeedData(context);
             }
             catch (Exception ex)
             {

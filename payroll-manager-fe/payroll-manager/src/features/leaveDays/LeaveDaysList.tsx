@@ -7,10 +7,11 @@ import {
 	GridValueFormatterParams,
 } from '@mui/x-data-grid';
 import { format } from 'date-fns';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useStore } from '../../app/stores/store';
 
-export default function LeaveDaysList() {
+export default observer(function LeaveDaysList() {
 	const {
 		employeeStore: { bookedLeaveDays, getAllBookedLeaveDays },
 	} = useStore();
@@ -98,4 +99,4 @@ export default function LeaveDaysList() {
 			</Box>
 		</Card>
 	);
-}
+});

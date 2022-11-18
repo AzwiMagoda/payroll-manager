@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useStore } from '../../app/stores/store';
 import { Login as LoginDto } from '../../app/models/login';
 import { Navigate } from 'react-router-dom';
@@ -6,10 +6,7 @@ import { observer } from 'mobx-react-lite';
 import {
 	Avatar,
 	Box,
-	Button,
-	Checkbox,
 	Container,
-	FormControlLabel,
 	Grid,
 	Link,
 	TextField,
@@ -27,9 +24,12 @@ export default observer(function Login() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		await login(
-			new LoginDto(data.get('email') as string, data.get('password') as string)
-		);
+
+		let creds: LoginDto = {
+			email: data.get('email') as string,
+			password: data.get('password') as string,
+		};
+		await login(creds);
 	};
 
 	return (

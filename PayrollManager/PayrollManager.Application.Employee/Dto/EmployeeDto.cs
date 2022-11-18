@@ -13,12 +13,8 @@ namespace PayrollManager.Application.Employee.Dto
         public string Department { get; set; }
         public string TeamName { get; set; }
         public string JobTitle { get; set; }
-        public string Email { get; set; }
-        public string Telephone { get; set; }
-        public string Cellphone { get; set; }
-        public string PhysicalAddress { get; set; }
-        public string PostalAddress { get; set; }
         public DateTime CreatedDate { get; set; }
+        public Guid EmployeeId { get; set; }
         public Guid ManagerEmployeeId { get; set; }
         public string EmployeeNumber { get; set; }
         public string EmployeeType { get; set; }

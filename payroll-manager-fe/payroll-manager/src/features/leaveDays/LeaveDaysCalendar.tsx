@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import FullCalendar, {
 	DateSelectArg,
-	EventApi,
 	EventClickArg,
 } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -20,11 +18,6 @@ export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 		modalStore: { openModal, open },
 	} = useStore();
 
-	const [openEdit, setOpenEdit] = useState(false);
-	const [openCreate, setOpenCreate] = useState(false);
-	const [editEvent, setEditEvent] = useState<EventApi>();
-	const [createEvent, setCreateEvent] = useState<DateSelectArg>();
-
 	const events = bookedLeaveDays.map((leaveDays) => {
 		return {
 			id: leaveDays.id,
@@ -37,24 +30,9 @@ export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
 		};
 	});
 
-	useEffect(() => {
-		if (!open) {
-			setOpenEdit(false);
-			setOpenCreate(false);
-		}
-	}, [open]);
+	const onEventClick = (e: EventClickArg) => {};
 
-	const onEventClick = (e: EventClickArg) => {
-		setEditEvent(e.event);
-		setOpenEdit(true);
-		openModal();
-	};
-
-	const onDateSelect = (e: DateSelectArg) => {
-		setCreateEvent(e);
-		setOpenCreate(true);
-		openModal();
-	};
+	const onDateSelect = (e: DateSelectArg) => {};
 
 	return (
 		<>

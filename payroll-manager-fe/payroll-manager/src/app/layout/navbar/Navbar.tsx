@@ -19,6 +19,7 @@ import { Employee } from '../../models/employee';
 import NotificationPopover from './NotificationPopover';
 import { useStore } from '../../stores/store';
 import { observer } from 'mobx-react-lite';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 	backgroundColor: '#FFFFFF',
@@ -26,7 +27,7 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 interface Props {
-	employee: Employee;
+	employee: Employee | undefined;
 }
 
 export default observer(function Navbar({ employee }: Props) {
@@ -36,11 +37,18 @@ export default observer(function Navbar({ employee }: Props) {
 
 	const {
 		employeeStore: { notifications, getNotifications },
+		authStore: { logout },
 	} = useStore();
 
 	useEffect(() => {
-		getNotifications(employee.id);
+		if (employee) {
+			getNotifications(employee.id!);
+		}
 	}, []);
+
+	const signOut = async () => {
+		await logout();
+	};
 
 	return (
 		<>
@@ -62,66 +70,80 @@ export default observer(function Navbar({ employee }: Props) {
 						px: 2,
 					}}
 				>
-					<IconButton
-						// onClick={onSidebarOpen}
-						sx={{
-							display: {
-								xs: 'inline-flex',
-								lg: 'none',
-							},
-						}}
-					>
-						<MenuIcon fontSize='small' />
-					</IconButton>
-					<Tooltip title='Search'>
-						<IconButton sx={{ ml: 1 }}>
-							<SearchIcon fontSize='small' />
-						</IconButton>
-					</Tooltip>
-					<Box sx={{ flexGrow: 1 }} />
-					<Tooltip title='Contacts'>
-						<IconButton sx={{ ml: 1 }}>
-							<PeopleAltIcon fontSize='small' />
-						</IconButton>
-					</Tooltip>
-					<Tooltip title='Notifications'>
-						<IconButton
-							sx={{ ml: 1 }}
-							onClick={() => setOpenNotifications(true)}
-							ref={settingsRef}
-						>
-							<Badge badgeContent={4} color='primary' variant='dot'>
-								<NotificationsIcon fontSize='small' />
-							</Badge>
-						</IconButton>
-					</Tooltip>
-					<Avatar
-						onClick={() => setOpenAccountPopover(true)}
-						ref={settingsRef}
-						sx={{
-							cursor: 'pointer',
-							height: 40,
-							width: 40,
-							ml: 1,
-						}}
-						src='/static/images/avatars/avatar_1.png'
-					>
-						<AccountCircleIcon sx={{ fontSize: 40, bgcolor: '#4B5563' }} />
-					</Avatar>
+					{employee ? (
+						<>
+							<IconButton
+								// onClick={onSidebarOpen}
+								sx={{
+									display: {
+										xs: 'inline-flex',
+										lg: 'none',
+									},
+								}}
+							>
+								<MenuIcon fontSize='small' />
+							</IconButton>
+							<Tooltip title='Search'>
+								<IconButton sx={{ ml: 1 }}>
+									<SearchIcon fontSize='small' />
+								</IconButton>
+							</Tooltip>
+							<Box sx={{ flexGrow: 1 }} />
+							<Tooltip title='Notifications'>
+								<IconButton
+									sx={{ ml: 1 }}
+									onClick={() => setOpenNotifications(true)}
+									ref={settingsRef}
+								>
+									<Badge badgeContent={4} color='primary' variant='dot'>
+										<NotificationsIcon fontSize='small' />
+									</Badge>
+								</IconButton>
+							</Tooltip>
+							<Avatar
+								onClick={() => setOpenAccountPopover(true)}
+								ref={settingsRef}
+								sx={{
+									cursor: 'pointer',
+									height: 40,
+									width: 40,
+									ml: 1,
+								}}
+								src='/static/images/avatars/avatar_1.png'
+							>
+								<AccountCircleIcon sx={{ fontSize: 40, bgcolor: '#4B5563' }} />
+							</Avatar>
+						</>
+					) : (
+						<Tooltip title='Logout'>
+							<IconButton
+								sx={{ ml: 1 }}
+								onClick={() => signOut()}
+								ref={settingsRef}
+							>
+								<LogoutIcon fontSize='small' />
+								Logout
+							</IconButton>
+						</Tooltip>
+					)}
 				</Toolbar>
 			</DashboardNavbarRoot>
-			<AccountPopover
-				anchorEl={settingsRef.current}
-				open={openAccountPopover}
-				onClose={() => setOpenAccountPopover(false)}
-				employeeName={`${employee.name} ${employee.surname}`}
-			/>
-			<NotificationPopover
-				anchorEl={settingsRef.current}
-				open={openNotifications}
-				onClose={() => setOpenNotifications(false)}
-				notifications={notifications}
-			/>
+			{employee && (
+				<>
+					<AccountPopover
+						anchorEl={settingsRef.current}
+						open={openAccountPopover}
+						onClose={() => setOpenAccountPopover(false)}
+						employeeName={`${employee.name} ${employee.surname}`}
+					/>
+					<NotificationPopover
+						anchorEl={settingsRef.current}
+						open={openNotifications}
+						onClose={() => setOpenNotifications(false)}
+						notifications={notifications}
+					/>
+				</>
+			)}
 		</>
 	);
 });

@@ -1,6 +1,8 @@
-﻿using PayrollManager.Application.Employee.Dto;
+﻿using AutoMapper;
+using PayrollManager.Application.Employee.Dto;
 using PayrollManager.Application.Employee.Interfaces;
 using PayrollManager.Infrastructure.Models;
+using PayrollManager.Infrastructure.PayrollDbContext;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.ContactDetailsRepository;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Dependant;
 using PayrollManager.Infrastructure.PayrollDbContext.Repository.Employee;
@@ -18,16 +20,23 @@ namespace PayrollManager.Application.Employee.Services
         private readonly IContactDetailsRepository _contactDetailsRepository;
         private readonly IDependantRepository _dependantRepository;
         private readonly INotificationsRepository _notificationsRepository;
+        private readonly PayrollDbContext _payrollDbContext;
+        private readonly IMapper _mapper;
+
 
         public EmployeeService(IEmployeeRepository employeeRepository,
                                IContactDetailsRepository contactDetailsRepository,
                                IDependantRepository dependantRepository,
-                               INotificationsRepository notificationsRepository)
+                               INotificationsRepository notificationsRepository,
+                               PayrollDbContext payrollDbContext,
+                               IMapper mapper)
         {
             _employeeRepository = employeeRepository ?? throw new ArgumentNullException(nameof(employeeRepository));
             _contactDetailsRepository = contactDetailsRepository ?? throw new ArgumentNullException(nameof(contactDetailsRepository));
             _dependantRepository = dependantRepository ?? throw new ArgumentNullException(nameof(dependantRepository));
             _notificationsRepository = notificationsRepository ?? throw new ArgumentNullException(nameof(notificationsRepository));
+            _payrollDbContext = payrollDbContext ?? throw new ArgumentNullException(nameof(payrollDbContext));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
@@ -35,64 +44,25 @@ namespace PayrollManager.Application.Employee.Services
             try
             {
                 var entities = _employeeRepository.GetAll();
-                return entities.Select(x =>
-                {
-                    return new EmployeeDto
-                    {
-                        Id = x.Id,
-                        Company = x.Company,
-                        Name = x.Name,
-                        Surname = x.Surname,
-                        Department = x.Department,
-                        JobTitle = x.JobTitle,
-                        Manager = x.Manager,
-                        TeamName = x.TeamName,
-                        Title = x.Title,
-                        CreatedDate = x.CreatedDate
-                    };
-                });
+                
+                var employees = _mapper.Map<IEnumerable<EmployeeEntity>, IEnumerable<EmployeeDto>>(entities);
+                return employees;
             }
             catch (Exception ex)
             {
                 throw new Exception();
             }
-
         }
 
         public async Task<EmployeeDto> GetEmployee(Guid employeeId)
         {
             try
             {
-                var employee = await _employeeRepository.GetByID(employeeId);
-                var contactDetails = await _contactDetailsRepository.GetByEmployeeId(employeeId);
+                var entity = await _employeeRepository.GetByID(employeeId);
 
-                return employee == null || contactDetails == null ? null
-                    : new EmployeeDto
-                    {
-                        Id = employeeId,
-                        Company = employee.Company,
-                        Name = employee.Name,
-                        Surname = employee.Surname,
-                        Department = employee.Department,
-                        JobTitle = employee.JobTitle,
-                        Manager = employee.Manager,
-                        TeamName = employee.TeamName,
-                        Title = employee.Title,
-                        Cellphone = contactDetails.Cellphone,
-                        Email = contactDetails.Email,
-                        PhysicalAddress = contactDetails.PhysicalAddress,
-                        Telephone = contactDetails.Telephone,
-                        PostalAddress = contactDetails.PostalAddress,
-                        CreatedDate = employee.CreatedDate,
-                        EmployeeNumber = employee.EmployeeNumber,
-                        EmployeeType = employee.EmployeeType,
-                        HireDate = employee.HireDate,
-                        JobType = employee.JobType,
-                        Location = employee.Location,
-                        ManagerEmployeeId = employeeId,
-                        OriginalHireDate = employee.OriginalHireDate,
-                        TeamId = employee.TeamId
-                    };
+                var employee = _mapper.Map<EmployeeEntity, EmployeeDto>(entity);
+
+                return employee;
             }
             catch (Exception ex)
             {
@@ -104,41 +74,38 @@ namespace PayrollManager.Application.Employee.Services
         {
             try
             {
-                var id = Guid.NewGuid();
+                var user = _payrollDbContext.Users.FirstOrDefault(x => x.Id == employee.Id);
 
-                var employeeEntity = new EmployeeEntity
+                if (user != null)
                 {
-                    Company = employee.Company,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Id = id,
-                    CreatedDate = DateTime.Now,
-                };
+                    var entity = new EmployeeEntity()
+                    {
+                        Id = employee.Id,
+                        EmployeeId = employee.Id,
+                        CreatedDate = DateTime.Now,
+                        Company = "42Company",
+                    };
 
-                await _employeeRepository.Create(employeeEntity);
+                    entity = _mapper.Map(employee, entity);
+
+                    await _employeeRepository.Create(entity);
+                }
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
             }
-
         }
 
         public async Task UpdateEmployee(EmployeeDto employee)
         {
             try
             {
-                var employeeEntity = new EmployeeEntity
-                {
-                    Company = employee.Company,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Id = employee.Id,
-                    CreatedDate = DateTime.Now,
-                };
+                var entity = await _employeeRepository.GetByEmployeeId(employee.Id);
 
+                entity = _mapper.Map(employee, entity);
 
-                await _employeeRepository.Update(employeeEntity);
+                await _employeeRepository.Update(entity);
             }
             catch (Exception ex)
             {
@@ -160,41 +127,35 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
-        public async Task UpdatePersonalInfo(PersonalInfoDto info, Guid id)
+        public async Task CreateContactDetails(ContactDetailsDto contactDetails)
         {
             try
             {
-                var employee = await _employeeRepository.GetByID(id);
+                var entity = new ContactDetailsEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    CreatedDate = DateTime.Now
+                };
 
-                employee.Name = info.Name;
-                employee.Surname = info.Surname;
-                employee.Title = info.Title;
-                employee.JobTitle = info.JobTitle;
-                employee.Department = info.Department;
+                entity = _mapper.Map(contactDetails, entity);
 
-
-                await _employeeRepository.Update(employee);
+                await _contactDetailsRepository.Create(entity);
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
             }
-
         }
 
-        public async Task UpdateContactDetails(ContactDetailsDto info, Guid id)
+        public async Task UpdateContactDetails(ContactDetailsDto contactDetails, Guid id)
         {
             try
             {
-                var contactDetails = await _contactDetailsRepository.GetByID(id);
+                var entity = await _contactDetailsRepository.GetByEmployeeId(id);
 
-                contactDetails.Telephone = info.Telephone;
-                contactDetails.Cellphone = info.Cellphone;
-                contactDetails.PhysicalAddress = info.PhysicalAddress;
-                contactDetails.PostalAddress = info.PostalAddress;
+                entity = _mapper.Map(contactDetails, entity);
 
-
-                await _contactDetailsRepository.Update(contactDetails);
+                await _contactDetailsRepository.Update(entity);
             }
             catch (Exception ex)
             {
@@ -308,7 +269,8 @@ namespace PayrollManager.Application.Employee.Services
                         EmployeeId = x.EmployeeId,
                         Message = x.Message,
                         NotificationType = x.NotificationType,
-                        CreatedDate = x.CreatedDate
+                        CreatedDate = x.CreatedDate,
+                        Read = x.Read
                     };
                 }).OrderByDescending(x => x.CreatedDate);
             }
@@ -316,6 +278,6 @@ namespace PayrollManager.Application.Employee.Services
             {
                 throw new Exception();
             }
-        }
+        }   
     }
 }
