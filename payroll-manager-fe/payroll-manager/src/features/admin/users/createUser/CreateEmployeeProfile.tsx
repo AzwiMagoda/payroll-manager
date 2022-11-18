@@ -11,6 +11,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Employee } from '../../../../app/models/employee';
+import { useStore } from '../../../../app/stores/store';
 
 interface Props {
 	setEmployee: (params: any) => any;
@@ -24,18 +25,19 @@ export default observer(function CreateEmployeeProfile({
 	lastName,
 }: Props) {
 	let employee: Employee = {};
-	const departments = ['HR', 'Technology', 'Finance'];
-	const titles = ['Mr', 'Miss', 'Mrs', 'Dr', 'Prof'];
+	const {
+		generalStore: { departmentList, titleList },
+	} = useStore();
 
 	const [jobTitle, setJobTitle] = useState('');
 	const [department, setDepartment] = useState(0);
 	const [title, setTitle] = useState(0);
 
 	useEffect(() => {
-		employee.title = titles[title];
+		employee.title = titleList[title];
 		employee.name = firstName;
 		employee.surname = lastName;
-		employee.department = departments[department];
+		employee.department = departmentList[department].name;
 		employee.jobTitle = jobTitle;
 
 		setEmployee(employee);
@@ -120,9 +122,9 @@ export default observer(function CreateEmployeeProfile({
 							label='Department'
 							onChange={(e) => setDepartment(e.target.value as number)}
 						>
-							{departments.map((d, i) => (
+							{departmentList.map((d, i) => (
 								<MenuItem key={i} value={i}>
-									{d}
+									{d.name}
 								</MenuItem>
 							))}
 						</Select>
@@ -137,7 +139,7 @@ export default observer(function CreateEmployeeProfile({
 							label='Title'
 							onChange={(e) => setTitle(e.target.value as number)}
 						>
-							{titles.map((t, i) => (
+							{titleList.map((t, i) => (
 								<MenuItem key={i} value={i}>
 									{t}
 								</MenuItem>
