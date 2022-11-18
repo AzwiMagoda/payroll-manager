@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
-import { ContactDetailsForm } from '../models/contactDetailsForm';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
@@ -17,6 +16,7 @@ import { RemunerationGraph } from '../models/remunerationGraph';
 import { UserDetails } from '../models/userDetails';
 import { RegisterDto } from '../models/register';
 import { ListDto } from '../models/listDto';
+import { ContactDetailsDto } from '../models/contactDetailsDto';
 
 const sleep = (delay: number) => {
 	return new Promise((resolve) => {
@@ -91,7 +91,7 @@ const Employees = {
 		requests.put<void>(`employee/update`, employee),
 	updatePersonalInformation: (info: PersonalInfoForm) =>
 		requests.put<Employee>(`employee/update/personalinfo`, info),
-	updateContactDetails: (info: ContactDetailsForm) =>
+	updateContactDetails: (info: ContactDetailsDto) =>
 		requests.put<Employee>(`employee/update/contactdetails`, info),
 	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),
 	addNewDependant: (dependant: Dependant) =>

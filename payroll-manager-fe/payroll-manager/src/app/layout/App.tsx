@@ -6,7 +6,6 @@ import { Route, Routes } from 'react-router-dom';
 import EmployeeDashboard from '../../features/Dashboard/EmployeeDashboard';
 import Login from '../../features/Auth/Login';
 import { useStore } from '../stores/store';
-import ProfileDashboard from '../../features/profile/ProfileDashboard';
 import './App.css';
 import LeaveDaysDashboard from '../../features/leaveDays/LeaveDaysDashboard';
 import { ToastContainer } from 'react-toastify';
@@ -116,7 +115,7 @@ function App() {
 														<EmployeeDashboard employee={currentEmployee} />
 													}
 												/>
-												<Route path='/account' element={<ProfileDashboard />} />
+												{/* <Route path='/account' element={<ProfileDashboard />} /> */}
 
 												<Route
 													path='/leaveDashboard'

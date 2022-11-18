@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import agent from '../api/agent';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { BookLeave } from '../models/bookLeave';
-import { ContactDetailsForm } from '../models/contactDetailsForm';
+import { ContactDetailsDto } from '../models/contactDetailsDto';
 import { DeclineLeave } from '../models/DeclineLeave';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
@@ -152,10 +152,12 @@ export default class EmployeeStore {
 		}
 	};
 
-	updateContactDetails = async (info: ContactDetailsForm) => {
+	updateContactDetails = async (contactDetails: ContactDetailsDto) => {
 		this.loading = true;
 		try {
-			const employee = await agent.Employees.updateContactDetails(info);
+			const employee = await agent.Employees.updateContactDetails(
+				contactDetails
+			);
 			runInAction(() => {
 				this.loading = false;
 				this.currentEmployee = employee;
