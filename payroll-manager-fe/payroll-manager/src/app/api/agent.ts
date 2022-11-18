@@ -51,7 +51,6 @@ api.interceptors.response.use(
 		const { data, status, config } = error.response!;
 		switch (status) {
 			case 401:
-				console.log('hey its a 401');
 				localStorage.clear();
 				return (window.location.href = '/');
 		}
@@ -140,6 +139,7 @@ const Remunerations = {
 
 const General = {
 	getTitle: () => requests.get<string[]>(`general/titleList`),
+	getEmployeeTypeList: () => requests.get<string[]>(`general/employeeTypeList`),
 	getManagerList: () => requests.get<ListDto[]>(`general/managerList`),
 	getTeamList: () => requests.get<ListDto[]>(`general/teamList`),
 	getTeamListDepartment: (department: string) =>

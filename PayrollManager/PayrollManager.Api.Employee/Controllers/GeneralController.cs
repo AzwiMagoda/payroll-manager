@@ -25,6 +25,13 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
+        [Route("GetEmployeeTypes")]
+        public ActionResult<IEnumerable<string>> GetEmployeeTypes()
+        {
+            return Ok(_generalService.GetEmployeeTypes());
+        }
+
+        [HttpGet]
         [Route("GetManagerList")]
         public ActionResult<IEnumerable<ListDto>> GetManagerList()
         {

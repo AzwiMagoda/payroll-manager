@@ -41,13 +41,9 @@ function App() {
 			getTitleList,
 			getManagerList,
 			getTeamList,
+			getEmployeeTypeList,
 		},
 	} = useStore();
-
-	// getTeamList();
-	// getTitleList();
-	// getDepartmentList();
-	// getManagerList();
 
 	useEffect(() => {
 		document.title = 'Home | PayME';
@@ -74,6 +70,7 @@ function App() {
 			getTitleList();
 			getDepartmentList();
 			getManagerList();
+			getEmployeeTypeList();
 		}
 	});
 

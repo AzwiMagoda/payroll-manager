@@ -7,6 +7,7 @@ export default class GeneralStore {
 	managerList = new Array<ListDto>();
 	departmentList = new Array<ListDto>();
 	titleList = new Array<string>();
+	employeeTypeList = new Array<string>();
 
 	constructor() {
 		makeAutoObservable(this);
@@ -64,6 +65,18 @@ export default class GeneralStore {
 
 			runInAction(() => {
 				this.titleList = list;
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	getEmployeeTypeList = async () => {
+		try {
+			const list = await agent.General.getEmployeeTypeList();
+
+			runInAction(() => {
+				this.employeeTypeList = list;
 			});
 		} catch (error) {
 			console.log(error);

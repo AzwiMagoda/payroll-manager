@@ -40,12 +40,17 @@ export default observer(function HrEdit({ employee }: Props) {
 	return (
 		<>
 			{items.map((item, index) => (
-				<Accordion key={index} sx={{ marginBottom: 3 }}>
+				<Accordion
+					key={index}
+					sx={{ marginBottom: 3, backgroundColor: '#F9FAFC' }}
+				>
 					<AccordionSummary
 						expandIcon={<ExpandMoreIcon />}
 						aria-controls={`${index}-panel`}
 						id={`${index}-header`}
-						sx={{ borderLeft: `7px solid ${item.color}` }}
+						sx={{
+							borderLeft: `7px solid ${item.color}`,
+						}}
 					>
 						<Stack
 							direction='row'

@@ -2,9 +2,13 @@ import {
 	Button,
 	Divider,
 	FormControl,
+	FormControlLabel,
+	FormLabel,
 	Grid,
 	InputLabel,
 	MenuItem,
+	Radio,
+	RadioGroup,
 	Select,
 	Stack,
 	TextField,
@@ -28,6 +32,7 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 			departmentList,
 			titleList,
 			getTeamListDepartment,
+			employeeTypeList,
 		},
 		employeeStore: { updateEmployee },
 	} = useStore();
@@ -46,6 +51,9 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	const [team, setTeam] = useState(employee.teamId || '');
 	const [teamList, setTeamList] = useState<ListDto[]>([]);
 	const [title, setTitle] = useState(titleList.indexOf(employee.title!) || 0);
+	const [employeeType, setEmployeeType] = useState(
+		employee.employeeType || employeeTypeList[0]
+	);
 
 	const textFields = [
 		{
@@ -118,6 +126,7 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 		employee.name = name;
 		employee.surname = surname;
 		employee.jobTitle = jobTitle;
+		employee.employeeType = employeeType;
 
 		console.log(employee);
 		await updateEmployee(employee);
@@ -131,7 +140,7 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 				justifyContent='space-around'
 				alignItems='center'
 			>
-				<Grid item xs={4}>
+				<Grid item xs={5}>
 					<Stack
 						direction='column'
 						justifyContent='flex-start'
@@ -184,7 +193,7 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 					flexItem
 				/>
 
-				<Grid item xs={4}>
+				<Grid item xs={5}>
 					<Stack
 						direction='column'
 						justifyContent='flex-start'
@@ -208,6 +217,34 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 								</Select>
 							</FormControl>
 						))}
+
+						<FormControl>
+							<FormLabel id='lblEmployeeType'>Employee Type</FormLabel>
+							<RadioGroup
+								row
+								aria-labelledby='employeeType'
+								name='employeeType'
+								value={employeeType}
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+									setEmployeeType(event.target.value)
+								}
+							>
+								<Stack
+									direction='row'
+									justifyContent='space-between'
+									alignItems='center'
+									spacing={4}
+								>
+									{employeeTypeList.map((item, i) => (
+										<FormControlLabel
+											value={item}
+											control={<Radio />}
+											label={item}
+										/>
+									))}
+								</Stack>
+							</RadioGroup>
+						</FormControl>
 					</Stack>
 				</Grid>
 			</Grid>

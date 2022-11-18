@@ -46,6 +46,11 @@ namespace PayrollManager.Application.Employee.Services
             return departments;
         }
 
+        public IEnumerable<string> GetEmployeeTypes()
+        {
+            return new string[] { "Full-Time", "Part-Time", "Contract"};
+        }
+
         public IEnumerable<ListDto> GetManagerList()
         {
             var roleId = _payrollDbContext.Roles.FirstOrDefault(x => x.Name == "Manager").Id;
@@ -91,9 +96,7 @@ namespace PayrollManager.Application.Employee.Services
 
         public IEnumerable<string> GetTitles()
         {
-            var titles = new string[] { "Mr", "Miss", "Mrs", "Dr", "Prof" };
-
-            return titles;
+            return new string[] { "Mr", "Miss", "Mrs", "Dr", "Prof" };
         }
     }
 }

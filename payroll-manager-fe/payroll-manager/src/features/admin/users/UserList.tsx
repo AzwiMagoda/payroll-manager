@@ -59,7 +59,7 @@ export default observer(function UserList() {
 		{
 			field: 'isActive',
 			headerName: 'Status',
-			flex: 0.5,
+			flex: 1,
 			headerAlign: 'center',
 			align: 'center',
 			renderCell: (params: GridRenderCellParams<Boolean>) => {
@@ -77,7 +77,7 @@ export default observer(function UserList() {
 		{
 			field: 'actions',
 			type: 'actions',
-			flex: 0.5,
+			flex: 1,
 			renderCell: (params: any) => {
 				return (
 					<strong>
