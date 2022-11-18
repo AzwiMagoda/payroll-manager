@@ -9,7 +9,6 @@ import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
 import { NotificationDto } from '../models/notification';
-import { PersonalInfoForm } from '../models/personalInfoForm';
 import { store } from './store';
 
 export default class EmployeeStore {
@@ -133,22 +132,6 @@ export default class EmployeeStore {
 			return employee;
 		} catch (error) {
 			console.log(error);
-		}
-	};
-
-	updatePersonalInfo = async (info: PersonalInfoForm) => {
-		this.loading = true;
-		try {
-			const employee = await agent.Employees.updatePersonalInformation(info);
-			runInAction(() => {
-				this.loading = false;
-				this.currentEmployee = employee;
-			});
-		} catch (error) {
-			console.log(error);
-			runInAction(() => {
-				this.loading = false;
-			});
 		}
 	};
 

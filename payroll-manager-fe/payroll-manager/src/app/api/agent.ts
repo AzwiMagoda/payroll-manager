@@ -3,7 +3,6 @@ import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
 import { LeaveDays } from '../models/leaveDays';
-import { PersonalInfoForm } from '../models/personalInfoForm';
 import { TeamMembers } from '../models/teamMembers';
 import { Payslip } from '../models/payslip';
 import { Login } from '../models/login';
@@ -89,8 +88,6 @@ const Employees = {
 		requests.get<Employee>(`employee/${employeeId}`),
 	updateEmployeeDetails: (employee: Employee) =>
 		requests.put<void>(`employee/update`, employee),
-	updatePersonalInformation: (info: PersonalInfoForm) =>
-		requests.put<Employee>(`employee/update/personalinfo`, info),
 	updateContactDetails: (info: ContactDetailsDto) =>
 		requests.put<Employee>(`employee/update/contactdetails`, info),
 	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),

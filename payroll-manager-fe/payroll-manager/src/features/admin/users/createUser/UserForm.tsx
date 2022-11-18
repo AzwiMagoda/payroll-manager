@@ -27,24 +27,45 @@ export default observer(function UserForm({
 	setFirstName,
 	setLastName,
 }: Props) {
+	let user: RegisterDto = {
+		firstName: '',
+		lastName: '',
+		phoneNumber: '',
+		role: '',
+	};
 	const roles = ['Employee', 'HR', 'Manager'];
-
 	const [role, setRole] = useState(0);
 	const [phoneNumber, setPhoneNumber] = useState('');
 
-	const [password, setPassword] = useState('');
+	const textFields = [
+		{
+			id: 'firstName',
+			value: firstName,
+			label: 'First Name',
+			onChange: setFirstName,
+		},
+		{
+			id: 'lastName',
+			value: lastName,
+			label: 'Last Name',
+			onChange: setLastName,
+		},
+		{
+			id: 'phoneNumber',
+			value: phoneNumber,
+			label: 'Phone Number',
+			onChange: setPhoneNumber,
+		},
+	];
 
 	useEffect(() => {
-		var user = new RegisterDto(
-			password,
-			firstName,
-			lastName,
-			phoneNumber,
-			roles[role]
-		);
+		user.firstName = firstName;
+		user.lastName = lastName;
+		user.phoneNumber = phoneNumber;
+		user.role = roles[role];
 
 		setUser(user);
-	}, [password, firstName, lastName, phoneNumber, role]);
+	}, [firstName, lastName, phoneNumber, role]);
 
 	return (
 		<Grid
@@ -59,40 +80,23 @@ export default observer(function UserForm({
 					justifyContent='flex-start'
 					alignItems='center'
 				>
-					<TextField
-						margin='normal'
-						id='firstName'
-						label='First Name'
-						name='firstName'
-						type='text'
-						autoFocus
-						autoComplete='off'
-						fullWidth
-						value={firstName}
-						onChange={(e: any) => setFirstName(e.target.value)}
-					/>
-					<TextField
-						margin='normal'
-						id='lastName'
-						label='Last Name'
-						name='lastName'
-						type='text'
-						fullWidth
-						autoComplete='off'
-						value={lastName}
-						onChange={(e: any) => setLastName(e.target.value)}
-					/>
-					<TextField
-						margin='normal'
-						id='phoneNumber'
-						label='Phone Number'
-						name='phoneNumber'
-						type='text'
-						fullWidth
-						autoComplete='off'
-						value={phoneNumber}
-						onChange={(e: any) => setPhoneNumber(e.target.value)}
-					/>
+					{textFields.map((item, index) => (
+						<TextField
+							key={index}
+							margin='normal'
+							id={item.id}
+							label={item.label}
+							name={item.id}
+							type='text'
+							autoFocus
+							autoComplete='off'
+							fullWidth
+							value={item.value}
+							onChange={(
+								e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+							) => item.onChange(e.target.value)}
+						/>
+					))}
 				</Stack>
 			</Grid>
 			<Divider
@@ -110,17 +114,6 @@ export default observer(function UserForm({
 					justifyContent='flex-start'
 					alignItems='center'
 				>
-					<TextField
-						margin='normal'
-						id='password'
-						label='Password'
-						name='password'
-						type='password'
-						fullWidth
-						inputProps={{ autoComplete: 'off' }}
-						value={password}
-						onChange={(e: any) => setPassword(e.target.value)}
-					/>
 					<FormControl fullWidth margin='normal'>
 						<InputLabel id='lblRole'>Role</InputLabel>
 						<Select
