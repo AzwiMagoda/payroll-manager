@@ -22,7 +22,6 @@ interface Props {
 }
 
 export default observer(function EmployeeProfileForm({ employee }: Props) {
-	console.log(employee);
 	const {
 		generalStore: {
 			managerList,
@@ -33,7 +32,10 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 		employeeStore: { updateEmployee },
 	} = useStore();
 
-	const [update, setUpdate] = useState<Employee>(employee);
+	const [name, setName] = useState(employee.name || '');
+	const [surname, setSurname] = useState(employee.surname || '');
+	const [jobTitle, setJobTitle] = useState(employee.jobTitle || '');
+
 	const [department, setDepartment] = useState(departmentList[0].id);
 	const [manager, setManager] = useState(managerList[0].id);
 	const [team, setTeam] = useState('');
@@ -43,18 +45,21 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	const textFields = [
 		{
 			id: 'name',
-			value: update.name,
+			value: name,
 			label: 'First Name',
+			onChange: setName,
 		},
 		{
 			id: 'surname',
-			value: update.surname,
+			value: surname,
 			label: 'Last Name',
+			onChange: setSurname,
 		},
 		{
 			id: 'jobTitle',
-			value: update.jobTitle,
+			value: jobTitle,
 			label: 'Job Title',
+			onChange: setJobTitle,
 		},
 	];
 
@@ -91,24 +96,6 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 		getTeamList(departmentName);
 	}, [department]);
 
-	const onChange = (id: string, value: string) => {
-		console.log(update);
-
-		switch (id) {
-			case 'name':
-				employee.name = value;
-				break;
-			case 'surname':
-				employee.surname = value;
-				break;
-			case 'jobTitle':
-				employee.jobTitle = value;
-				break;
-		}
-
-		setUpdate(employee);
-	};
-
 	const getTeamList = async (value: string) => {
 		var list = await getTeamListDepartment(value);
 		if (list) setTeamList(list);
@@ -121,7 +108,11 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 		employee.teamName = teamList.find((x) => x.id === team)!.name;
 		employee.teamId = team;
 		employee.id = employee.id;
+		employee.employeeId = employee.id;
 		employee.title = titleList[title];
+		employee.name = name;
+		employee.surname = surname;
+		employee.jobTitle = jobTitle;
 
 		console.log(employee);
 		await updateEmployee(employee);
@@ -155,7 +146,7 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 								value={item.value}
 								onChange={(
 									e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-								) => onChange(e.target.id, e.target.value)}
+								) => item.onChange(e.target.value)}
 							/>
 						))}
 
