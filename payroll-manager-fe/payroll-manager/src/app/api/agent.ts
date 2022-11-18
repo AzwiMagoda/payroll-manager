@@ -16,7 +16,6 @@ import { Remuneration } from '../models/remuneration';
 import { RemunerationGraph } from '../models/remunerationGraph';
 import { UserDetails } from '../models/userDetails';
 import { RegisterDto } from '../models/register';
-import { CreateEmployee } from '../models/createEmployee';
 import { ListDto } from '../models/listDto';
 
 const sleep = (delay: number) => {
@@ -80,7 +79,7 @@ const Auth = {
 };
 
 const Employees = {
-	createEmployee: (employee: CreateEmployee) =>
+	createEmployee: (employee: Employee) =>
 		requests.post<string>(`employee/create`, employee),
 	updateEmployee: (employee: Employee) =>
 		requests.put<string>(`employee/update`, employee),

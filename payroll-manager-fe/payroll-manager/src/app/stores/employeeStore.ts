@@ -4,7 +4,6 @@ import agent from '../api/agent';
 import { BookedLeaveDays } from '../models/bookedLeaveDays';
 import { BookLeave } from '../models/bookLeave';
 import { ContactDetailsForm } from '../models/contactDetailsForm';
-import { CreateEmployee } from '../models/createEmployee';
 import { DeclineLeave } from '../models/DeclineLeave';
 import { Dependant } from '../models/dependant';
 import { Employee } from '../models/employee';
@@ -48,7 +47,7 @@ export default class EmployeeStore {
 		this.hasNewDependant = status;
 	};
 
-	createEmployee = async (employee: CreateEmployee, id: string) => {
+	createEmployee = async (employee: Employee, id: string) => {
 		this.loading = true;
 		try {
 			employee.id = id;

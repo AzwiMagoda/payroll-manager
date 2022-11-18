@@ -21,8 +21,8 @@ import { useStore } from '../../../../app/stores/store';
 import SaveIcon from '@mui/icons-material/Save';
 import { RegisterDto } from '../../../../app/models/register';
 import UserForm from './UserForm';
-import { CreateEmployee } from '../../../../app/models/createEmployee';
 import CreateEmployeeProfile from './CreateEmployeeProfile';
+import { Employee } from '../../../../app/models/employee';
 
 export default function CreateUser() {
 	const title = 'Create User';
@@ -33,7 +33,7 @@ export default function CreateUser() {
 	const [lastName, setLastName] = useState('');
 
 	const [user, setUser] = useState<RegisterDto>();
-	const [employee, setEmployee] = useState<CreateEmployee>();
+	const [employee, setEmployee] = useState<Employee>();
 
 	const {
 		authStore: { createUser },

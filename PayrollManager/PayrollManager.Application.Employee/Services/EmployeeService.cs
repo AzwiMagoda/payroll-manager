@@ -81,6 +81,7 @@ namespace PayrollManager.Application.Employee.Services
                     var entity = new EmployeeEntity()
                     {
                         Id = employee.Id,
+                        EmployeeId = employee.Id,
                         CreatedDate = DateTime.Now,
                         Company = "42Company",
                     };

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-import { CreateEmployee } from '../../../../app/models/createEmployee';
+import { Employee } from '../../../../app/models/employee';
 
 interface Props {
 	setEmployee: (params: any) => any;
@@ -23,6 +23,7 @@ export default observer(function CreateEmployeeProfile({
 	firstName,
 	lastName,
 }: Props) {
+	let employee: Employee = {};
 	const departments = ['HR', 'Technology', 'Finance'];
 	const titles = ['Mr', 'Miss', 'Mrs', 'Dr', 'Prof'];
 
@@ -31,13 +32,11 @@ export default observer(function CreateEmployeeProfile({
 	const [title, setTitle] = useState(0);
 
 	useEffect(() => {
-		var employee = new CreateEmployee(
-			titles[title],
-			firstName,
-			lastName,
-			departments[department],
-			jobTitle
-		);
+		employee.title = titles[title];
+		employee.name = firstName;
+		employee.surname = lastName;
+		employee.department = departments[department];
+		employee.jobTitle = jobTitle;
 
 		setEmployee(employee);
 	}, [jobTitle, firstName, lastName, department, title]);
