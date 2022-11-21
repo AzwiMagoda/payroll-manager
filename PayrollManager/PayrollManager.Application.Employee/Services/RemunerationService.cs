@@ -55,5 +55,43 @@ namespace PayrollManager.Application.Employee.Services
 
             return dto;
         }
+
+        public async Task CreateRemuneration(RemunerationDto remuneration)
+        {
+            try
+            {
+                var entity = new RemunerationEntity()
+                {
+                    //Id = remuneration.Id,
+                    //EmployeeId = remuneration.Id,
+                    CreatedDate = DateTime.Now,
+                };
+
+                entity = _mapper.Map(remuneration, entity);
+
+                await _remunerationRepository.Create(entity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task UpdateRemuneration(RemunerationDto remuneration)
+        {
+            try
+            {
+                var entity = await _remunerationRepository.GetByEmployeeId(remuneration.Id);
+
+                entity = _mapper.Map(remuneration, entity);
+
+                await _remunerationRepository.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
+        }
     }
 }

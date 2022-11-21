@@ -28,7 +28,10 @@ namespace PayrollManager.Application.Employee.AutoMapper
                 .ForMember(d => d.EmployeeId, opt => opt.PreCondition((src, dest) => src.EmployeeId != Guid.Empty))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             
-            CreateMap<RemunerationEntity, RemunerationDto>();
+            CreateMap<RemunerationEntity, RemunerationDto>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<RemunerationDto, RemunerationEntity>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

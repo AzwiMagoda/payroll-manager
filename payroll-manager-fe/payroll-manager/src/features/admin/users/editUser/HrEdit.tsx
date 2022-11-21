@@ -8,10 +8,12 @@ import {
 } from '@mui/material';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import PersonIcon from '@mui/icons-material/Person';
+import PaidIcon from '@mui/icons-material/Paid';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
 import { observer } from 'mobx-react-lite';
+import RemunerationForm from './hrEditForms/RemunerationForm';
 
 interface Props {
 	employeeId: string;
@@ -32,6 +34,12 @@ export default observer(function HrEdit({ employeeId }: Props) {
 			title: 'Contact Details',
 			form: <ContactDetailsForm employeeId={employeeId} />,
 			color: theme.palette.secondary.main,
+		},
+		{
+			icon: <PaidIcon fontSize='large' />,
+			title: 'Remuneration',
+			form: <RemunerationForm employeeId={employeeId} />,
+			color: theme.palette.warning.main,
 		},
 	];
 

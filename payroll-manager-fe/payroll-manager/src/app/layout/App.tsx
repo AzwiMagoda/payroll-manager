@@ -16,7 +16,6 @@ import Navbar from './navbar/Navbar';
 import Sidebar from './sidebar/Sidebar';
 import PayslipDashboard from '../../features/payslips/PayslipDashboard';
 import RemunerationDashboard from '../../features/remuneration/RemunerationDashboard';
-import HREmployeesDashboard from '../../features/HREmployees/HREmployeesDashboard';
 import AdminDashboard from '../../features/admin/dashboard/AdminDashboard';
 import UserDashboard from '../../features/admin/users/UserDashboard';
 import EditUser from '../../features/admin/users/editUser/EditUser';

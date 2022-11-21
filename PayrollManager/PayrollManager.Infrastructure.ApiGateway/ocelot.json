@@ -464,6 +464,29 @@
       ]
     },
     {
+      "DownstreamPathTemplate": "/api/Remuneration/GetRemuneration/{employeeId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "employeecaching"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/remuneration/{employeeId}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/Remuneration/GetRemuneration",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -486,7 +509,52 @@
         "GET"
       ]
     },
-
+    {
+      "DownstreamPathTemplate": "/api/Remuneration/CreateRemuneration",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "employeecaching"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/remuneration/create",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Remuneration/UpdateRemuneration",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44332
+        }
+      ],
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "employeecaching"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/remuneration/update",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
     //team
     {
       "DownstreamPathTemplate": "/api/Team/GetTeamMembers/{teamName}",
@@ -696,27 +764,6 @@
         ]
       },
       "UpstreamPathTemplate": "/payslips",
-      "UpstreamHttpMethod": [
-        "GET"
-      ]
-    },
-
-    //Manager
-    {
-      "DownstreamPathTemplate": "/api/Manager/GetAllEmployeeBookedLeaveDays",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44322
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "IdentityApiKey",
-        "AllowedScopes": [
-        ]
-      },
-      "UpstreamPathTemplate": "/manager/getBookedLeaveDays",
       "UpstreamHttpMethod": [
         "GET"
       ]

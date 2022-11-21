@@ -30,12 +30,56 @@ namespace PayrollManager.Api.Employee.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "AdminOrHR")]
+        [Route("GetRemuneration/{employeeId}")]
+        public async Task<ActionResult<RemunerationDto>> GetRemuneration(Guid employeeId)
+        {
+            var remuneration = await _remunerationService.GetRemuneration(employeeId);
+            return Ok(remuneration);
+        }
+
+        [HttpGet]
         [Route("GetRemunerationGraphData")]
         public async Task<ActionResult<RemunerationGraphDto>> GetRemunerationGraphData()
         {
             var employeeId = Guid.Parse(User.FindFirst("Id").Value);
             var remuneration = await _remunerationService.GetRemunerationGraphData(employeeId);
             return Ok(remuneration);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "AdminOrHR")]
+        [Route("CreateRemuneration")]
+        public async Task<IActionResult> CreateRemuneration([FromBody] RemunerationDto remuneration)
+        {
+            try
+            {
+                await _remunerationService.CreateRemuneration(remuneration);
+                return Ok($"Remuneration created");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPut]
+        [Route("UpdateRemuneration")]
+        public async Task<IActionResult> UpdateRemuneration([FromBody] RemunerationDto remuneration)
+        {
+            try
+            {
+                await _remunerationService.UpdateRemuneration(remuneration);
+                return Ok($"Remuneration updated");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

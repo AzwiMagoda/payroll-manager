@@ -131,8 +131,14 @@ const Payslips = {
 
 const Remunerations = {
 	getRemuneration: () => requests.get<Remuneration>(`remuneration`),
+	getRemunerationId: (employeeId: string) =>
+		requests.get<Remuneration>(`remuneration/${employeeId}`),
 	getRemunerationGraphData: () =>
 		requests.get<RemunerationGraph>(`remuneration/graphData`),
+	createRemuneration: (remuneration: Remuneration) =>
+		requests.post<string>(`remuneration/create`, remuneration),
+	updateRemuneration: (remuneration: Remuneration) =>
+		requests.put<string>(`remuneration/update`, remuneration),
 };
 
 const General = {
