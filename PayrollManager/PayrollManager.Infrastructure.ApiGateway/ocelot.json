@@ -280,7 +280,7 @@
         "AllowedScopes": [
         ]
       },
-      "UpstreamPathTemplate": "/employee/update/contactdetails",
+      "UpstreamPathTemplate": "/employee/contactdetails/update",
       "UpstreamHttpMethod": [
         "PUT"
       ]
@@ -299,7 +299,7 @@
         "AllowedScopes": [
         ]
       },
-      "UpstreamPathTemplate": "/employee/create/contactdetails",
+      "UpstreamPathTemplate": "/employee/contactdetails/create",
       "UpstreamHttpMethod": [
         "POST"
       ]

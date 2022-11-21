@@ -4,15 +4,11 @@ import {
 	Card,
 	CardContent,
 	Container,
-	Divider,
-	FormControl,
-	Grid,
 	Stack,
-	TextField,
 	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SaveIcon from '@mui/icons-material/Save';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,12 +16,6 @@ import { useStore } from '../../../../app/stores/store';
 import { UserDetails } from '../../../../app/models/userDetails';
 import AdminEdit from './AdminEdit';
 import HrEdit from './HrEdit';
-import { Employee } from '../../../../app/models/employee';
-import {
-	getEmployee,
-	getContactDetails,
-} from '../../../../app/functions/employeeFunctions';
-import { ContactDetailsDto } from '../../../../app/models/contactDetailsDto';
 
 interface Props {
 	role: string;
@@ -35,13 +25,12 @@ export default observer(function EditUser({ role }: Props) {
 	let navigate = useNavigate();
 	const { id } = useParams();
 	const [user, setUser] = useState<UserDetails>();
-	const [employee, setEmployee] = useState<Employee>();
-	const [contactDetails, setContactDetails] = useState<ContactDetailsDto>();
 
 	const title = 'Edit User';
 
 	const {
 		authStore: { users, updateStatus, getUserList },
+		employeeProfileStore: { getEmployeeDetails, selectedEmployee },
 	} = useStore();
 
 	useEffect(() => {
@@ -58,11 +47,7 @@ export default observer(function EditUser({ role }: Props) {
 
 	const initialise = async () => {
 		if (user) {
-			var e = await getEmployee(user.id);
-			if (e) setEmployee(e);
-
-			var c = await getContactDetails(user.id);
-			if (c) setContactDetails(c);
+			await getEmployeeDetails(user.id);
 		}
 	};
 
@@ -150,11 +135,8 @@ export default observer(function EditUser({ role }: Props) {
 								{user && (
 									<>
 										{role === 'Admin' && <AdminEdit user={user} />}
-										{role === 'HR' && employee && (
-											<HrEdit
-												employee={employee}
-												contactDetails={contactDetails}
-											/>
+										{role === 'HR' && selectedEmployee && (
+											<HrEdit employee={selectedEmployee} />
 										)}
 									</>
 								)}

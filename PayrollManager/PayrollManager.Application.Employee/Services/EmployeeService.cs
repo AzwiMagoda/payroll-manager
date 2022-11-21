@@ -74,7 +74,7 @@ namespace PayrollManager.Application.Employee.Services
         {
             try
             {
-                var entity = await _contactDetailsRepository.GetByID(employeeId);
+                var entity = await _contactDetailsRepository.GetByEmployeeId(employeeId);
 
                 var employee = _mapper.Map<ContactDetailsEntity, ContactDetailsDto>(entity);
 

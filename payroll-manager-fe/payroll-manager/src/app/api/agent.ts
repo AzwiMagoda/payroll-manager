@@ -89,9 +89,9 @@ const Employees = {
 	getContactDetails: (employeeId: string) =>
 		requests.get<ContactDetailsDto>(`employee/contactDetails/${employeeId}`),
 	createContactDetails: (contactDetails: ContactDetailsDto) =>
-		requests.put<Employee>(`employee/create/contactdetails`, contactDetails),
+		requests.post<Employee>(`employee/contactdetails/create`, contactDetails),
 	updateContactDetails: (info: ContactDetailsDto) =>
-		requests.put<Employee>(`employee/update/contactdetails`, info),
+		requests.put<Employee>(`employee/contactdetails/update`, info),
 	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),
 	addNewDependant: (dependant: Dependant) =>
 		requests.post<Dependant[]>('/Employee/CreateDependant', dependant),

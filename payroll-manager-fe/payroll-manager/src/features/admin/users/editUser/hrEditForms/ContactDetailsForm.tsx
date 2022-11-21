@@ -11,18 +11,26 @@ import React, { useEffect, useState } from 'react';
 import FormBase from '../../../../../app/common/form/FormBase';
 import SaveIcon from '@mui/icons-material/Save';
 import { ContactDetailsDto } from '../../../../../app/models/contactDetailsDto';
+import {
+	createContactDetails,
+	updateContactDetails,
+} from '../../../../../app/functions/employeeFunctions';
+import { useStore } from '../../../../../app/stores/store';
 
 interface Props {
-	contactDetails: ContactDetailsDto | undefined;
+	employeeId: string;
 }
 
-export default observer(function ContactDetailsForm({ contactDetails }: Props) {
+export default observer(function ContactDetailsForm({ employeeId }: Props) {
+	const {
+		employeeProfileStore: { contactDetails, getContactDetails },
+	} = useStore();
+
 	const [email, setEmail] = useState('');
 	const [cellphone, setCellphone] = useState('');
 	const [telephone, setTelephone] = useState('');
 	const [physicalAddress, setPhysicalAddress] = useState('');
 	const [postalAddress, setPostalAddress] = useState('');
-
 	const [isSameAsPhysical, setIsSameAsPhysical] = useState(false);
 
 	const textFieldsLeft = [
@@ -61,7 +69,46 @@ export default observer(function ContactDetailsForm({ contactDetails }: Props) {
 		},
 	];
 
-	const onSaveClick = () => {};
+	useEffect(() => {
+		getContactDetails(employeeId);
+		console.log(contactDetails);
+	}, [employeeId]);
+
+	useEffect(() => {
+		setEmail(contactDetails?.email || '');
+		setPhysicalAddress(contactDetails?.physicalAddress || '');
+		setPostalAddress(contactDetails?.postalAddress || '');
+		setTelephone(contactDetails?.telephone || '');
+		setCellphone(contactDetails?.cellphone || '');
+		setIsSameAsPhysical(
+			contactDetails?.physicalAddress === contactDetails?.postalAddress! ||
+				false
+		);
+	}, [contactDetails]);
+
+	useEffect(() => {
+		if (isSameAsPhysical === true) {
+			setPostalAddress(physicalAddress);
+		}
+	}, [physicalAddress]);
+
+	const onSaveClick = async () => {
+		let details: ContactDetailsDto = {
+			cellphone: cellphone,
+			email: email,
+			physicalAddress: physicalAddress,
+			postalAddress: postalAddress,
+			telephone: telephone,
+			employeeId: contactDetails?.employeeId || '',
+		};
+
+		if (contactDetails !== undefined) {
+			await updateContactDetails(details);
+		} else {
+			details.employeeId = employeeId;
+			createContactDetails(details);
+		}
+	};
 
 	const onCheckboxSelectionChange = (checked: boolean) => {
 		setIsSameAsPhysical(checked);
@@ -72,12 +119,6 @@ export default observer(function ContactDetailsForm({ contactDetails }: Props) {
 			setPostalAddress('');
 		}
 	};
-
-	useEffect(() => {
-		if (isSameAsPhysical === true) {
-			setPostalAddress(physicalAddress);
-		}
-	}, [physicalAddress]);
 
 	const left = [
 		<>
@@ -124,6 +165,7 @@ export default observer(function ContactDetailsForm({ contactDetails }: Props) {
 			control={
 				<Checkbox
 					checked={isSameAsPhysical}
+					color='secondary'
 					onChange={(e: any) => onCheckboxSelectionChange(e.target.checked)}
 				/>
 			}
@@ -145,7 +187,7 @@ export default observer(function ContactDetailsForm({ contactDetails }: Props) {
 					startIcon={<SaveIcon fontSize='small' />}
 					sx={{ mr: 1 }}
 					onClick={() => onSaveClick()}
-					color='primary'
+					color='secondary'
 					variant='contained'
 				>
 					Save Changes

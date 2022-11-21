@@ -17,10 +17,9 @@ import { ContactDetailsDto } from '../../../../app/models/contactDetailsDto';
 
 interface Props {
 	employee: Employee;
-	contactDetails: ContactDetailsDto | undefined;
 }
 
-export default observer(function HrEdit({ employee, contactDetails }: Props) {
+export default observer(function HrEdit({ employee }: Props) {
 	const theme = useTheme();
 
 	const items = [
@@ -33,7 +32,7 @@ export default observer(function HrEdit({ employee, contactDetails }: Props) {
 		{
 			icon: <PermContactCalendarIcon fontSize='large' />,
 			title: 'Contact Details',
-			form: <ContactDetailsForm contactDetails={contactDetails} />,
+			form: <ContactDetailsForm employeeId={employee.employeeId!} />,
 			color: theme.palette.secondary.main,
 		},
 	];

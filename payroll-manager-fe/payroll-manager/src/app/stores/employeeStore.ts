@@ -126,47 +126,6 @@ export default class EmployeeStore {
 		}
 	};
 
-	createContactDetails = async (contactDetails: ContactDetailsDto) => {
-		this.loading = true;
-		try {
-			const response = agent.Employees.createContactDetails(contactDetails);
-
-			toast.promise(response, {
-				pending: 'Submitting...',
-				success: 'Created!',
-				error: 'Failed to create',
-			});
-
-			runInAction(() => {
-				this.loading = false;
-			});
-		} catch (error) {
-			console.log(error);
-
-			runInAction(() => {
-				this.loading = false;
-			});
-		}
-	};
-
-	updateContactDetails = async (contactDetails: ContactDetailsDto) => {
-		this.loading = true;
-		try {
-			const employee = await agent.Employees.updateContactDetails(
-				contactDetails
-			);
-			runInAction(() => {
-				this.loading = false;
-				this.currentEmployee = employee;
-			});
-		} catch (error) {
-			console.log(error);
-			runInAction(() => {
-				this.loading = false;
-			});
-		}
-	};
-
 	getAllDependants = async (id: string) => {
 		this.loading = true;
 		try {
@@ -356,7 +315,6 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			const notifications = await agent.Employees.getNotifications();
-			// console.log(notifications);
 
 			runInAction(() => {
 				this.notifications = notifications;
