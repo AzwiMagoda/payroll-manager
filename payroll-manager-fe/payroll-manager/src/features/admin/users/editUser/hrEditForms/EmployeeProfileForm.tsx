@@ -20,10 +20,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import FormBase from '../../../../../app/common/form/FormBase';
 
 interface Props {
-	employee: Employee;
+	employeeId: string;
 }
 
-export default observer(function EmployeeProfileForm({ employee }: Props) {
+export default observer(function EmployeeProfileForm({ employeeId }: Props) {
 	const {
 		generalStore: {
 			managerList,
@@ -33,25 +33,19 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 			employeeTypeList,
 		},
 		employeeStore: { updateEmployee },
+		employeeProfileStore: { selectedEmployee, getEmployeeDetails },
 	} = useStore();
 
-	const [name, setName] = useState(employee.name || '');
-	const [surname, setSurname] = useState(employee.surname || '');
-	const [jobTitle, setJobTitle] = useState(employee.jobTitle || '');
+	const [name, setName] = useState('');
+	const [surname, setSurname] = useState('');
+	const [jobTitle, setJobTitle] = useState('');
 
-	const [department, setDepartment] = useState(
-		departmentList.find((x) => x.name === employee.department)?.id ||
-			departmentList[0].id
-	);
-	const [manager, setManager] = useState(
-		employee.managerEmployeeId || managerList[0].id
-	);
-	const [team, setTeam] = useState(employee.teamId || '');
+	const [department, setDepartment] = useState('');
+	const [manager, setManager] = useState('');
+	const [team, setTeam] = useState('');
 	const [teamList, setTeamList] = useState<ListDto[]>([]);
-	const [title, setTitle] = useState(titleList.indexOf(employee.title!) || 0);
-	const [employeeType, setEmployeeType] = useState(
-		employee.employeeType || employeeTypeList[0]
-	);
+	const [title, setTitle] = useState(0);
+	const [employeeType, setEmployeeType] = useState(employeeTypeList[0]);
 
 	const textFields = [
 		{
@@ -102,9 +96,33 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	];
 
 	useEffect(() => {
-		var departmentName = departmentList.find((x) => x.id === department)!.name;
+		getEmployeeDetails(employeeId);
+		console.log(selectedEmployee);
+	}, [employeeId]);
 
-		getTeamList(departmentName);
+	useEffect(() => {
+		// if(selectedEmployee){}
+		setName(selectedEmployee?.name || '');
+		setSurname(selectedEmployee?.surname || '');
+		setJobTitle(selectedEmployee?.jobTitle || '');
+		setDepartment(
+			departmentList.find((x) => x.name === selectedEmployee?.department)?.id ||
+				departmentList[0].id
+		);
+		setManager(selectedEmployee?.managerEmployeeId || managerList[0].id);
+		setTeam(selectedEmployee?.teamId || '');
+		setTitle(titleList.indexOf(selectedEmployee?.title!) || 0);
+		setEmployeeType(selectedEmployee?.employeeType || employeeTypeList[0]);
+	}, [selectedEmployee]);
+
+	useEffect(() => {
+		if (department) {
+			var departmentName = departmentList.find(
+				(x) => x.id === department
+			)!.name;
+
+			getTeamList(departmentName);
+		}
 	}, [department]);
 
 	const getTeamList = async (value: string) => {
@@ -113,21 +131,20 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	};
 
 	const onSaveClick = async () => {
-		employee.department = departmentList.find((x) => x.id === department)!.name;
-		employee.manager = managerList.find((x) => x.id === manager)!.name;
-		employee.managerEmployeeId = manager;
-		employee.teamName = teamList.find((x) => x.id === team)!.name;
-		employee.teamId = team;
-		employee.id = employee.id;
-		employee.employeeId = employee.id;
-		employee.title = titleList[title];
-		employee.name = name;
-		employee.surname = surname;
-		employee.jobTitle = jobTitle;
-		employee.employeeType = employeeType;
-
-		console.log(employee);
-		await updateEmployee(employee);
+		// employee.department = departmentList.find((x) => x.id === department)!.name;
+		// employee.manager = managerList.find((x) => x.id === manager)!.name;
+		// employee.managerEmployeeId = manager;
+		// employee.teamName = teamList.find((x) => x.id === team)!.name;
+		// employee.teamId = team;
+		// employee.id = employee.id;
+		// employee.employeeId = employee.id;
+		// employee.title = titleList[title];
+		// employee.name = name;
+		// employee.surname = surname;
+		// employee.jobTitle = jobTitle;
+		// employee.employeeType = employeeType;
+		// console.log(employee);
+		// await updateEmployee(employee);
 	};
 
 	const left = [
@@ -207,7 +224,12 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 					spacing={4}
 				>
 					{employeeTypeList.map((item, i) => (
-						<FormControlLabel value={item} control={<Radio />} label={item} />
+						<FormControlLabel
+							key={i}
+							value={item}
+							control={<Radio />}
+							label={item}
+						/>
 					))}
 				</Stack>
 			</RadioGroup>

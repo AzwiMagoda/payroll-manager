@@ -102,7 +102,7 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 			employeeId: employeeId,
 		};
 
-		console.log(details);
+		console.log(contactDetails);
 
 		if (contactDetails !== undefined || contactDetails !== null) {
 			await updateContactDetails(details);

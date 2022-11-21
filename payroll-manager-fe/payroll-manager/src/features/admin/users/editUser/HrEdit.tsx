@@ -16,25 +16,23 @@ import { observer } from 'mobx-react-lite';
 import { ContactDetailsDto } from '../../../../app/models/contactDetailsDto';
 
 interface Props {
-	employee: Employee;
+	employeeId: string;
 }
 
-export default observer(function HrEdit({ employee }: Props) {
+export default observer(function HrEdit({ employeeId }: Props) {
 	const theme = useTheme();
-
-	console.log(employee);
 
 	const items = [
 		{
 			icon: <PersonIcon fontSize='large' />,
 			title: 'Employee Profile',
-			form: <EmployeeProfileForm employee={employee} />,
+			form: <EmployeeProfileForm employeeId={employeeId} />,
 			color: theme.palette.primary.main,
 		},
 		{
 			icon: <PermContactCalendarIcon fontSize='large' />,
 			title: 'Contact Details',
-			form: <ContactDetailsForm employeeId={employee.employeeId!} />,
+			form: <ContactDetailsForm employeeId={employeeId} />,
 			color: theme.palette.secondary.main,
 		},
 	];

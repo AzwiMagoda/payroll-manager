@@ -30,7 +30,6 @@ export default observer(function EditUser({ role }: Props) {
 
 	const {
 		authStore: { users, updateStatus, getUserList },
-		employeeProfileStore: { getEmployeeDetails, selectedEmployee },
 	} = useStore();
 
 	useEffect(() => {
@@ -42,24 +41,14 @@ export default observer(function EditUser({ role }: Props) {
 		if (u) {
 			setUser(u);
 		}
-		initialise();
 	}, [user]);
-
-	const initialise = async () => {
-		if (user) {
-			await getEmployeeDetails(user.id);
-		}
-	};
 
 	const onStatusClick = async () => {
 		await updateStatus(id!);
 		await getUserList();
 	};
 
-	const onSaveClick = async () => {
-		// await updateDetails(id!);
-		// await getUserList();
-	};
+	const onSaveClick = async () => {};
 
 	return (
 		<Container maxWidth={false}>
@@ -135,9 +124,7 @@ export default observer(function EditUser({ role }: Props) {
 								{user && (
 									<>
 										{role === 'Admin' && <AdminEdit user={user} />}
-										{role === 'HR' && selectedEmployee && (
-											<HrEdit employee={selectedEmployee} />
-										)}
+										{role === 'HR' && id && <HrEdit employeeId={id} />}
 									</>
 								)}
 							</CardContent>
