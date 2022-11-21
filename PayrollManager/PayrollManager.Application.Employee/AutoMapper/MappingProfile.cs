@@ -14,6 +14,8 @@ namespace PayrollManager.Application.Employee.AutoMapper
         public MappingProfile()
         {
             CreateMap<EmployeeEntity, EmployeeDto>()
+                .ForMember(d => d.EmployeeId, opt => opt.PreCondition((src, dest) => src.EmployeeId != Guid.Empty))
+                .ForMember(d => d.CreatedDate, opt => opt.PreCondition((src, dest) => src.CreatedDate != DateTime.MinValue))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<EmployeeDto, EmployeeEntity>()

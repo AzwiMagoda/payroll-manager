@@ -101,18 +101,19 @@ export default observer(function EmployeeProfileForm({ employeeId }: Props) {
 	}, [employeeId]);
 
 	useEffect(() => {
-		// if(selectedEmployee){}
-		setName(selectedEmployee?.name || '');
-		setSurname(selectedEmployee?.surname || '');
-		setJobTitle(selectedEmployee?.jobTitle || '');
-		setDepartment(
-			departmentList.find((x) => x.name === selectedEmployee?.department)?.id ||
-				departmentList[0].id
-		);
-		setManager(selectedEmployee?.managerEmployeeId || managerList[0].id);
-		setTeam(selectedEmployee?.teamId || '');
-		setTitle(titleList.indexOf(selectedEmployee?.title!) || 0);
-		setEmployeeType(selectedEmployee?.employeeType || employeeTypeList[0]);
+		if (selectedEmployee) {
+			setName(selectedEmployee.name || '');
+			setSurname(selectedEmployee.surname || '');
+			setJobTitle(selectedEmployee.jobTitle || '');
+			setDepartment(
+				departmentList.find((x) => x.name === selectedEmployee.department)
+					?.id || departmentList[0].id
+			);
+			setManager(selectedEmployee.managerEmployeeId || managerList[0].id);
+			setTeam(selectedEmployee.teamId || '');
+			setTitle(titleList.indexOf(selectedEmployee.title!) || 0);
+			setEmployeeType(selectedEmployee.employeeType || employeeTypeList[0]);
+		}
 	}, [selectedEmployee]);
 
 	useEffect(() => {
@@ -131,20 +132,23 @@ export default observer(function EmployeeProfileForm({ employeeId }: Props) {
 	};
 
 	const onSaveClick = async () => {
-		// employee.department = departmentList.find((x) => x.id === department)!.name;
-		// employee.manager = managerList.find((x) => x.id === manager)!.name;
-		// employee.managerEmployeeId = manager;
-		// employee.teamName = teamList.find((x) => x.id === team)!.name;
-		// employee.teamId = team;
-		// employee.id = employee.id;
-		// employee.employeeId = employee.id;
-		// employee.title = titleList[title];
-		// employee.name = name;
-		// employee.surname = surname;
-		// employee.jobTitle = jobTitle;
-		// employee.employeeType = employeeType;
-		// console.log(employee);
-		// await updateEmployee(employee);
+		let employee: Employee = {
+			employeeId: employeeId,
+			department: departmentList.find((x) => x.id === department)!.name,
+			manager: managerList.find((x) => x.id === manager)!.name,
+			managerEmployeeId: manager,
+			teamName: teamList.find((x) => x.id === team)!.name,
+			teamId: team,
+			title: titleList[title],
+			name: name,
+			surname: surname,
+			jobTitle: jobTitle,
+			employeeType: employeeType,
+			id: employeeId,
+		};
+
+		console.log(employee);
+		await updateEmployee(employee);
 	};
 
 	const left = [

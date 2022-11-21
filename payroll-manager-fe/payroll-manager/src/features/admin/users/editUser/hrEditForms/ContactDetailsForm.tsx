@@ -75,15 +75,17 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 	}, [employeeId]);
 
 	useEffect(() => {
-		setEmail(contactDetails?.email || '');
-		setPhysicalAddress(contactDetails?.physicalAddress || '');
-		setPostalAddress(contactDetails?.postalAddress || '');
-		setTelephone(contactDetails?.telephone || '');
-		setCellphone(contactDetails?.cellphone || '');
-		setIsSameAsPhysical(
-			contactDetails?.physicalAddress === contactDetails?.postalAddress! ||
-				false
-		);
+		if (contactDetails) {
+			setEmail(contactDetails.email || '');
+			setPhysicalAddress(contactDetails.physicalAddress || '');
+			setPostalAddress(contactDetails.postalAddress || '');
+			setTelephone(contactDetails.telephone || '');
+			setCellphone(contactDetails.cellphone || '');
+			setIsSameAsPhysical(
+				contactDetails.physicalAddress === contactDetails.postalAddress! ||
+					false
+			);
+		}
 	}, [contactDetails]);
 
 	useEffect(() => {
