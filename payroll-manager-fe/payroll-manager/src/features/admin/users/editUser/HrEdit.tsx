@@ -22,6 +22,8 @@ interface Props {
 export default observer(function HrEdit({ employee }: Props) {
 	const theme = useTheme();
 
+	console.log(employee);
+
 	const items = [
 		{
 			icon: <PersonIcon fontSize='large' />,

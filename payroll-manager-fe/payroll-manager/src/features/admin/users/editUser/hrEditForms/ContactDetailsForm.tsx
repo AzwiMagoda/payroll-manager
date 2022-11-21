@@ -99,10 +99,12 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 			physicalAddress: physicalAddress,
 			postalAddress: postalAddress,
 			telephone: telephone,
-			employeeId: contactDetails?.employeeId || '',
+			employeeId: employeeId,
 		};
 
-		if (contactDetails !== undefined) {
+		console.log(details);
+
+		if (contactDetails !== undefined || contactDetails !== null) {
 			await updateContactDetails(details);
 		} else {
 			details.employeeId = employeeId;
