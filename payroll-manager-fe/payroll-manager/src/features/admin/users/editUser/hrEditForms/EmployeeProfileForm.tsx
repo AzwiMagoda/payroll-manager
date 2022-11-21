@@ -97,7 +97,6 @@ export default observer(function EmployeeProfileForm({ employeeId }: Props) {
 
 	useEffect(() => {
 		getEmployeeDetails(employeeId);
-		console.log(selectedEmployee);
 	}, [employeeId]);
 
 	useEffect(() => {
@@ -147,7 +146,6 @@ export default observer(function EmployeeProfileForm({ employeeId }: Props) {
 			id: employeeId,
 		};
 
-		console.log(employee);
 		await updateEmployee(employee);
 	};
 

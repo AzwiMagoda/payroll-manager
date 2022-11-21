@@ -3,7 +3,7 @@ import React from 'react';
 
 interface Props {
 	leftComponents: JSX.Element[];
-	rightComponents: any[];
+	rightComponents: JSX.Element[];
 }
 
 export default function FormBase({ leftComponents, rightComponents }: Props) {

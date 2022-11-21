@@ -71,7 +71,6 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 
 	useEffect(() => {
 		getContactDetails(employeeId);
-		console.log(contactDetails);
 	}, [employeeId]);
 
 	useEffect(() => {
@@ -103,14 +102,9 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 			employeeId: employeeId,
 		};
 
-		console.log(contactDetails);
-
-		if (contactDetails !== undefined || contactDetails !== null) {
-			await updateContactDetails(details);
-		} else {
-			details.employeeId = employeeId;
-			createContactDetails(details);
-		}
+		contactDetails
+			? await updateContactDetails(details)
+			: createContactDetails(details);
 	};
 
 	const onCheckboxSelectionChange = (checked: boolean) => {
@@ -144,7 +138,7 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 			))}
 		</>,
 	];
-	const right: any = [
+	const right = [
 		<>
 			{textFieldsRight.map((item, index) => (
 				<TextField

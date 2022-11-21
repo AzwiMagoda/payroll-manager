@@ -32,7 +32,7 @@ export default class AuthStore {
 				});
 			}
 		} catch (error: any) {
-			console.log(error.response.data);
+			console.log(error);
 			runInAction(() => {
 				this.loading = false;
 			});

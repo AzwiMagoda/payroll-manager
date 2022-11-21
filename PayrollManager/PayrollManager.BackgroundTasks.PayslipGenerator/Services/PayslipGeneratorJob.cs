@@ -57,9 +57,10 @@ namespace PayrollManager.BackgroundTasks.PayslipGenerator.Services
                     var leave = leaveDays.First(x => x.EmployeeId == employee.EmployeeId);
                     var remuneration = remunerations.First(x => x.EmployeeId == employee.EmployeeId);
 
-                    var retirementContribution = remuneration.MonthlyBaseSalary * remuneration.RetirementContributionPercentage / 100;
+                    var monthly = remuneration.AnnualBaseSalary / 12;
+                    var retirementContribution = monthly * remuneration.RetirementContributionPercentage / 100;
                     var totalDeductions = 125.60M + 2900.00M + 5600.00M;
-                    var totalEarnings = retirementContribution + remuneration.MonthlyBaseSalary;
+                    var totalEarnings = retirementContribution + monthly;
 
                     var payslip = new Payslip
                     {
@@ -77,7 +78,7 @@ namespace PayrollManager.BackgroundTasks.PayslipGenerator.Services
                         CompanyName = employee.Company,
                         LifeInsurance = 125.60M,
                         MedicalAid = 2900.00M,
-                        MonthlyBaseSalary = remuneration.MonthlyBaseSalary,
+                        MonthlyBaseSalary = monthly,
                         Tax = 5600.00M,
                         RetirementContribution = retirementContribution,
                         TotalDeductions = totalDeductions,

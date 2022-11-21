@@ -552,7 +552,7 @@
       },
       "UpstreamPathTemplate": "/remuneration/update",
       "UpstreamHttpMethod": [
-        "POST"
+        "PUT"
       ]
     },
     //team

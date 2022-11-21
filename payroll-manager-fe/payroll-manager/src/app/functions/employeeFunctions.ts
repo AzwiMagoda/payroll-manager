@@ -54,6 +54,7 @@ const getRemunerationId = async (employeeId: string) => {
 		const remuneration = await agent.Remunerations.getRemunerationId(
 			employeeId
 		);
+
 		return remuneration;
 	} catch (error) {
 		console.log(error);
@@ -62,7 +63,7 @@ const getRemunerationId = async (employeeId: string) => {
 
 const createRemuneration = (remuneration: Remuneration) => {
 	try {
-		const response = agent.Employees.createContactDetails(remuneration);
+		const response = agent.Remunerations.createRemuneration(remuneration);
 
 		toast.promise(response, {
 			pending: 'Submitting...',
@@ -74,9 +75,9 @@ const createRemuneration = (remuneration: Remuneration) => {
 	}
 };
 
-const updateRemuneration = async (remuneration: Remuneration) => {
+const updateRemuneration = (remuneration: Remuneration) => {
 	try {
-		const response = agent.Employees.updateContactDetails(remuneration);
+		const response = agent.Remunerations.updateRemuneration(remuneration);
 
 		toast.promise(response, {
 			pending: 'Submitting...',
