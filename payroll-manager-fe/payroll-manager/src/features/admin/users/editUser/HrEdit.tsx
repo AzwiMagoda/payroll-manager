@@ -11,9 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
-import { Employee } from '../../../../app/models/employee';
 import { observer } from 'mobx-react-lite';
-import { ContactDetailsDto } from '../../../../app/models/contactDetailsDto';
 
 interface Props {
 	employeeId: string;

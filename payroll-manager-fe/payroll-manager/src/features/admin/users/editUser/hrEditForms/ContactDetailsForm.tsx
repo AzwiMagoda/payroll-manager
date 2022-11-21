@@ -82,8 +82,7 @@ export default observer(function ContactDetailsForm({ employeeId }: Props) {
 			setTelephone(contactDetails.telephone || '');
 			setCellphone(contactDetails.cellphone || '');
 			setIsSameAsPhysical(
-				contactDetails.physicalAddress === contactDetails.postalAddress! ||
-					false
+				contactDetails.physicalAddress === contactDetails.postalAddress || false
 			);
 		}
 	}, [contactDetails]);
