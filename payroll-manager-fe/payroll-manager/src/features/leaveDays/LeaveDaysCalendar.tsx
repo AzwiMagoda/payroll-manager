@@ -14,9 +14,9 @@ interface Props {
 }
 
 export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
-	const {
-		modalStore: { openModal, open },
-	} = useStore();
+	// const {
+	// 	modalStore: { openModal, open },
+	// } = useStore();
 
 	const events = bookedLeaveDays.map((leaveDays) => {
 		return {

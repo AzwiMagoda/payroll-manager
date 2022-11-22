@@ -51,6 +51,13 @@ namespace PayrollManager.Api.LeaveDays.Controllers
         }
 
         [HttpGet]
+        [Route("GetTeamBookedLeaveDays/{teamName}")]
+        public ActionResult<IEnumerable<BookedLeaveDaysDto>> GetTeamBookedLeaveDays(string teamName)
+        {
+            return Ok(_leaveDaysService.GetTeamBookedLeaveDays(teamName));
+        }
+
+        [HttpGet]
         [Route("GetLeaveBalanceAsAt/{date}")]
         public async Task<ActionResult<LeaveDaysDto>> GetLeaveBalanceAsAt(DateTime date)
         {

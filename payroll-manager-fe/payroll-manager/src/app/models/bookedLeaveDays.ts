@@ -1,11 +1,11 @@
 export interface BookedLeaveDays {
 	id: string;
-	employeeId: string;
+	employeeId?: string;
 	leaveType: string;
 	startDate: string;
 	endDate: string;
-	createdDate: string;
-	approved: boolean;
+	createdDate?: string;
+	approved?: boolean;
 	name?: string;
 	surname?: string;
 	teamName?: string;

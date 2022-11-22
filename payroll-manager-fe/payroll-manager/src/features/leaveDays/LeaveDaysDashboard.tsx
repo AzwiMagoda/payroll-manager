@@ -26,6 +26,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import BookLeave from './BookLeave';
 import LeaveDaysList from './LeaveDaysList';
 import { format } from 'date-fns';
+import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
+import { getTeamBookedLeaveDays } from '../../app/functions/employeeFunctions';
 
 interface Props {
 	employee: Employee;
@@ -37,14 +39,10 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 	const [balanceDate, setBalanceDate] = useState(new Date());
 	const [selectedIds, setSelectedIds] = React.useState<GridSelectionModel>([]);
 	const [showBookLeaveForm, setShowBookLeaveForm] = React.useState(false);
+	const [bookedLeaveDays, setBookedLeaveDays] = useState<BookedLeaveDays[]>([]);
 
 	const {
-		employeeStore: {
-			leaveDays,
-			bookedLeaveDays,
-			approveLeave,
-			getLeaveDaysAsAt,
-		},
+		employeeStore: { leaveDays, approveLeave, getLeaveDaysAsAt },
 	} = useStore();
 
 	useEffect(() => {
@@ -55,6 +53,20 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		var dateString = encodeURIComponent(format(balanceDate, 'yyyy-MM-dd'));
 		getLeaveDaysAsAt(dateString);
 	}, [balanceDate]);
+
+	useEffect(() => {
+		initialiseBookedDays();
+	});
+
+	const initialiseBookedDays = async () => {
+		if (employee.teamName) {
+			var teamDays = await getTeamBookedLeaveDays(employee.teamName);
+
+			if (teamDays) {
+				setBookedLeaveDays(teamDays);
+			}
+		}
+	};
 
 	const approveOnClick = async () => {
 		await approveLeave(selectedIds.map(String));

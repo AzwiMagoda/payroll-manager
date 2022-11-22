@@ -107,9 +107,43 @@ namespace PayrollManager.Application.LeaveDays.Services
                         Surname = x.Employee.Surname,
                         TeamName = x.Employee.TeamName,
                         Status = x.BookedLeave.Status,
-                        Reason = x.BookedLeave.Reason
+                        Reason = x.BookedLeave.Reason,
+                        CreatedDate = x.BookedLeave.CreatedDate
                     };
                 }).OrderBy(x => x.EmployeeId).OrderBy(x => x.LeaveType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
+        public IEnumerable<BookedLeaveDaysDto> GetTeamBookedLeaveDays(string teamName)
+        {
+            try
+            {
+                var team = _employeeRepository.GetAllTeamMembers(teamName);
+                var employeeIds = team.Select(x => x.EmployeeId);
+                var bookedLeaveDays = _bookedLeaveDaysRepository.GetBookedLeaveDaysForEmployeeList(employeeIds);
+
+                var entitiesJoined = team.Join(bookedLeaveDays,
+                                                    employee => employee.EmployeeId,
+                                                    bookedLeave => bookedLeave.EmployeeId,
+                                                    (employee, bookedLeave) => new { Employee = employee, BookedLeave = bookedLeave });
+
+
+                return entitiesJoined.Select(x =>
+                {
+                    return new BookedLeaveDaysDto
+                    {
+                        Id = x.BookedLeave.Id,
+                        EndDate = x.BookedLeave.EndDate,
+                        LeaveType = x.BookedLeave.LeaveType,
+                        StartDate = x.BookedLeave.StartDate,
+                        Name = x.Employee.Name,
+                        Surname = x.Employee.Surname,
+                    };
+                }).OrderBy(x => x.StartDate);
             }
             catch (Exception ex)
             {

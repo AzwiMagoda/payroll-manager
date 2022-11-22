@@ -13,6 +13,10 @@ namespace PayrollManager.Application.LeaveDays.AutoMapper
     {
         public MappingProfile()
         {
+            CreateMap<BookedLeaveDaysEntity, BookedLeaveDaysDto>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<BookedLeaveDaysDto, BookedLeaveDaysEntity>()
+                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

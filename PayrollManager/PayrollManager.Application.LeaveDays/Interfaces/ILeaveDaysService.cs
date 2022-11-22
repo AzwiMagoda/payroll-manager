@@ -13,6 +13,7 @@ namespace PayrollManager.Application.LeaveDays.Interfaces
         Task<LeaveDaysDto> GetLeaveDaysBalancesAsAt(Guid employeeId, DateTime date);
         IEnumerable<BookedLeaveDaysDto> GetBookedLeaveDays(Guid employeeId);
         IEnumerable<BookedLeaveDaysDto> GetEmployeeBookedLeaveDays(Guid managerId);
+        IEnumerable<BookedLeaveDaysDto> GetTeamBookedLeaveDays(string teamName);
         Task CreateBookedLeaveDay(BookLeaveDto bookLeave, Guid employeeId, string fullName);
         Task UpdateBookedLeaveDay(BookedLeaveDaysDto bookedLeave, Guid employeeId);
         Task DeleteBookedLeaveDay(Guid leaveId, Guid employeeId);

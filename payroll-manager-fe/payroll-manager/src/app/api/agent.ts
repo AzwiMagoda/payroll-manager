@@ -107,14 +107,16 @@ const Leave = {
 	getLeaveDaysAsAt: (date: string) =>
 		requests.get<LeaveDays>(`leave/balance/${date}`),
 	getBookedLeaveDays: () => requests.get<BookedLeaveDays[]>(`booked`),
+	getEmployeeBookedLeaveDays: () =>
+		requests.get<BookedLeaveDays[]>(`manager/booked`),
+	getTeamBookedLeaveDays: (teamName: string) =>
+		requests.get<BookedLeaveDays[]>(`leave/team/${teamName}`),
 	bookLeave: (leaveDays: BookLeave) =>
 		requests.post<string>(`leave/book`, leaveDays),
 	updateLeave: (leaveDays: BookedLeaveDays) =>
 		requests.put<LeaveDays>(`leave/update`, leaveDays),
 	deleteLeave: (leaveId: string) =>
 		requests.del<string>(`leave/cancel/${leaveId}`),
-	getEmployeeBookedLeaveDays: () =>
-		requests.get<BookedLeaveDays[]>(`manager/booked`),
 	approveLeave: (leaveIds: string[]) =>
 		requests.put(`manager/approve`, leaveIds),
 	declineLeave: (leaveDays: DeclineLeave) =>

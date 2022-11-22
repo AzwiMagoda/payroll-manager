@@ -21,6 +21,17 @@ const getContactDetails = async (employeeId: string) => {
 	}
 };
 
+const getTeamBookedLeaveDays = async (teamName: string) => {
+	try {
+		const bookedDays = await agent.Leave.getTeamBookedLeaveDays(teamName);
+
+		console.log(bookedDays);
+		return bookedDays;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 const createContactDetails = (contactDetails: ContactDetailsDto) => {
 	try {
 		const response = agent.Employees.createContactDetails(contactDetails);
@@ -97,4 +108,5 @@ export {
 	getRemunerationId,
 	createRemuneration,
 	updateRemuneration,
+	getTeamBookedLeaveDays,
 };
