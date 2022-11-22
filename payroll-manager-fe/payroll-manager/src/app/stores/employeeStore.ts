@@ -295,9 +295,6 @@ export default class EmployeeStore {
 
 			runInAction(() => {
 				this.loading = false;
-				this.bookedLeaveDays = this.bookedLeaveDays.filter(
-					(leave) => leave.id === leaveId
-				);
 			});
 		} catch (error) {
 			console.log(error);

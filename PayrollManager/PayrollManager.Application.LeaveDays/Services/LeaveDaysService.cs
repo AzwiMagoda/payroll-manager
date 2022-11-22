@@ -179,8 +179,6 @@ namespace PayrollManager.Application.LeaveDays.Services
                 var old = await _bookedLeaveDaysRepository.GetByID(bookedLeave.Id);
 
                 var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
-                var oldLeaveQty = EmployeeHelper.GetDateRanges(old.StartDate, old.EndDate).Count();
-                var newLeaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
 
                 //update leave
                 old.EndDate = bookedLeave.EndDate.AddDays(1);
@@ -200,19 +198,12 @@ namespace PayrollManager.Application.LeaveDays.Services
         {
             try
             {
-                //adjust leave days
-                var leaveBalance = await _leaveDaysRepository.GetByEmployeeId(employeeId);
-                var bookedLeave = await _bookedLeaveDaysRepository.GetByEmployeeId(employeeId);
-
-                var leaveQty = EmployeeHelper.GetDateRanges(bookedLeave.StartDate, bookedLeave.EndDate).Count();
-
-                //delete leave
+                var bookedLeave = await _bookedLeaveDaysRepository.GetByID(leaveId);
                 await _bookedLeaveDaysRepository.Delete(bookedLeave.Id);
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine(ex.Message);
-
             }
         }
 
@@ -248,69 +239,20 @@ namespace PayrollManager.Application.LeaveDays.Services
             {
                 var leaveDays = await _leaveDaysRepository.GetByEmployeeId(employeeId);
 
-                var studyLeave = (date.Year > DateTime.Now.Year) ? 5 : leaveDays.StudyLeaveBalance;
+                var studyLeave = (date.Year > DateTime.Now.Year) ? 5 : leaveDays.StudyLeaveBalance - EmployeeHelper.BookedLeaveDaysUntilDate(date, employeeId, LeaveTypes.StudyLeave, _bookedLeaveDaysRepository);
+
                 return new LeaveDaysDto
                 {
-                    AnnualLeaveBalance = leaveDays.AnnualLeaveBalance + AdditionalLeaveDays(date) - BookedLeaveDaysUntilDate(date, employeeId, LeaveTypes.AnnualLeave),
                     EmployeeId = employeeId,
-                    SickLeaveBalance = leaveDays.SickLeaveBalance,
-                    StudyLeaveBalance = studyLeave
+                    AnnualLeaveBalance = leaveDays.AnnualLeaveBalance + EmployeeHelper.AdditionalLeaveDays(date) - EmployeeHelper.BookedLeaveDaysUntilDate(date, employeeId, LeaveTypes.AnnualLeave, _bookedLeaveDaysRepository),
+                    SickLeaveBalance = leaveDays.SickLeaveBalance - EmployeeHelper.BookedLeaveDaysUntilDate(date, employeeId, LeaveTypes.SickLeave, _bookedLeaveDaysRepository),
+                    StudyLeaveBalance = studyLeave,
                 };
             }
             catch (Exception ex)
             {
                 throw new Exception();
             }
-        }
-
-        public int BookedLeaveDaysUntilDate(DateTime date, Guid employeeId, LeaveTypes leaveType)
-        {
-            var count = 0;
-
-            var bookedDays = _bookedLeaveDaysRepository.GetAllByEmployeeId(employeeId).Where(x => x.StartDate.Date <= date.Date);
-
-            foreach (var booked in bookedDays)
-            {
-                count += RemoveWeekendsFromDateRange(booked.StartDate.Date, booked.EndDate.Date)
-                                             .Where(d => d.Date <= date.Date)
-                                             .Count();
-            }
-
-            return count;
-        }
-
-        public static IEnumerable<DateTime> RemoveWeekendsFromDateRange(DateTime start, DateTime end)
-        {
-            var dates = Enumerable.Range(0, end.Subtract(start).Days + 1)
-                                  .Select(d => start.AddDays(d))
-                                  .Where(d => d.DayOfWeek != DayOfWeek.Saturday || d.DayOfWeek != DayOfWeek.Sunday);
-
-            return dates;
-        }
-
-        public static double AdditionalLeaveDays(DateTime date)
-        {
-            var now = DateTime.Now;
-
-            var days = NumberOfFirstDaysOfMonthInRange(now, date);
-
-            var leaveAccrual = 1.75d;
-
-            return days * leaveAccrual;
-        }
-
-        public static int NumberOfFirstDaysOfMonthInRange(DateTime start, DateTime end)
-        {
-
-            var count = Enumerable.Range(0, end.Subtract(start).Days + 1)
-                                .Select(d =>
-                                {
-                                    var date = start.AddDays(d);
-                                    if (date.Day == 1) return date;
-                                    else return DateTime.MinValue;
-                                }).Count(x => x != DateTime.MinValue);
-
-            return count;
         }
     }
 }
