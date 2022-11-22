@@ -13,7 +13,9 @@ namespace PayrollManager.Application.LeaveDays.Helpers
             var count = 0;
 
             var bookedDays = bookedLeaveDaysRepository.GetAllByEmployeeId(employeeId)
-                                                       .Where(x => x.StartDate.Date <= date.Date && x.LeaveType == leaveType.ToString());
+                                                       .Where(x => x.StartDate.Date <= date.Date 
+                                                                && x.LeaveType == leaveType.ToString()
+                                                                && x.Status != ApprovalStatus.Declined.ToString());
 
             foreach (var booked in bookedDays)
             {

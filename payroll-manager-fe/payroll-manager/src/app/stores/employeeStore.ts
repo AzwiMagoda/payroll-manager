@@ -242,13 +242,12 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			const bookLeave = agent.Leave.bookLeave(leaveDays);
+
 			toast.promise(bookLeave, {
 				pending: 'Submitting...',
 				success: 'Leave day(s) successfully booked',
 				error: 'Failed to book leave day(s)',
 			});
-
-			await this.getLeaveDaysBalances();
 
 			runInAction(() => {
 				this.loading = false;

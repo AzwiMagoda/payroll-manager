@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import {
@@ -15,6 +15,7 @@ interface Props {
 }
 
 export default observer(function TeamCalendarDashabord({ teamName }: Props) {
+	const theme = useTheme();
 	const [bookedLeaveDays, setBookedLeaveDays] = useState<BookedLeaveDays[]>([]);
 	const [teamMembers, setTeamMembers] = useState<
 		{
@@ -24,7 +25,14 @@ export default observer(function TeamCalendarDashabord({ teamName }: Props) {
 		}[]
 	>([]);
 
-	const colorList = ['#5048E5', '#10B981', '#FFB020', '#D14343'];
+	const colorList = [
+		theme.palette.primary.light,
+		theme.palette.secondary.light,
+		theme.palette.error.light,
+		theme.palette.success.light,
+		theme.palette.info.light,
+		theme.palette.warning.light,
+	];
 	useEffect(() => {
 		initialise();
 	}, []);

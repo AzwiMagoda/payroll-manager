@@ -124,7 +124,8 @@ namespace PayrollManager.Application.LeaveDays.Services
             {
                 var team = _employeeRepository.GetAllTeamMembers(teamName);
                 var employeeIds = team.Select(x => x.EmployeeId);
-                var bookedLeaveDays = _bookedLeaveDaysRepository.GetBookedLeaveDaysForEmployeeList(employeeIds);
+                var bookedLeaveDays = _bookedLeaveDaysRepository.GetBookedLeaveDaysForEmployeeList(employeeIds)
+                                                                .Where(x => x.Status != ApprovalStatus.Declined.ToString());
 
                 var entitiesJoined = team.Join(bookedLeaveDays,
                                                     employee => employee.EmployeeId,
