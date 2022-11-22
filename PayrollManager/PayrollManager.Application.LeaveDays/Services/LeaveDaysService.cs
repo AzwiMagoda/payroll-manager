@@ -251,7 +251,7 @@ namespace PayrollManager.Application.LeaveDays.Services
                 var studyLeave = (date.Year > DateTime.Now.Year) ? 5 : leaveDays.StudyLeaveBalance;
                 return new LeaveDaysDto
                 {
-                    AnnualLeaveBalance = leaveDays.AnnualLeaveBalance + AdditionalLeaveDays(date),
+                    AnnualLeaveBalance = leaveDays.AnnualLeaveBalance + AdditionalLeaveDays(date) - BookedLeaveDaysUntilDate(date, employeeId, LeaveTypes.AnnualLeave),
                     EmployeeId = employeeId,
                     SickLeaveBalance = leaveDays.SickLeaveBalance,
                     StudyLeaveBalance = studyLeave
@@ -263,7 +263,32 @@ namespace PayrollManager.Application.LeaveDays.Services
             }
         }
 
-        public double AdditionalLeaveDays(DateTime date)
+        public int BookedLeaveDaysUntilDate(DateTime date, Guid employeeId, LeaveTypes leaveType)
+        {
+            var count = 0;
+
+            var bookedDays = _bookedLeaveDaysRepository.GetAllByEmployeeId(employeeId).Where(x => x.StartDate.Date <= date.Date);
+
+            foreach (var booked in bookedDays)
+            {
+                count += RemoveWeekendsFromDateRange(booked.StartDate.Date, booked.EndDate.Date)
+                                             .Where(d => d.Date <= date.Date)
+                                             .Count();
+            }
+
+            return count;
+        }
+
+        public static IEnumerable<DateTime> RemoveWeekendsFromDateRange(DateTime start, DateTime end)
+        {
+            var dates = Enumerable.Range(0, end.Subtract(start).Days + 1)
+                                  .Select(d => start.AddDays(d))
+                                  .Where(d => d.DayOfWeek != DayOfWeek.Saturday || d.DayOfWeek != DayOfWeek.Sunday);
+
+            return dates;
+        }
+
+        public static double AdditionalLeaveDays(DateTime date)
         {
             var now = DateTime.Now;
 
