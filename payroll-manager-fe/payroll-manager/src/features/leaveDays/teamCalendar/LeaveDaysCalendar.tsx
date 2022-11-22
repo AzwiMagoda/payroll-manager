@@ -5,28 +5,29 @@ import FullCalendar, {
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../../app/stores/store';
 import { addDays } from 'date-fns';
-import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
+import { BookedLeaveDays } from '../../../app/models/bookedLeaveDays';
 
 interface Props {
 	bookedLeaveDays: BookedLeaveDays[];
+	teamList: any[];
 }
 
-export default observer(function LeaveDaysCalendar({ bookedLeaveDays }: Props) {
-	// const {
-	// 	modalStore: { openModal, open },
-	// } = useStore();
-
+export default observer(function LeaveDaysCalendar({
+	bookedLeaveDays,
+	teamList,
+}: Props) {
 	const events = bookedLeaveDays.map((leaveDays) => {
 		return {
 			id: leaveDays.id,
-			title: leaveDays.leaveType,
+			title: `${leaveDays.leaveType} - ${leaveDays.name} ${leaveDays.surname}`,
 			start: leaveDays.startDate,
 			end: addDays(new Date(leaveDays.endDate), 1),
 			allDay: true,
-			approved: leaveDays.approved,
-			employeeId: leaveDays.employeeId,
+			color: teamList.find(
+				(x) => x.name === leaveDays.name && x.surname === leaveDays.surname
+			)?.color,
+			textColor: '#FFFFFF',
 		};
 	});
 

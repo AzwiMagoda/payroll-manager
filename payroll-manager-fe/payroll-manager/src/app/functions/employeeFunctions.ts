@@ -25,8 +25,17 @@ const getTeamBookedLeaveDays = async (teamName: string) => {
 	try {
 		const bookedDays = await agent.Leave.getTeamBookedLeaveDays(teamName);
 
-		console.log(bookedDays);
 		return bookedDays;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const getAllTeamMembers = async (teamName: string) => {
+	try {
+		const teamMembers = await agent.Team.getAllTeamMembers(teamName);
+
+		return teamMembers;
 	} catch (error) {
 		console.log(error);
 	}
@@ -103,10 +112,11 @@ const updateRemuneration = (remuneration: Remuneration) => {
 export {
 	getEmployee,
 	getContactDetails,
-	updateContactDetails,
-	createContactDetails,
+	getTeamBookedLeaveDays,
+	getAllTeamMembers,
 	getRemunerationId,
+	createContactDetails,
 	createRemuneration,
 	updateRemuneration,
-	getTeamBookedLeaveDays,
+	updateContactDetails,
 };

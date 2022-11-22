@@ -16,7 +16,7 @@ import { Employee } from '../../app/models/employee';
 import { User } from '../../app/models/user';
 import { useStore } from '../../app/stores/store';
 import LeaveDaysBalances from './LeaveDaysBalances';
-import LeaveDaysCalendar from './LeaveDaysCalendar';
+import LeaveDaysCalendar from './teamCalendar/LeaveDaysCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LeaveRequests from './LeaveRequests';
 import DoneIcon from '@mui/icons-material/Done';
@@ -28,6 +28,7 @@ import LeaveDaysList from './LeaveDaysList';
 import { format } from 'date-fns';
 import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
 import { getTeamBookedLeaveDays } from '../../app/functions/employeeFunctions';
+import TeamCalendarDashabord from './teamCalendar/TeamCalendarDashabord';
 
 interface Props {
 	employee: Employee;
@@ -39,7 +40,6 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 	const [balanceDate, setBalanceDate] = useState(new Date());
 	const [selectedIds, setSelectedIds] = React.useState<GridSelectionModel>([]);
 	const [showBookLeaveForm, setShowBookLeaveForm] = React.useState(false);
-	const [bookedLeaveDays, setBookedLeaveDays] = useState<BookedLeaveDays[]>([]);
 
 	const {
 		employeeStore: { leaveDays, approveLeave, getLeaveDaysAsAt },
@@ -53,20 +53,6 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		var dateString = encodeURIComponent(format(balanceDate, 'yyyy-MM-dd'));
 		getLeaveDaysAsAt(dateString);
 	}, [balanceDate]);
-
-	useEffect(() => {
-		initialiseBookedDays();
-	});
-
-	const initialiseBookedDays = async () => {
-		if (employee.teamName) {
-			var teamDays = await getTeamBookedLeaveDays(employee.teamName);
-
-			if (teamDays) {
-				setBookedLeaveDays(teamDays);
-			}
-		}
-	};
 
 	const approveOnClick = async () => {
 		await approveLeave(selectedIds.map(String));
@@ -175,9 +161,10 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 				)}
 				{activeMenu === 1 && <LeaveDaysList />}
 
-				{activeMenu === 2 && (
-					<LeaveDaysCalendar bookedLeaveDays={bookedLeaveDays} />
+				{activeMenu === 2 && employee.teamName && (
+					<TeamCalendarDashabord teamName={employee.teamName} />
 				)}
+
 				{activeMenu === 3 && <LeaveRequests setSelectedIds={setSelectedIds} />}
 			</Box>
 		</Container>
