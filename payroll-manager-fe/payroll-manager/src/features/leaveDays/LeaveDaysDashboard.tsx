@@ -16,7 +16,6 @@ import { Employee } from '../../app/models/employee';
 import { User } from '../../app/models/user';
 import { useStore } from '../../app/stores/store';
 import LeaveDaysBalances from './LeaveDaysBalances';
-import LeaveDaysCalendar from './teamCalendar/LeaveDaysCalendar';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import LeaveRequests from './LeaveRequests';
 import DoneIcon from '@mui/icons-material/Done';
@@ -24,10 +23,8 @@ import { GridSelectionModel } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import BookLeave from './BookLeave';
-import LeaveDaysList from './LeaveDaysList';
+import BookedLeaveDaysList from './BookedLeaveDaysList';
 import { format } from 'date-fns';
-import { BookedLeaveDays } from '../../app/models/bookedLeaveDays';
-import { getTeamBookedLeaveDays } from '../../app/functions/employeeFunctions';
 import TeamCalendarDashabord from './teamCalendar/TeamCalendarDashabord';
 
 interface Props {
@@ -159,7 +156,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 						)}
 					</>
 				)}
-				{activeMenu === 1 && <LeaveDaysList />}
+				{activeMenu === 1 && <BookedLeaveDaysList />}
 
 				{activeMenu === 2 && employee.teamName && (
 					<TeamCalendarDashabord teamName={employee.teamName} />

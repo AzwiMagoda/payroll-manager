@@ -12,7 +12,7 @@ import React, { useEffect } from 'react';
 import { useStore } from '../../app/stores/store';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default observer(function LeaveDaysList() {
+export default observer(function BookedLeaveDaysList() {
 	const {
 		employeeStore: { bookedLeaveDays, getAllBookedLeaveDays, deleteLeave },
 	} = useStore();
