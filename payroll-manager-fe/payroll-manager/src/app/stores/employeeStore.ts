@@ -329,21 +329,19 @@ export default class EmployeeStore {
 	};
 
 	getEmployeeBookedLeaveDays = async () => {
-		if (store.authStore.user?.role == 'Manager') {
-			this.loading = true;
-			try {
-				const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays();
+		this.loading = true;
+		try {
+			const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays();
 
-				runInAction(() => {
-					this.employeeLeaveDays = bookedDays;
-					this.loading = false;
-				});
-			} catch (error) {
-				console.log(error);
-				runInAction(() => {
-					this.loading = false;
-				});
-			}
+			runInAction(() => {
+				this.employeeLeaveDays = bookedDays;
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
 		}
 	};
 
@@ -390,6 +388,21 @@ export default class EmployeeStore {
 			runInAction(() => {
 				this.loading = false;
 			});
+		}
+	};
+
+	getLeaveDaysAsAt = async (date: string) => {
+		this.loading = true;
+
+		try {
+			const balance = await agent.Leave.getLeaveDaysAsAt(date);
+
+			runInAction(() => {
+				this.loading = false;
+				this.leaveDays = balance;
+			});
+		} catch (error) {
+			console.log(error);
 		}
 	};
 }

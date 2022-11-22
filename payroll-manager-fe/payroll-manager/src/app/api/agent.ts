@@ -104,6 +104,8 @@ const Employees = {
 
 const Leave = {
 	getLeaveDays: () => requests.get<LeaveDays>(`leave/balance`),
+	getLeaveDaysAsAt: (date: string) =>
+		requests.get<LeaveDays>(`leave/balance/${date}`),
 	getBookedLeaveDays: () => requests.get<BookedLeaveDays[]>(`booked`),
 	bookLeave: (leaveDays: BookLeave) =>
 		requests.post<string>(`leave/book`, leaveDays),

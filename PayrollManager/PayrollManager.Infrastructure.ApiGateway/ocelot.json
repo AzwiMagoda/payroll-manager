@@ -597,6 +597,25 @@
       ]
     },
     {
+      "DownstreamPathTemplate": "/api/LeaveDays/GetLeaveBalanceAsAt/{date}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44328
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityApiKey",
+        "AllowedScopes": [
+        ]
+      },
+      "UpstreamPathTemplate": "/leave/balance/{date}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/LeaveDays/GetEmployeeLeaveDays",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -729,6 +748,7 @@
         "GET"
       ]
     },
+
     //payslip
     {
       "DownstreamPathTemplate": "/api/Payslip/GetLatestPayslip",

@@ -25,6 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import BookLeave from './BookLeave';
 import LeaveDaysList from './LeaveDaysList';
+import { format } from 'date-fns';
 
 interface Props {
 	employee: Employee;
@@ -41,9 +42,8 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 		employeeStore: {
 			leaveDays,
 			bookedLeaveDays,
-			getLeaveDaysBalances,
-			getAllBookedLeaveDays,
 			approveLeave,
+			getLeaveDaysAsAt,
 		},
 	} = useStore();
 
@@ -52,12 +52,10 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 	}, []);
 
 	useEffect(() => {
-		if (!leaveDays) {
-			getLeaveDaysBalances();
-		}
-
-		getAllBookedLeaveDays();
-	}, [getAllBookedLeaveDays]);
+		var dateString = encodeURIComponent(format(balanceDate, 'yyyy-MM-dd'));
+		const t = getLeaveDaysAsAt(dateString);
+		console.log(t);
+	}, [balanceDate]);
 
 	const approveOnClick = async () => {
 		await approveLeave(selectedIds.map(String));

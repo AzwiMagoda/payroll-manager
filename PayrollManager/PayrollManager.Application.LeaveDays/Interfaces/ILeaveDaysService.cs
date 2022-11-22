@@ -10,6 +10,7 @@ namespace PayrollManager.Application.LeaveDays.Interfaces
     public interface ILeaveDaysService
     {
         Task<LeaveDaysDto> GetLeaveDaysBalances(Guid employeeId);
+        Task<LeaveDaysDto> GetLeaveDaysBalancesAsAt(Guid employeeId, DateTime date);
         IEnumerable<BookedLeaveDaysDto> GetBookedLeaveDays(Guid employeeId);
         IEnumerable<BookedLeaveDaysDto> GetEmployeeBookedLeaveDays(Guid managerId);
         Task CreateBookedLeaveDay(BookLeaveDto bookLeave, Guid employeeId, string fullName);
