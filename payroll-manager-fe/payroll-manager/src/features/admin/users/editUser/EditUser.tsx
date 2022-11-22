@@ -4,15 +4,11 @@ import {
 	Card,
 	CardContent,
 	Container,
-	Divider,
-	FormControl,
-	Grid,
 	Stack,
-	TextField,
 	Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import SaveIcon from '@mui/icons-material/Save';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,7 +16,6 @@ import { useStore } from '../../../../app/stores/store';
 import { UserDetails } from '../../../../app/models/userDetails';
 import AdminEdit from './AdminEdit';
 import HrEdit from './HrEdit';
-import { Employee } from '../../../../app/models/employee';
 
 interface Props {
 	role: string;
@@ -30,13 +25,11 @@ export default observer(function EditUser({ role }: Props) {
 	let navigate = useNavigate();
 	const { id } = useParams();
 	const [user, setUser] = useState<UserDetails>();
-	const [employee, setEmployee] = useState<Employee>();
 
 	const title = 'Edit User';
 
 	const {
 		authStore: { users, updateStatus, getUserList },
-		employeeStore: { getEmployee },
 	} = useStore();
 
 	useEffect(() => {
@@ -48,25 +41,14 @@ export default observer(function EditUser({ role }: Props) {
 		if (u) {
 			setUser(u);
 		}
-		initialise();
 	}, [user]);
-
-	const initialise = async () => {
-		if (user) {
-			var e = await getEmployee(user.id);
-			if (e) setEmployee(e);
-		}
-	};
 
 	const onStatusClick = async () => {
 		await updateStatus(id!);
 		await getUserList();
 	};
 
-	const onSaveClick = async () => {
-		// await updateDetails(id!);
-		// await getUserList();
-	};
+	const onSaveClick = async () => {};
 
 	return (
 		<Container maxWidth={false}>
@@ -142,9 +124,7 @@ export default observer(function EditUser({ role }: Props) {
 								{user && (
 									<>
 										{role === 'Admin' && <AdminEdit user={user} />}
-										{role === 'HR' && employee && (
-											<HrEdit employee={employee} />
-										)}
+										{role === 'HR' && id && <HrEdit employeeId={id} />}
 									</>
 								)}
 							</CardContent>

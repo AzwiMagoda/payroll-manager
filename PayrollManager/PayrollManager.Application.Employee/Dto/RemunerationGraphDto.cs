@@ -14,8 +14,5 @@ namespace PayrollManager.Application.Employee.Dto
         public decimal AnnualBonus { get; set; }
         public decimal MonthlyBonus { get; set; }
         public decimal DailyBonus { get; set; }
-        public decimal AnnualOvertimePay { get; set; }
-        public decimal MonthlyOvertimePay { get; set; }
-        public decimal DailyOvertimePay { get; set; }
     }
 }

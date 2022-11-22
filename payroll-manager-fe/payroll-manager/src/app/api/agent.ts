@@ -86,10 +86,12 @@ const Employees = {
 	getCurrentEmployee: () => requests.get<Employee>(`employee/current`),
 	getEmployee: (employeeId: string) =>
 		requests.get<Employee>(`employee/${employeeId}`),
-	updateEmployeeDetails: (employee: Employee) =>
-		requests.put<void>(`employee/update`, employee),
+	getContactDetails: (employeeId: string) =>
+		requests.get<ContactDetailsDto>(`employee/contactDetails/${employeeId}`),
+	createContactDetails: (contactDetails: ContactDetailsDto) =>
+		requests.post<Employee>(`employee/contactdetails/create`, contactDetails),
 	updateContactDetails: (info: ContactDetailsDto) =>
-		requests.put<Employee>(`employee/update/contactdetails`, info),
+		requests.put<Employee>(`employee/contactdetails/update`, info),
 	getAllDependants: () => requests.get<Dependant[]>(`/Employee/GetDependants`),
 	addNewDependant: (dependant: Dependant) =>
 		requests.post<Dependant[]>('/Employee/CreateDependant', dependant),
@@ -102,6 +104,8 @@ const Employees = {
 
 const Leave = {
 	getLeaveDays: () => requests.get<LeaveDays>(`leave/balance`),
+	getLeaveDaysAsAt: (date: string) =>
+		requests.get<LeaveDays>(`leave/balance/${date}`),
 	getBookedLeaveDays: () => requests.get<BookedLeaveDays[]>(`booked`),
 	bookLeave: (leaveDays: BookLeave) =>
 		requests.post<string>(`leave/book`, leaveDays),
@@ -129,8 +133,14 @@ const Payslips = {
 
 const Remunerations = {
 	getRemuneration: () => requests.get<Remuneration>(`remuneration`),
+	getRemunerationId: (employeeId: string) =>
+		requests.get<Remuneration>(`remuneration/${employeeId}`),
 	getRemunerationGraphData: () =>
 		requests.get<RemunerationGraph>(`remuneration/graphData`),
+	createRemuneration: (remuneration: Remuneration) =>
+		requests.post<string>(`remuneration/create`, remuneration),
+	updateRemuneration: (remuneration: Remuneration) =>
+		requests.put<string>(`remuneration/update`, remuneration),
 };
 
 const General = {

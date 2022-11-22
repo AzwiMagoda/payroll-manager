@@ -9,16 +9,17 @@ namespace PayrollManager.Application.Employee.Interfaces
     {
         IEnumerable<EmployeeDto> GetAllEmployees();
         Task<EmployeeDto> GetEmployee(Guid employeeId);
+        IEnumerable<DependantDto> GetEmployeeDependants(Guid employeeId);
+        IEnumerable<NotificationDto> GetAllNotifications(Guid employeeId);
+        Task<ContactDetailsDto> GetContactDetails(Guid employeeId);
         Task CreateEmployee(EmployeeDto employee);
         Task UpdateEmployee(EmployeeDto employee);
-        Task UpdateContactDetails(ContactDetailsDto contactDetails, Guid id);
         Task DeleteEmployee(Guid id);
-        IEnumerable<DependantDto> GetEmployeeDependants(Guid employeeId);
+        Task CreateContactDetails(ContactDetailsDto contactDetails);
+        Task UpdateContactDetails(ContactDetailsDto contactDetails, Guid id);
         Task CreateDependant(DependantDto dependant);
         Task UpdateDependant(DependantDto dependant);
         Task DeleteDependant(Guid dependantId);
-        IEnumerable<NotificationDto> GetAllNotifications(Guid employeeId);
-        Task CreateContactDetails(ContactDetailsDto contactDetails);
 
     }
 }

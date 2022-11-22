@@ -70,6 +70,22 @@ namespace PayrollManager.Application.Employee.Services
             }
         }
 
+        public async Task<ContactDetailsDto> GetContactDetails(Guid employeeId)
+        {
+            try
+            {
+                var entity = await _contactDetailsRepository.GetByEmployeeId(employeeId);
+
+                var employee = _mapper.Map<ContactDetailsEntity, ContactDetailsDto>(entity);
+
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
         public async Task CreateEmployee(EmployeeDto employee)
         {
             try
@@ -134,7 +150,8 @@ namespace PayrollManager.Application.Employee.Services
                 var entity = new ContactDetailsEntity()
                 {
                     Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    EmployeeId = contactDetails.EmployeeId.Value
                 };
 
                 entity = _mapper.Map(contactDetails, entity);
@@ -278,6 +295,8 @@ namespace PayrollManager.Application.Employee.Services
             {
                 throw new Exception();
             }
-        }   
+        }
+
+        
     }
 }

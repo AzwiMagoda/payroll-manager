@@ -31,7 +31,7 @@ export default class AuthStore {
 					toast.success('Success!');
 				});
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.log(error);
 			runInAction(() => {
 				this.loading = false;

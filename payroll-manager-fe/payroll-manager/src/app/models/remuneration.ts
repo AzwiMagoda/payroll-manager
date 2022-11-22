@@ -1,12 +1,8 @@
 export interface Remuneration {
-	id: string;
-	annualBaseSalary: number;
-	monthlyBaseSalary: number;
-	bonusPercentage: number;
-	bonusFrequency: number;
-	retirementContributionPercentage: number;
-	retirementBalance: number;
-	overtimeHrs: number;
-	employeeId: string;
-	createdDate: string;
+	id?: string;
+	annualBaseSalary?: number;
+	bonusPercentage?: number;
+	bonusFrequency?: number;
+	retirementContributionPercentage?: number;
+	employeeId?: string;
 }

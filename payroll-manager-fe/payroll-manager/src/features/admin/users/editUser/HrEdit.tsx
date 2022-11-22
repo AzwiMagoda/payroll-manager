@@ -8,32 +8,38 @@ import {
 } from '@mui/material';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import PersonIcon from '@mui/icons-material/Person';
+import PaidIcon from '@mui/icons-material/Paid';
 import EmployeeProfileForm from './hrEditForms/EmployeeProfileForm';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactDetailsForm from './hrEditForms/ContactDetailsForm';
-import { UserDetails } from '../../../../app/models/userDetails';
-import { Employee } from '../../../../app/models/employee';
 import { observer } from 'mobx-react-lite';
+import RemunerationForm from './hrEditForms/RemunerationForm';
 
 interface Props {
-	employee: Employee;
+	employeeId: string;
 }
 
-export default observer(function HrEdit({ employee }: Props) {
+export default observer(function HrEdit({ employeeId }: Props) {
 	const theme = useTheme();
 
 	const items = [
 		{
 			icon: <PersonIcon fontSize='large' />,
 			title: 'Employee Profile',
-			form: <EmployeeProfileForm employee={employee} />,
+			form: <EmployeeProfileForm employeeId={employeeId} />,
 			color: theme.palette.primary.main,
 		},
 		{
 			icon: <PermContactCalendarIcon fontSize='large' />,
 			title: 'Contact Details',
-			form: <ContactDetailsForm />,
+			form: <ContactDetailsForm employeeId={employeeId} />,
 			color: theme.palette.secondary.main,
+		},
+		{
+			icon: <PaidIcon fontSize='large' />,
+			title: 'Remuneration',
+			form: <RemunerationForm employeeId={employeeId} />,
+			color: theme.palette.warning.main,
 		},
 	];
 

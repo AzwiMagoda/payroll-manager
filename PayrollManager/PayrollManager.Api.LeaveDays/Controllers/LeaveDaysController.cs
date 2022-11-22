@@ -50,6 +50,15 @@ namespace PayrollManager.Api.LeaveDays.Controllers
             return Ok(_leaveDaysService.GetEmployeeBookedLeaveDays(managerId));
         }
 
+        [HttpGet]
+        [Route("GetLeaveBalanceAsAt/{date}")]
+        public async Task<ActionResult<LeaveDaysDto>> GetLeaveBalanceAsAt(DateTime date)
+        {
+            var employeeId = Guid.Parse(User.FindFirst("Id").Value);
+            var leaveDays = await _leaveDaysService.GetLeaveDaysBalancesAsAt(employeeId, date);
+            return Ok(leaveDays);
+        }
+
         [HttpPost]
         [Route("BookLeave")]
         public async Task<IActionResult> BookLeave([FromBody] BookLeaveDto leave)

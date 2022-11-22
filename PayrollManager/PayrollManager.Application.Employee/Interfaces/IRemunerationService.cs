@@ -8,6 +8,7 @@ namespace PayrollManager.Application.Employee.Interfaces
     {
         Task<RemunerationDto> GetRemuneration(Guid employeeId);
         Task<RemunerationGraphDto> GetRemunerationGraphData(Guid employeeId);
-
+        Task CreateRemuneration(RemunerationDto remuneration);
+        Task UpdateRemuneration(RemunerationDto remuneration);
     }
 }

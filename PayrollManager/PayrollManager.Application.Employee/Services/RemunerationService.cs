@@ -38,22 +38,55 @@ namespace PayrollManager.Application.Employee.Services
             var dailySalary = entity.AnnualBaseSalary / 260;
             var hourlySalary = dailySalary / 8;
 
-            var annualOvertime = entity.OvertimeHrs * hourlySalary;
-
             var dto = new RemunerationGraphDto
             {
                 AnnualBaseSalary = entity.AnnualBaseSalary,
                 AnnualBonus = annualBonus,
-                AnnualOvertimePay = annualOvertime,
                 DailyBaseSalary = dailySalary,
                 DailyBonus = annualBonus / 260,
-                DailyOvertimePay = annualOvertime / 260,
                 MonthlyBaseSalary = monthlySalary,
                 MonthlyBonus = annualBonus / 12,
-                MonthlyOvertimePay = annualOvertime / 12,
             };
 
             return dto;
+        }
+
+        public async Task CreateRemuneration(RemunerationDto remuneration)
+        {
+            try
+            {
+                var entity = new RemunerationEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    //EmployeeId = remuneration.Id,
+                    CreatedDate = DateTime.Now,
+                };
+
+                entity = _mapper.Map(remuneration, entity);
+
+                await _remunerationRepository.Create(entity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+        }
+
+        public async Task UpdateRemuneration(RemunerationDto remuneration)
+        {
+            try
+            {
+                var entity = await _remunerationRepository.GetByEmployeeId(remuneration.EmployeeId);
+
+                entity = _mapper.Map(remuneration, entity);
+
+                await _remunerationRepository.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+            }
+
         }
     }
 }

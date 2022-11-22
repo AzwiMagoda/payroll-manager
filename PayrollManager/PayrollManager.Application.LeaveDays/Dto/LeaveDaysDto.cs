@@ -9,7 +9,7 @@ namespace PayrollManager.Application.LeaveDays.Dto
     public class LeaveDaysDto
     {
         public Guid EmployeeId { get; set; }
-        public int AnnualLeaveBalance { get; set; }
+        public double AnnualLeaveBalance { get; set; }
         public int SickLeaveBalance { get; set; }
         public int StudyLeaveBalance { get; set; }
     }

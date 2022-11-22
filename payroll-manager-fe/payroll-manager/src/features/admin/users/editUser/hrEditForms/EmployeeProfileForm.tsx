@@ -1,10 +1,8 @@
 import {
 	Button,
-	Divider,
 	FormControl,
 	FormControlLabel,
 	FormLabel,
-	Grid,
 	InputLabel,
 	MenuItem,
 	Radio,
@@ -17,15 +15,15 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Employee } from '../../../../../app/models/employee';
 import { ListDto } from '../../../../../app/models/listDto';
-import { UserDetails } from '../../../../../app/models/userDetails';
 import { useStore } from '../../../../../app/stores/store';
 import SaveIcon from '@mui/icons-material/Save';
+import FormBase from '../../../../../app/common/form/FormBase';
 
 interface Props {
-	employee: Employee;
+	employeeId: string;
 }
 
-export default observer(function EmployeeProfileForm({ employee }: Props) {
+export default observer(function EmployeeProfileForm({ employeeId }: Props) {
 	const {
 		generalStore: {
 			managerList,
@@ -35,25 +33,19 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 			employeeTypeList,
 		},
 		employeeStore: { updateEmployee },
+		employeeProfileStore: { selectedEmployee, getEmployeeDetails },
 	} = useStore();
 
-	const [name, setName] = useState(employee.name || '');
-	const [surname, setSurname] = useState(employee.surname || '');
-	const [jobTitle, setJobTitle] = useState(employee.jobTitle || '');
+	const [name, setName] = useState('');
+	const [surname, setSurname] = useState('');
+	const [jobTitle, setJobTitle] = useState('');
 
-	const [department, setDepartment] = useState(
-		departmentList.find((x) => x.name === employee.department)?.id ||
-			departmentList[0].id
-	);
-	const [manager, setManager] = useState(
-		employee.managerEmployeeId || managerList[0].id
-	);
-	const [team, setTeam] = useState(employee.teamId || '');
+	const [department, setDepartment] = useState('');
+	const [manager, setManager] = useState('');
+	const [team, setTeam] = useState('');
 	const [teamList, setTeamList] = useState<ListDto[]>([]);
-	const [title, setTitle] = useState(titleList.indexOf(employee.title!) || 0);
-	const [employeeType, setEmployeeType] = useState(
-		employee.employeeType || employeeTypeList[0]
-	);
+	const [title, setTitle] = useState(0);
+	const [employeeType, setEmployeeType] = useState(employeeTypeList[0]);
 
 	const textFields = [
 		{
@@ -104,9 +96,33 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	];
 
 	useEffect(() => {
-		var departmentName = departmentList.find((x) => x.id === department)!.name;
+		getEmployeeDetails(employeeId);
+	}, [employeeId]);
 
-		getTeamList(departmentName);
+	useEffect(() => {
+		if (selectedEmployee) {
+			setName(selectedEmployee.name || '');
+			setSurname(selectedEmployee.surname || '');
+			setJobTitle(selectedEmployee.jobTitle || '');
+			setDepartment(
+				departmentList.find((x) => x.name === selectedEmployee.department)
+					?.id || departmentList[0].id
+			);
+			setManager(selectedEmployee.managerEmployeeId || managerList[0].id);
+			setTeam(selectedEmployee.teamId || '');
+			setTitle(titleList.indexOf(selectedEmployee.title!) || 0);
+			setEmployeeType(selectedEmployee.employeeType || employeeTypeList[0]);
+		}
+	}, [selectedEmployee]);
+
+	useEffect(() => {
+		if (department) {
+			var departmentName = departmentList.find(
+				(x) => x.id === department
+			)!.name;
+
+			getTeamList(departmentName);
+		}
 	}, [department]);
 
 	const getTeamList = async (value: string) => {
@@ -115,139 +131,116 @@ export default observer(function EmployeeProfileForm({ employee }: Props) {
 	};
 
 	const onSaveClick = async () => {
-		employee.department = departmentList.find((x) => x.id === department)!.name;
-		employee.manager = managerList.find((x) => x.id === manager)!.name;
-		employee.managerEmployeeId = manager;
-		employee.teamName = teamList.find((x) => x.id === team)!.name;
-		employee.teamId = team;
-		employee.id = employee.id;
-		employee.employeeId = employee.id;
-		employee.title = titleList[title];
-		employee.name = name;
-		employee.surname = surname;
-		employee.jobTitle = jobTitle;
-		employee.employeeType = employeeType;
+		let employee: Employee = {
+			employeeId: employeeId,
+			department: departmentList.find((x) => x.id === department)!.name,
+			manager: managerList.find((x) => x.id === manager)!.name,
+			managerEmployeeId: manager,
+			teamName: teamList.find((x) => x.id === team)!.name,
+			teamId: team,
+			title: titleList[title],
+			name: name,
+			surname: surname,
+			jobTitle: jobTitle,
+			employeeType: employeeType,
+			id: employeeId,
+		};
 
-		console.log(employee);
 		await updateEmployee(employee);
 	};
 
+	const left = [
+		<FormControl fullWidth margin='normal'>
+			<InputLabel id='lbltitle'>Title</InputLabel>
+			<Select
+				labelId='lbltitle'
+				label='Title'
+				id='title'
+				value={title}
+				onChange={(e) => setTitle(e.target.value as number)}
+			>
+				{titleList.map((title, i) => (
+					<MenuItem key={i} value={i}>
+						{title}
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>,
+		<>
+			{textFields.map((item, index) => (
+				<TextField
+					key={index}
+					margin='normal'
+					id={item.id}
+					label={item.label}
+					name={item.id}
+					type='text'
+					autoFocus
+					autoComplete='off'
+					fullWidth
+					value={item.value}
+					onChange={(
+						e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+					) => item.onChange(e.target.value)}
+				/>
+			))}
+		</>,
+	];
+
+	const right = [
+		<>
+			{selects.map((item, index) => (
+				<FormControl fullWidth margin='normal' key={index}>
+					<InputLabel id={item.labelId}>{item.label}</InputLabel>
+					<Select
+						labelId={item.labelId}
+						label={item.label}
+						id={item.id}
+						value={item.value}
+						onChange={(e) => item.onChange(e.target.value)}
+					>
+						{item.list.map((listItem, i) => (
+							<MenuItem key={i} value={listItem.id}>
+								{listItem.name}
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl>
+			))}
+		</>,
+		<FormControl>
+			<FormLabel id='lblEmployeeType'>Employee Type</FormLabel>
+			<RadioGroup
+				row
+				aria-labelledby='employeeType'
+				name='employeeType'
+				value={employeeType}
+				onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+					setEmployeeType(event.target.value)
+				}
+			>
+				<Stack
+					direction='row'
+					justifyContent='space-between'
+					alignItems='center'
+					spacing={4}
+				>
+					{employeeTypeList.map((item, i) => (
+						<FormControlLabel
+							key={i}
+							value={item}
+							control={<Radio />}
+							label={item}
+						/>
+					))}
+				</Stack>
+			</RadioGroup>
+		</FormControl>,
+	];
+
 	return (
 		<>
-			<Grid
-				container
-				direction='row'
-				justifyContent='space-around'
-				alignItems='center'
-			>
-				<Grid item xs={5}>
-					<Stack
-						direction='column'
-						justifyContent='flex-start'
-						alignItems='center'
-					>
-						<FormControl fullWidth margin='normal'>
-							<InputLabel id='lbltitle'>Title</InputLabel>
-							<Select
-								labelId='lbltitle'
-								label='Title'
-								id='title'
-								value={title}
-								onChange={(e) => setTitle(e.target.value as number)}
-							>
-								{titleList.map((title, i) => (
-									<MenuItem key={i} value={i}>
-										{title}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-
-						{textFields.map((item, index) => (
-							<TextField
-								key={index}
-								margin='normal'
-								id={item.id}
-								label={item.label}
-								name={item.id}
-								type='text'
-								autoFocus
-								autoComplete='off'
-								fullWidth
-								value={item.value}
-								onChange={(
-									e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-								) => item.onChange(e.target.value)}
-							/>
-						))}
-					</Stack>
-				</Grid>
-
-				<Divider
-					sx={{
-						borderColor: '#2D3748',
-						mx: 3,
-					}}
-					orientation='vertical'
-					variant='middle'
-					flexItem
-				/>
-
-				<Grid item xs={5}>
-					<Stack
-						direction='column'
-						justifyContent='flex-start'
-						alignItems='center'
-					>
-						{selects.map((item, index) => (
-							<FormControl fullWidth margin='normal' key={index}>
-								<InputLabel id={item.labelId}>{item.label}</InputLabel>
-								<Select
-									labelId={item.labelId}
-									label={item.label}
-									id={item.id}
-									value={item.value}
-									onChange={(e) => item.onChange(e.target.value)}
-								>
-									{item.list.map((listItem, i) => (
-										<MenuItem key={i} value={listItem.id}>
-											{listItem.name}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						))}
-
-						<FormControl>
-							<FormLabel id='lblEmployeeType'>Employee Type</FormLabel>
-							<RadioGroup
-								row
-								aria-labelledby='employeeType'
-								name='employeeType'
-								value={employeeType}
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-									setEmployeeType(event.target.value)
-								}
-							>
-								<Stack
-									direction='row'
-									justifyContent='space-between'
-									alignItems='center'
-									spacing={4}
-								>
-									{employeeTypeList.map((item, i) => (
-										<FormControlLabel
-											value={item}
-											control={<Radio />}
-											label={item}
-										/>
-									))}
-								</Stack>
-							</RadioGroup>
-						</FormControl>
-					</Stack>
-				</Grid>
-			</Grid>
+			<FormBase leftComponents={left} rightComponents={right} />
 
 			<Stack
 				direction='row'

@@ -126,33 +126,6 @@ export default class EmployeeStore {
 		}
 	};
 
-	getEmployee = async (employeeId: string) => {
-		try {
-			const employee = await agent.Employees.getEmployee(employeeId);
-			return employee;
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	updateContactDetails = async (contactDetails: ContactDetailsDto) => {
-		this.loading = true;
-		try {
-			const employee = await agent.Employees.updateContactDetails(
-				contactDetails
-			);
-			runInAction(() => {
-				this.loading = false;
-				this.currentEmployee = employee;
-			});
-		} catch (error) {
-			console.log(error);
-			runInAction(() => {
-				this.loading = false;
-			});
-		}
-	};
-
 	getAllDependants = async (id: string) => {
 		this.loading = true;
 		try {
@@ -342,7 +315,6 @@ export default class EmployeeStore {
 		this.loading = true;
 		try {
 			const notifications = await agent.Employees.getNotifications();
-			// console.log(notifications);
 
 			runInAction(() => {
 				this.notifications = notifications;
@@ -357,21 +329,19 @@ export default class EmployeeStore {
 	};
 
 	getEmployeeBookedLeaveDays = async () => {
-		if (store.authStore.user?.role == 'Manager') {
-			this.loading = true;
-			try {
-				const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays();
+		this.loading = true;
+		try {
+			const bookedDays = await agent.Leave.getEmployeeBookedLeaveDays();
 
-				runInAction(() => {
-					this.employeeLeaveDays = bookedDays;
-					this.loading = false;
-				});
-			} catch (error) {
-				console.log(error);
-				runInAction(() => {
-					this.loading = false;
-				});
-			}
+			runInAction(() => {
+				this.employeeLeaveDays = bookedDays;
+				this.loading = false;
+			});
+		} catch (error) {
+			console.log(error);
+			runInAction(() => {
+				this.loading = false;
+			});
 		}
 	};
 
@@ -418,6 +388,21 @@ export default class EmployeeStore {
 			runInAction(() => {
 				this.loading = false;
 			});
+		}
+	};
+
+	getLeaveDaysAsAt = async (date: string) => {
+		this.loading = true;
+
+		try {
+			const balance = await agent.Leave.getLeaveDaysAsAt(date);
+
+			runInAction(() => {
+				this.loading = false;
+				this.leaveDays = balance;
+			});
+		} catch (error) {
+			console.log(error);
 		}
 	};
 }
