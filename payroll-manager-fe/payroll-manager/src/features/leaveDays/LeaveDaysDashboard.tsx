@@ -53,8 +53,7 @@ export default observer(function LeaveDaysDashboard({ employee, user }: Props) {
 
 	useEffect(() => {
 		var dateString = encodeURIComponent(format(balanceDate, 'yyyy-MM-dd'));
-		const t = getLeaveDaysAsAt(dateString);
-		console.log(t);
+		getLeaveDaysAsAt(dateString);
 	}, [balanceDate]);
 
 	const approveOnClick = async () => {

@@ -1,4 +1,4 @@
-import { Box, Card, Chip } from '@mui/material';
+import { Box, Button, Card, Chip } from '@mui/material';
 import {
 	DataGrid,
 	GridColDef,
@@ -10,16 +10,21 @@ import { format } from 'date-fns';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useStore } from '../../app/stores/store';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default observer(function LeaveDaysList() {
 	const {
-		employeeStore: { bookedLeaveDays, getAllBookedLeaveDays },
+		employeeStore: { bookedLeaveDays, getAllBookedLeaveDays, deleteLeave },
 	} = useStore();
 	const [pageSize, setPageSize] = React.useState(5);
 
 	useEffect(() => {
 		getAllBookedLeaveDays();
 	}, []);
+
+	const onCancelClick = async (id: string) => {
+		await deleteLeave(id);
+	};
 
 	const columns: GridColDef[] = [
 		{
@@ -75,6 +80,23 @@ export default observer(function LeaveDaysList() {
 			type: 'date',
 			valueFormatter: (params: GridValueFormatterParams<string>) => {
 				return format(new Date(params.value), 'dd-MM-yyyy');
+			},
+		},
+		{
+			field: 'actions',
+			type: 'actions',
+			flex: 0.5,
+			renderCell: (params: any) => {
+				return (
+					<strong>
+						<Button
+							startIcon={<DeleteIcon fontSize='small' />}
+							sx={{ mr: 1 }}
+							onClick={() => onCancelClick(params.id)}
+							color='error'
+						></Button>
+					</strong>
+				);
 			},
 		},
 	];

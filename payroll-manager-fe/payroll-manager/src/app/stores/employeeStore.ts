@@ -288,9 +288,9 @@ export default class EmployeeStore {
 			const deleteLeave = agent.Leave.deleteLeave(leaveId);
 
 			toast.promise(deleteLeave, {
-				pending: 'Deleteing...',
-				success: 'Leave day(s) successfully deleted',
-				error: 'Failed to delete leave day(s)',
+				pending: 'Deleting...',
+				success: 'Successfully deleted',
+				error: 'Failed to delete',
 			});
 
 			runInAction(() => {
