@@ -1,4 +1,4 @@
-import { Box, Button, Card, Chip } from '@mui/material';
+import { Box, Button, Card, Chip, Tooltip } from '@mui/material';
 import {
 	DataGrid,
 	GridColDef,
@@ -92,6 +92,7 @@ export default observer(function BookedLeaveDaysList() {
 						<Button
 							startIcon={<DeleteIcon fontSize='small' />}
 							sx={{ mr: 1 }}
+							disabled={params.row.status === 'Declined'}
 							onClick={() => onCancelClick(params.id)}
 							color='error'
 						></Button>
