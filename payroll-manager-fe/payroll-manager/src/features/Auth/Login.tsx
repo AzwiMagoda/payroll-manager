@@ -26,7 +26,7 @@ export default observer(function Login() {
 		const data = new FormData(event.currentTarget);
 
 		let creds: LoginDto = {
-			email: data.get('email') as string,
+			username: data.get('username') as string,
 			password: data.get('password') as string,
 		};
 		await login(creds);
@@ -62,10 +62,10 @@ export default observer(function Login() {
 							margin='normal'
 							required
 							fullWidth
-							id='email'
-							label='Email Address'
-							name='email'
-							type='email'
+							id='username'
+							label='Username'
+							name='username'
+							type='text'
 							autoFocus
 						/>
 						<TextField

@@ -22,6 +22,9 @@ export default class AuthStore {
 		try {
 			if (!this.user) {
 				const user = await agent.Auth.login(login);
+
+				console.log(user);
+
 				store.commonStore.setToken(user.token);
 				await store.employeeStore.getCurrentEmployee();
 				runInAction(() => {
